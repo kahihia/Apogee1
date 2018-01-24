@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load recommended %}
+
+{% block title %}
+	{{ object.username }} | {{ block.super }}
+{% endblock title%}
+
+<!-- contains our custom JS -->
+{% block script %}
+<script>
+	// runs when page DOM is ready
+	$(document).ready(function(){
+		loadPartyContainer('party-container')
+	});
+</script>
+{% endblock script %}
+
+
+{% block content %}
+
+<div class='row mt-4'>
+	<!-- left column -->
+	<div class='col-sm-3'>
+		<div class='col-sm-12'>
+			<h3>{{ object.username }}</h3>
+			<p>
+				<!-- gets the follow url via method in the model -->
+				<a class='btn btn-outline-secondary' href='{{ object.profile.get_follow_url }}'>
+					<!-- uses following context from the detailview to set text -->
+					{% if following %}Unfollow{% else %}Follow{% endif %}
+				</a>
+			</p>
+			<hr>
+			<h4>Following <small>{{ object.profile.get_following.count }}</small></h4>
+			<!-- through user, calls who they follow.
+			this gets actual user instances -->
+			{% for user in object.profile.get_following %}
+				<a href='/profiles/{{ user.username }}'>{{ user.username }}</a><br>
+			{% empty %}
+				<p>Not following anyone</p>
+			{% endfor %}
+			<hr>
+
+			<h4>Followers</h4>
+			<!-- through user, calls who they are followed by.
+			it gets us the userprofile model of the people that follow us.
+			to get the actual username. we have to get the user associated
+			with that profile and then get the username -->
+			{% for profile in object.followed_by.all %}
+				<a href='/profiles/{{ profile.user.username }}'>{{ profile.user.username }}</a><br>
+			{% empty %}
+				<p>No followers</p>
+			{% endfor %}
+			<hr>
+
+			<h4>Recommended users</h4>
+			{% recommended request.user %}
+		</div>
+	</div>
+
+	<!-- right column -->
+	<div class='col-sm-9'>
+		<h1>Events</h1><hr>
+		<!-- this holds all of our JS rendered stuff -->
+		<!-- the id and dataurl are set so that the base render function can 
+		get the appropriate info from them -->
+		<div id='party-container' data-url='/api/{{ user.username }}/events/'></div>
+
+		<!-- this is our load more button for the pagination -->
+		<a href='#' id='loadmore'>Show More Events</a>		
+	</div>	
+</div>
+{% endblock content %}

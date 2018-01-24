@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+	Register | {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+<div class='row'>
+	<!-- centers the content -->
+	<div class='col-sm-6 offset-sm-3 mt-3'>
+		<h1 class='text-center'>Register</h1>
+		<!-- the id portion just allows us to call this with a particular id if we  want -->
+		<form {% if form_id %} id='{{ form_id }}' {% endif %} class='form mt-3' method='POST' action=''>
+			{% csrf_token %}
+		    {{ form|crispy }}
+		    <input class='btn btn-outline-secondary' type="submit" value="Register" />
+		</form>
+	</div>
+</div>
+{% endblock content %}
+
+

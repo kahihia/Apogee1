@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load recommended %}
+
+<!-- sets the tab info -->
+{% block title %}
+	Events | {{ block.super }}
+{% endblock title %}
+
+<!-- contains our custom JS -->
+{% block script %}
+<script>
+	// runs when page DOM is ready
+	$(document).ready(function(){
+		loadPartyContainer('party-container')
+	});
+</script>
+{% endblock script %}
+
+<!-- contains our custom html and django stuff -->
+{% block content %}
+<div class='row'>
+	<!-- left side column -->
+	<div class='col-sm-3 mt-4'>
+		<!-- separated so that the background wont follow the right columns length -->
+		<div class='col-sm-12 py-1'>
+			<!-- current logged user -->
+			<h3>{{ request.user }}</h3><hr>
+		</div>
+		<!-- create event button linked to create page -->
+		<div class='col-sm-12 mt-3'>
+			<a href="{% url 'parties:create' %}">
+				<button class='btn btn-outline-secondary'>Create an event</button>
+			</a>
+		</div>
+		<!-- holds recommended users -->
+		<div class='col-sm-12 mt-5'>
+			<p class='lead'>Recommended users</p>
+			<p>{% recommended request.user %}</p>
+		</div>
+	</div>
+	<div class='col-sm-9 mt-4'>
+
+		<!-- this holds all of our JS rendered stuff -->
+		<!-- the id and dataurl are set so that the base render function can 
+		get the appropriate info from them -->
+		<div id='party-container' data-url='/api/events/'></div>
+
+		<!-- this is our load more button for the pagination -->
+		<a href='#' id='loadmore'>Show More Events</a>
+
+	</div>
+</div>
+{% endblock content %}
+
+<!-- this is the django method for the list view -->
+<!-- {% for object in object_list %}
+			<div class="media">
+				<div class="media-body">
+					<a href="{{ object.get_absolute_url }}" class='text-dark'>
+				    	<h5 class="mt-0">{{ object.title }}</h5>
+				    </a>
+					{{ object.description }}<br>
+					With {{ object.user }} | on {{ object.party_time }}
+				</div>
+			</div>
+			<hr>
+		{% empty %}
+			{% if request.GET.q %}
+			<p>No events match your search :(</p>
+			{% else %}
+			<p>No events at this time</p>
+			{% endif %}
+		{% endfor %} -->

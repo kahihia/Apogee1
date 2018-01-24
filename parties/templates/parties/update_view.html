@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Update Event | {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+	{% include "parties/form.html" with form=form btn_title="Update" %}
+{% endblock content %}

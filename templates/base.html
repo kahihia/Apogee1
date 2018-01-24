@@ -1,0 +1,372 @@
+{% load static %}
+
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!-- this is where the static files are served locally. for procudtion, we should use the CDN version -->
+    <link href='{% static "css/bootstrap.min.css" %}' rel='stylesheet'>
+    <!-- CDN Version of Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"> -->
+
+    <!-- additional css for changing colors -->
+    <style>
+      .apogee-btn {
+        color: black;
+        background-color: orchid;
+      }
+      .grey-color {
+        color: #ccc;
+      }
+      .red-color {
+        color: red;
+      }
+      .media-focus {
+        background-color: #8080803b;
+      }
+    </style>
+
+    <!-- block title allows us to push a new title from each page -->
+    <!-- you can access the apogee text by calling block.super -->
+    <title>{% block title %}Apogee{% endblock title %}</title>
+  </head>
+  <body>
+    <!-- navbar goes outside container bc the container has margins. 
+    moving it out allows it to stretch the whole way across -->
+    {% include 'navbar.html' %}
+    <!-- this holds the actual content from each individual page -->
+    <!-- the container has margins, eliminate them with container fluid -->
+    <div class='container'>
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- Botstrap comes with slim version of jQuery, but we've updated to full version so that we can use AJAX stuff -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <!-- Local version of Bootstrap JS, switch to CDN version for production -->
+    <script src='{% static "js/bootstrap.min.js" %}'></script>
+    <!-- CDN version of Bootstrap JS -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script> -->
+
+    <!-- this contains all of the js used to parties. it's here so that we can use the same rendering in every view that needs it -->
+    <script>
+      // JS search function from stack overflow at kirr.co/itd0rd
+      function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+      }
+
+
+      function loadPartyContainer(partyContainerID, fetchOneId) {
+        // this grabs the search terms from the search bar
+        var query = getParameterByName('q');
+        // this is the set of events in the api
+        var partyList = [];
+        // this links to the following page in the api
+        var nextPartyUrl;
+        // this is the selector for where we're putting the party info
+        var partyContainer;
+        if (partyContainerID){
+          partyContainer = $('#' + partyContainerID)
+        } else {
+          partyContainer = $('#party-container')
+        }
+        // starting url that allows us to get the api data. second is  default
+        var initialUrl = partyContainer.attr('data-url') || '/api/events/';
+
+
+        // this is the favorite function. It wil be instrumental in enabling 
+        // users to track events as they progress.
+        $(document.body).on('click', '.starBtn', function(e){
+          e.preventDefault()
+          var this_ = $(this)
+          // selector for the button
+          var partyID = this_.attr('data-id')
+          // api endpoint
+          var starredUrl = '/api/events/' + partyID + '/star/'
+          $.ajax({
+            method: 'GET',
+            url: starredUrl,
+            success: function(data){
+              if (data.starred){
+                this_.text('UnStar')
+              } else {
+                this_.text('Star')
+              }
+            }, 
+            error: function(data){
+              console.log('error')
+              console.log(data)
+            }
+          })
+        })
+
+
+        // this allows search along hashtags. 
+        // could be useful for categorization
+        function updateHashLinks(){
+          // this is where the actual title and description are held
+          // the span allows up to properly id the hashtags in the description
+          // it will not highlight anf link a hashtag in the title
+          $('.description').each(function(data){
+            var hashtagRegex = /(^|\s)#([\w\d-]+)/g // pulls hashtags
+            var usernameRegex = /(^|\s)@([\w\d-]+)/g // pulls user mentions
+            var currentHtml = $(this).html()
+            var newText;
+            // the regex returns stuff before and after
+            // the replace puts the before in and then makes a link for the after
+            newText = currentHtml.replace(hashtagRegex, '$1<a href="/tags/$2/">#$2</a>')
+            newText = newText.replace(usernameRegex, '$1<a href="/profiles/$2/">@$2</a>')
+            $(this).html(newText)
+          })
+        }
+
+
+        function formatParty(partyValue){
+          var verb = 'Star'
+          if (partyValue.did_star){
+            verb = 'UnStar'
+          }
+
+          // puts title as link to detail page, links user, adds star button
+          var partyContent = '<a href="/events/' + partyValue.id + '" class="text-dark"><h5 class="mt-0">' + partyValue.title + '</h5></a>' + '<span class="description">' + partyValue.description + '</span>' + '<br>' + 'With <a href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a> | on ' + partyValue.party_time_display + ' | ' + '<a href="#" class="starBtn" data-id="' + partyValue.id + '">' + verb + ' (' + partyValue.stars + ')</a>'
+
+          var container = '<div class="media"><div class="media-body">' + partyContent + '</div></div><hr>'
+
+          return container
+        }
+
+
+        // this method actually pushes individual events to the page
+        // the prepend just tells us if we should put it in the front 
+        // that's only useul for the homepage creation, which we dont use
+        function attachParty(partyValue, prepend){
+          var partyFormattedHtml = formatParty(partyValue)
+
+          if (prepend == true){
+            partyContainer.prepend(partyFormattedHtml)
+          } else {
+            partyContainer.append(partyFormattedHtml)
+          }
+        }
+
+        // this goes through the api list and and calls attachment on each
+        function parseParties(){
+          if (partyList == 0) {
+            partyContainer.text('No events match your search :(')
+          } else {
+            // if there are tweets in the queryset
+            $.each(partyList, function(key, value){
+              var partyKey = key;
+              attachParty(value) // individual attach method
+            })
+          }
+        }
+
+        // this is the initial call to the api, which might include search terms
+        function fetchParties(url){
+          var fetchUrl;
+
+          // if there isnt a url passed, its the first api page
+          if (!url) {
+            fetchUrl = initialUrl
+          } else {
+            fetchUrl = url
+          }
+          // actual call to api
+          $.ajax({
+            url: fetchUrl, 
+            data: {
+              'q': query
+            },
+            method: 'GET', 
+            success: function(data){
+              // the .results is required because of our pagination
+              // it sets a new datagrouping outside of the data we're using
+              partyList = data.results
+
+              if (data.next) {
+                nextPartyUrl = data.next
+              } else {
+                $('#loadmore').css('display', 'none')
+              }
+              parseParties()
+              updateHashLinks()
+            }, 
+            error: function(data){
+              console.log('error')
+              console.log(data)
+            }
+          })
+        }
+
+        // for single view
+        function fetchSingle(fetchOneId){
+          // leading slash appends it to the base url. 
+          // no leading slash sends it to the url of the page its on
+          // which would be /events/id/api/events/id 
+          var fetchDetailUrl = '/api/events/' + fetchOneId + '/'
+          // actual call to api
+          $.ajax({
+            url: fetchDetailUrl, 
+            method: 'GET', 
+            success: function(data){
+              console.log(data)
+              partyList = data.results
+
+              // if (data.next) {
+              //   nextPartyUrl = data.next
+              // } else {
+              //   $('#loadmore').css('display', 'none')
+              // }
+              parseParties()
+              updateHashLinks()
+            }, 
+            error: function(data){
+              console.log('error')
+              console.log(data)
+            }
+          })
+        }
+
+
+        // for the single detail view
+        if (fetchOneId){
+          fetchSingle(fetchOneId)
+        } else {
+          fetchParties()
+        }
+
+
+        // this handles our loadmore button
+        // it binds a function to the clicking action
+        $('#loadmore').click(function(event){
+          event.preventDefault()
+
+          // assuming there are more events, get and show them
+          if (nextPartyUrl) {
+            fetchParties(nextPartyUrl)
+          }
+        })
+
+
+        // stuff for tweeting from the home page async
+        // 
+        // this is the method to display remaining characters
+        // might want to use it on the title, but may not be super important
+        // selector pulls the form with this id
+        // var charsStart = 140;
+        // var charsCurrent = 0;
+        // $('#party-form').append('<span id="titleCharsLeft">' + charsStart + '</span>')
+        // $('#party-form textarea').keyup(function(event){
+        //  var partyValue = $(this).val()
+        //  charsCurrent = charsStart - partyValue.length
+        //  var spanChars = $('#titleCharsLeft')
+        //  spanChars.text(charsCurrent)
+
+        //  // changes color
+        //  if (charsCurrent > 0) {
+        //    spanChars.removeClass('grey-color')
+        //    spanChars.removeClass('red-color')
+        //  } else if (charsCurrent == 0) {
+        //    spanChars.removeClass('red-color')
+        //    spanChars.addClass('grey-color')
+        //  } else if (charsCurrent < 0) {
+        //    spanChars.removeClass('grey-color')
+        //    spanChars.addClass('red-color')
+        //  }
+        // })
+
+        // // the submit call would submit the create form if 
+        // // there was one on the list page
+        // $('#party-form').submit(function(event){
+        //  event.preventDefault() // blocks the submission??
+        //  var this_ = $(this) // gets the object in the form
+        //  var formData = this_.serialize() // makes it JSON readable
+
+        //  // if its not too long
+        //  if (charsCurrent >= 0){
+        //    $.ajax({
+        //      url: '/api/events/create', 
+        //      data: formData, 
+        //      method: 'POST', 
+        //      success: function(data){
+        //        // clears the form
+        //        this_.find('input[type=text], textarea').val('')
+        //        // we want to append this to the list immediately
+        //        attachParty(data, true)
+        //        updateHashLinks()
+        //      }, 
+        //      error: function(data){
+        //        console.log('error')
+        //        console.log(data)
+        //      }
+        //    })
+        //  } else {
+        //    console.log('too long')
+        //  } 
+        // })
+      }
+    </script>
+
+
+
+    <!-- this is our custom JS block where we'll put our ajax stuff -->
+    {% block script %}
+    {% endblock script %}
+
+    <!-- this is the keyup auto search function -->
+    <!-- <script>
+      $(document).ready(function(){
+        var typingTimer;
+        var doneInterval = 1000; // milliseconds
+        var searchInput = $('#navbar-search-form input[type=text]')
+        var searchQuery;
+
+        searchInput.keyup(function(event){
+          searchQuery = $(this).val() // grabs search terms
+
+          // resets timer then sets new timer and function
+          clearTimeout(typingTimer) 
+          typingTimer = setTimeout(doneSearchTyping, doneInterval)
+        })
+
+        searchInput.keydown(function(event){
+          // when you start typing, it clears the timer
+          clearTimeout(typingTimer)
+        })
+
+        // submits the search
+        function doneSearchTyping(){
+          if (searchQuery){
+            var url = '/search/?q=' + searchQuery
+            document.location.href = url;
+          }
+        }
+      })
+    </script> -->
+
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+

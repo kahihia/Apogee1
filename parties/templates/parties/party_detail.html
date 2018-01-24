@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	{{ object.title }} | {{ block.super }}
+{% endblock title %}
+
+<!-- contains our custom JS -->
+{% block script %}
+<script>
+	// runs when page DOM is ready
+	$(document).ready(function(){
+		loadPartyContainer('party-container', {{ object.id }})
+	});
+</script>
+{% endblock script %}
+
+{% block content %}
+
+<div class='row mt-4'>
+	<!-- left column -->
+	<div class='col-sm-3'>
+		<div class='col-sm-12'>
+			<h3>{{ object.user }}</h3>
+		</div>
+	</div>
+
+	<!-- right column -->
+	<div class='col-sm-9'>
+		<!-- holds party object from base -->
+		<div id='party-container'></div>
+	</div>	
+</div>
+{% endblock content %}

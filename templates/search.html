@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+<!-- sets the tab info -->
+{% block title %}
+	Events | {{ block.super }}
+{% endblock title %}
+
+<!-- contains our custom JS -->
+{% block script %}
+<script>
+	// runs when page DOM is ready
+	$(document).ready(function(){
+		loadPartyContainer('party-container')
+	});
+</script>
+{% endblock script %}
+
+<!-- contains our custom html and django stuff -->
+{% block content %}
+<div class='row'>
+	<div class="col-sm-12 mt-3">
+		{% if request.GET.q %}
+			<p class='lead'>Results for "{{ request.GET.q }}"</p><hr>
+		{% endif %}
+	</div>
+	<div class='col-sm-8 mt-2'>
+		<h3>Events</h3><hr>
+
+		<!-- this holds all of our JS rendered stuff -->
+		<!-- the id and dataurl are set so that the base render function can 
+		get the appropriate info from them -->
+		<div id='party-container' data-url='/api/search/'></div>
+
+		<!-- this is our load more button for the pagination -->
+		<a href='#' id='loadmore'>Show More Events</a>
+	</div>
+
+	<!-- right side column -->
+	<div class='col-sm-4 mt-2'>
+		<h3>Users</h3><hr>
+		{% for user in users %}
+			<a href='/{{ user.username }}/'>{{ user.username }}</a><hr>
+		{% empty %}
+			<p>No users found.</p>
+		{% endfor %}
+	</div>
+</div>
+{% endblock content %}
+
+
+
+
+
+
+
