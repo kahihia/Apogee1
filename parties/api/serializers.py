@@ -15,6 +15,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	time_created_display = serializers.SerializerMethodField()
 	stars = serializers.SerializerMethodField()
 	did_star = serializers.SerializerMethodField()
+	thumbnail_url = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Party
@@ -30,7 +31,11 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'time_created_display', 
 			'stars',
 			'did_star',
+			'thumbnail_url',
 		]
+
+	def get_thumbnail_url(self, obj):
+		return obj.thumbnail.url
 
 	def get_did_star(self, obj):
 		request = self.context.get('request')

@@ -76,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -146,6 +147,10 @@ STATICFILES_DIRS = [
 # will be served
 STATIC_ROOT = os.path.join(BASE_DIR, "static-serve")
 
+
+# this holds our media stuff like thumbnails and profile pics
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

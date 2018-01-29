@@ -20,7 +20,8 @@ class PartyModelForm(forms.ModelForm):
 			# 'user',
 			'title',
 			'description',
-			'party_time'
+			'party_time', 
+			'thumbnail'
 		]
 
 	# simple field validation
