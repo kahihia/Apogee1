@@ -140,7 +140,7 @@
             verb = 'UnStar'
           }
 
-          var container = '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;"><div class="card" style="width: 18rem;"><img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here"><div class="card-body">' + '<h5 class="card-title">' + partyValue.title + '</h5>' + '<p class="card-text"><span class="description">' + partyValue.description + '</span></p>' + '</div><div class="card-footer"><small class="text-muted">With <a href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a><br>' + partyValue.party_time_display + ' | ' + '<a href="#" class="starBtn" data-id="' + partyValue.id + '">' + verb + ' (' + partyValue.stars + ')</a></small></div></div></a>'
+          var container = '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;"><div class="card" style="width: 16rem;"><img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here"><div class="card-body">' + '<h5 class="card-title">' + partyValue.title + '</h5>' + '<p class="card-text"><span class="description">' + partyValue.description + '</span></p>' + '</div><div class="card-footer"><small class="text-muted">With <a href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a><br>' + partyValue.party_time_display + ' | ' + '<a href="#" class="starBtn" data-id="' + partyValue.id + '">' + verb + ' (' + partyValue.stars + ')</a></small></div></div></a>'
 
           return container
         }
@@ -149,28 +149,61 @@
         // this method actually pushes individual events to the page
         // the prepend just tells us if we should put it in the front 
         // that's only useul for the homepage creation, which we dont use
-        function attachParty(partyValue, prepend){
-          var partyFormattedHtml = formatParty(partyValue)
+        // function attachParty(partyValue, prepend){
+        //   var partyFormattedHtml = formatParty(partyValue)
 
-          if (prepend == true){
-            partyContainer.prepend(partyFormattedHtml)
-          } else {
-            partyContainer.append(partyFormattedHtml)
-          }
-        }
+        //   if (prepend == true){
+        //     partyContainer.prepend(partyFormattedHtml)
+        //   } else {
+        //     partyContainer.append(partyFormattedHtml)
+        //   }
+        // }
 
         // this goes through the api list and and calls attachment on each
+        // function parseParties(){
+        //   if (partyList == 0) {
+        //     partyContainer.text('No events :(')
+        //   } else if (partyList.length <= 3){
+        //     // if there are 3 or less events, put them in one row
+        //     $.each(partyList, function(key, value){
+        //       var partyKey = key;
+        //       attachParty(value) // individual attach method
+        //     })
+        //   } else {
+        //     // if there are more, put them in two containers
+        //     $.each(partyList, function(key, value){
+        //       var partyKey = key;
+        //       attachParty(value) // individual attach method
+        //     })
+        //   }
+        // }
+
+        // reworked version of the parseParties call
+        // this creates sets of deck elements and populates them with the proper
+        // number of cards. handSize sets the number of cards per deck. this 
+        // allows the page to be more responsive and change the number of cards 
+        // per deck given the width of the page. 
         function parseParties(){
           if (partyList == 0) {
-            partyContainer.text('No events match your search :(')
+            partyContainer.text('No events :(')
           } else {
-            // if there are tweets in the queryset
-            $.each(partyList, function(key, value){
-              var partyKey = key;
-              attachParty(value) // individual attach method
-            })
+            var handSize = 3
+            for (var deck = 0; deck < partyList.length; deck += handSize) {
+              var deckHTML = '<div class="card-deck mb-4">'
+              for (var card = 0; card < handSize; card++) {
+                var cardIndex = deck + card
+                if (cardIndex < partyList.length) {
+                  var partyValue = partyList[cardIndex]
+                  var partyFormattedHtml = formatParty(partyValue)
+                  deckHTML = deckHTML + partyFormattedHtml
+                }
+              }
+              deckHTML = deckHTML + '</div>'
+              partyContainer.append(deckHTML)
+            }
           }
         }
+
 
         // this is the initial call to the api, which might include search terms
         function fetchParties(url){
