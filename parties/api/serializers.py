@@ -1,4 +1,5 @@
 from django.utils.timesince import timeuntil
+from django.template.defaultfilters import truncatechars
 from rest_framework import serializers
 
 from parties.models import Party 
@@ -15,6 +16,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	time_created_display = serializers.SerializerMethodField()
 	stars = serializers.SerializerMethodField()
 	did_star = serializers.SerializerMethodField()
+	thumbnail_url = serializers.SerializerMethodField()
+	short_description = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Party
@@ -30,7 +33,15 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'time_created_display', 
 			'stars',
 			'did_star',
+			'thumbnail_url',
+			'short_description',
 		]
+
+	def get_short_description(self, obj):
+		return truncatechars(obj.description, 40)
+
+	def get_thumbnail_url(self, obj):
+		return obj.thumbnail.url
 
 	def get_did_star(self, obj):
 		request = self.context.get('request')

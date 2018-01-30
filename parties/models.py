@@ -39,6 +39,7 @@ class Party(models.Model):
 						blank=True, 
 						related_name='favorited'
 					)
+	thumbnail 		= models.ImageField(upload_to='thumbnails/%Y/%m/%d/')
 
 	# ImageField for the thumbnail
 	# CharField for duration

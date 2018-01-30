@@ -8,9 +8,12 @@
 
     <!-- Bootstrap CSS -->
     <!-- this is where the static files are served locally. for procudtion, we should use the CDN version -->
-    <link href='{% static "css/bootstrap.min.css" %}' rel='stylesheet'>
+    <!-- <link href='{% static "css/bootstrap.min.css" %}' rel='stylesheet'> -->
     <!-- CDN Version of Bootstrap CSS -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- CDN for FontAwesome, which is where our little glyphicons come from -->
+    <script src="https://use.fontawesome.com/3af7201741.js"></script>
 
     <!-- additional css for changing colors -->
     <style>
@@ -23,6 +26,10 @@
       }
       .red-color {
         color: red;
+      }
+      .yellow-color {
+        content: "\f005";
+        color: #e4c43a;
       }
       .media-focus {
         background-color: #8080803b;
@@ -51,9 +58,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <!-- Local version of Bootstrap JS, switch to CDN version for production -->
-    <script src='{% static "js/bootstrap.min.js" %}'></script>
+    <!-- <script src='{% static "js/bootstrap.min.js" %}'></script> -->
     <!-- CDN version of Bootstrap JS -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <!-- this contains all of the js used to parties. it's here so that we can use the same rendering in every view that needs it -->
     <script>
@@ -100,11 +107,8 @@
             method: 'GET',
             url: starredUrl,
             success: function(data){
-              if (data.starred){
-                this_.text('UnStar')
-              } else {
-                this_.text('Star')
-              }
+              // the api handles updating the database and the method below
+              // updates the color, so nothing happens on success
             }, 
             error: function(data){
               console.log('error')
@@ -112,6 +116,16 @@
             }
           })
         })
+
+
+        // this controls teh display color of the favorite button
+        $(document.body).on('click', '.fa-star', function(e){
+          e.preventDefault()
+          var this_ = $(this)
+          this_.toggleClass('grey-color')
+          this_.toggleClass('yellow-color')
+        })
+
 
 
         // this allows search along hashtags. 
@@ -127,23 +141,20 @@
             var newText;
             // the regex returns stuff before and after
             // the replace puts the before in and then makes a link for the after
-            newText = currentHtml.replace(hashtagRegex, '$1<a href="/tags/$2/">#$2</a>')
-            newText = newText.replace(usernameRegex, '$1<a href="/profiles/$2/">@$2</a>')
+            newText = currentHtml.replace(hashtagRegex, '$1<a class="text-dark" href="/tags/$2/">#$2</a>')
+            newText = newText.replace(usernameRegex, '$1<a class="text-dark" href="/profiles/$2/">@$2</a>')
             $(this).html(newText)
           })
         }
 
 
         function formatParty(partyValue){
-          var verb = 'Star'
+          var verb = '<i class="fa fa-star grey-color" aria-hidden="true"></i>'
           if (partyValue.did_star){
-            verb = 'UnStar'
+            verb = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>'
           }
 
-          // puts title as link to detail page, links user, adds star button
-          var partyContent = '<a href="/events/' + partyValue.id + '" class="text-dark"><h5 class="mt-0">' + partyValue.title + '</h5></a>' + '<span class="description">' + partyValue.description + '</span>' + '<br>' + 'With <a href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a> | on ' + partyValue.party_time_display + ' | ' + '<a href="#" class="starBtn" data-id="' + partyValue.id + '">' + verb + ' (' + partyValue.stars + ')</a>'
-
-          var container = '<div class="media"><div class="media-body">' + partyContent + '</div></div><hr>'
+          var container = '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;"><div class="card" style="width: 16rem;"><img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here"><div class="card-body">' + '<h5 class="card-title">' + partyValue.title + '</h5>' + '<p class="card-text"><span class="description">' + partyValue.short_description + '</span></p>' + '</div><div class="card-footer"><small class="text-muted">With <a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a><br>' + partyValue.party_time_display + '</small><a href="#" class="starBtn ml-5 text-dark" data-id="' + partyValue.id + '">' + verb + '</a></div></div></a>'
 
           return container
         }
@@ -152,28 +163,61 @@
         // this method actually pushes individual events to the page
         // the prepend just tells us if we should put it in the front 
         // that's only useul for the homepage creation, which we dont use
-        function attachParty(partyValue, prepend){
-          var partyFormattedHtml = formatParty(partyValue)
+        // function attachParty(partyValue, prepend){
+        //   var partyFormattedHtml = formatParty(partyValue)
 
-          if (prepend == true){
-            partyContainer.prepend(partyFormattedHtml)
-          } else {
-            partyContainer.append(partyFormattedHtml)
-          }
-        }
+        //   if (prepend == true){
+        //     partyContainer.prepend(partyFormattedHtml)
+        //   } else {
+        //     partyContainer.append(partyFormattedHtml)
+        //   }
+        // }
 
         // this goes through the api list and and calls attachment on each
+        // function parseParties(){
+        //   if (partyList == 0) {
+        //     partyContainer.text('No events :(')
+        //   } else if (partyList.length <= 3){
+        //     // if there are 3 or less events, put them in one row
+        //     $.each(partyList, function(key, value){
+        //       var partyKey = key;
+        //       attachParty(value) // individual attach method
+        //     })
+        //   } else {
+        //     // if there are more, put them in two containers
+        //     $.each(partyList, function(key, value){
+        //       var partyKey = key;
+        //       attachParty(value) // individual attach method
+        //     })
+        //   }
+        // }
+
+        // reworked version of the parseParties call
+        // this creates sets of deck elements and populates them with the proper
+        // number of cards. handSize sets the number of cards per deck. this 
+        // allows the page to be more responsive and change the number of cards 
+        // per deck given the width of the page. 
         function parseParties(){
           if (partyList == 0) {
-            partyContainer.text('No events match your search :(')
+            partyContainer.text('No events :(')
           } else {
-            // if there are tweets in the queryset
-            $.each(partyList, function(key, value){
-              var partyKey = key;
-              attachParty(value) // individual attach method
-            })
+            var handSize = 3
+            for (var deck = 0; deck < partyList.length; deck += handSize) {
+              var deckHTML = '<div class="card-deck mb-4">'
+              for (var card = 0; card < handSize; card++) {
+                var cardIndex = deck + card
+                if (cardIndex < partyList.length) {
+                  var partyValue = partyList[cardIndex]
+                  var partyFormattedHtml = formatParty(partyValue)
+                  deckHTML = deckHTML + partyFormattedHtml
+                }
+              }
+              deckHTML = deckHTML + '</div>'
+              partyContainer.append(deckHTML)
+            }
           }
         }
+
 
         // this is the initial call to the api, which might include search terms
         function fetchParties(url){
@@ -247,6 +291,10 @@
           fetchSingle(fetchOneId)
         } else {
           fetchParties()
+        }
+
+        if (nextPartyUrl) {
+          fetchParties(nextPartyUrl)
         }
 
 

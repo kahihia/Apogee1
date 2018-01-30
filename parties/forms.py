@@ -10,7 +10,7 @@ class PartyModelForm(forms.ModelForm):
 	description = forms.CharField(label='', widget=forms.Textarea(
 		attrs={'placeholder': 'Description', 'class': 'form-control'}
 		))
-	party_time = forms.SplitDateTimeField(label='', widget=forms.SplitDateTimeWidget(
+	party_time = forms.SplitDateTimeField(label='', localize=True, widget=forms.SplitDateTimeWidget(
 		date_attrs={'placeholder': 'mm/dd/yy', 'class': 'form-control'}, 
 		time_attrs={'placeholder': 'hh:mm 24 hr clock', 'class': 'form-control'}
 		))
@@ -20,7 +20,8 @@ class PartyModelForm(forms.ModelForm):
 			# 'user',
 			'title',
 			'description',
-			'party_time'
+			'party_time', 
+			'thumbnail'
 		]
 
 	# simple field validation
