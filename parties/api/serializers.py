@@ -1,4 +1,5 @@
 from django.utils.timesince import timeuntil
+from django.utils import timezone
 from django.template.defaultfilters import truncatechars
 from rest_framework import serializers
 
@@ -58,8 +59,11 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		return obj.starred.all().count()
 
 	def get_party_time_display(self, obj):
-		# strftime is python datetime method
-		return obj.party_time.strftime('%b %d at %I:%M %p')
+		# strftime is python datetime method. the localtime call 
+		# converts it back to the local time because it is converted 
+		# to UTC when it's stored in the database
+		tz_converted = timezone.localtime(obj.party_time)
+		return tz_converted.strftime('%b %d at %I:%M %p')
 
 	def get_timeuntil(self, obj):
 		return timeuntil(obj.party_time)

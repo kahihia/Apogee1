@@ -57,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # from django docs for setting the current session timezone
+    'parties.middleware.TimezoneMiddleware',
 ]
 
 ROOT_URLCONF = 'apogee1.urls'

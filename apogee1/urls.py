@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 # views
-from .views import home, SearchView
+from .views import home, SearchView, set_timezone
 from parties.views import PartyListView
 from hashtags.views import HashTagView
 from hashtags.api.views import TagPartyAPIView
@@ -32,6 +32,8 @@ from accounts.views import UserRegisterView
 # so make sure that this ordering will not screw up the routing
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # this should migrate into the settings page at some point soon
+    path('tz/', set_timezone, name='set_timezone'),
     path('', PartyListView.as_view(), name='home'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('register/', UserRegisterView.as_view(), name='register'),
