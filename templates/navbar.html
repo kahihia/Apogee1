@@ -23,6 +23,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ request.user.profile.get_absolute_url }}">Profile</a>
+            <a class="dropdown-item" href="{% url 'set_timezone' %}">Settings</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
           </div>

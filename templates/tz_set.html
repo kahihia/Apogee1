@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <!-- this form is just the html in the tz set view we made -->
 {% load tz %}
 {% get_current_timezone as TIME_ZONE %}
@@ -11,3 +14,4 @@
     </select>
     <input type="submit" value="Set" />
 </form>
+{% endblock content %}
