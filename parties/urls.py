@@ -7,7 +7,8 @@ from .views import (
 		PartyListView, 
 		PartyCreateView,
 		PartyUpdateView, 
-		PartyDeleteView
+		PartyDeleteView, 
+		FollowingListView
 	)
 
 app_name = 'parties'
@@ -15,6 +16,7 @@ app_name = 'parties'
 urlpatterns = [
 	path('', RedirectView.as_view(url='/')), # redirects to home
     path('search/', PartyListView.as_view(), name='list'), # /search/?q=
+    path('following/', FollowingListView.as_view(), name='following-list'), # /search/?q=
     path('<int:pk>/', PartyDetailView.as_view(), name='detail'), # /1
     path('create/', PartyCreateView.as_view(), name='create'), # /create
     path('<int:pk>/update/', PartyUpdateView.as_view(), name='update'), # /1/update

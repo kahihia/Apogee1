@@ -32,8 +32,6 @@ from accounts.views import UserRegisterView
 # so make sure that this ordering will not screw up the routing
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # this should migrate into the settings page at some point soon
-    path('tz/', set_timezone, name='set_timezone'),
     path('', PartyListView.as_view(), name='home'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('register/', UserRegisterView.as_view(), name='register'),
@@ -45,6 +43,8 @@ urlpatterns = [
     path('profiles/', include('accounts.urls', namespace='profiles')),
     path('tags/<slug:hashtag>/', HashTagView.as_view(), name='hashtag'),
     path('api/tags/<slug:hashtag>/', TagPartyAPIView.as_view(), name='hashtag-api'),
+    # this should migrate into the settings page at some point soon
+    path('tz/', set_timezone, name='set_timezone'),
 ]
 
 if settings.DEBUG:

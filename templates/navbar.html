@@ -14,10 +14,16 @@
       <!-- items on far right side when logged in -->
       {% if request.user.is_authenticated %}
       <ul class="navbar-nav ml-auto">
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li> -->
-        <li class="nav-item dropdown">
+        <!-- link to following page -->
+        <li class="nav-item mx-3">
+          <a class="nav-link" href="{% url 'parties:following-list' %}">Following</a>
+        </li>
+        <!-- link to starred events -->
+        <li class="nav-item mx-3">
+          <a class="nav-link" href="#">Starred</a>
+        </li>
+        <!-- profile dropdown menu -->
+        <li class="nav-item dropdown mx-3">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Account
           </a>

@@ -6,13 +6,15 @@ from .views import (
 		PartyListAPIView, 
 		PartyCreateAPIView, 
 		PartyDetailAPIView,  
-		StarToggleAPIView
+		StarToggleAPIView, 
+		TrendingListAPIView
 	)
 
 app_name = 'parties-api'
 # /api/events/ routes to this 
 urlpatterns = [
     path('', PartyListAPIView.as_view(), name='list'),
+    path('trending/', TrendingListAPIView.as_view(), name='trending'),
     path('create/', PartyCreateAPIView.as_view(), name='create'), 
     path('<int:pk>/', PartyDetailAPIView.as_view(), name='detail'),
     path('<int:pk>/star/', StarToggleAPIView.as_view(), name='star-toggle'), 

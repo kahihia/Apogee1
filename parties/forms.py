@@ -12,9 +12,9 @@ class PartyModelForm(forms.ModelForm):
 		))
 	# localize tells us that this is in localtime so it converts to UTC for storage
 	party_time = forms.SplitDateTimeField(label='', localize=True, widget=forms.SplitDateTimeWidget(
-		date_attrs={'placeholder': 'mm/dd/yy', 'class': 'form-control'}, 
-		time_attrs={'placeholder': 'hh:mm 24 hr clock', 'class': 'form-control'}
-		))
+		date_attrs={'placeholder': 'Date: mm/dd/yy', 'class': 'form-control'}, 
+		time_attrs={'placeholder': 'Time: hh:mm AM/PM or hh:mm 24-hr', 'class': 'form-control'}
+		), input_time_formats=['%I:%M %p', '%H:%M'], help_text='specify AM or PM if using a 12 hour clock')
 	class Meta:
 		model = Party
 		fields = [

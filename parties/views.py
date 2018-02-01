@@ -72,6 +72,25 @@ class PartyListView(LoginRequiredMixin, ListView):
 		return context
 
 
+class FollowingListView(LoginRequiredMixin, ListView):
+	def get_queryset(self, *args, **kwargs):
+		qs = Party.objects.all()
+		# this return the string form of the search passed into the url
+		query = self.request.GET.get('q', None)
+		if query is not None:
+			# Q is a lookup function
+			qs = qs.filter(
+				Q(description__icontains=query) | 
+				Q(user__username__icontains=query) | 
+				Q(title__icontains=query)
+				)
+		return qs
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(FollowingListView, self).get_context_data(*args, **kwargs)
+		return context
+
+
 # these are the inner workings of how the class based views actually render
 # def party_detail_view(request, id=1):
 # 	obj = Party.objects.get(id=id) # gets from database

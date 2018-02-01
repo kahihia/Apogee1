@@ -118,7 +118,7 @@
         })
 
 
-        // this controls teh display color of the favorite button
+        // this controls the display color of the favorite button
         $(document.body).on('click', '.fa-star', function(e){
           e.preventDefault()
           var this_ = $(this)
@@ -269,12 +269,6 @@
             success: function(data){
               console.log(data)
               partyList = data.results
-
-              // if (data.next) {
-              //   nextPartyUrl = data.next
-              // } else {
-              //   $('#loadmore').css('display', 'none')
-              // }
               parseParties()
               updateHashLinks()
             }, 
@@ -293,9 +287,9 @@
           fetchParties()
         }
 
-        if (nextPartyUrl) {
-          fetchParties(nextPartyUrl)
-        }
+        // if (nextPartyUrl) {
+        //   fetchParties(nextPartyUrl)
+        // }
 
 
         // this handles our loadmore button

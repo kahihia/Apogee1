@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
-{% load recommended %}
 
 <!-- sets the tab info -->
 {% block title %}
-	Events | {{ block.super }}
+	Following | {{ block.super }}
 {% endblock title %}
 
 <!-- contains our custom JS -->
@@ -11,7 +10,7 @@
 <script>
 	// runs when page DOM is ready
 	$(document).ready(function(){
-		loadPartyContainer('party-container')
+		loadPartyContainer('follow-container')
 	});
 </script>
 {% endblock script %}
@@ -27,48 +26,23 @@
 			<h3>{{ request.user }}</h3><hr>
 		</div>
 		<!-- create event button linked to create page -->
-		<div class='col-sm-12 mt-3'>
+		<!-- <div class='col-sm-12 mt-3'>
 			<a href="{% url 'parties:create' %}">
 				<button class='btn btn-outline-secondary'>Create an event</button>
 			</a>
-		</div>
-		<!-- holds recommended users -->
-		<div class='col-sm-12 mt-5'>
-			<p class='lead'>Recommended users</p>
-			<p>{% recommended request.user %}</p>
-		</div>
+		</div> -->
 	</div>
 	<div class='col-sm-9 mt-3'>
 		<!-- title for the following section -->
-		<h1>Followed</h1><hr>
+		<h1>Events</h1><hr>
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
-		<div class='card-deck ml-1' id='party-container' data-url='/api/events/'></div>
+		<div class='card-deck ml-1' id='follow-container' data-url='/api/events/'></div>
 
 		<!-- this is our load more button for the pagination -->
-		<!-- <a href='#' id='loadmore'>Show More Events</a> -->
+		<a href='#' id='loadmore'>Show More Events</a>
 
 	</div>
 </div>
 {% endblock content %}
-
-<!-- this is the django method for the list view -->
-<!-- {% for object in object_list %}
-			<div class="media">
-				<div class="media-body">
-					<a href="{{ object.get_absolute_url }}" class='text-dark'>
-				    	<h5 class="mt-0">{{ object.title }}</h5>
-				    </a>
-					{{ object.description }}<br>
-					With {{ object.user }} | on {{ object.party_time }}
-				</div>
-			</div>
-			<hr>
-		{% empty %}
-			{% if request.GET.q %}
-			<p>No events match your search :(</p>
-			{% else %}
-			<p>No events at this time</p>
-			{% endif %}
-		{% endfor %} -->

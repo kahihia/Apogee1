@@ -9,7 +9,7 @@ class TimezoneMiddleware(MiddlewareMixin):
         tzname = request.session.get('django_timezone')
         if tzname:
             timezone.activate(pytz.timezone(tzname))
-            print('activated')
+            # print('activated')
         else:
             timezone.deactivate()
-            print('not activated')
+            # print('not activated')

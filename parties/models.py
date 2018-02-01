@@ -34,10 +34,12 @@ class Party(models.Model):
 	time_created	= models.DateTimeField(auto_now_add=True)
 	updated 		= models.DateTimeField(auto_now=True)
 	party_time		= models.DateTimeField()
+	# starred contains the users that have starred the event. that means that
+	# starred_by should include all the events that a user has starred
 	starred 		= models.ManyToManyField(
 						settings.AUTH_USER_MODEL, 
 						blank=True, 
-						related_name='favorited'
+						related_name='starred_by'
 					)
 	thumbnail 		= models.ImageField(upload_to='thumbnails/%Y/%m/%d/')
 

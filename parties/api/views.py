@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.db.models import Q
+from django.db.models import Q, Count
 
 from parties.models import Party
 from .pagination import StandardResultsPagination
@@ -114,6 +114,32 @@ class PartyListAPIView(generics.ListAPIView):
 				Q(user__username__icontains=query) | 
 				Q(title__icontains=query)
 				)
+		return qs
+
+
+
+# this creates the api view that the trending list of our home page pulls from
+class TrendingListAPIView(generics.ListAPIView):
+	serializer_class = PartyModelSerializer
+	pagination_class = StandardResultsPagination
+
+	# this allows us to pass a request into the serializer
+	# it'll tell us if the user starred the event so we can display the 
+	# correct verb at the outset
+	def get_serializer_context(self, *args, **kwargs):
+		context = super(TrendingListAPIView, self).get_serializer_context(*args, **kwargs)
+		context['request'] = self.request
+		return context
+	
+	# this interacts with the ajax call to this url
+	def get_queryset(self, *args, **kwargs):
+		# uses methods form the userprofile model
+		im_following = self.request.user.profile.get_following()
+		qs1 = Party.objects.filter(user__in=im_following)
+		# includes our own events in our feed
+		qs2 = Party.objects.filter(user=self.request.user)
+		# sets the ordering. party_time would be soonest expiration at the top
+		qs = (qs1 | qs2).distinct().order_by('starred')
 		return qs
 
 
