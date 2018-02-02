@@ -41,7 +41,7 @@
 			{% endfor %}
 			<hr>
 
-			<h4>Followers</h4>
+			<h4>Followers <small>{{ object.followed_by.all.count }}</small></h4>
 			<!-- through user, calls who they are followed by.
 			it gets us the userprofile model of the people that follow us.
 			to get the actual username. we have to get the user associated
@@ -71,3 +71,6 @@
 	</div>	
 </div>
 {% endblock content %}
+
+
+

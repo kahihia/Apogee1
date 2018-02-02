@@ -73,6 +73,7 @@ class PartyListView(LoginRequiredMixin, ListView):
 
 
 class FollowingListView(LoginRequiredMixin, ListView):
+	template_name = 'parties/following_list.html'
 	def get_queryset(self, *args, **kwargs):
 		qs = Party.objects.all()
 		# this return the string form of the search passed into the url

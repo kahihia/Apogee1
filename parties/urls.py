@@ -8,7 +8,7 @@ from .views import (
 		PartyCreateView,
 		PartyUpdateView, 
 		PartyDeleteView, 
-		FollowingListView
+		FollowingListView,
 	)
 
 app_name = 'parties'
