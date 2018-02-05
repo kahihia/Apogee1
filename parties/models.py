@@ -19,6 +19,9 @@ class PartyManager(models.Manager):
 			party_obj.starred.add(user)
 		return is_starred
 
+	def get_starred_by(self, user, party_obj):
+		return party_obj.starred.all()
+
 
 
 class Party(models.Model):

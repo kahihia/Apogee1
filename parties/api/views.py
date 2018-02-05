@@ -118,6 +118,26 @@ class PartyListAPIView(generics.ListAPIView):
 
 
 
+# this creates the api view that our list page pulls from
+class StarredListAPIView(generics.ListAPIView):
+	serializer_class = PartyModelSerializer
+	pagination_class = StandardResultsPagination
+
+	# this allows us to pass a request into the serializer
+	# it'll tell us if the user starred the event so we can display the 
+	# correct verb at the outset
+	def get_serializer_context(self, *args, **kwargs):
+		context = super(StarredListAPIView, self).get_serializer_context(*args, **kwargs)
+		context['request'] = self.request
+		return context
+	
+	# this interacts with the ajax call to this url
+	def get_queryset(self, *args, **kwargs):
+		qs = self.request.user.starred_by.all().order_by('-time_created')
+		return qs
+
+
+
 # this creates the api view that the trending list of our home page pulls from
 class TrendingListAPIView(generics.ListAPIView):
 	serializer_class = PartyModelSerializer

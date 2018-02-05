@@ -56,15 +56,16 @@ class PartyDetailView(LoginRequiredMixin, DetailView):
 class PartyListView(LoginRequiredMixin, ListView):
 	def get_queryset(self, *args, **kwargs):
 		qs = Party.objects.all()
+		# currently unused because the search goes to a different view
 		# this return the string form of the search passed into the url
-		query = self.request.GET.get('q', None)
-		if query is not None:
-			# Q is a lookup function
-			qs = qs.filter(
-				Q(description__icontains=query) | 
-				Q(user__username__icontains=query) | 
-				Q(title__icontains=query)
-				)
+		# query = self.request.GET.get('q', None)
+		# if query is not None:
+		# 	# Q is a lookup function
+		# 	qs = qs.filter(
+		# 		Q(description__icontains=query) | 
+		# 		Q(user__username__icontains=query) | 
+		# 		Q(title__icontains=query)
+		# 		)
 		return qs
 
 	def get_context_data(self, *args, **kwargs):
@@ -76,21 +77,22 @@ class FollowingListView(LoginRequiredMixin, ListView):
 	template_name = 'parties/following_list.html'
 	def get_queryset(self, *args, **kwargs):
 		qs = Party.objects.all()
-		# this return the string form of the search passed into the url
-		query = self.request.GET.get('q', None)
-		if query is not None:
-			# Q is a lookup function
-			qs = qs.filter(
-				Q(description__icontains=query) | 
-				Q(user__username__icontains=query) | 
-				Q(title__icontains=query)
-				)
 		return qs
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(FollowingListView, self).get_context_data(*args, **kwargs)
 		return context
 
+
+class StarredListView(LoginRequiredMixin, ListView):
+	template_name = 'parties/starred_list.html'
+	def get_queryset(self, *args, **kwargs):
+		qs = Party.objects.all()
+		return qs
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(StarredListView, self).get_context_data(*args, **kwargs)
+		return context
 
 # these are the inner workings of how the class based views actually render
 # def party_detail_view(request, id=1):
