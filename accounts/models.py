@@ -45,7 +45,8 @@ class UserProfileManager(models.Manager):
 			return True
 		return False
 
-	# this looks at the 
+	# this looks at the whole set of users, returns a list of users the requestuser
+	# does not follow, ordered randomly
 	def recommended(self, user, limit_to=10):
 		profile = user.profile
 		following = profile.get_following()

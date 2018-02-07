@@ -35,7 +35,7 @@
 			<!-- through user, calls who they follow.
 			this gets actual user instances -->
 			{% for user in object.profile.get_following %}
-				<a href='/profiles/{{ user.username }}'>{{ user.username }}</a><br>
+				<a class='text-dark' href='/profiles/{{ user.username }}'>{{ user.username }}</a><br>
 			{% empty %}
 				<p>Not following anyone</p>
 			{% endfor %}
@@ -47,7 +47,7 @@
 			to get the actual username. we have to get the user associated
 			with that profile and then get the username -->
 			{% for profile in object.followed_by.all %}
-				<a href='/profiles/{{ profile.user.username }}'>{{ profile.user.username }}</a><br>
+				<a class='text-dark' href='/profiles/{{ profile.user.username }}'>{{ profile.user.username }}</a><br>
 			{% empty %}
 				<p>No followers</p>
 			{% endfor %}
@@ -67,7 +67,9 @@
 		<div class='card-deck' id='party-container' data-url='/api/{{ user.username }}/events/'></div>
 
 		<!-- this is our load more button for the pagination -->
-		<a href='#' id='loadmore'>Show More Events</a>		
+		<button type="button" class="btn btn-outline-secondary btn-sm" id='loadmore'>Show More Events</button>
+		<!-- this lists the load button off of the bottom -->
+		<br><p></p>		
 	</div>	
 </div>
 {% endblock content %}

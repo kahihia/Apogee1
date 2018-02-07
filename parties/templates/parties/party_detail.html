@@ -21,6 +21,12 @@
 	<div class='col-sm-3'>
 		<div class='col-sm-12'>
 			<h3>{{ object.user }}</h3>
+			{% if object.user == request.user %}
+			<a href='update/'>
+				<button type='button' class='btn btn-outline-secondary mt-3' id='update'>Update Event</button>
+			</a>
+			{% else %}
+			{% endif %}
 		</div>
 	</div>
 
