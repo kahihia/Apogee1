@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.urls import reverse_lazy
 
+from parties.models import Party
 # Create your models here.
 
 # we use this to override the all call
@@ -61,6 +62,7 @@ class UserProfileManager(models.Manager):
 # who is following us
 class UserProfile(models.Model):
 	# user.profile gives me my own profile
+	# the .profile calls the related name from the user an grabs the profile obj
 	user = models.OneToOneField(
 			settings.AUTH_USER_MODEL, 
 			on_delete=models.CASCADE, 
@@ -75,11 +77,18 @@ class UserProfile(models.Model):
 			related_name='followed_by'
 		)
 
+	# other fields attatched to users, like their banner, profile pic, bio
+	profile_picture = models.ImageField(upload_to='profile_pics/%Y/%m/%d/', blank=True)
+
+	banner = models.ImageField(upload_to='banners/%Y/%m/%d/', blank=True)	
+
+	bio = models.TextField(max_length=700, blank=True)
+
 	# this is the same as calling UserProfile.objects.all()
 	objects = UserProfileManager()
 
 	def __str__(self):
-		return str(self.following.all().count())
+		return str(self.user.username)
 
 	# this is required to eliminate ourselves from our own following lists
 	# i think the manager only works on profiles, 
@@ -96,6 +105,15 @@ class UserProfile(models.Model):
 	def get_absolute_url(self):
 		return reverse_lazy('profiles:detail', kwargs={'username': self.user.username})
 
+	# gets the edit view url for a profile
+	def get_edit_url(self):
+		return reverse_lazy('profiles:edit', kwargs={'username': self.user.username})
+
+	# gets the total list of events that this user has created
+	def event_count(self):
+		qs = Party.objects.filter(user=self.user)
+		return qs
+
 
 # this signal occurs after the user is saved and ensures that a profile is 
 # set up for that user
@@ -107,3 +125,6 @@ def post_save_user_reciever(sender, instance, created, *args, **kwargs):
 
 # sending user object to the receiver
 post_save.connect(post_save_user_reciever, sender=settings.AUTH_USER_MODEL)
+
+
+

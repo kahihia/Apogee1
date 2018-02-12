@@ -1,10 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.views.generic import DetailView, FormView
+from django.views.generic import DetailView, FormView, UpdateView
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+
 
 from .models import UserProfile
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, UserProfileModelForm
+from .mixins import ProfileOwnerMixin
 
 # Create your views here.
 User = get_user_model()
@@ -51,6 +55,18 @@ class UserFollowView(View):
 			is_following = UserProfile.objects.toggle_follow(request.user, toggle_user)
 		return redirect('profiles:detail', username=username)
 
+
+# this is the profile settings page
+class UserProfileUpdateView(LoginRequiredMixin, ProfileOwnerMixin, UpdateView):
+	form_class = UserProfileModelForm
+	template_name = 'accounts/profile_settings_form.html'
+	queryset = UserProfile.objects.all()
+	# success_url = reverse_lazy('profiles:detail', kwargs={'username': request.user.username})
+
+	# this gets the profile object, not the user object
+	# we arent trying to edit the user object here. 
+	def get_object(self):
+		return get_object_or_404(UserProfile.objects.all(), user__username__iexact=self.kwargs.get('username'))
 
 
 

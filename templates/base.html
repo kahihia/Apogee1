@@ -38,6 +38,9 @@
       .invalid-feedback {
         display: block;
       }
+      .grey-background {
+        background-color: #f1f1f1;
+      }
     </style>
 
     <!-- block title allows us to push a new title from each page -->
@@ -50,7 +53,7 @@
     {% include 'navbar.html' %}
     <!-- this holds the actual content from each individual page -->
     <!-- the container has margins, eliminate them with container fluid -->
-    <div class='container'>
+    <div class='container-fluid'>
         {% block content %}
         {% endblock content %}
     </div>
@@ -158,7 +161,7 @@
             verb = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>'
           }
 
-          var container = '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;"><div class="card" style="width: 16rem;"><img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here"><div class="card-body">' + '<h5 class="card-title">' + partyValue.title + '</h5>' + '<p class="card-text"><span class="description">' + partyValue.short_description + '</span></p>' + '</div><div class="card-footer"><small class="text-muted">With <a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a><br>' + partyValue.party_time_display + '</small><a href="#" class="starBtn ml-5 text-dark" data-id="' + partyValue.id + '">' + verb + '</a></div></div></a>'
+          var container = '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;"><div class="card" style="max-width: 16rem;"><img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here"><div class="card-body">' + '<h5 class="card-title">' + partyValue.title + '</h5>' + '<p class="card-text"><span class="description">' + partyValue.short_description + '</span></p>' + '</div><div class="card-footer"><small class="text-muted">With <a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a><br>' + partyValue.party_time_display + '</small><div class="float-right"><a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + verb + '</a></div></div></div></a>'
 
           return container
         }

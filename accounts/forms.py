@@ -1,9 +1,13 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+
+from .models import UserProfile
 
 User = get_user_model()
 
-# these are the fields for 
+# these are the fields for building users
 class UserRegisterForm(forms.Form):
 	username = forms.CharField()
 	email = forms.EmailField()
@@ -33,7 +37,26 @@ class UserRegisterForm(forms.Form):
 		return email	
 
 
+# for the user's profile
+class UserProfileModelForm(forms.ModelForm):
+	# the altered form fields are for formatting on the create page
+	bio = forms.CharField(label='', required=False, widget=forms.Textarea(
+		attrs={'placeholder': 'Bio', 'class': 'form-control', 'rows': 3}
+		), help_text='Feel free to share as much or as little as you like. Personal history, games you like to play, etc.')
+	
+	profile_picture = forms.ImageField(label='Profile Picture', required=False)
 
+	banner = forms.ImageField(label='Banner/cover photo', required=False)
 
+	class Meta:
+		model = UserProfile
+		fields = [
+			'bio',
+			'profile_picture',
+			'banner', 
+		]
+
+	
+	
 
 

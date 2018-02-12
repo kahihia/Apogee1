@@ -16,6 +16,10 @@ from .mixins import FormUserNeededMixin, UserOwnerMixin
 from .models import Party
 # Create your views here.
 
+
+# userownermixin doesnt work here. it only works on the update view 
+# because it is based on a form submission. It needs to be based purely
+# on the requesting user. Right now that check is on the delete-confirm page
 class PartyDeleteView(UserOwnerMixin, LoginRequiredMixin, DeleteView):
 	model = Party
 	template_name = 'parties/delete_confirm.html'

@@ -17,57 +17,62 @@
 
 
 {% block content %}
-
-<div class='row mt-4'>
-	<!-- left column -->
-	<div class='col-sm-3'>
-		<div class='col-sm-12'>
-			<h3>{{ object.username }}</h3>
-			<p>
-				<!-- gets the follow url via method in the model -->
-				<a class='btn btn-outline-secondary' href='{{ object.profile.get_follow_url }}'>
-					<!-- uses following context from the detailview to set text -->
-					{% if following %}Unfollow{% else %}Follow{% endif %}
-				</a>
-			</p>
-			<hr>
-			<h4>Following <small>{{ object.profile.get_following.count }}</small></h4>
-			<!-- through user, calls who they follow.
-			this gets actual user instances -->
-			{% for user in object.profile.get_following %}
-				<a class='text-dark' href='/profiles/{{ user.username }}'>{{ user.username }}</a><br>
-			{% empty %}
-				<p>Not following anyone</p>
-			{% endfor %}
-			<hr>
-
-			<h4>Followers <small>{{ object.followed_by.all.count }}</small></h4>
-			<!-- through user, calls who they are followed by.
-			it gets us the userprofile model of the people that follow us.
-			to get the actual username. we have to get the user associated
-			with that profile and then get the username -->
-			{% for profile in object.followed_by.all %}
-				<a class='text-dark' href='/profiles/{{ profile.user.username }}'>{{ profile.user.username }}</a><br>
-			{% empty %}
-				<p>No followers</p>
-			{% endfor %}
-			<hr>
-
-			<h4>Recommended users</h4>
-			{% recommended request.user %}
+<!-- this contains all our profile info -->
+<div class='row grey-background'>
+	<div class='col-sm-10 offset-sm-1'>
+		{% if object.profile.banner %}
+		<img src='{{ object.profile.banner.url }}' class='img-fluid rounded mx-auto d-block' style='max-height: 350;'>
+		{% else %}
+		<!-- <img src='/media/banners/blank_banner.png' class='img-fluid rounded mx-auto d-block' style='max-height: 350;'> -->
+		{% endif %}
+	</div>
+</div>
+<div class='row grey-background'>
+	<div class='col-sm-2 offset-sm-1 my-3'>
+		{% if object.profile.profile_picture %}
+		<img src='{{ object.profile.profile_picture.url }}' class="img-thumbnail rounded-circle float-left" style='max-height: 150;'>
+		{% else %}
+		<img src='/media/profile_pics/blank_profile.png' class="img-thumbnail rounded-circle float-left" style='max-height: 150;'>
+		{% endif %}
+	</div>
+	<div class='col-sm-6 my-3'>
+		<h2>{{ object.username }}</h2>
+		<p>{{ object.profile.bio }}</p>
+		<div class='row'>
+			<div class='col-sm-4'>
+				<p>{{ object.followed_by.all.count }} <small>Followers</small></p>
+			</div>
+			<div class='col-sm-4'>
+				<p>{{ object.profile.get_following.count }} <small>Following</small></p>
+			</div>
+			<div class='col-sm-4'>
+				<p>{{ object.profile.event_count.count }} <small>Events</small></p>
+			</div>	
 		</div>
 	</div>
+	<div class='col-sm-2 my-3 text-right'>
+		{% if object == request.user %}
+		<!-- blank because we dont need the follow button on your own profile -->
+		{% else %}
+		<!-- gets the follow url via method in the model -->
+		<a class='btn btn-outline-secondary mr-auto' href='{{ object.profile.get_follow_url }}'>
+			<!-- uses following context from the detailview to set text -->
+			{% if following %}Unfollow{% else %}Follow{% endif %}
+		</a>
+		{% endif %}
+	</div>
+</div>
 
-	<!-- right column -->
-	<div class='col-sm-9'>
-		<h1>Events</h1><hr>
+<!-- this contains the actual events -->
+<div class='row mt-5'>
+	<div class='col-sm-10 offset-sm-1'>
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
-		<div class='card-deck' id='party-container' data-url='/api/{{ user.username }}/events/'></div>
+		<div class='card-deck d-flex justify-content-around' id='party-container' data-url='/api/{{ user.username }}/events/'></div>
 
 		<!-- this is our load more button for the pagination -->
-		<button type="button" class="btn btn-outline-secondary btn-sm" id='loadmore'>Show More Events</button>
+		<button type="button" class="btn btn-outline-secondary btn-sm btn-block" id='loadmore'>Show More Events</button>
 		<!-- this lists the load button off of the bottom -->
 		<br><p></p>		
 	</div>	

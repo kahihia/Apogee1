@@ -5,8 +5,12 @@
 {% endblock title %}
 
 {% block content %}
+{% if request.user == object.user %}
 	<form action="" method="post">{% csrf_token %}
 	    <p>Are you sure you want to delete the event "{{ object }}"?</p>
 	    <input type="submit" value="Confirm" />
 	</form>
+{% else %}
+	<h3><strong>You don't own this event</strong></h3>
+{% endif %}
 {% endblock content %}
