@@ -19,6 +19,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	did_star = serializers.SerializerMethodField()
 	thumbnail_url = serializers.SerializerMethodField()
 	short_description = serializers.SerializerMethodField()
+	joins = serializers.SerializerMethodField()
+	did_join = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Party
@@ -36,6 +38,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'did_star',
 			'thumbnail_url',
 			'short_description',
+			'joins', 
+			'did_join',
 		]
 
 	def get_short_description(self, obj):
@@ -44,6 +48,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	def get_thumbnail_url(self, obj):
 		return obj.thumbnail.url
 
+	# requires try block because it may throw an error
 	def get_did_star(self, obj):
 		request = self.context.get('request')
 		try: 
@@ -55,8 +60,22 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			pass
 		return False
 
+	def get_did_join(self, obj):
+		request = self.context.get('request')
+		try: 
+			user = request.user
+			if user.is_authenticated:
+				if user in obj.joined.all():
+					return True
+		except:
+			pass
+		return False
+
 	def get_stars(self, obj):
 		return obj.starred.all().count()
+
+	def get_joins(self, obj):
+		return obj.joined.all().count()
 
 	def get_party_time_display(self, obj):
 		# strftime is python datetime method. the localtime call 

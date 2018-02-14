@@ -19,8 +19,17 @@ class PartyManager(models.Manager):
 			party_obj.starred.add(user)
 		return is_starred
 
-	def get_starred_by(self, user, party_obj):
-		return party_obj.starred.all()
+	def join_toggle(self, user, party_obj):
+		if user in party_obj.joined.all():
+			is_joined = True
+		else:
+			is_joined = True
+			party_obj.joined.add(user)
+		return is_joined
+
+	# this was misnamed. starred by generally refers to the list of things that 
+	# def get_starred_by(self, user, party_obj):
+	# 	return party_obj.starred.all()
 
 
 
@@ -44,9 +53,15 @@ class Party(models.Model):
 						blank=True, 
 						related_name='starred_by'
 					)
+	# joined contains the users that have joined the event. that means that
+	# joined_by includes all the events that a user has joined
+	joined 			= models.ManyToManyField(
+						settings.AUTH_USER_MODEL, 
+						blank=True, 
+						related_name='joined_by'
+					)
 	thumbnail 		= models.ImageField(upload_to='thumbnails/%Y/%m/%d/')
 
-	# ImageField for the thumbnail
 	# CharField for duration
 	# IntegerField for entry cost
 

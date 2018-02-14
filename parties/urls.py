@@ -10,6 +10,7 @@ from .views import (
 		PartyDeleteView, 
 		FollowingListView,
 		StarredListView,
+		JoinedListView,
 	)
 
 app_name = 'parties'
@@ -19,6 +20,7 @@ urlpatterns = [
     path('search/', PartyListView.as_view(), name='list'), # /search/?q=
     path('following/', FollowingListView.as_view(), name='following-list'), # /search/?q=
     path('starred/', StarredListView.as_view(), name='starred-list'),
+    path('joined/', JoinedListView.as_view(), name='joined-list'),
     path('<int:pk>/', PartyDetailView.as_view(), name='detail'), # /1
     path('create/', PartyCreateView.as_view(), name='create'), # /create
     path('<int:pk>/update/', PartyUpdateView.as_view(), name='update'), # /1/update

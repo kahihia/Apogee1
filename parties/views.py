@@ -98,6 +98,16 @@ class StarredListView(LoginRequiredMixin, ListView):
 		context = super(StarredListView, self).get_context_data(*args, **kwargs)
 		return context
 
+
+class JoinedListView(LoginRequiredMixin, ListView):
+	template_name = 'parties/joined_list.html'
+	def get_queryset(self, *args, **kwargs):
+		qs = Party.objects.all()
+		return qs
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(JoinedListView, self).get_context_data(*args, **kwargs)
+		return context
 # these are the inner workings of how the class based views actually render
 # def party_detail_view(request, id=1):
 # 	obj = Party.objects.get(id=id) # gets from database

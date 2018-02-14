@@ -134,6 +134,39 @@
         })
 
 
+        // this is the join function
+        $(document.body).on('click', '.joinBtn', function(e){
+          e.preventDefault()
+          var this_ = $(this)
+          // selector for the button
+          var partyID = this_.attr('data-id')
+          // api endpoint
+          var joinedUrl = '/api/events/' + partyID + '/join/'
+          $.ajax({
+            method: 'GET',
+            url: joinedUrl,
+            success: function(data){
+              // the api handles updating the database 
+            }, 
+            error: function(data){
+              console.log('error')
+              console.log(data)
+            }
+          })
+        })
+
+
+        // this controls the display of the join button
+        $(document.body).on('click', '.joinDisplay', function(e){
+          e.preventDefault()
+          var this_ = $(this)
+          var text = this_.text()
+          this_.addClass('disabled')
+          
+          if (text == 'Enter') {
+            this_.text('Joined')
+          } 
+        })
 
         // this allows search along hashtags. 
         // could be useful for categorization
@@ -161,43 +194,72 @@
             verb = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>'
           }
 
-          var container = '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;"><div class="card" style="max-width: 16rem;"><img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here"><div class="card-body">' + '<h5 class="card-title">' + partyValue.title + '</h5>' + '<p class="card-text"><span class="description">' + partyValue.short_description + '</span></p>' + '</div><div class="card-footer"><small class="text-muted">With <a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a><br>' + partyValue.party_time_display + '</small><div class="float-right"><a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + verb + '</a></div></div></div></a>'
+          var container =  
+          '<div class="card" style="max-width: 16rem;">' + 
+            '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
+              '<img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
+            '</a>' +
+            '<div class="card-body">' + 
+              '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
+                '<h5 class="card-title">' + partyValue.title + '</h5>' + 
+                '<p class="card-text"><span class="description">' + partyValue.short_description + '</span></p>' + 
+              '</a>' +
+            '</div>' + 
+            '<div class="card-footer">' + 
+              '<small class="text-muted">With ' + 
+                '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a><br>' + partyValue.party_time_display + 
+              '</small>' + 
+              '<span class="float-right">' + 
+                '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + verb + '</a>' + 
+              '</span>' + 
+            '</div>' + 
+          '</div>'
 
           return container
         }
 
 
-        // this method actually pushes individual events to the page
-        // the prepend just tells us if we should put it in the front 
-        // that's only useul for the homepage creation, which we dont use
-        // function attachParty(partyValue, prepend){
-        //   var partyFormattedHtml = formatParty(partyValue)
+        function formatSingle(partyValue){
+          var star_verb = '<i class="fa fa-star grey-color" aria-hidden="true"></i>'
+          if (partyValue.did_star){
+            star_verb = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>'
+          }
 
-        //   if (prepend == true){
-        //     partyContainer.prepend(partyFormattedHtml)
-        //   } else {
-        //     partyContainer.append(partyFormattedHtml)
-        //   }
-        // }
+          var join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '">Enter</button>'
+          if (partyValue.did_join) {
+            join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' + partyValue.id + '">Joined</button>'
+          }
 
-        // this goes through the api list and and calls attachment on each
-        // function parseParties(){
-        //   if (partyList == 0) {
-        //     partyContainer.text('No events :(')
-        //   } else if (partyList.length <= 3){
-        //     // if there are 3 or less events, put them in one row
-        //     $.each(partyList, function(key, value){
-        //       var partyKey = key;
-        //       attachParty(value) // individual attach method
-        //     })
-        //   } else {
-        //     // if there are more, put them in two containers
-        //     $.each(partyList, function(key, value){
-        //       var partyKey = key;
-        //       attachParty(value) // individual attach method
-        //     })
-        //   }
-        // }
+          var container =
+          '<div class="row mt-3">' +
+            '<div class="col-sm-4">' +  
+              '<img class="img-fluid rounded mx-auto" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
+            '</div>' +
+            '<div class="col-sm-8">' +
+              '<h1>' + partyValue.title + 
+                '<span class="float-right">' + 
+                  '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + star_verb + '</a>' + 
+                '</span>' + 
+              '</h1>' +
+              '<small class="text-muted">With ' + 
+                '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a> On ' + partyValue.party_time_display + 
+              '</small><br>' + 
+              '<p class="lead mt-4">' + partyValue.description + '</p>' + 
+            '</div>' +
+          '</div>' +
+          '<div class="row mt-3">' + 
+            '<div class="col-sm-12">' + 
+              '<p>Price Info goes here</p>' +
+            '</div>' +
+            '<div class="col-sm-12">' + 
+              '<p>' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
+            '</div>' +
+          '</div>' +
+          '<div class="row">' + join_verb + '</div>'
+
+          return container
+        }
+
 
         // reworked version of the parseParties call
         // this creates sets of deck elements and populates them with the proper
@@ -223,6 +285,14 @@
               partyContainer.append(deckHTML)
             }
           }
+        }
+
+
+        // The detail view version of parseparties
+        function parseSingle(){
+          var partyValue = partyList[0]
+          var partyFormattedHtml = formatSingle(partyValue)
+          partyContainer.append(partyFormattedHtml) 
         }
 
 
@@ -276,7 +346,7 @@
             success: function(data){
               console.log(data)
               partyList = data.results
-              parseParties()
+              parseSingle()
               updateHashLinks()
             }, 
             error: function(data){
@@ -309,64 +379,6 @@
             fetchParties(nextPartyUrl)
           }
         })
-
-
-        // stuff for tweeting from the home page async
-        // 
-        // this is the method to display remaining characters
-        // might want to use it on the title, but may not be super important
-        // selector pulls the form with this id
-        // var charsStart = 140;
-        // var charsCurrent = 0;
-        // $('#party-form').append('<span id="titleCharsLeft">' + charsStart + '</span>')
-        // $('#party-form textarea').keyup(function(event){
-        //  var partyValue = $(this).val()
-        //  charsCurrent = charsStart - partyValue.length
-        //  var spanChars = $('#titleCharsLeft')
-        //  spanChars.text(charsCurrent)
-
-        //  // changes color
-        //  if (charsCurrent > 0) {
-        //    spanChars.removeClass('grey-color')
-        //    spanChars.removeClass('red-color')
-        //  } else if (charsCurrent == 0) {
-        //    spanChars.removeClass('red-color')
-        //    spanChars.addClass('grey-color')
-        //  } else if (charsCurrent < 0) {
-        //    spanChars.removeClass('grey-color')
-        //    spanChars.addClass('red-color')
-        //  }
-        // })
-
-        // // the submit call would submit the create form if 
-        // // there was one on the list page
-        // $('#party-form').submit(function(event){
-        //  event.preventDefault() // blocks the submission??
-        //  var this_ = $(this) // gets the object in the form
-        //  var formData = this_.serialize() // makes it JSON readable
-
-        //  // if its not too long
-        //  if (charsCurrent >= 0){
-        //    $.ajax({
-        //      url: '/api/events/create', 
-        //      data: formData, 
-        //      method: 'POST', 
-        //      success: function(data){
-        //        // clears the form
-        //        this_.find('input[type=text], textarea').val('')
-        //        // we want to append this to the list immediately
-        //        attachParty(data, true)
-        //        updateHashLinks()
-        //      }, 
-        //      error: function(data){
-        //        console.log('error')
-        //        console.log(data)
-        //      }
-        //    })
-        //  } else {
-        //    console.log('too long')
-        //  } 
-        // })
       }
     </script>
 

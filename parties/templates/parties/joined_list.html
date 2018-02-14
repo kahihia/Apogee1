@@ -2,7 +2,7 @@
 
 <!-- sets the tab info -->
 {% block title %}
-	Starred | {{ block.super }}
+	Joined | {{ block.super }}
 {% endblock title %}
 
 <!-- contains our custom JS -->
@@ -10,7 +10,7 @@
 <script>
 	// runs when page DOM is ready
 	$(document).ready(function(){
-		loadPartyContainer('starred-container')
+		loadPartyContainer('joined-container')
 	});
 </script>
 {% endblock script %}
@@ -24,7 +24,7 @@
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
-		<div class='card-deck d-flex justify-content-around' id='starred-container' data-url='/api/events/starred/'></div>
+		<div class='card-deck d-flex justify-content-around' id='joined-container' data-url='/api/events/joined/'></div>
 
 		<!-- this is our load more button for the pagination -->
 		<button type="button" class="btn btn-outline-secondary btn-sm btn-block" id='loadmore'>Show More Events</button>
