@@ -17,32 +17,38 @@
 
 <!-- contains our custom html and django stuff -->
 {% block content %}
-<div class='row'>
-	<div class="col-sm-12 mt-3">
+<!-- <div class='row'>
+	<div class="col-sm-12 mt-3 ml-3">
 		{% if request.GET.q %}
-			<p class='lead'>Results for "{{ request.GET.q }}"</p><hr>
+			<p class='lead'>Results for "{{ request.GET.q }}"</p>
 		{% endif %}
 	</div>
-	<div class='col-sm-9 mt-2'>
-		<h3>Events</h3><hr>
+</div> -->
+<div class='row'>
+	<!-- left side column -->
+	<div class='col-sm-3 grey-background rounded'>
+		<div class='col-sm-12 mt-3'>
+			<h1>Users</h1><hr>
+		</div>
+		<div class='col-sm-12'>
+			{% for user in users %}
+				<a class='text-dark ' href='/profiles/{{ user.username }}/'>{{ user.username }}</a><br>
+			{% empty %}
+				<p>No users found.</p>
+			{% endfor %}
+		</div>
+	</div>
+
+	<div class='col-sm-9 mt-3'>
+		<h1>Events</h1><hr>
 
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
-		<div class='card-deck' id='party-container' data-url='/api/search/'></div>
+		<div class='card-deck ml-1' id='party-container' data-url='/api/search/'></div>
 
 		<!-- this is our load more button for the pagination -->
-		<a href='#' id='loadmore'>Show More Events</a>
-	</div>
-
-	<!-- right side column -->
-	<div class='col-sm-3 mt-2'>
-		<h3>Users</h3><hr>
-		{% for user in users %}
-			<a href='/profiles/{{ user.username }}/'>{{ user.username }}</a><hr>
-		{% empty %}
-			<p>No users found.</p>
-		{% endfor %}
+		<button type="button" class="btn btn-outline-secondary btn-block" id='loadmore'>Show More Events</button>
 	</div>
 </div>
 {% endblock content %}

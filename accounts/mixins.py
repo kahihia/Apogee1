@@ -5,7 +5,7 @@ from django.forms.utils import ErrorList
 class ProfileOwnerMixin(object):
 	def form_valid(self, form):
 		if form.instance.user == self.request.user:
-			return super(UserOwnerMixin, self).form_valid(form)
+			return super(ProfileOwnerMixin, self).form_valid(form)
 		else:
 			form._errors[forms.forms.NON_FIELD_ERRORS] = ErrorList(["You don't own this profile."])
 			return self.form_invalid(form)
