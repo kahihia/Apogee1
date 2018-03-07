@@ -2,6 +2,7 @@ from django.utils.timesince import timeuntil
 from django.utils import timezone
 from django.template.defaultfilters import truncatechars
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 from parties.models import Party 
 from accounts.api.serializers import UserDisplaySerializer
@@ -22,6 +23,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	joins = serializers.SerializerMethodField()
 	did_join = serializers.SerializerMethodField()
 	winner_names = serializers.SerializerMethodField()
+	is_owner = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Party
@@ -42,8 +44,21 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'joins', 
 			'did_join',
 			'winner_names',
+			'is_owner',
 		]
 
+	def get_is_owner(self, obj):
+		request = self.context.get('request')
+		try:
+			user = request.user
+			if user.is_authenticated:
+				if user == obj.user:
+					return True
+		except:
+			pass
+		return False
+
+	# we use winner names because the winner list itself just contains the primary keys
 	def get_winner_names(self, obj):
 		names = []
 		w = obj.winners.all()

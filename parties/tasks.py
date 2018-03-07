@@ -19,7 +19,7 @@ def pick_winner(party_id):
 		pool = party.joined.all().order_by('?')
 		print (pool)
 		# the winner is just the top of the random stack
-		winner = pool[0]
+		winner = pool.first()
 		print (winner)
 		# use an add method to add the winner to winners many to many
 		Party.objects.win_toggle(winner, party)

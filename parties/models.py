@@ -1,4 +1,5 @@
 import re
+import pytz
 from datetime import timedelta
 from django.db.models.signals import post_save
 from django.conf import settings
@@ -98,7 +99,7 @@ class Party(models.Model):
 	# this calls our celery task to get a winner
 	def schedule_pick_winner(self):
 		pick_time = self.party_time - timedelta(minutes=10)
-
+		# .astimezone(pytz.utc)
 		# brings in the pick winner method
 		from .tasks import pick_winner
 		result = pick_winner.apply_async((self.pk,), eta=pick_time)

@@ -41,8 +41,8 @@ class PartyModelForm(forms.ModelForm):
         }
 
 	# ensures that the event cannot be scheduled for the past. 
-	# def clean_party_time(self, *args, **kwargs):
-	# 	party_time = self.cleaned_data.get('party_time')
-	# 	if party_time < timezone.now():
-	# 		raise forms.ValidationError('Event cannot be in the past.')
-	# 	return party_time
+	def clean_party_time(self, *args, **kwargs):
+		party_time = self.cleaned_data.get('party_time')
+		if party_time < timezone.now():
+			raise forms.ValidationError('Event cannot be in the past.')
+		return party_time

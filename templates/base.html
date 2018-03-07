@@ -230,9 +230,12 @@
             star_verb = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>'
           }
 
-          var join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '">Enter</button>'
-          if (partyValue.did_join) {
-            join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' + partyValue.id + '">Joined</button>'
+          var join_verb = ''
+          if (!partyValue.is_owner){
+              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '">Enter</button>'
+            if (partyValue.did_join) {
+              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' + partyValue.id + '">Joined</button>'
+            }
           }
 
           var winner = ''
