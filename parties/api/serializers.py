@@ -21,6 +21,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	short_description = serializers.SerializerMethodField()
 	joins = serializers.SerializerMethodField()
 	did_join = serializers.SerializerMethodField()
+	winner_names = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Party
@@ -40,7 +41,15 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'short_description',
 			'joins', 
 			'did_join',
+			'winner_names',
 		]
+
+	def get_winner_names(self, obj):
+		names = []
+		w = obj.winners.all()
+		for user in w:
+			names.append(user.username)
+		return names
 
 	def get_short_description(self, obj):
 		return truncatechars(obj.description, 40)

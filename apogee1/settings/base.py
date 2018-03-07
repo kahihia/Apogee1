@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# points us back to the root folder, where manage.py is
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
@@ -56,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # from django docs for setting the current session timezone
+    'parties.middleware.TimezoneMiddleware',
 ]
 
 ROOT_URLCONF = 'apogee1.urls'
@@ -63,10 +66,15 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 
+# Address of RabbitMQ instance, our Celery broker
+CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_BROKER_POOL_LIMIT = 8
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # this tells us where our html is coming from 
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -128,5 +137,31 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
+# sets the base url for our static serve
+# it's currently local, but if we used AWS or something, we would send it there
 STATIC_URL = '/static/'
+
+# where our static files exist at the start
+# will not be served, just long term storage
+STATICFILES_DIRS = [
+# BASE_DIR is the root of the django project
+    os.path.join(BASE_DIR, "static-storage"),
+]
+
+# tells us where the static files exist at the end
+# in production, this should be done by a cdn, not django
+# will be served
+STATIC_ROOT = os.path.join(BASE_DIR, "static-serve")
+
+
+# this holds our media stuff like thumbnails and profile pics
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+
+
+

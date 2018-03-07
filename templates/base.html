@@ -16,6 +16,7 @@
     <script src="https://use.fontawesome.com/3af7201741.js"></script>
 
     <!-- additional css for changing colors -->
+    <!-- build set of global variables n static -->
     <style>
       .apogee-btn {
         color: black;
@@ -91,6 +92,7 @@
         // this links to the following page in the api
         var nextPartyUrl;
         // this is the selector for where we're putting the party info
+        // 
         var partyContainer;
         if (partyContainerID){
           partyContainer = $('#' + partyContainerID)
@@ -105,6 +107,8 @@
         // users to track events as they progress.
         $(document.body).on('click', '.starBtn', function(e){
           e.preventDefault()
+          // make sure these variables are let, not var. var is global,  so it doesnt 
+          // handle scope properly
           var this_ = $(this)
           // selector for the button
           var partyID = this_.attr('data-id')
@@ -145,6 +149,7 @@
           $.ajax({
             method: 'GET',
             url: joinedUrl,
+            // dont need the success error block is they arent doing anything
             success: function(data){
               // the api handles updating the database 
             }, 
@@ -162,7 +167,7 @@
           var this_ = $(this)
           var text = this_.text()
           this_.addClass('disabled')
-          
+          // check the class or something else. string comparison is not good
           if (text == 'Enter') {
             this_.text('Joined')
           } 
@@ -193,7 +198,7 @@
           if (partyValue.did_star){
             verb = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>'
           }
-
+          // redo string formatting
           var container =  
           '<div class="card" style="max-width: 16rem;">' + 
             '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
@@ -214,7 +219,7 @@
               '</span>' + 
             '</div>' + 
           '</div>'
-
+          // just return it immediately
           return container
         }
 
@@ -228,6 +233,11 @@
           var join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '">Enter</button>'
           if (partyValue.did_join) {
             join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' + partyValue.id + '">Joined</button>'
+          }
+
+          var winner = ''
+          if (partyValue.winner_names.length > 0) {
+            winner = '<div class="row mt-3"><h1> ' + partyValue.winner_names + ' is the winner!</h1></div>'
           }
 
           var container =
@@ -255,7 +265,8 @@
               '<p>' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
             '</div>' +
           '</div>' +
-          '<div class="row">' + join_verb + '</div>'
+          '<div class="row">' + join_verb + '</div>' +
+          winner
 
           return container
         }
@@ -270,6 +281,7 @@
           if (partyList == 0) {
             partyContainer.text('No events :(')
           } else {
+            // make global variable, make responsive
             var handSize = 3
             for (var deck = 0; deck < partyList.length; deck += handSize) {
               var deckHTML = '<div class="card-deck mb-4">'

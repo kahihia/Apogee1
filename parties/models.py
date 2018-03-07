@@ -1,4 +1,5 @@
 import re
+from datetime import timedelta
 from django.db.models.signals import post_save
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -7,6 +8,7 @@ from django.urls import reverse
 
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
+from apogee1.settings import celery_app
 
 # Create your models here.
 class PartyManager(models.Manager):
@@ -26,6 +28,14 @@ class PartyManager(models.Manager):
 			is_joined = True
 			party_obj.joined.add(user)
 		return is_joined
+
+	def win_toggle(self, user, party_obj):
+		if user in party_obj.winners.all():
+			won = True
+		else:
+			won = True
+			party_obj.winners.add(user)
+		return won
 
 	# this was misnamed. starred by generally refers to the list of things that 
 	# def get_starred_by(self, user, party_obj):
@@ -60,7 +70,17 @@ class Party(models.Model):
 						blank=True, 
 						related_name='joined_by'
 					)
+	# winners contains the joined users that have been randomly selected
+	# won_by includes all the events a user has won
+	winners  		= models.ManyToManyField(
+						settings.AUTH_USER_MODEL, 
+						blank=True, 
+						related_name='won_by'
+					)
 	thumbnail 		= models.ImageField(upload_to='thumbnails/%Y/%m/%d/')
+	# task_id is the celery identifier, used to make sure that we don't 
+	# duplicate picking winners
+	task_id			= models.CharField(max_length=50, blank=True, editable=False)
 
 	# CharField for duration
 	# IntegerField for entry cost
@@ -75,9 +95,29 @@ class Party(models.Model):
 	def __str__(self):
 		return str(self.title) 
 
+	# this calls our celery task to get a winner
+	def schedule_pick_winner(self):
+		pick_time = self.party_time - timedelta(minutes=10)
+
+		# brings in the pick winner method
+		from .tasks import pick_winner
+		result = pick_winner.apply_async((self.pk,), eta=pick_time)
+		return result.id
+
 	# used to change the dataset ordering
 	class Meta:
 		ordering = ['-time_created']
+
+	# overrides the save method to make sure pick_winner is scheduled
+	def save(self, *args, **kwargs):
+		# if we've already shceduled it, as in we're editing, cancel it
+		if self.task_id:
+			celery_app.control.revoke(self.task_id)
+		# we call save twice because we have to set the pk before we schedule
+		# then we set the task_id as the party id, then we save again
+		super(Party, self).save(*args, **kwargs)
+		self.task_id = self.schedule_pick_winner()
+		super(Party, self).save(*args, **kwargs)
 
 
 	# this validation is called anytime you save a model

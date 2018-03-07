@@ -1,3 +1,4 @@
+from __future__ import unicode_literals, absolute_import
 # this allows the setting folder to look like a module
 
 # base is loaded first
@@ -12,3 +13,9 @@ try:
 	from .local import *
 except:
 	pass
+
+# This will make sure the app is always imported when
+# Django starts so that shared_task will use this app.
+from .celery import app as celery_app
+
+__all__ = ['celery_app']
