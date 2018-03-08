@@ -198,6 +198,11 @@
           if (partyValue.did_star){
             verb = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>'
           }
+
+          var price = '$' + partyValue.cost
+          if (partyValue.cost == 0) {
+            price = "FREE"
+          }
           // redo string formatting
           var container =  
           '<div class="card" style="max-width: 16rem;">' + 
@@ -212,7 +217,9 @@
             '</div>' + 
             '<div class="card-footer">' + 
               '<small class="text-muted">With ' + 
-                '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a><br>' + partyValue.party_time_display + 
+                '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a>' + 
+                '<span class="float-right">' + price + '</span>' +
+                '<br>' + partyValue.party_time_display + 
               '</small>' + 
               '<span class="float-right">' + 
                 '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + verb + '</a>' + 
@@ -243,6 +250,11 @@
             winner = '<div class="row mt-3"><h1> ' + partyValue.winner_names + ' is the winner!</h1></div>'
           }
 
+          var price = '$' + partyValue.cost
+          if (partyValue.cost == 0) {
+            price = "FREE"
+          }
+
           var container =
           '<div class="row mt-3">' +
             '<div class="col-sm-4">' +  
@@ -262,7 +274,7 @@
           '</div>' +
           '<div class="row mt-3">' + 
             '<div class="col-sm-12">' + 
-              '<p>Price Info goes here</p>' +
+              '<p>' + price + '</p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
               '<p>' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +

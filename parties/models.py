@@ -83,6 +83,8 @@ class Party(models.Model):
 	# duplicate picking winners
 	task_id			= models.CharField(max_length=50, blank=True, editable=False)
 
+	cost 			= models.DecimalField(max_digits=7, decimal_places=2, default=0)
+
 	# CharField for duration
 	# IntegerField for entry cost
 

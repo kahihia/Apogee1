@@ -45,6 +45,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'did_join',
 			'winner_names',
 			'is_owner',
+			'cost',
 		]
 
 	def get_is_owner(self, obj):

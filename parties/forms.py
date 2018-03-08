@@ -20,13 +20,17 @@ class PartyModelForm(forms.ModelForm):
 	
 	thumbnail = forms.ImageField(label='Thumbnail')
 
+	cost = forms.DecimalField(label='Cost ($)', min_value=0, widget=forms.NumberInput(
+		attrs={'placeholder': 'For a FREE event, enter 0', 'class': 'form-control'}))
+
 	class Meta:
 		model = Party
 		fields = [
 			'title',
 			'description',
 			'party_time', 
-			'thumbnail'
+			'cost',
+			'thumbnail', 
 		]
 
 		# dont think these will ever appear cause the fields have length limits on them 
