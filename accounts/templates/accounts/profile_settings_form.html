@@ -14,9 +14,9 @@
 		<!-- brings in the create/update form -->
 		{% load crispy_forms_tags %}
 
-		<!-- the id portion just allows us to call this with a particular id if we  want -->
 		<form class='form mt-3' method='POST' action='' enctype="multipart/form-data">
 			{% csrf_token %}
+			<!-- the view itself tells us which form to insert  -->
 		    {{ form|crispy }}
 		    <input class='btn btn-outline-secondary' type="submit" value='Save Changes' />
 		</form>

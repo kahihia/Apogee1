@@ -12,6 +12,7 @@
 
 
 {% block content %}
+<!-- this was built off of a django template -->
 <div class='col-sm-6 offset-sm-3 text-center mt-4'>
     <h1>Login</h1>
     {% if form.errors %}
@@ -45,6 +46,7 @@
     <input type="hidden" name="next" value="{{ next }}" />
     </form>
 
+    <!-- it's not set up currently -->
     {# Assumes you setup the password_reset view in your URLconf #}
     <!-- <p><a href="{% url 'password_reset' %}">Lost password?</a></p> -->
 </div>

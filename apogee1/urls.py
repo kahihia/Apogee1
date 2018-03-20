@@ -47,9 +47,11 @@ urlpatterns = [
     path('tz/', set_timezone, name='set_timezone'),
 ]
 
+# adds our static files, like css, js
 if settings.DEBUG:
 	urlpatterns += (static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
 
+# adds our media storage for things like thumbnails
 if settings.DEBUG:
     urlpatterns += (static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
 

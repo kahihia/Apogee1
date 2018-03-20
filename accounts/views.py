@@ -15,6 +15,7 @@ User = get_user_model()
 
 
 class UserRegisterView(FormView):
+	# specifies form, location, and where to redirect
 	form_class = UserRegisterForm
 	template_name = 'accounts/user_register_form.html'
 	success_url = '/accounts/login'

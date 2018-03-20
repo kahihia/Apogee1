@@ -4,24 +4,22 @@ from rest_framework import serializers
 
 User = get_user_model()
 
-# serializer the user data so that it is api readable
+# serializes the user data so that it is api readable
 class UserDisplaySerializer(serializers.ModelSerializer):
 	# this is called a method field, used to show better data
-	follower_count = serializers.SerializerMethodField()
+	# in a form that isnt readily available on the user model itself
 	url = serializers.SerializerMethodField()
 	class Meta:
 		model = User
+		# we name the fields here because we dont want to put all the info, like password
+		# on the api
 		fields = [
 			'username', 
 			'first_name', 
 			'last_name', 
-			'follower_count', 
 			'url'
 			# 'email'
 		]
-
-	def get_follower_count(self, obj):
-		return 0
 
 	def get_url(self, obj):
 		return reverse_lazy('profiles:detail', kwargs={'username': obj.username})

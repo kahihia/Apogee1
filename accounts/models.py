@@ -6,16 +6,15 @@ from django.urls import reverse_lazy
 from parties.models import Party
 # Create your models here.
 
-# we use this to override the all call
-# we want the all call to exclude ourselves
 class UserProfileManager(models.Manager):
 	# this means that both the user and followed_by have 
 	# these methods applied to them
 	use_for_related_fields = True
 
+	# we use this to override the all call
+	# we want the all call to exclude ourselves
 	def all(self):
 		qs = self.get_queryset().all()
-
 		# self.instance is the user
 		try:
 			if self.instance:
@@ -85,8 +84,10 @@ class UserProfile(models.Model):
 	bio = models.TextField(max_length=700, blank=True)
 
 	# this is the same as calling UserProfile.objects.all()
+	# it just connects to the manager
 	objects = UserProfileManager()
 
+	# when we print a user, it prints the username
 	def __str__(self):
 		return str(self.user.username)
 

@@ -14,6 +14,7 @@
 		<!-- the id portion just allows us to call this with a particular id if we  want -->
 		<form {% if form_id %} id='{{ form_id }}' {% endif %} class='form mt-3' method='POST' action=''>
 			{% csrf_token %}
+			<!-- form is specified in the view -->
 		    {{ form|crispy }}
 		    <input class='btn btn-outline-secondary' type="submit" value="Register" />
 		</form>

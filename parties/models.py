@@ -30,6 +30,7 @@ class PartyManager(models.Manager):
 			party_obj.joined.add(user)
 		return is_joined
 
+	# this isnt really a toggle. once you've been added, it sticks
 	def win_toggle(self, user, party_obj):
 		if user in party_obj.winners.all():
 			won = True
@@ -85,8 +86,8 @@ class Party(models.Model):
 
 	cost 			= models.DecimalField(max_digits=7, decimal_places=2, default=0)
 
-	# CharField for duration
-	# IntegerField for entry cost
+	# durationField for when to close it relative to the event time
+	# use small integerfield for event type? map 1 to lottery, 2 to buy, 3 to bid?
 
 	objects = PartyManager()
 	

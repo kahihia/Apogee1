@@ -76,7 +76,7 @@
       function getParameterByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
             results = regex.exec(url);
         if (!results) return null;
         if (!results[2]) return '';
@@ -86,34 +86,46 @@
 
       function loadPartyContainer(partyContainerID, fetchOneId) {
         // this grabs the search terms from the search bar
-        var query = getParameterByName('q');
+        let query = getParameterByName('q');
         // this is the set of events in the api
-        var partyList = [];
+        let partyList = [];
         // this links to the following page in the api
-        var nextPartyUrl;
+        let nextPartyUrl;
         // this is the selector for where we're putting the party info
         // 
-        var partyContainer;
+        let partyContainer;
         if (partyContainerID){
           partyContainer = $('#' + partyContainerID)
         } else {
           partyContainer = $('#party-container')
         }
         // starting url that allows us to get the api data. second is  default
-        var initialUrl = partyContainer.attr('data-url') || '/api/events/';
+        let initialUrl = partyContainer.attr('data-url') || '/api/events/';
+
+        // this needs to be built into a responsive variable so that we can 
+        // always have the correct number of events on each line
+        let handSize;
+
+        // these are repeated calls, so they've been converted to variables
+        let click = 'click';
+        let star_active = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>';
+        let star_inactive = '<i class="fa fa-star grey-color" aria-hidden="true"></i>';
+        let free = 'FREE';
+        let join = 'Enter';
+        let joined = 'Joined';
 
 
         // this is the favorite function. It wil be instrumental in enabling 
         // users to track events as they progress.
-        $(document.body).on('click', '.starBtn', function(e){
+        $(document.body).on(click, '.starBtn', function(e){
           e.preventDefault()
           // make sure these variables are let, not var. var is global,  so it doesnt 
           // handle scope properly
-          var this_ = $(this)
+          let this_ = $(this)
           // selector for the button
-          var partyID = this_.attr('data-id')
+          let partyID = this_.attr('data-id')
           // api endpoint
-          var starredUrl = '/api/events/' + partyID + '/star/'
+          let starredUrl = '/api/events/' + partyID + '/star/'
           $.ajax({
             method: 'GET',
             url: starredUrl,
@@ -130,22 +142,22 @@
 
 
         // this controls the display color of the favorite button
-        $(document.body).on('click', '.fa-star', function(e){
+        $(document.body).on(click, '.fa-star', function(e){
           e.preventDefault()
-          var this_ = $(this)
+          let this_ = $(this)
           this_.toggleClass('grey-color')
           this_.toggleClass('yellow-color')
         })
 
 
         // this is the join function
-        $(document.body).on('click', '.joinBtn', function(e){
+        $(document.body).on(click, '.joinBtn', function(e){
           e.preventDefault()
-          var this_ = $(this)
+          let this_ = $(this)
           // selector for the button
-          var partyID = this_.attr('data-id')
+          let partyID = this_.attr('data-id')
           // api endpoint
-          var joinedUrl = '/api/events/' + partyID + '/join/'
+          let joinedUrl = '/api/events/' + partyID + '/join/'
           $.ajax({
             method: 'GET',
             url: joinedUrl,
@@ -162,15 +174,13 @@
 
 
         // this controls the display of the join button
-        $(document.body).on('click', '.joinDisplay', function(e){
+        // anytime it is clicked, it should say joined, so it doesnt check anything
+        $(document.body).on(click, '.joinDisplay', function(e){
           e.preventDefault()
-          var this_ = $(this)
-          var text = this_.text()
+          let this_ = $(this)
+          let text = this_.text()
           this_.addClass('disabled')
-          // check the class or something else. string comparison is not good
-          if (text == 'Enter') {
-            this_.text('Joined')
-          } 
+          this_.text(joined)
         })
 
         // this allows search along hashtags. 
@@ -180,10 +190,10 @@
           // the span allows up to properly id the hashtags in the description
           // it will not highlight anf link a hashtag in the title
           $('.description').each(function(data){
-            var hashtagRegex = /(^|\s)#([\w\d-]+)/g // pulls hashtags
-            var usernameRegex = /(^|\s)@([\w\d-]+)/g // pulls user mentions
-            var currentHtml = $(this).html()
-            var newText;
+            let hashtagRegex = /(^|\s)#([\w\d-]+)/g // pulls hashtags
+            let usernameRegex = /(^|\s)@([\w\d-]+)/g // pulls user mentions
+            let currentHtml = $(this).html()
+            let newText;
             // the regex returns stuff before and after
             // the replace puts the before in and then makes a link for the after
             newText = currentHtml.replace(hashtagRegex, '$1<a class="text-dark" href="/tags/$2/">#$2</a>')
@@ -194,17 +204,17 @@
 
 
         function formatParty(partyValue){
-          var verb = '<i class="fa fa-star grey-color" aria-hidden="true"></i>'
+          let verb = star_inactive
           if (partyValue.did_star){
-            verb = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>'
+            verb = star_active
           }
 
-          var price = '$' + partyValue.cost
+          let price = '$' + partyValue.cost
           if (partyValue.cost == 0) {
-            price = "FREE"
+            price = free
           }
           // redo string formatting
-          var container =  
+          let container =  
           '<div class="card" style="max-width: 16rem;">' + 
             '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
               '<img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
@@ -232,30 +242,30 @@
 
 
         function formatSingle(partyValue){
-          var star_verb = '<i class="fa fa-star grey-color" aria-hidden="true"></i>'
+          let star_verb = star_inactive
           if (partyValue.did_star){
-            star_verb = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>'
+            star_verb = star_active
           }
 
-          var join_verb = ''
+          let join_verb = ''
           if (!partyValue.is_owner){
-              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '">Enter</button>'
+              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '">' + join + '</button>'
             if (partyValue.did_join) {
-              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' + partyValue.id + '">Joined</button>'
+              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' + partyValue.id + '">' + joined + '</button>'
             }
           }
 
-          var winner = ''
+          let winner = ''
           if (partyValue.winner_names.length > 0) {
             winner = '<div class="row mt-3"><h1> ' + partyValue.winner_names + ' is the winner!</h1></div>'
           }
 
-          var price = '$' + partyValue.cost
+          let price = '$' + partyValue.cost
           if (partyValue.cost == 0) {
-            price = "FREE"
+            price = free
           }
 
-          var container =
+          let container =
           '<div class="row mt-3">' +
             '<div class="col-sm-4">' +  
               '<img class="img-fluid rounded mx-auto" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
@@ -280,8 +290,7 @@
               '<p>' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
             '</div>' +
           '</div>' +
-          '<div class="row">' + join_verb + '</div>' +
-          winner
+          '<div class="row">' + join_verb + '</div>' + winner
 
           return container
         }
@@ -297,14 +306,14 @@
             partyContainer.text('No events :(')
           } else {
             // make global variable, make responsive
-            var handSize = 3
-            for (var deck = 0; deck < partyList.length; deck += handSize) {
-              var deckHTML = '<div class="card-deck mb-4">'
-              for (var card = 0; card < handSize; card++) {
-                var cardIndex = deck + card
+            handSize = 3
+            for (let deck = 0; deck < partyList.length; deck += handSize) {
+              let deckHTML = '<div class="card-deck mb-4">'
+              for (let card = 0; card < handSize; card++) {
+                let cardIndex = deck + card
                 if (cardIndex < partyList.length) {
-                  var partyValue = partyList[cardIndex]
-                  var partyFormattedHtml = formatParty(partyValue)
+                  let partyValue = partyList[cardIndex]
+                  let partyFormattedHtml = formatParty(partyValue)
                   deckHTML = deckHTML + partyFormattedHtml
                 }
               }
@@ -317,15 +326,15 @@
 
         // The detail view version of parseparties
         function parseSingle(){
-          var partyValue = partyList[0]
-          var partyFormattedHtml = formatSingle(partyValue)
+          let partyValue = partyList[0]
+          let partyFormattedHtml = formatSingle(partyValue)
           partyContainer.append(partyFormattedHtml) 
         }
 
 
         // this is the initial call to the api, which might include search terms
         function fetchParties(url){
-          var fetchUrl;
+          let fetchUrl;
 
           // if there isnt a url passed, its the first api page
           if (!url) {
@@ -365,7 +374,7 @@
           // leading slash appends it to the base url. 
           // no leading slash sends it to the url of the page its on
           // which would be /events/id/api/events/id 
-          var fetchDetailUrl = '/api/events/' + fetchOneId + '/'
+          let fetchDetailUrl = '/api/events/' + fetchOneId + '/'
           // actual call to api
           $.ajax({
             url: fetchDetailUrl, 
