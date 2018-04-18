@@ -253,11 +253,16 @@
             if (partyValue.did_join) {
               join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' + partyValue.id + '">' + joined + '</button>'
             }
+          } 
+          // replaces the join button with a closed message if the event is over
+          if (!partyValue.is_open) {
+            join_verb = '<p class="mx-auto lead text-center text-muted">This Event Has Ended</p>'
           }
+
 
           let winner = ''
           if (partyValue.winner_names.length > 0) {
-            winner = '<div class="row mt-3"><h1> ' + partyValue.winner_names + ' is the winner!</h1></div>'
+            winner = '<div class="row mt-3"><h1 class="mx-auto"> ' + partyValue.winner_names + ' is the winner!</h1></div>'
           }
 
           let price = '$' + partyValue.cost
@@ -290,7 +295,7 @@
               '<p>' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
             '</div>' +
           '</div>' +
-          '<div class="row">' + join_verb + '</div>' + winner
+          '<div class="row">' + join_verb + '</div>' + winner 
 
           return container
         }

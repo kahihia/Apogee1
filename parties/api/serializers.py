@@ -16,6 +16,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	party_time_display = serializers.SerializerMethodField()
 	timeuntil = serializers.SerializerMethodField()
 	time_created_display = serializers.SerializerMethodField()
+	is_open = serializers.SerializerMethodField()
 	stars = serializers.SerializerMethodField()
 	did_star = serializers.SerializerMethodField()
 	thumbnail_url = serializers.SerializerMethodField()
@@ -37,6 +38,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'party_time_display',
 			'timeuntil',
 			'time_created_display', 
+			'is_open',
 			'stars',
 			'did_star',
 			'thumbnail_url',
@@ -47,6 +49,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'is_owner',
 			'cost',
 		]
+
 
 	def get_is_owner(self, obj):
 		request = self.context.get('request')
@@ -111,6 +114,10 @@ class PartyModelSerializer(serializers.ModelSerializer):
 
 	def get_timeuntil(self, obj):
 		return timeuntil(obj.party_time)
+
+	# this compares the current time to th event time and tells us if it's closed
+	def get_is_open(self, obj):
+		return timezone.now()<obj.party_time
 
 	def get_time_created_display(self, obj):
 		# strftime is python datetime method
