@@ -247,6 +247,16 @@
             star_verb = star_active
           }
 
+          // this picks the text for the join button to show event type
+          if (partyValue.event_type == 1) {
+            join = "Enter Drawing"
+          } else if (partyValue.event_type == 2) {
+            join = "Submit a Bid"
+          } else if (partyValue.event_type == 3) {
+            join = "Buy Event"
+          }
+
+          // this sets the display of the button itself
           let join_verb = ''
           if (!partyValue.is_owner){
               join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '">' + join + '</button>'
@@ -289,10 +299,10 @@
           '</div>' +
           '<div class="row mt-3">' + 
             '<div class="col-sm-12">' + 
-              '<p>' + price + '</p>' +
+              '<p class="text-muted">' + price + '</p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p>' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
+              '<p class="text-muted">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
             '</div>' +
           '</div>' +
           '<div class="row">' + join_verb + '</div>' + winner 

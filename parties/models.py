@@ -86,6 +86,15 @@ class Party(models.Model):
 
 	cost 			= models.DecimalField(max_digits=7, decimal_places=2, default=0)
 
+
+	# declares our choices for event types
+	event_type		= models.IntegerField(
+						choices=(
+							(1, 'Drawing'), 
+							(2, 'Bid'), 
+							(3, 'Buy')),  
+						default=1)
+
 	# durationField for when to close it relative to the event time
 	# use small integerfield for event type? map 1 to lottery, 2 to buy, 3 to bid?
 

@@ -39,6 +39,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'timeuntil',
 			'time_created_display', 
 			'is_open',
+			'event_type', 
 			'stars',
 			'did_star',
 			'thumbnail_url',
@@ -50,6 +51,9 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'cost',
 		]
 
+	# method if you want the human readable format
+	# def get_readable_event_type(self, obj):
+	# 	return obj.get_event_type_display()
 
 	def get_is_owner(self, obj):
 		request = self.context.get('request')
