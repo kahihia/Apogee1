@@ -113,6 +113,9 @@
         let free = 'FREE';
         let join = 'Enter';
         let joined = 'Joined';
+        let drawing_icon = '<i class="fas fa-ticket-alt grey-color"></i>';
+        let bid_icon = '<i class="fas fa-gavel grey-color"></i>';
+        let buy_icon = '<i class="fa fa-donate grey-color"></i>';
 
 
         // this is the favorite function. It wil be instrumental in enabling 
@@ -216,11 +219,11 @@
 
           let type_icon = ''
           if (partyValue.event_type == 1) {
-            type_icon = '<i class="fas fa-gavel grey-color"></i>'
+            type_icon = drawing_icon
           } else if (partyValue.event_type == 2) {
-            type_icon = '<i class="fas fa-ticket-alt grey-color"></i>'
+            type_icon = bid_icon
           } else if (partyValue.event_type == 3) {
-            type_icon = '<i class="fa fa-donate grey-color"></i>'
+            type_icon = buy_icon
           }
 
           // redo string formatting
@@ -255,6 +258,16 @@
           let star_verb = star_inactive
           if (partyValue.did_star){
             star_verb = star_active
+          }
+
+          // selects icon next to price
+          let type_icon = ''
+          if (partyValue.event_type == 1) {
+            type_icon = drawing_icon
+          } else if (partyValue.event_type == 2) {
+            type_icon = bid_icon
+          } else if (partyValue.event_type == 3) {
+            type_icon = buy_icon
           }
 
           // this picks the text for the join button to show event type
@@ -309,7 +322,7 @@
           '</div>' +
           '<div class="row mt-3">' + 
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + price + '</p>' +
+              '<p class="text-muted">' + price + ' ' + type_icon + '</p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
               '<p class="text-muted">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
