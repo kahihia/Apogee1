@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- CDN for FontAwesome, which is where our little glyphicons come from -->
-    <script src="https://use.fontawesome.com/3af7201741.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
 
     <!-- additional css for changing colors -->
     <!-- build set of global variables n static -->
@@ -113,6 +113,9 @@
         let free = 'FREE';
         let join = 'Enter';
         let joined = 'Joined';
+        let drawing_icon = '<i class="fas fa-ticket-alt grey-color"></i>';
+        let bid_icon = '<i class="fas fa-gavel grey-color"></i>';
+        let buy_icon = '<i class="fa fa-donate grey-color"></i>';
 
 
         // this is the favorite function. It wil be instrumental in enabling 
@@ -213,6 +216,16 @@
           if (partyValue.cost == 0) {
             price = free
           }
+
+          let type_icon = ''
+          if (partyValue.event_type == 1) {
+            type_icon = drawing_icon
+          } else if (partyValue.event_type == 2) {
+            type_icon = bid_icon
+          } else if (partyValue.event_type == 3) {
+            type_icon = buy_icon
+          }
+
           // redo string formatting
           let container =  
           '<div class="card" style="max-width: 16rem;">' + 
@@ -228,7 +241,7 @@
             '<div class="card-footer">' + 
               '<small class="text-muted">With ' + 
                 '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a>' + 
-                '<span class="float-right">' + price + '</span>' +
+                '<span class="float-right">' + price + ' ' + type_icon + '</span>' +
                 '<br>' + partyValue.party_time_display + 
               '</small>' + 
               '<span class="float-right">' + 
@@ -247,6 +260,26 @@
             star_verb = star_active
           }
 
+          // selects icon next to price
+          let type_icon = ''
+          if (partyValue.event_type == 1) {
+            type_icon = drawing_icon
+          } else if (partyValue.event_type == 2) {
+            type_icon = bid_icon
+          } else if (partyValue.event_type == 3) {
+            type_icon = buy_icon
+          }
+
+          // this picks the text for the join button to show event type
+          if (partyValue.event_type == 1) {
+            join = "Enter Drawing"
+          } else if (partyValue.event_type == 2) {
+            join = "Submit a Bid"
+          } else if (partyValue.event_type == 3) {
+            join = "Buy Event"
+          }
+
+          // this sets the display of the button itself
           let join_verb = ''
           if (!partyValue.is_owner){
               join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '">' + join + '</button>'
@@ -289,10 +322,10 @@
           '</div>' +
           '<div class="row mt-3">' + 
             '<div class="col-sm-12">' + 
-              '<p>' + price + '</p>' +
+              '<p class="text-muted">' + price + ' ' + type_icon + '</p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p>' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
+              '<p class="text-muted">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
             '</div>' +
           '</div>' +
           '<div class="row">' + join_verb + '</div>' + winner 
