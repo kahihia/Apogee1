@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.views.generic import DetailView, FormView, UpdateView
 from django.contrib.auth import get_user_model
+# views tell us what info is displayed, what methods we have acess to, 
+# and what our rendering files are
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
@@ -13,14 +15,15 @@ from .mixins import ProfileOwnerMixin
 # Create your views here.
 User = get_user_model()
 
-
+# this view is for signing up a new user
 class UserRegisterView(FormView):
-	# specifies form, location, and where to redirect
+	# specifies form, location, and where to redirect after submission
 	form_class = UserRegisterForm
 	template_name = 'accounts/user_register_form.html'
 	success_url = '/accounts/login'
 
-	# actually create user here
+	# actually create user here. not sure why we do this, but i believe the cleaning
+	# prevents some security issues
 	def form_valid(self, form):
 		username = form.cleaned_data.get('username')
 		email = form.cleaned_data.get('email')
@@ -30,9 +33,12 @@ class UserRegisterView(FormView):
 		new_user.save()
 		return super(UserRegisterView, self).form_valid(form)
 
-
+# this is the view for an individual profile
 class UserDetailView(DetailView):
+	# this tells us where the rendering is
 	template_name = 'accounts/user_detail.html'
+	# queryset is required for a django detail view. it tells us what data 
+	# we are searching
 	queryset = User.objects.all()
 
 	# this method allows us to get the username from the url and 
@@ -44,6 +50,8 @@ class UserDetailView(DetailView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(UserDetailView, self).get_context_data(*args, **kwargs)
 		following = UserProfile.objects.is_following(self.request.user, self.get_object())
+		# in teh html, we call both following and recommended. this is how those 
+		# variables get passed through
 		context['following'] = following
 		context['recommended'] = UserProfile.objects.recommended(self.request.user)
 		return context
@@ -51,14 +59,19 @@ class UserDetailView(DetailView):
 # this is used to toggle following
 class UserFollowView(View):
 	def get(self, request, username, *args, **kwargs):
+		# this returns the object user we are trying to follow or nothing
 		toggle_user = get_object_or_404(User, username__iexact=username)
+		# you can only follow if you are signed in
 		if request.user.is_authenticated:
 			is_following = UserProfile.objects.toggle_follow(request.user, toggle_user)
+			# it redirects you to the same page you were on and updates the text on the button
 		return redirect('profiles:detail', username=username)
 
 
 # this is the profile settings page
+# the mixins ensure that you are both authenticated and the owner of the profile
 class UserProfileUpdateView(LoginRequiredMixin, ProfileOwnerMixin, UpdateView):
+	# this tells us what form we are using. its in forms.py
 	form_class = UserProfileModelForm
 	template_name = 'accounts/profile_settings_form.html'
 	queryset = UserProfile.objects.all()

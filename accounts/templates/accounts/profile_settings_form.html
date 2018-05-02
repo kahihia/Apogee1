@@ -1,5 +1,7 @@
+<!-- This is the HTML for editing the user profile -->
 {% extends 'base.html' %}
 
+<!-- these provide the tab titles on the browser -->
 {% block title %}
 	Update Profile | {{ block.super }}
 {% endblock title %}
@@ -16,7 +18,8 @@
 
 		<form class='form mt-3' method='POST' action='' enctype="multipart/form-data">
 			{% csrf_token %}
-			<!-- the view itself tells us which form to insert  -->
+			<!-- the view itself tells us which form to insert, so it's 
+			not actually specified -->
 		    {{ form|crispy }}
 		    <input class='btn btn-outline-secondary' type="submit" value='Save Changes' />
 		</form>

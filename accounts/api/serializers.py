@@ -4,15 +4,17 @@ from rest_framework import serializers
 
 User = get_user_model()
 
-# serializes the user data so that it is api readable
+# This serializer determines the data that is readable off of the 
+# user API. Directly displaying the users would make passwords
+# available, so we have to explicitly name what data is available.
 class UserDisplaySerializer(serializers.ModelSerializer):
-	# this is called a method field, used to show better data
-	# in a form that isnt readily available on the user model itself
+	# MethodFields declare API fields that either aren't part of the model or 
+	# need to be reformatted for display
 	url = serializers.SerializerMethodField()
 	class Meta:
 		model = User
-		# we name the fields here because we dont want to put all the info, like password
-		# on the api
+		# Fields eplicitly states the data and names that are available
+		# in the API
 		fields = [
 			'username', 
 			'first_name', 
@@ -21,5 +23,9 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 			# 'email'
 		]
 
+	# Anything that is a MethodField needs a get method
+	# the data either needs to be found or altered from the model format
 	def get_url(self, obj):
+		# reverse_lazy brings back a url to the named page "profiles:detail"
+		# the kwargs just provides the information required
 		return reverse_lazy('profiles:detail', kwargs={'username': obj.username})
