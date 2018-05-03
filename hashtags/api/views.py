@@ -10,8 +10,12 @@ from hashtags.models import HashTag
 
 # this creates the api view that our tags page pulls from
 # it holds tweets only, no users
+# Right now, you can only access the tag page by clicking on a hashtagged item
+# it's not heavily used now, but I think we can use it to tag games 
 class TagPartyAPIView(generics.ListAPIView):
 	queryset = Party.objects.all().order_by('-time_created')
+	# because the tags are all in the text of the events, 
+	# the information passed to the API is just the same os the normal party
 	serializer_class = PartyModelSerializer
 	pagination_class = StandardResultsPagination
 
@@ -23,7 +27,8 @@ class TagPartyAPIView(generics.ListAPIView):
 		context['request'] = self.request
 		return context
 
-	# this interacts with the call to this url
+	# this interacts with the call to this url and does the actual search 
+	# for the events containing the tag
 	def get_queryset(self, *args, **kwargs):
 		# gets the passed hashtag 
 		hashtag = self.kwargs.get('hashtag')
@@ -39,6 +44,7 @@ class TagPartyAPIView(generics.ListAPIView):
 			# query is currently unused
 			query = self.request.GET.get('q', None)
 			if query is not None:
+				# this looks for tags in username, description, and title
 				qs = qs.filter(
 					Q(description__icontains=query) | 
 					Q(user__username__icontains=query) | 
