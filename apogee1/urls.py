@@ -30,6 +30,10 @@ from accounts.views import UserRegisterView
 
 # django will try and match these starting from the top, 
 # so make sure that this ordering will not screw up the routing
+# api tags is after api bacause it was mis-searching originally
+# also, any line that has "include" refers to the urls.py files 
+# in any of the other apps
+# namespace is an instance namespace. the app_name attr is the application namespace
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', PartyListView.as_view(), name='home'),
@@ -37,7 +41,7 @@ urlpatterns = [
     path('register/', UserRegisterView.as_view(), name='register'),
     path('search/', SearchView.as_view(), name='search'),
     path('api/search/', SearchPartyAPIView.as_view(), name='search-api'),
-    path('events/', include('parties.urls', namespace='parties')), #instance namespace. the app_name attr is the application namespace
+    path('events/', include('parties.urls', namespace='parties')), 
     path('api/events/', include('parties.api.urls', namespace='parties-api')),
     path('api/', include('accounts.api.urls', namespace='profiles-api')),
     path('profiles/', include('accounts.urls', namespace='profiles')),
@@ -55,6 +59,7 @@ if settings.DEBUG:
 if settings.DEBUG:
     urlpatterns += (static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
 
+# im not sure why we do this twice. i think they do the exact same thing
 if settings.DEBUG:
     urlpatterns += [
         re_path(r'^media/(?P<path>.*)$', serve, {

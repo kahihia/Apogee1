@@ -24,6 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = '6fw*ujba!d-3^a8ez_9*da+2@bt2(-1*4@f7bjuvxas$puux_8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# shows debug messages in the page 
 DEBUG = False
 
 ALLOWED_HOSTS = []
@@ -61,7 +62,10 @@ MIDDLEWARE = [
     'parties.middleware.TimezoneMiddleware',
 ]
 
+# root url sets the main routing file. those then refer to the other url docs
 ROOT_URLCONF = 'apogee1.urls'
+
+# because login is built into django
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
@@ -158,7 +162,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static-serve")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
 
-
+# this just works with crispy form to render properly
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
