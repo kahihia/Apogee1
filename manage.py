@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# this is the main python file for the entire app. it controls the actual 
+# access to Django
 import os
 import sys
 

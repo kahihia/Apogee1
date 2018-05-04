@@ -1,3 +1,5 @@
+<!-- this is he HTML for the search page. not sure why it is here rather than 
+than in the parties templates -->
 {% extends 'base.html' %}
 
 <!-- sets the tab info -->
@@ -10,6 +12,7 @@
 <script>
 	// runs when page DOM is ready
 	$(document).ready(function(){
+		// this tells us where our thumbnails go
 		loadPartyContainer('party-container')
 	});
 </script>
@@ -31,6 +34,7 @@
 			<h1>Users</h1><hr>
 		</div>
 		<div class='col-sm-12'>
+			<!-- users is context passed by the view. if there is no one listed, the empty line is rendered -->
 			{% for user in users %}
 				<a class='text-dark ' href='/profiles/{{ user.username }}/'>{{ user.username }}</a><br>
 			{% empty %}
@@ -47,7 +51,7 @@
 		get the appropriate info from them -->
 		<div class='ml-1' id='party-container' data-url='/api/search/'></div>
 
-		<!-- this is our load more button for the pagination -->
+		<!-- this is our load more button for the pagination. its written into the JS-->
 		<button type="button" class="btn btn-outline-secondary btn-block" id='loadmore'>Show More Events</button>
 	</div>
 </div>
