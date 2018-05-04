@@ -1,3 +1,4 @@
+# models are the objects that are actually used and stored in the database
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
@@ -24,21 +25,28 @@ class UserProfileManager(models.Manager):
 		return qs
 
 	# changes whether the requestuser is following someone
+	# the requestuser is just whoever is doing the clicking
 	def toggle_follow(self, user, to_toggle_user):
 		# this is our own profile
+		# created is just a boolean thats part of th method we're using
+		# its not actually used
 		user_profile, created = UserProfile.objects.get_or_create(user=user)
 		# checks to see if the requestuser is already following the toggleuser
 		if to_toggle_user in user_profile.following.all():
+			# if they are, remove them from the following list
 			user_profile.following.remove(to_toggle_user)
 			added = False
 		else:
+			# if they arent, add them to the following list
 			user_profile.following.add(to_toggle_user)
 			added = True
 		return added
 
 	# checks if requestuser is following someone
 	def is_following(self, user, followed_by_user):
+		# user is the one we're looking for. self is the request user
 		user_profile, created = UserProfile.objects.get_or_create(user=user)
+		# created tells us if the user we were searching for exists
 		if created: # cant be following anyone if the profile was just made
 			return False
 		if followed_by_user in user_profile.following.all():

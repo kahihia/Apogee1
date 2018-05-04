@@ -1,3 +1,5 @@
+# these are all the API views for events. they arent actually visible 
+# without typing the url in directly
 from django.urls import path
 from django.views.generic import RedirectView
 

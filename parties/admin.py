@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import Party
 from .forms import PartyModelForm
 
-
+# not sure why this is written out differently from other admin files
 class PartyModelAdmin(admin.ModelAdmin):
 	# form = PartyModelForm
 	# the meta refers to anything not explicitly in the fields

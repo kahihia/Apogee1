@@ -1,7 +1,10 @@
+# validators are extra layers of security
+
 from django.core.exceptions import ValidationError
 
 
-# custom validation function
+# custom validation function for the create form
+# currently not used
 def validate_title(value):
 	title = value
 	if title == '':

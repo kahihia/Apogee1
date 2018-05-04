@@ -1,3 +1,5 @@
+<!-- base is the main rendering file for all of the events. it contains all
+of the formatting in the head, so it must be imported into every file. -->
 {% load static %}
 
 <html lang="en">
@@ -15,8 +17,8 @@
     <!-- CDN for FontAwesome, which is where our little glyphicons come from -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
 
-    <!-- additional css for changing colors -->
-    <!-- build set of global variables n static -->
+    <!-- additional custom css for changing colors -->
+    <!-- build set of global variables in static rather than putting them here -->
     <style>
       .apogee-btn {
         color: black;
@@ -45,10 +47,11 @@
     </style>
 
     <!-- block title allows us to push a new title from each page -->
-    <!-- you can access the apogee text by calling block.super -->
+    <!-- you can access the apogee text by calling block.super, so all other pages just call that in their block title section -->
     <title>{% block title %}Apogee{% endblock title %}</title>
   </head>
   <body>
+    <!-- this is how we include the navbar into every page -->
     <!-- navbar goes outside container bc the container has margins. 
     moving it out allows it to stretch the whole way across -->
     {% include 'navbar.html' %}
@@ -59,7 +62,7 @@
         {% endblock content %}
     </div>
 
-    <!-- Optional JavaScript -->
+    <!-- Optional JavaScript through CDNs -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!-- Botstrap comes with slim version of jQuery, but we've updated to full version so that we can use AJAX stuff -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -73,6 +76,7 @@
     <!-- this contains all of the js used to parties. it's here so that we can use the same rendering in every view that needs it -->
     <script>
       // JS search function from stack overflow at kirr.co/itd0rd
+      // not sure how it works
       function getParameterByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
@@ -83,30 +87,36 @@
         return decodeURIComponent(results[2].replace(/\+/g, " "));
       }
 
-
+      // this is the main event rendering function. it takes the container ID
+      // so that it knows where to put the events. the second parameter is used to 
+      // tell us if we're rendering a single event
       function loadPartyContainer(partyContainerID, fetchOneId) {
+        // these variables are used repeatedly by different methods 
         // this grabs the search terms from the search bar
         let query = getParameterByName('q');
         // this is the set of events in the api
         let partyList = [];
         // this links to the following page in the api
         let nextPartyUrl;
+
         // this is the selector for where we're putting the party info
-        // 
         let partyContainer;
         if (partyContainerID){
           partyContainer = $('#' + partyContainerID)
         } else {
           partyContainer = $('#party-container')
         }
-        // starting url that allows us to get the api data. second is  default
+
+        // url that allows us to get the api data. second is the default
+        // data url should be defined in the container specified in the HTML
         let initialUrl = partyContainer.attr('data-url') || '/api/events/';
 
         // this needs to be built into a responsive variable so that we can 
         // always have the correct number of events on each line
         let handSize;
 
-        // these are repeated calls, so they've been converted to variables
+        // these are repeatedly used, so they've been converted to variables
+        // some should eventually be references to a dictionary
         let click = 'click';
         let star_active = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>';
         let star_inactive = '<i class="fa fa-star grey-color" aria-hidden="true"></i>';
@@ -121,15 +131,15 @@
 
         // this is the favorite function. It wil be instrumental in enabling 
         // users to track events as they progress.
+        // its built to trigger on click for any button with the correct class
         $(document.body).on(click, '.starBtn', function(e){
           e.preventDefault()
-          // make sure these variables are let, not var. var is global,  so it doesnt 
-          // handle scope properly
           let this_ = $(this)
-          // selector for the button
+          // selector for the button. makes sure we're starring the correct button
           let partyID = this_.attr('data-id')
           // api endpoint
           let starredUrl = '/api/events/' + partyID + '/star/'
+          // ajax is what actually accesses the API
           $.ajax({
             method: 'GET',
             url: starredUrl,
@@ -146,26 +156,30 @@
 
 
         // this controls the display color of the favorite button
+        // its linked to a different class to ensure nothing wierd happens 
+        // with the click trigger
         $(document.body).on(click, '.fa-star', function(e){
           e.preventDefault()
           let this_ = $(this)
+          // one of these classes is activated by the formatting below, 
+          // so the two toggles are never on at the same time
           this_.toggleClass('grey-color')
           this_.toggleClass('yellow-color')
         })
 
 
-        // this is the join function
+        // this is the join function. it works just like the star function
         $(document.body).on(click, '.joinBtn', function(e){
           e.preventDefault()
           let this_ = $(this)
-          // selector for the button
+          // selector for the button. makes sure we have the event id 
           let partyID = this_.attr('data-id')
           // api endpoint
           let joinedUrl = '/api/events/' + partyID + '/join/'
+          // ajax accesses the api
           $.ajax({
             method: 'GET',
             url: joinedUrl,
-            // dont need the success error block is they arent doing anything
             success: function(data){
               // the api handles updating the database 
             }, 
@@ -179,6 +193,8 @@
 
         // this controls the display of the join button
         // anytime it is clicked, it should say joined, so it doesnt check anything
+        // it doesnt have the ability to "unjoin"
+        // not sure if this is a problem, but it could add disabled repeatedly
         $(document.body).on(click, '.joinDisplay', function(e){
           e.preventDefault()
           let this_ = $(this)
@@ -187,7 +203,7 @@
           this_.text(joined)
         })
 
-        // this allows search along hashtags. 
+        // this allows search along hashtags. its called upon creation
         // could be useful for categorization
         function updateHashLinks(){
           // this is where the actual title and description are held
@@ -199,25 +215,29 @@
             let currentHtml = $(this).html()
             let newText;
             // the regex returns stuff before and after
-            // the replace puts the before in and then makes a link for the after
+            // the replace puts the tag in and then makes a link for the text
             newText = currentHtml.replace(hashtagRegex, '$1<a class="text-dark" href="/tags/$2/">#$2</a>')
             newText = newText.replace(usernameRegex, '$1<a class="text-dark" href="/profiles/$2/">@$2</a>')
             $(this).html(newText)
           })
         }
 
-
+        // this is the formatting for thumbnails
         function formatParty(partyValue){
+          // this sets the star color depending on whether or not 
+          // its been starred by the request user
           let verb = star_inactive
           if (partyValue.did_star){
             verb = star_active
           }
 
+          // this sets the text version of the price
           let price = '$' + partyValue.cost
           if (partyValue.cost == 0) {
             price = free
           }
 
+          // this checks the event type and sets the correct icon
           let type_icon = ''
           if (partyValue.event_type == 1) {
             type_icon = drawing_icon
@@ -233,7 +253,10 @@
             closed_display = '<span class="float-right" data-toggle="tooltip" data-placement="top" title="Event Closed">' + closed_icon + '</span>'
           }
 
-          // redo string formatting
+          // this is the thumbnail formatting. its built on the
+          // card model from bootstrap. it has a top image, a body section 
+          // for the title and description, and a footer for name, time, 
+          // event type, and star
           let container =  
           '<div class="card" style="max-width: 16rem;">' + 
             '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
@@ -260,14 +283,15 @@
           return container
         }
 
-
+        // this is the event detail formatting
         function formatSingle(partyValue){
+          // sets the star color
           let star_verb = star_inactive
           if (partyValue.did_star){
             star_verb = star_active
           }
 
-          // selects icon next to price
+          // selects event type icon 
           let type_icon = ''
           if (partyValue.event_type == 1) {
             type_icon = drawing_icon
@@ -286,7 +310,7 @@
             join = "Buy Event"
           }
 
-          // this sets the display of the button itself
+          // this sets the display of the join button
           let join_verb = ''
           if (!partyValue.is_owner){
               join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '">' + join + '</button>'
@@ -294,22 +318,27 @@
               join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' + partyValue.id + '">' + joined + '</button>'
             }
           } 
+
           // replaces the join button with a closed message if the event is over
           if (!partyValue.is_open) {
             join_verb = '<p class="mx-auto lead text-center text-muted">This Event Has Ended</p>'
           }
 
-
+          // this displays the winners if they've been selected
           let winner = ''
           if (partyValue.winner_names.length > 0) {
             winner = '<div class="row mt-3"><h1 class="mx-auto"> ' + partyValue.winner_names + ' is the winner!</h1></div>'
           }
 
+          // this sets the price text
           let price = '$' + partyValue.cost
           if (partyValue.cost == 0) {
             price = free
           }
 
+          // this formats the event on the detail page. it has a thumbnail on the top 
+          // left, the title and star on the top right, the name, time, and full 
+          // description, below. below that is the price, type, and the join button
           let container =
           '<div class="row mt-3">' +
             '<div class="col-sm-4">' +  
@@ -347,11 +376,15 @@
         // allows the page to be more responsive and change the number of cards 
         // per deck given the width of the page. 
         function parseParties(){
+          // partylist should be filled with parties from the fetch call
           if (partyList == 0) {
             partyContainer.text('No events :(')
           } else {
             // make global variable, make responsive
             handSize = 3
+            // this iterates through the number of hands in the party list, 
+            // then through the number of cards per hand, then formats the 
+            // party and adds it to the HTML. each hand is its own div
             for (let deck = 0; deck < partyList.length; deck += handSize) {
               let deckHTML = '<div class="card-deck mb-4">'
               for (let card = 0; card < handSize; card++) {
@@ -369,7 +402,7 @@
         }
 
 
-        // The detail view version of parseparties
+        // The detail view version of parseparties. it just formats a single item
         function parseSingle(){
           let partyValue = partyList[0]
           let partyFormattedHtml = formatSingle(partyValue)
@@ -377,11 +410,12 @@
         }
 
 
-        // this is the initial call to the api, which might include search terms
+        // this calls to the API and gets the party data for the thumbnails
         function fetchParties(url){
           let fetchUrl;
 
-          // if there isnt a url passed, its the first api page
+          // if there isnt a url passed, its the first api page, 
+          // which is just events from following
           if (!url) {
             fetchUrl = initialUrl
           } else {
@@ -397,13 +431,17 @@
             success: function(data){
               // the .results is required because of our pagination
               // it sets a new datagrouping outside of the data we're using
+              // to describe what the call retrieved
               partyList = data.results
 
+              // if there are more pages in the API, the loadmore appears
               if (data.next) {
                 nextPartyUrl = data.next
               } else {
                 $('#loadmore').css('display', 'none')
               }
+              // it then calls the parse to format them and updates the usernames and 
+              // and hashtags
               parseParties()
               updateHashLinks()
             }, 
@@ -414,7 +452,7 @@
           })
         }
 
-        // for single view
+        // this accesses the event data for a single detail event
         function fetchSingle(fetchOneId){
           // leading slash appends it to the base url. 
           // no leading slash sends it to the url of the page its on
@@ -438,20 +476,16 @@
         }
 
 
-        // for the single detail view
+        // this calls the appropriate fetch method depending 
+        // on whether or not its a detail page
         if (fetchOneId){
           fetchSingle(fetchOneId)
         } else {
           fetchParties()
         }
 
-        // if (nextPartyUrl) {
-        //   fetchParties(nextPartyUrl)
-        // }
-
-
         // this handles our loadmore button
-        // it binds a function to the clicking action
+        // it binds a function to any click on something with a loadmore ID
         $('#loadmore').click(function(event){
           event.preventDefault()
 
@@ -465,7 +499,7 @@
 
 
 
-    <!-- this is our custom JS block where we'll put our ajax stuff -->
+    <!-- this is our custom JS block where we'll anything from specific pages -->
     {% block script %}
     {% endblock script %}
 

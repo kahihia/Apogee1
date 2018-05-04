@@ -1,3 +1,5 @@
+<!-- this is the event page for anythign containing tags
+its the same exact format as the search page -->
 {% extends 'base.html' %}
 
 <!-- sets the tab info -->
@@ -10,6 +12,7 @@
 <script>
 	// runs when page DOM is ready
 	$(document).ready(function(){
+		// this specifies the container for the thumbnails to render into
 		loadPartyContainer('party-container')
 	});
 </script>
@@ -19,6 +22,8 @@
 {% block content %}
 <div class='row'>
 	<div class="col-sm-12 mt-3">
+		<!-- this displays the tag that you searched for at the 
+		top of the page -->
 		{% if request.GET.q %}
 			<p class='lead'>Results for "{{ request.GET.q }}"</p><hr>
 		{% endif %}
@@ -31,7 +36,7 @@
 		get the appropriate info from them -->
 		<div class='card-deck' id='party-container' data-url='/api/tags/{{ obj.tag }}/'></div>
 
-		<!-- this is our load more button for the pagination -->
+		<!-- this is our load more button for the pagination. the method is in the JS-->
 		<a href='#' id='loadmore'>Show More Events</a>
 	</div>
 </div>

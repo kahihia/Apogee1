@@ -1,10 +1,11 @@
+<!-- this is the HTML associated with the login page -->
 {% extends "base.html" %}
 
 {% block script %}
 <script>
     // runs when page DOM is ready
     $(document).ready(function(){
-        // changes the login formatting
+        // changes the login formatting so it isnt the defaul rendering
         $('form input').addClass('form-control')
     });
 </script>
@@ -15,11 +16,14 @@
 <!-- this was built off of a django template -->
 <div class='col-sm-6 offset-sm-3 text-center mt-4'>
     <h1>Login</h1>
+    <!-- form.errors is from the default django forms. it recognizes when the input information is incorrect -->
     {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>
     {% endif %}
 
+    <!-- not sure what next is. this is essentially copied from the django docs. pretty sure next has to do with whether someone has access -->
     {% if next %}
+        <!-- is_authenticated is another default attribute to the user model in django -->
         {% if user.is_authenticated %}
         <p>Your account doesn't have access to this page. To proceed,
         please login with an account that has access.</p>
@@ -31,7 +35,7 @@
     <form method="post" action="{% url 'login' %}" class='mt-5'>
     {% csrf_token %}
 
-    <!-- bootstrap form formatting -->
+    <!-- bootstrap form formatting. this just changes the look of the input lines themselves and gives them titles -->
     <div class="form-group">
         {{ form.username.label_tag }}
         {{ form.username }}    

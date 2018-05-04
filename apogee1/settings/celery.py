@@ -1,3 +1,5 @@
+# this is the base celery app
+# it allows us to call celery processes elsewhere in the app
 from __future__ import unicode_literals, absolute_import
 import os
 from celery import Celery

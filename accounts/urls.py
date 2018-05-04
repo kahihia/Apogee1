@@ -1,7 +1,8 @@
+# urls determines the urls that link to which views. the views display the info
 from django.urls import path, include
 from django.views.generic import RedirectView
 
-# views
+# views we link directly to
 from .views import (
 		UserDetailView, 
 		UserFollowView, 
@@ -10,6 +11,7 @@ from .views import (
 
 app_name = 'profiles'
 # /profiles routes to this 
+# names are how you lazy refer to pages
 urlpatterns = [
     path('<username>/', UserDetailView.as_view(), name='detail'), 
     path('<username>/follow/', UserFollowView.as_view(), name='follow'),

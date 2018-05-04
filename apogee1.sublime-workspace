@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"closed",
+				"closed_display"
+			],
+			[
 				"gr",
 				"grey-color"
 			],
@@ -510,38 +514,16 @@
 			[
 				"us",
 				"username"
-			],
-			[
-				"htt",
-				"HttpResponseRedirect"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "templates/base.html",
+			"file": "accounts/views.py",
 			"settings":
 			{
-				"buffer_size": 18909,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "parties/models.py",
-			"settings":
-			{
-				"buffer_size": 5208,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "parties/api/serializers.py",
-			"settings":
-			{
-				"buffer_size": 3678,
+				"buffer_size": 3583,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -581,31 +563,37 @@
 	"expanded_folders":
 	[
 		"/Users/caldwellclarke/DjangoProjects/apogee1",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/api",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates/parties",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/templates"
+		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/api/__pycache__"
 	],
 	"file_history":
 	[
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/forms.py",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates/parties/create_view.html",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/models.py",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/mixins.py",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/templates/navbar.html",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/templates/base.html",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/apogee1/urls.py",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/views.py",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/urls.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/tests.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/models.py",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/mixins.py",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/forms.py",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/apps.py",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/admin.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templates/registration/login.html",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templates/accounts/user_detail.html",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templates/accounts/user_register_form.html",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templates/accounts/user_detail.html",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templates/accounts/profile_settings_form.html",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templates/accounts/snippets/recommended.html",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/api/urls.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/api/serializers.py",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/tasks.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/api/serializers.py",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/models.py",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/templates/base.html",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/forms.py",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates/parties/create_view.html",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/mixins.py",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/templates/navbar.html",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/apogee1/urls.py",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/views.py",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/tasks.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/templates/search.html",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates/parties/starred_list.html",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates/parties/joined_list.html",
@@ -619,15 +607,11 @@
 		"/Users/caldwellclarke/DjangoProjects/apogee1/apogee1/settings/local.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/apogee1/settings/base.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/apogee1/settings/production.py",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/mixins.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/views.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/urls.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/api/urls.py",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/forms.py",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/urls.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates/parties/delete_confirm.html",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates/parties/update_view.html",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templates/accounts/snippets/recommended.html",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templatetags/recommended.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/middleware.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/apogee1/views.py",
@@ -641,11 +625,9 @@
 		"/Users/caldwellclarke/DjangoProjects/apogee1/hashtags/api/views.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/hashtags/api/__init__.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates/parties/search_form.html",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/api/urls.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/hashtags/signals.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/hashtags/views.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/hashtags/admin.py",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/admin.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/api/__init__.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/api/__init__.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/tests.py",
@@ -715,12 +697,11 @@
 		"/Users/caldwellclarke/DjangoProjects/tweetme/tweets/templates/tweets/list_view.html",
 		"/Users/caldwellclarke/DjangoProjects/tweetme/tweets/templates/tweets/detail_view.html",
 		"/Users/caldwellclarke/DjangoProjects/mysite/mysite/urls.py",
-		"/Users/caldwellclarke/DjangoProjects/tweetme/tweetme/__init__.py",
-		"/Users/caldwellclarke/DjangoProjects/tweetme/tweetme/settings/__init__.py"
+		"/Users/caldwellclarke/DjangoProjects/tweetme/tweetme/__init__.py"
 	],
 	"find":
 	{
-		"height": 39.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -771,90 +752,31 @@
 			[
 				{
 					"buffer": 0,
-					"file": "templates/base.html",
+					"file": "accounts/views.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 18909,
+						"buffer_size": 3583,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								13614,
-								13614
+								3122,
+								3122
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4795.0,
+						"translation.y": 454.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "parties/models.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5208,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2889,
-								2889
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 977.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "parties/api/serializers.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3678,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1748,
-								1748
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 160.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
 					"type": "text"
 				}
 			]

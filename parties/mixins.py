@@ -1,3 +1,4 @@
+# mixins are for security built into views
 from django import forms
 from django.forms.utils import ErrorList
 
@@ -6,7 +7,7 @@ from django.forms.utils import ErrorList
 class FormUserNeededMixin(object):
 	def form_valid(self, form):
 		if self.request.user.is_authenticated:
-			# pulls object from the form
+			# pulls object from the form and passes it through
 			form.instance.user = self.request.user
 			return super(FormUserNeededMixin, self).form_valid(form)
 		else:
@@ -17,6 +18,7 @@ class FormUserNeededMixin(object):
 # this is for the update view. it ensures only the owner can edit
 class UserOwnerMixin(object):
 	def form_valid(self, form):
+		# form instance user refers to the owner that the form gets from the party object
 		if form.instance.user == self.request.user:
 			return super(UserOwnerMixin, self).form_valid(form)
 		else:

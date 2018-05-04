@@ -1,3 +1,5 @@
+# views tell us the templates and methods available to each page
+# because this is the api, the views specify the action that happend upon visit
 from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -7,18 +9,20 @@ from parties.models import Party
 from .pagination import StandardResultsPagination
 from .serializers import PartyModelSerializer
 
-
+# star toggle is a method from the model that just adds the user to the 
+# list containing the people who have starred it
 class StarToggleAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, format=None):
-		# gets the object that is being liked
+		# gets the object that is being starred
 		party_qs = Party.objects.filter(pk=pk)
 		if request.user.is_authenticated:
 			is_starred = Party.objects.star_toggle(request.user, party_qs.first())
 			return Response({'starred': is_starred})
 		return Response({'message': 'Not Allowed'})
 
-
+# join works much like star. its a method from the model. however, its
+# built not to toggle. it only adds at the moment
 class JoinToggleAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, format=None):
@@ -43,7 +47,7 @@ class PartyCreateAPIView(generics.CreateAPIView):
 		serializer.save(user=self.request.user)
 
 
-# used for the single detail view
+# used for the single detail view. it searches the query on a single ID
 class PartyDetailAPIView(generics.ListAPIView):
 	queryset = Party.objects.all()
 	serializer_class = PartyModelSerializer
@@ -86,7 +90,7 @@ class SearchPartyAPIView(generics.ListAPIView):
 		return qs
 
 
-# this creates the api view that our list page pulls from
+# this creates the api view that our list pages pulls from
 class PartyListAPIView(generics.ListAPIView):
 	serializer_class = PartyModelSerializer
 	pagination_class = StandardResultsPagination
@@ -129,7 +133,7 @@ class PartyListAPIView(generics.ListAPIView):
 
 
 
-# this creates the api view that our list page pulls from
+# this creates the api view that our starred list page pulls from
 class StarredListAPIView(generics.ListAPIView):
 	serializer_class = PartyModelSerializer
 	pagination_class = StandardResultsPagination
@@ -147,7 +151,7 @@ class StarredListAPIView(generics.ListAPIView):
 		qs = self.request.user.starred_by.all().order_by('-time_created')
 		return qs
 
-
+# this works the same way as the starred list
 class JoinedListAPIView(generics.ListAPIView):
 	serializer_class = PartyModelSerializer
 	pagination_class = StandardResultsPagination
@@ -167,6 +171,7 @@ class JoinedListAPIView(generics.ListAPIView):
 
 
 # this creates the api view that the trending list of our home page pulls from
+# its currently not working
 class TrendingListAPIView(generics.ListAPIView):
 	serializer_class = PartyModelSerializer
 	pagination_class = StandardResultsPagination

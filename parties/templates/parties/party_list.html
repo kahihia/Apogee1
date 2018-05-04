@@ -1,3 +1,5 @@
+this is the HTML for the main page. it has recommended users 
+a create event button, and the event thumbnails-->
 {% extends 'base.html' %}
 {% load recommended %}
 
@@ -11,6 +13,7 @@
 <script>
 	// runs when page DOM is ready
 	$(document).ready(function(){
+		// tells us where the thumbnails go
 		loadPartyContainer('party-container')
 	});
 </script>
@@ -47,6 +50,7 @@
 		<div class='ml-1' id='party-container' data-url='/api/events/'></div>
 
 		<!-- this is our load more button for the pagination -->
+		<!-- weve disabled this for now since we wanted to pu the trending piece in -->
 		<!-- <a href='#' id='loadmore'>Show More Events</a> -->
 
 	</div>
@@ -71,4 +75,4 @@
 			{% else %}
 			<p>No events at this time</p>
 			{% endif %}
-		{% endfor %} -->
+		{% endfor %}

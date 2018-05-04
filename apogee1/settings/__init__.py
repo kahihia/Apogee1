@@ -1,5 +1,6 @@
 from __future__ import unicode_literals, absolute_import
 # this allows the setting folder to look like a module
+# we do this because we have multiple settings
 
 # base is loaded first
 from .base import *
