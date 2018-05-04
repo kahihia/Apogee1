@@ -1,3 +1,5 @@
+<!-- this is the html for the "following" tab. it includes a list
+of usernames and a lidt of events -->
 {% extends 'base.html' %}
 
 <!-- sets the tab info -->
@@ -10,6 +12,7 @@
 <script>
 	// runs when page DOM is ready
 	$(document).ready(function(){
+		// this is the container for rendering the thumbnails
 		loadPartyContainer('follow-container')
 	});
 </script>

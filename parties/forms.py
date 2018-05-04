@@ -1,11 +1,14 @@
+# forms determine what information is available in the create and update views
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
 from .models import Party
 
+
 class PartyModelForm(forms.ModelForm):
 	# the altered form fields are for formatting on the create page
+	# form-control allows bootstrap to format the form
 	title = forms.CharField(label='', max_length=140, widget=forms.Textarea(
 		attrs={'placeholder': 'Title', 'class': 'form-control', 'rows': 3}
 		))
@@ -28,6 +31,7 @@ class PartyModelForm(forms.ModelForm):
 
 	class Meta:
 		model = Party
+		# fields determines what order the form fields appear in
 		fields = [
 			'title',
 			'description',

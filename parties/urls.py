@@ -13,9 +13,12 @@ from .views import (
 		JoinedListView,
 	)
 
+# app name specifies how we refer to these urls
+# for example, the event detail page is "parties:detail"
 app_name = 'parties'
 # /events routes to this 
 urlpatterns = [
+# also note that <int:> just tells the url what type of input it can accept
 	path('', RedirectView.as_view(url='/')), # redirects to home
     path('search/', PartyListView.as_view(), name='list'), # /search/?q=
     path('following/', FollowingListView.as_view(), name='following-list'), # /search/?q=

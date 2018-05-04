@@ -1,9 +1,13 @@
+# tasks manages all of the celery processes we want 
+# to happen with parties
 from __future__ import absolute_import
 from celery import shared_task
 
 from .models import Party
 
+# the shared task just makes it so the celery app can access this
 @shared_task
+# this method takes the list of joined, reorders it randomly, and picks one
 def pick_winner(party_id):
 	try:
 		# gets the correct party
