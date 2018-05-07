@@ -6,7 +6,9 @@ from django.contrib.auth import get_user_model
 # and what our rendering files are
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-
+from django.http import HttpResponse, HttpResponseNotFound, Http404,  HttpResponseRedirect
+import urllib
+import json
 
 from .models import UserProfile
 from .forms import UserRegisterForm, UserProfileModelForm
@@ -21,17 +23,41 @@ class UserRegisterView(FormView):
 	form_class = UserRegisterForm
 	template_name = 'accounts/user_register_form.html'
 	success_url = '/accounts/login'
-
 	# actually create user here. not sure why we do this, but i believe the cleaning
 	# prevents some security issues
 	def form_valid(self, form):
 		username = form.cleaned_data.get('username')
 		email = form.cleaned_data.get('email')
 		password = form.cleaned_data.get('password')
-		new_user = User.objects.create(username=username, email=email)
-		new_user.set_password(password)
-		new_user.save()
+		captcha_good = True
+
+		recaptcha_response = self.request.POST.get('g-recaptcha-response')
+		print(recaptcha_response)
+		url = 'https://www.google.com/recaptcha/api/siteverify'
+		values = {
+		'secret': '6Lf-zFcUAAAAAE1JPNccVx2u9bCQEJhES-czlNhE',
+		'response': recaptcha_response
+		}
+		data = urllib.parse.urlencode(values).encode()
+		req =  urllib.request.Request(url, data=data)
+		response = urllib.request.urlopen(req)
+		result = json.loads(response.read().decode())
+		if result['success']:
+			captcha_good = True
+		else:
+			captcha_good = False
+		#Do captcha validation
+		if captcha_good:
+			new_user = User.objects.create(username=username, email=email)
+			new_user.set_password(password)
+			new_user.save()
+
+		else:
+			return HttpResponseRedirect("/register")
 		return super(UserRegisterView, self).form_valid(form)
+		
+
+
 
 # this is the view for an individual profile
 class UserDetailView(DetailView):
@@ -65,7 +91,7 @@ class UserFollowView(View):
 		if request.user.is_authenticated:
 			is_following = UserProfile.objects.toggle_follow(request.user, toggle_user)
 			# it redirects you to the same page you were on and updates the text on the button
-		return redirect('profiles:detail', username=username)
+			return redirect('profiles:detail', username=username)
 
 
 # this is the profile settings page
