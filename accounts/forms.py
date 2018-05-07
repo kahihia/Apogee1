@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-
+from django.conf import settings
 from .models import UserProfile
 
 # this is the base user model in django
@@ -17,6 +17,7 @@ class UserRegisterForm(forms.Form):
 	# the two passwords are used for verification to make sure you didnt mistype
 	password = forms.CharField(widget=forms.PasswordInput)
 	password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
+
 
 	# The following methods trigger on submit. howeer, they are triggered
 	# before the form submits to the database. it's an inbetween step

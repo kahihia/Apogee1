@@ -14,10 +14,15 @@
 		<h1 class='text-center'>Register</h1>
 		<!-- the id portion just allows us to call this with a particular id if we want. we arent currently using it -->
 		<form {% if form_id %} id='{{ form_id }}' {% endif %} class='form mt-3' method='POST' action=''>
+			<script src='https://www.google.com/recaptcha/api.js'></script>
 			{% csrf_token %}
 			<!-- the form is specified in the view -->
 		    {{ form|crispy }}
 		    <!-- in django, the type submit enters the form into the view and then into the database -->
+		    <!-- captcha implementation -->
+		    <div class="g-recaptcha" data-sitekey="6Lf-zFcUAAAAAHkvCZqUSfc9px0eX9__9AK2WmPz" name=
+		    "captcha"></div>
+		    <br/>
 		    <input class='btn btn-outline-secondary' type="submit" value="Register" />
 		</form>
 	</div>

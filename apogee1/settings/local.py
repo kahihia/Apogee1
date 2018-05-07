@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'captcha',
+    #add django captcha here
     # these are our custom apps
     'parties',
     'accounts',
