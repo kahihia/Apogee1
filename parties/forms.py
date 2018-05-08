@@ -20,11 +20,15 @@ class PartyModelForm(forms.ModelForm):
 		date_attrs={'placeholder': 'Date: mm/dd/yy','type': 'date', 'class': 'form-control'}, 
 		time_attrs={'placeholder': 'Time: hh:mm AM/PM or hh:mm 24-hr','type': 'time', 'class': 'form-control'}
 		), input_time_formats=['%I:%M %p', '%H:%M', '%H:%M:%S'])
+
+	num_winners = forms.DecimalField(label='Number of possible winners', min_value=1, 
+		widget=forms.NumberInput(attrs={'placeholder': 'Minimum of 1 winner', 'class': 'form-control'}))
 	
-	thumbnail = forms.ImageField(label='Thumbnail')
 
 	cost = forms.DecimalField(label='Cost ($)', min_value=0, widget=forms.NumberInput(
 		attrs={'placeholder': 'For a FREE event, enter 0', 'class': 'form-control'}))
+
+	thumbnail = forms.ImageField(label='Thumbnail')
 
 	# event_type has a default widget so we're not gonna mess with it
 	# event_type = forms.ChoiceField(label='Event Type')
@@ -36,7 +40,8 @@ class PartyModelForm(forms.ModelForm):
 			'title',
 			'description',
 			'party_time',
-			'event_type', 
+			'event_type',
+			'num_winners', 
 			'cost',
 			'thumbnail', 
 		]

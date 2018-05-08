@@ -87,7 +87,10 @@ class Party(models.Model):
 						blank=True, 
 						related_name='won_by'
 					)
-	thumbnail 		= models.ImageField(upload_to='thumbnails/%Y/%m/%d/')
+
+	num_winners = models.PositiveSmallIntegerField(default=1)
+
+	thumbnail 		= models.ImageField(upload_to='thumbnails/%Y/%m/%d/') 
 	# task_id is the celery identifier, used to make sure that we don't 
 	# duplicate picking winners
 	task_id			= models.CharField(max_length=50, blank=True, editable=False)
