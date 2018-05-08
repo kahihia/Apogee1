@@ -1,6 +1,7 @@
 # this handles the data associated with parties 
 import re
 import pytz
+from django.db.models import F
 from datetime import timedelta
 from django.db.models.signals import post_save
 from django.conf import settings
@@ -38,13 +39,14 @@ class PartyManager(models.Manager):
 	def buyout_toggle(self, user, party_obj):
 		if user in party_obj.winners.all():
 			won=True
-		elif party_obj.num_curr_winners=>party_obj.num_possible_winners:
+		elif party_obj.num_curr_winners>=party_obj.num_possible_winners:
 			won = False
 		else:
-			new_curr_winners = party_obj.num_curr_winners+1
-			party_obj.update(num_curr_winners=new_curr_winners)
-			won= True
+			party_obj.num_curr_winners =F('num_curr_winners') + 1
 			party_obj.winners.add(user)
+			party_obj.save()
+			print("number of winners is: "+str(party_obj.num_curr_winners))
+			won= True	
 		return won
 
 	# this isnt really a toggle. once you've been added, it sticks
