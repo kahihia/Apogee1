@@ -67,6 +67,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'winner_names',
 			'is_owner',
 			'cost',
+			'num_winners',
 		]
 
 	# method if you want the human readable format of the event type
