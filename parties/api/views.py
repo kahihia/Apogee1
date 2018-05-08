@@ -23,6 +23,8 @@ class StarToggleAPIView(APIView):
 
 # join works much like star. its a method from the model. however, its
 # built not to toggle. it only adds at the moment
+
+#change this to handle all purchase types
 class JoinToggleAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, format=None):
@@ -33,6 +35,16 @@ class JoinToggleAPIView(APIView):
 			return Response({'joined': is_joined})
 		return Response({'message': 'Not Allowed'})
 
+class BuyoutToggleAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	def get(self, request, pk, format=None):
+		party_queryset = Party.objects.filter(pk=pk)
+		if request.user.is_authenticated:
+			bought_out =Party.objects.buyout_toggle(request.user, party_qs.first())
+			if bought_out:
+				return Response({'boughtout': bought_out})
+			else:
+				return Response({'Message': 'Capcity full'})
 
 # used to async create events and push them to the api list
 # so that we can update the main page with the new tweet

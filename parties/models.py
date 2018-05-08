@@ -35,10 +35,23 @@ class PartyManager(models.Manager):
 			party_obj.joined.add(user)
 		return is_joined
 
+	def buyout_toggle(self, user, party_obj):
+		if user in party_obj.winners.all():
+			won=True
+		elif party_obj.num_curr_winners=>party_obj.num_possible_winners:
+			won = False
+		else:
+			new_curr_winners = party_obj.num_curr_winners+1
+			party_obj.update(num_curr_winners=new_curr_winners)
+			won= True
+			party_obj.winners.add(user)
+		return won
+
 	# this isnt really a toggle. once you've been added, it sticks
 	def win_toggle(self, user, party_obj):
 		if user in party_obj.winners.all():
 			won = True
+
 		else:
 			won = True
 			party_obj.winners.add(user)
@@ -88,7 +101,8 @@ class Party(models.Model):
 						related_name='won_by'
 					)
 
-	num_winners = models.PositiveSmallIntegerField(default=1)
+	num_possible_winners = models.PositiveSmallIntegerField(default=1)
+	num_curr_winners = models.PositiveSmallIntegerField(default=0)
 
 	thumbnail 		= models.ImageField(upload_to='thumbnails/%Y/%m/%d/') 
 	# task_id is the celery identifier, used to make sure that we don't 
