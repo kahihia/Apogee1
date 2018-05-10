@@ -35,7 +35,6 @@ class PartyManager(models.Manager):
 			is_joined = True
 			party_obj.joined.add(user)
 		return is_joined
-
 	def buyout_toggle(self, user, party_obj):
 		if user in party_obj.winners.all():
 			won=True
@@ -105,6 +104,8 @@ class Party(models.Model):
 
 	num_possible_winners = models.PositiveSmallIntegerField(default=1)
 	num_curr_winners = models.PositiveSmallIntegerField(default=0)
+
+	#highest_bid = models.PositiveSmallIntegerField(default = 0)
 
 	thumbnail 		= models.ImageField(upload_to='thumbnails/%Y/%m/%d/') 
 	# task_id is the celery identifier, used to make sure that we don't 

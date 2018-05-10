@@ -73,7 +73,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 
 	# method if you want the human readable format of the event type
 	# def get_readable_event_type(self, obj):
-	# 	return obj.get_event_type_display()
+	#   return obj.get_event_type_display()
 
 
 	# The methods below define the SerializerMethodFields
