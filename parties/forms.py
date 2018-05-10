@@ -21,7 +21,7 @@ class PartyModelForm(forms.ModelForm):
 		time_attrs={'placeholder': 'Time: hh:mm AM/PM or hh:mm 24-hr','type': 'time', 'class': 'form-control'}
 		), input_time_formats=['%I:%M %p', '%H:%M', '%H:%M:%S'])
 
-	num_winners = forms.DecimalField(label='Number of possible winners', min_value=1, 
+	num_possible_winners = forms.DecimalField(label='Number of possible winners', min_value=1, 
 		widget=forms.NumberInput(attrs={'placeholder': 'Minimum of 1 winner', 'class': 'form-control'}))
 	
 
@@ -41,7 +41,7 @@ class PartyModelForm(forms.ModelForm):
 			'description',
 			'party_time',
 			'event_type',
-			'num_winners', 
+			'num_possible_winners', 
 			'cost',
 			'thumbnail', 
 		]

@@ -1,17 +1,17 @@
 """apogee1 URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.0/topics/http/urls/
+	https://docs.djangoproject.com/en/2.0/topics/http/urls/
 Examples:
 Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+	1. Add an import:  from my_app import views
+	2. Add a URL to urlpatterns:  path('', views.home, name='home')
 Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+	1. Add an import:  from other_app.views import Home
+	2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
 Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+	1. Import the include() function: from django.urls import include, path
+	2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
@@ -35,20 +35,21 @@ from accounts.views import UserRegisterView
 # in any of the other apps
 # namespace is an instance namespace. the app_name attr is the application namespace
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', PartyListView.as_view(), name='home'),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('register/', UserRegisterView.as_view(), name='register'),
-    path('search/', SearchView.as_view(), name='search'),
-    path('api/search/', SearchPartyAPIView.as_view(), name='search-api'),
-    path('events/', include('parties.urls', namespace='parties')), 
-    path('api/events/', include('parties.api.urls', namespace='parties-api')),
-    path('api/', include('accounts.api.urls', namespace='profiles-api')),
-    path('profiles/', include('accounts.urls', namespace='profiles')),
-    path('tags/<slug:hashtag>/', HashTagView.as_view(), name='hashtag'),
-    path('api/tags/<slug:hashtag>/', TagPartyAPIView.as_view(), name='hashtag-api'),
-    # this should migrate into the settings page at some point soon
-    path('tz/', set_timezone, name='set_timezone'),
+	path('admin/', admin.site.urls),
+	path('', PartyListView.as_view(), name='home'),
+	path('accounts/', include('django.contrib.auth.urls')),
+	path('register/', UserRegisterView.as_view(), name='register'),
+	path('search/', SearchView.as_view(), name='search'),
+	path('api/search/', SearchPartyAPIView.as_view(), name='search-api'),
+	path('events/', include('parties.urls', namespace='parties')), 
+	path('api/events/', include('parties.api.urls', namespace='parties-api')),
+	path('api/', include('accounts.api.urls', namespace='profiles-api')),
+	path('profiles/', include('accounts.urls', namespace='profiles')),
+	path('tags/<slug:hashtag>/', HashTagView.as_view(), name='hashtag'),
+	path('api/tags/<slug:hashtag>/', TagPartyAPIView.as_view(), name='hashtag-api'),
+	# this should migrate into the settings page at some point soon
+	path('tz/', set_timezone, name='set_timezone'),
+	path('bids/', include('bids.urls', namespace='bids'))
 ]
 
 # adds our static files, like css, js
@@ -57,15 +58,15 @@ if settings.DEBUG:
 
 # adds our media storage for things like thumbnails
 if settings.DEBUG:
-    urlpatterns += (static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
+	urlpatterns += (static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
 
 # im not sure why we do this twice. i think they do the exact same thing
 if settings.DEBUG:
-    urlpatterns += [
-        re_path(r'^media/(?P<path>.*)$', serve, {
-            'document_root': settings.MEDIA_ROOT,
-        }),
-    ]
+	urlpatterns += [
+		re_path(r'^media/(?P<path>.*)$', serve, {
+			'document_root': settings.MEDIA_ROOT,
+		}),
+	]
 
 
 

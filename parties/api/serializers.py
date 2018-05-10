@@ -67,12 +67,13 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'winner_names',
 			'is_owner',
 			'cost',
-			'num_winners',
+			'num_possible_winners',
+			'num_curr_winners',
 		]
 
 	# method if you want the human readable format of the event type
 	# def get_readable_event_type(self, obj):
-	# 	return obj.get_event_type_display()
+	#   return obj.get_event_type_display()
 
 
 	# The methods below define the SerializerMethodFields

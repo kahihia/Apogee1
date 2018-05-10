@@ -19,10 +19,38 @@ class StarToggleAPIView(APIView):
 		if request.user.is_authenticated:
 			is_starred = Party.objects.star_toggle(request.user, party_qs.first())
 			return Response({'starred': is_starred})
-		return Response({'message': 'Not Allowed'})
+			return Response({'message': 'Not Allowed'})
 
 # join works much like star. its a method from the model. however, its
 # built not to toggle. it only adds at the moment
+
+#change this to handle all purchase types
+class JoinToggleAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	def get(self, request, pk, format=None):
+		party_qeryset = Party.objects.filter(pk=pk)
+		party_event_type = party_qeryset.first().event_type
+		print('the party event type is: '+str(party_event_type))
+		#if party_event is drawing
+		if party_event_type == 1:
+			if request.user.is_authenticated:
+				is_joined = Party.objects.join_toggle(request.user, party_qeryset.first())
+				print("is_joined: "+str(is_joined))
+				return Response({'joined': is_joined})
+		#if party_event is bid	
+		elif party_event_type == 2:	
+			if request.user.is_authenticated:
+				bid_accepted = Party.objects.bid_toggle(request.user, party_qeryset.first(), request.POST.get('bid_input'))
+				print("bid_accepted: "+str(bid_accepted))
+				return Response({'bid_accepted': bid_accepted})
+		#if party_event is buyout
+		else:
+			if request.user.is_authenticated:
+				bought_out = Party.objects.buyout_toggle(request.user, party_qeryset.first())
+				print("bought_out: "+str(bought_out))
+				return Response({'boughtout': bought_out})	
+#deprecated ToggleAPIViews
+'''
 class JoinToggleAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, format=None):
@@ -33,7 +61,18 @@ class JoinToggleAPIView(APIView):
 			return Response({'joined': is_joined})
 		return Response({'message': 'Not Allowed'})
 
+class BuyoutToggleAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	def get(self, request, pk, format=None):
+		party_queryset = Party.objects.filter(pk=pk)
+		if request.user.is_authenticated:
+			bought_out =Party.objects.buyout_toggle(request.user, party_qs.first())
+			if bought_out:
+				return Response({'boughtout': bought_out})
+			else:
+				return Response({'Message': 'Capcity full'})
 
+				'''
 # used to async create events and push them to the api list
 # so that we can update the main page with the new tweet
 # CURRENTLY UNUSED
@@ -87,7 +126,7 @@ class SearchPartyAPIView(generics.ListAPIView):
 				Q(user__username__icontains=query) | 
 				Q(title__icontains=query)
 				)
-		return qs
+			return qs
 
 
 # this creates the api view that our list pages pulls from
@@ -102,7 +141,7 @@ class PartyListAPIView(generics.ListAPIView):
 		context = super(PartyListAPIView, self).get_serializer_context(*args, **kwargs)
 		context['request'] = self.request
 		return context
-	
+
 	# this interacts with the ajax call to this url
 	def get_queryset(self, *args, **kwargs):
 		# gets user for if we have a user detail view
@@ -119,7 +158,7 @@ class PartyListAPIView(generics.ListAPIView):
 			qs2 = Party.objects.filter(user=self.request.user)
 			# sets the ordering. party_time would be soonest expiration at the top
 			qs = (qs1 | qs2).distinct().order_by('-time_created')
-		
+
 		# this return the string form of the search passed into the url
 		query = self.request.GET.get('q', None)
 		if query is not None:
@@ -129,7 +168,7 @@ class PartyListAPIView(generics.ListAPIView):
 				Q(user__username__icontains=query) | 
 				Q(title__icontains=query)
 				)
-		return qs
+			return qs
 
 
 
@@ -145,7 +184,7 @@ class StarredListAPIView(generics.ListAPIView):
 		context = super(StarredListAPIView, self).get_serializer_context(*args, **kwargs)
 		context['request'] = self.request
 		return context
-	
+
 	# this interacts with the ajax call to this url
 	def get_queryset(self, *args, **kwargs):
 		qs = self.request.user.starred_by.all().order_by('-time_created')
@@ -163,7 +202,7 @@ class JoinedListAPIView(generics.ListAPIView):
 		context = super(JoinedListAPIView, self).get_serializer_context(*args, **kwargs)
 		context['request'] = self.request
 		return context
-	
+
 	# this interacts with the ajax call to this url
 	def get_queryset(self, *args, **kwargs):
 		qs = self.request.user.joined_by.all().order_by('-time_created')
@@ -183,7 +222,7 @@ class TrendingListAPIView(generics.ListAPIView):
 		context = super(TrendingListAPIView, self).get_serializer_context(*args, **kwargs)
 		context['request'] = self.request
 		return context
-	
+
 	# this interacts with the ajax call to this url
 	def get_queryset(self, *args, **kwargs):
 		# uses methods form the userprofile model
