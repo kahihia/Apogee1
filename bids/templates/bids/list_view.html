@@ -1,1 +1,6 @@
-{{object_list}}
+{% for obj in object_list %}
+	${{obj.bid_amount}}
+	 by 
+	 {{obj.user}}
+	<br/>
+{% endfor %}

@@ -5,13 +5,12 @@ from django.views.static import serve
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import (
-		bid_list_view
+from .views import (  BidListView
 	)
 from django.conf.urls import url
 app_name = 'bids'
 
 #/bids routes to this
 urlpatterns = [
-	path('', bid_list_view, name='list'),
+	path('', BidListView.as_view(), name='list'),
 ]
