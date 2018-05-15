@@ -17,12 +17,12 @@
 	});
 </script>
 {% endblock script %}
-
 {% block content %}
 <div class='row mt-4'>
 	<div class='col-sm-8 offset-sm-2 border grey-background rounded'>
 		<div id='party-container'></div>
 	</div>
+
 	<!-- if the user is the owner, they get a second section that 
 	allows the owner to update and delete -->
 	{% if object.user == request.user %}
@@ -34,6 +34,7 @@
 			<button type='button' class='btn btn-outline-danger mb-3' id='delete'>Delete Event</button>
 		</a>
 	</div>
+
 	{% else %}
 	{% endif %}
 </div>

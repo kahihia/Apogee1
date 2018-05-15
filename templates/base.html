@@ -51,10 +51,14 @@ of the formatting in the head, so it must be imported into every file. -->
     <title>{% block title %}Apogee{% endblock title %}</title>
   </head>
   <body>
+
+
+
     <!-- this is how we include the navbar into every page -->
     <!-- navbar goes outside container bc the container has margins. 
     moving it out allows it to stretch the whole way across -->
     {% include 'navbar.html' %}
+
     <!-- this holds the actual content from each individual page -->
     <!-- the container has margins, eliminate them with container fluid -->
     <div class='container-fluid'>
@@ -117,6 +121,7 @@ of the formatting in the head, so it must be imported into every file. -->
 
         // these are repeatedly used, so they've been converted to variables
         // some should eventually be references to a dictionary
+        let bid_amount=100;
         let click = 'click';
         let star_active = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>';
         let star_inactive = '<i class="fa fa-star grey-color" aria-hidden="true"></i>';
@@ -171,15 +176,18 @@ of the formatting in the head, so it must be imported into every file. -->
         // this is the join function. it works just like the star function
         $(document.body).on(click, '.joinBtn', function(e){
           e.preventDefault()
+          let bid = document.getElementsByName("bid_amount")[0].value
           let this_ = $(this)
           // selector for the button. makes sure we have the event id 
           let partyID = this_.attr('data-id')
           // api endpoint
-          let joinedUrl = '/api/events/' + partyID + '/join/'
+          let joinedUrl = '/api/events/' + partyID + '/join/'+ bid
           // ajax accesses the api
           $.ajax({
             method: 'GET',
+            bid_amount: bid,
             url: joinedUrl,
+
             success: function(data){
               // the api handles updating the database 
             }, 
@@ -308,6 +316,7 @@ of the formatting in the head, so it must be imported into every file. -->
             join = "Submit a Bid"
           } else if (partyValue.event_type == 3) {
             join = "Buy Event"
+
           }
 
           // this sets the display of the join button
@@ -339,6 +348,50 @@ of the formatting in the head, so it must be imported into every file. -->
           // this formats the event on the detail page. it has a thumbnail on the top 
           // left, the title and star on the top right, the name, time, and full 
           // description, below. below that is the price, type, and the join button
+          if(partyValue.event_type == 2){
+                      let container =
+          '<div class="row mt-3">' +
+            '<div class="col-sm-4">' +  
+              '<img class="img-fluid rounded mx-auto" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
+            '</div>' +
+            '<div class="col-sm-8">' +
+              '<h1>' + partyValue.title + 
+                '<span class="float-right">' + 
+                  '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + star_verb + '</a>' + 
+                '</span>' + 
+              '</h1>' +
+              '<small class="text-muted">With ' + 
+                '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a> On ' + partyValue.party_time_display + 
+              '</small><br>' + 
+              '<p class="lead mt-4">' + partyValue.description + '</p>' + 
+            '</div>' +
+          '</div>' +
+          '<div class="row mt-3">' + 
+            '<div class="col-sm-12">' + 
+              '<p class="text-muted">' + price + ' ' + type_icon + '</p>' +
+            '</div>' +
+            '<div class="col-sm-12">' + 
+              '<p class="text-muted">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
+            '</div>' +
+            '<div class="col-sm-12">' + 
+              '<p class="text-muted">' + partyValue.num_curr_winners + ' <small class="text-muted">Current winners</small></p>' +
+            '</div>' +
+            '<div class="col-sm-12">' + 
+              '<p class="text-muted">' + partyValue.num_possible_winners + ' <small class="text-muted">Winners possible</small></p>' +
+            '</div>' +
+          '</div>' +
+          '<form id= "bid-submit" method="GET">'+
+            '<div class="col-sm-20">'+
+            '<input type="number" id="bid_amount" name="bid_amount" value="' + '{{ request.GET.bid_amount }}' + '">'+
+            '</div>'+
+            '</form>'+
+            '<div class="col-sm-20">'+
+            '<input type="hidden" name="party_id" value="' + partyValue.id + '">'+
+            '</div>'+
+          '<div class="row">' + join_verb + '</div>' + winner 
+
+          return container
+          }
           let container =
           '<div class="row mt-3">' +
             '<div class="col-sm-4">' +  
@@ -539,7 +592,6 @@ of the formatting in the head, so it must be imported into every file. -->
         }
       })
     </script> -->
-
   </body>
 </html>
 

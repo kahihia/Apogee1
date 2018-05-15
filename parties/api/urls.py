@@ -24,5 +24,5 @@ urlpatterns = [
     path('create/', PartyCreateAPIView.as_view(), name='create'), 
     path('<int:pk>/', PartyDetailAPIView.as_view(), name='detail'),
     path('<int:pk>/star/', StarToggleAPIView.as_view(), name='star-toggle'),
-    path('<int:pk>/join/', JoinToggleAPIView.as_view(), name='join-toggle'), 
+    path('<int:pk>/join/<int:bids>', JoinToggleAPIView.as_view(), name='join-toggle'), 
  ]

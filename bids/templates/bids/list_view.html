@@ -1,3 +1,7 @@
+
+<div class="">
+	{% include "bids/form.html" with form=create_form btn_title='bid'%}
+</div>
 {% for obj in object_list %}
 	${{obj.bid_amount}}
 	 by 
