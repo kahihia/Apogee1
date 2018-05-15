@@ -9,6 +9,7 @@ from .validators import validate_bid_amount
 User = get_user_model()
 
 
+
 # Model for bid which inludes bid amount, user (fk) and party (fk)
 class Bid(models.Model):
 	bid_amount 	= models.IntegerField(default = 0, validators = [validate_bid_amount])
@@ -18,6 +19,8 @@ class Bid(models.Model):
 
 	def __str__(self):
 		return str(self.bid_amount)
+
+
 
 # set integrity constraints for database
 	def clean(self, *args, **kwargs):

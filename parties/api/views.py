@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q, Count
 
+from bids.models import Bid
 from parties.models import Party
 from .pagination import StandardResultsPagination
 from .serializers import PartyModelSerializer
@@ -42,8 +43,10 @@ class JoinToggleAPIView(APIView):
 		#if party_event is bid	
 		elif party_event_type == 2:
 			if request.user.is_authenticated:
-				#bid_accepted = Party.objects.bid_toggle(request.user, party_qeryset.first(), request.POST.get('bid_input'))
-				#print("bid_accepted: "+str(bid_accepted))
+				bid_list = Bid.objects.filter(party=party_qeryset.first())
+				new_bid = Bid.objects.create(user=request.user, party=party_qeryset.first(), bid_amount=bids)
+				bid_accepted = Party.objects.bid_toggle(request.user, party_qeryset.first(), new_bid, bid_list)
+				print("bid_accepted: "+str(bid_accepted))
 				return Response({'bid_accepted': "true:"})
 		#if party_event is buyout
 		else:

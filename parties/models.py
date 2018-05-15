@@ -35,6 +35,7 @@ class PartyManager(models.Manager):
 			is_joined = True
 			party_obj.joined.add(user)
 		return is_joined
+
 	def buyout_toggle(self, user, party_obj):
 		if user in party_obj.winners.all():
 			won=True
@@ -47,6 +48,30 @@ class PartyManager(models.Manager):
 			print("number of winners is: "+str(party_obj.num_curr_winners))
 			won= True	
 		return won
+
+	def bid_toggle(self, user, party_obj, bid, bid_list):
+		print("bid_toggle")
+		if user in party_obj.joined.all():
+			bid_accepted = False
+		elif party_obj.num_curr_winners<party_obj.num_possible_winners:
+			party_obj.num_curr_winners = F('num_curr_winners') + 1
+			party_obj.joined.add(user)
+			party_obj.save()
+			bid_accepted = True
+		else:
+			min_bid = bid_list.first()
+			for bids in bid_list:
+				if(min_bid.bid_amount>bids.bid_amount):
+					min_bid=bids
+			if min_bid.bid_amount<bid.bid_amount:
+				print("Smaller")
+				bid_accepted=True
+			else:
+				print("Larger")
+				bid_accepted=False
+			
+		return bid_accepted
+
 
 	# this isnt really a toggle. once you've been added, it sticks
 	def win_toggle(self, user, party_obj):
@@ -102,8 +127,11 @@ class Party(models.Model):
 						related_name='won_by'
 					)
 
+	#Number of possible winners - sepcified by the creator on event creation
 	num_possible_winners = models.PositiveSmallIntegerField(default=1)
+	#Number of current winners, incremented each time a winner is added to winners list
 	num_curr_winners = models.PositiveSmallIntegerField(default=0)
+
 
 	#highest_bid = models.PositiveSmallIntegerField(default = 0)
 
@@ -164,6 +192,8 @@ class Party(models.Model):
 		self.task_id = self.schedule_pick_winner()
 		super(Party, self).save(*args, **kwargs)
 
+	def get_min_bid(self):
+		bid_list = self.bid_list
 
 	# this validation is called anytime you save a model
 	# def clean(self, *args, **kwargs):
