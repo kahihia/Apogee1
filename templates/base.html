@@ -212,7 +212,7 @@ of the formatting in the head, so it must be imported into every file. -->
           e.preventDefault()
           let this_ = $(this)
           let text = this_.text()
-          this_.addClass('disabled')
+          this_.prop('disabled', true)
           this_.text(joined)
         })
 
@@ -329,7 +329,7 @@ of the formatting in the head, so it must be imported into every file. -->
           if (!partyValue.is_owner){
               join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '">' + join + '</button>'
             if (partyValue.did_join) {
-              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' + partyValue.id + '">' + joined + '</button>'
+              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' + partyValue.id + '" disabled>' + joined + '</button>'
             }
           } 
 
