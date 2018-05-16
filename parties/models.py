@@ -30,7 +30,9 @@ class PartyManager(models.Manager):
 
 	# this isnt really a toggle. once you've been added, it sticks
 	def join_toggle(self, user, party_obj):
-		if user in party_obj.joined.all():
+		if not party_obj.is_open:
+			won = False
+		elif user in party_obj.joined.all():
 			is_joined = True
 		else:
 			is_joined = True
@@ -38,16 +40,26 @@ class PartyManager(models.Manager):
 		return is_joined
 
 	def buyout_toggle(self, user, party_obj):
-		if user in party_obj.winners.all():
+		hold_val = party_obj.num_curr_winners
+		if not party_obj.is_open:
+			won = False
+		elif user in party_obj.winners.all():
 			won=True
+
 		elif party_obj.num_curr_winners>=party_obj.num_possible_winners:
 			won = False
 		else:
 			party_obj.num_curr_winners =F('num_curr_winners') + 1
 			party_obj.winners.add(user)
+			hold_val = hold_val+1
+			print(party_obj.num_curr_winners)
+			print("<")
+			print(party_obj.num_possible_winners)
+			if hold_val==party_obj.num_possible_winners:
+				print("Closing party object")
+				party_obj.is_open = False
+			won= True
 			party_obj.save()
-			print("number of winners is: "+str(party_obj.num_curr_winners))
-			won= True	
 		return won
 
 	def bid_toggle(self, user, party_obj, bid):
@@ -57,7 +69,9 @@ class PartyManager(models.Manager):
 			print("USER: "+str(b.user)+"  AMOUNT: "+str(b.bid_amount)+" PARTY: "+str(b.party))
 		print("end for loop")
 		print(1)
-		if user in party_obj.joined.all():
+		if not party_obj.is_open:
+			won = False 
+		elif user in party_obj.joined.all():
 			print(2)
 			print("User already in bid_list")
 			bid_accepted = False
@@ -155,6 +169,9 @@ class Party(models.Model):
 	#Number of current winners, incremented each time a winner is added to winners list
 	num_curr_winners = models.PositiveSmallIntegerField(default=0)
 
+	#is_open refers to whether the event has closed either
+	# due to time ending or max cap being reached
+	is_open = models.BooleanField(default=True)
 
 	#highest_bid = models.PositiveSmallIntegerField(default = 0)
 

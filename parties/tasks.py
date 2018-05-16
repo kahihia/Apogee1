@@ -17,6 +17,7 @@ def pick_winner(party_id):
 		# if the party is deleted, it does nothing
 		return 
 
+	party.is_open = False
 	# if there are people that joined the event
 	if party.joined.all().count() > 0:
 		#if the party event is a lottery
@@ -38,7 +39,10 @@ def pick_winner(party_id):
 				print (w)
 			#add winners in
 			for i in winners:
-				Party.objects.win_toggle(i, party)		
+				Party.objects.win_toggle(i, party)
+		elif party.event_type==3:
+			print("Buyout event is over")	
+		party.save()	
 		return party.id
 	else:
 		print ('it didnt work')

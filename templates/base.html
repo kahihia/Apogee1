@@ -176,13 +176,18 @@ of the formatting in the head, so it must be imported into every file. -->
         // this is the join function. it works just like the star function
         $(document.body).on(click, '.joinBtn', function(e){
           e.preventDefault()
-          let bid = document.getElementsByName("bid_amount")[0].value
+          let bid = 3
+          if(!document.getElementsByName("bid_amount")[0]==undefined){
+            bid = document.getElementsByName("bid_amount")[0].value
+          }
+          
           let this_ = $(this)
           // selector for the button. makes sure we have the event id 
           let partyID = this_.attr('data-id')
           // api endpoint
           let joinedUrl = '/api/events/' + partyID + '/join/'+ bid
           // ajax accesses the api
+          console.log(bid)
           $.ajax({
             method: 'GET',
             bid_amount: bid,
@@ -382,7 +387,7 @@ of the formatting in the head, so it must be imported into every file. -->
           '</div>' +
           '<form id= "bid-submit" method="GET">'+
             '<div class="col-sm-20">'+
-            '<input type="number" id="bid_amount" name="bid_amount" value="' + '{{ request.GET.bid_amount }}' + '">'+
+            '<input type="number" id="bid_amount" name="bid_amount" value="20" min="10" ' + '{{ request.GET.bid_amount }}' + '">'+
             '</div>'+
             '</form>'+
             '<div class="col-sm-20">'+
