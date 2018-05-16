@@ -70,7 +70,7 @@ class UserDetailView(DetailView):
     # this method allows us to get the username from the url and 
     # then search our User objects for a match on that username
     def get_object(self):
-        return get_object_or_404(User, username__iexact=self.kwargs.get('username'))
+        return get_object_or_404(User, username__exact=self.kwargs.get('username'))
 
     # allows us to use this info in the js and html
     def get_context_data(self, *args, **kwargs):
