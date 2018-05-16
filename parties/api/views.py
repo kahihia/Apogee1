@@ -43,9 +43,7 @@ class JoinToggleAPIView(APIView):
 		#if party_event is bid	
 		elif party_event_type == 2:
 			if request.user.is_authenticated:
-				bid_list = Bid.objects.filter(party=party_qeryset.first())
-				new_bid = Bid.objects.create(user=request.user, party=party_qeryset.first(), bid_amount=bids)
-				bid_accepted = Party.objects.bid_toggle(request.user, party_qeryset.first(), new_bid, bid_list)
+				bid_accepted = Party.objects.bid_toggle(request.user, party_qeryset.first(), bids)
 				print("bid_accepted: "+str(bid_accepted))
 				return Response({'bid_accepted': "true:"})
 		#if party_event is buyout

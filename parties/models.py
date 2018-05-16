@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 
+from bids.models import Bid
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
@@ -49,27 +50,49 @@ class PartyManager(models.Manager):
 			won= True	
 		return won
 
-	def bid_toggle(self, user, party_obj, bid, bid_list):
-		print("bid_toggle")
+	def bid_toggle(self, user, party_obj, bid):
+		print("First for loop")
+		bid_list = Bid.objects.filter(party=party_obj.pk)
+		for b in bid_list:
+			print("USER: "+str(b.user)+"  AMOUNT: "+str(b.bid_amount)+" PARTY: "+str(b.party))
+		print("end for loop")
+		print(1)
 		if user in party_obj.joined.all():
+			print(2)
+			print("User already in bid_list")
 			bid_accepted = False
 		elif party_obj.num_curr_winners<party_obj.num_possible_winners:
+			print(3)
 			party_obj.num_curr_winners = F('num_curr_winners') + 1
 			party_obj.joined.add(user)
-			party_obj.save()
+			new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
+			print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+" from open slot")
 			bid_accepted = True
+			new_bid.save()
+			party_obj.save()
 		else:
+			print(4)
 			min_bid = bid_list.first()
 			for bids in bid_list:
 				if(min_bid.bid_amount>bids.bid_amount):
 					min_bid=bids
-			if min_bid.bid_amount<bid.bid_amount:
-				print("Smaller")
+			if min_bid.bid_amount<bid:
+				print("Removing smallest bid by: "+str(min_bid.user))
+				Bid.objects.filter(pk=min_bid.pk).delete()
+				party_obj.joined.remove(min_bid.user)
+				party_obj.joined.add(user)
+
+				new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
+				print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+" from winning slot")
 				bid_accepted=True
+				party_obj.save()
+				new_bid.save()
+
 			else:
-				print("Larger")
+				print("Bid not large enough to usurp other")
 				bid_accepted=False
-			
+
+		print(5)			
 		return bid_accepted
 
 

@@ -1,5 +1,6 @@
 from django import forms
-from .models import Bid, Party
+#from .models import Bid, Party
+from .models import Bid
 
 class BidModelForm(forms.ModelForm):
 	class Meta:
