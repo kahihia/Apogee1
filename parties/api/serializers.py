@@ -23,7 +23,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	# prettier AM/PM display for time created. currently unused
 	time_created_display = serializers.SerializerMethodField()
 	# tells us if the event time has passed or not
-	is_open = serializers.SerializerMethodField()
+	#is_open = serializers.SerializerMethodField()
 	# how many people have starred the event
 	stars = serializers.SerializerMethodField()
 	# tells us if the requestuser has starred this one. 
@@ -145,8 +145,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		return timeuntil(obj.party_time)
 
 	# this compares the current time to the event time and tells us if it's closed
-	def get_is_open(self, obj):
-		return timezone.now()<obj.party_time
+	# def get_is_open(self, obj):
+	# 	return timezone.now()<obj.party_time
 
 	def get_time_created_display(self, obj):
 		# strftime is python datetime method

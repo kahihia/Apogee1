@@ -17,17 +17,32 @@ def pick_winner(party_id):
 		# if the party is deleted, it does nothing
 		return 
 
+	party.is_open = False
 	# if there are people that joined the event
 	if party.joined.all().count() > 0:
-		# gets all users in joined, orders them randomly
-		pool = party.joined.all().order_by('?')
-		print (pool)
-		# the winner is just the top of the random stack
-		winner = pool.first()
-		print (winner)
-		# use an add method to add the winner to winners many to many
-		Party.objects.win_toggle(winner, party)
-		print ('it worked')
+		#if the party event is a lottery
+		if party.event_type==1:
+			# gets all users in joined, orders them randomly
+			pool = party.joined.all().order_by('?')
+			print (pool)
+			# the winner is just the top of the random stack
+			winner = pool.first()
+			print (winner)
+			# use an add method to add the winner to winners many to many
+			Party.objects.win_toggle(winner, party)
+			print ('it worked')
+		#If the party event is a bid
+		elif party.event_type==2:
+			#Anyone in the joined list at the end of the event is a winner
+			winners = party.joined.all()
+			for w in winner:
+				print (w)
+			#add winners in
+			for i in winners:
+				Party.objects.win_toggle(i, party)
+		elif party.event_type==3:
+			print("Buyout event is over")	
+		party.save()	
 		return party.id
 	else:
 		print ('it didnt work')
