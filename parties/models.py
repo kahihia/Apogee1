@@ -64,6 +64,8 @@ class PartyManager(models.Manager):
 
 	def bid_toggle(self, user, party_obj, bid):
 		print("First for loop")
+		party_num_curr_winners = party_obj.num_curr_winners
+		party_num_possible_winners = party_obj.num_possible_winners
 		bid_list = Bid.objects.filter(party=party_obj.pk)
 		for b in bid_list:
 			print("USER: "+str(b.user)+"  AMOUNT: "+str(b.bid_amount)+" PARTY: "+str(b.party))
@@ -82,13 +84,19 @@ class PartyManager(models.Manager):
 			new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
 			print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+" from open slot")
 			bid_accepted = True
+			if party_num_curr_winners+1==party_num_possible_winners:
+				min_bid = bid_list.first()
+				for bs in bid_list:
+					if min_bid.bid_amount>bs.bid_amount:
+						min_bid=bs
+				party_obj.minimum_bid = min_bid.bid_amount		
 			new_bid.save()
 			party_obj.save()
 		else:
 			print(4)
 			min_bid = bid_list.first()
 			for bids in bid_list:
-				if(min_bid.bid_amount>bids.bid_amount):
+				if min_bid.bid_amount>bids.bid_amount:
 					min_bid=bids
 			if min_bid.bid_amount<bid:
 				print("Removing smallest bid by: "+str(min_bid.user))
@@ -98,13 +106,23 @@ class PartyManager(models.Manager):
 
 				new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
 				print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+" from winning slot")
+				blist = Bid.objects.filter(party=party_obj.pk)
+				min_bid = blist.first()
+				for bs in blist:
+					print("This is what I am talking about: "+str(bs.bid_amount))
+					if min_bid.bid_amount>bs.bid_amount:
+						min_bid=bs
+				party_obj.minimum_bid = min_bid.bid_amount
 				bid_accepted=True
 				party_obj.save()
 				new_bid.save()
 
 			else:
+				party_obj.minimum_bid = min_bid.bid_amount
+				print("party min bid is: "+str(party_obj.minimum_bid))
 				print("Bid not large enough to usurp other")
 				bid_accepted=False
+				party_obj.save()
 
 		print(5)			
 		return bid_accepted
@@ -142,6 +160,9 @@ class Party(models.Model):
 	# auto_now adds the time, but it can be overwritten if it adds again
 	updated 		= models.DateTimeField(auto_now=True)
 	party_time		= models.DateTimeField()
+
+	minimum_bid		= models.IntegerField(default=0)
+
 	# starred contains the users that have starred the event. that means that
 	# starred_by should include all the events that a user has starred
 	starred 		= models.ManyToManyField(

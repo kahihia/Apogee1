@@ -26,11 +26,26 @@ class StarToggleAPIView(APIView):
 # built not to toggle. it only adds at the moment
 
 #change this to handle all purchase types
-class JoinToggleAPIView(APIView):
+
+class BidToggleAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, bids, format=None):
 		print("The bid is: ")
 		print(bids)
+		party_qeryset = Party.objects.filter(pk=pk)
+		party_event_type = party_qeryset.first().event_type
+		#if party_event is bid	
+		if party_event_type == 2:
+			if request.user.is_authenticated:
+				bid_accepted = Party.objects.bid_toggle(request.user, party_qeryset.first(), bids)
+				print("bid_accepted: "+str(bid_accepted))
+				return Response({'bid_accepted': "true:"})
+
+
+
+class JoinToggleAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	def get(self, request, pk, format=None):
 		party_qeryset = Party.objects.filter(pk=pk)
 		party_event_type = party_qeryset.first().event_type
 		print('the party event type is: '+str(party_event_type))
@@ -40,12 +55,6 @@ class JoinToggleAPIView(APIView):
 				is_joined = Party.objects.join_toggle(request.user, party_qeryset.first())
 				print("is_joined: "+str(is_joined))
 				return Response({'joined': is_joined})
-		#if party_event is bid	
-		elif party_event_type == 2:
-			if request.user.is_authenticated:
-				bid_accepted = Party.objects.bid_toggle(request.user, party_qeryset.first(), bids)
-				print("bid_accepted: "+str(bid_accepted))
-				return Response({'bid_accepted': "true:"})
 		#if party_event is buyout
 		else:
 			if request.user.is_authenticated:
