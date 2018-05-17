@@ -520,11 +520,26 @@
 	"buffers":
 	[
 		{
+			"file": "parties/templates/parties/party_detail.html",
+			"settings":
+			{
+				"buffer_size": 1085,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "accounts/views.py",
 			"settings":
 			{
-				"buffer_size": 3583,
-				"encoding": "UTF-8",
+				"buffer_size": 4721,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "accounts/forms.py",
+			"settings":
+			{
+				"buffer_size": 2545,
 				"line_ending": "Unix"
 			}
 		}
@@ -564,12 +579,18 @@
 	[
 		"/Users/caldwellclarke/DjangoProjects/apogee1",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templates",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templates/registration",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templatetags",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/api",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/api/__pycache__"
+		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/api/__pycache__",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates",
+		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates/parties"
 	],
 	"file_history":
 	[
+		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/views.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/urls.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/tests.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/models.py",
@@ -592,7 +613,6 @@
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/mixins.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/templates/navbar.html",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/apogee1/urls.py",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/views.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/tasks.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/templates/search.html",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates/parties/starred_list.html",
@@ -701,7 +721,7 @@
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 24.0
 	},
 	"find_in_files":
 	{
@@ -747,24 +767,83 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "accounts/views.py",
+					"file": "parties/templates/parties/party_detail.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3583,
+						"buffer_size": 1085,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3122,
-								3122
+								957,
+								950
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "accounts/views.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4721,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1140,
+								1284
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 149.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "accounts/forms.py",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 2545,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
@@ -773,7 +852,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 454.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -784,7 +863,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 23.0
+		"height": 24.0
 	},
 	"input":
 	{
@@ -821,7 +900,7 @@
 	"project": "apogee1.sublime-project",
 	"replace":
 	{
-		"height": 42.0
+		"height": 44.0
 	},
 	"save_all_on_build": true,
 	"select_file":
