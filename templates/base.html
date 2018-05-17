@@ -358,6 +358,45 @@ of the formatting in the head, so it must be imported into every file. -->
           // this formats the event on the detail page. it has a thumbnail on the top 
           // left, the title and star on the top right, the name, time, and full 
           // description, below. below that is the price, type, and the join button
+
+          if(partyValue.event_type == 1){
+             let container =
+          '<div class="row mt-3">' +
+            '<div class="col-sm-4">' +  
+              '<img class="img-fluid rounded mx-auto" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
+            '</div>' +
+            '<div class="col-sm-8">' +
+              '<h1>' + partyValue.title + 
+                '<span class="float-right">' + 
+                  '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + star_verb + '</a>' + 
+                '</span>' + 
+              '</h1>' +
+              '<small class="text-muted">With ' + 
+                '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a> On ' + partyValue.party_time_display + 
+              '</small><br>' + 
+              '<p class="lead mt-4">' + partyValue.description + '</p>' + 
+            '</div>' +
+          '</div>' +
+          '<div class="row mt-3">' + 
+            '<div class="col-sm-12">' + 
+              '<p class="text-muted">' + price + ' ' + type_icon + '</p>' +
+            '</div>' +
+            '<div class="col-sm-12">' + 
+              '<p class="text-muted">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
+            '</div>' +
+            '<div class="col-sm-12">' + 
+              '<p class="text-muted">' + partyValue.num_curr_winners + ' <small class="text-muted">Current winners</small></p>' +
+            '</div>' +
+            '<div class="col-sm-12">' + 
+              '<p class="text-muted">' + partyValue.num_possible_winners + ' <small class="text-muted">Winners possible</small></p>' +
+            '</div>' +
+          '</div>' +
+          '<div class="row">' + join_verb + '</div>' + winner 
+
+          return container
+          }
+
+
           if(partyValue.event_type == 2){
                       let container =
           '<div class="row mt-3">' +
@@ -402,7 +441,8 @@ of the formatting in the head, so it must be imported into every file. -->
 
           return container
           }
-          let container =
+          if(partyValue.event_type == 3){
+             let container =
           '<div class="row mt-3">' +
             '<div class="col-sm-4">' +  
               '<img class="img-fluid rounded mx-auto" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
@@ -423,19 +463,24 @@ of the formatting in the head, so it must be imported into every file. -->
             '<div class="col-sm-12">' + 
               '<p class="text-muted">' + price + ' ' + type_icon + '</p>' +
             '</div>' +
-            '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
+            // '<div class="col-sm-12">' + 
+            //   '<p class="text-muted">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
+            // '</div>' +
+              '<div class="col-sm-12">' + 
+              '<p class="text-muted">' + partyValue.timeuntil + ' <medium class="text-muted"> left to bid</medium></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.num_curr_winners + ' <small class="text-muted">Current winners</small></p>' +
+              '<p class="text-muted">' + partyValue.num_curr_winners + ' <small class="text-muted">current winners</small></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.num_possible_winners + ' <small class="text-muted">Winners possible</small></p>' +
+              '<p class="text-muted">' + partyValue.num_possible_winners + ' <small class="text-muted">possible winners</small></p>' +
             '</div>' +
           '</div>' +
           '<div class="row">' + join_verb + '</div>' + winner 
 
           return container
+          }
+         
         }
 
 
