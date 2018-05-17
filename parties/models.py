@@ -184,12 +184,12 @@ class Party(models.Model):
 						blank=True, 
 						related_name='won_by'
 					)
-
 	#Number of possible winners - sepcified by the creator on event creation
 	num_possible_winners = models.PositiveSmallIntegerField(default=1)
 	#Number of current winners, incremented each time a winner is added to winners list
 	num_curr_winners = models.PositiveSmallIntegerField(default=0)
-
+	# The maximum number of entrants to a lottery event. not required, defaults to no limit
+	max_entrants = models.PositiveSmallIntegerField(blank=True, null=True)
 	#is_open refers to whether the event has closed either
 	# due to time ending or max cap being reached
 	is_open = models.BooleanField(default=True)

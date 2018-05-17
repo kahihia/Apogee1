@@ -85,10 +85,35 @@ of the formatting in the head, so it must be imported into every file. -->
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
         let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
+          results = regex.exec(url);
         if (!results) return null;
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
+      }
+
+      // this function checks to see if lottery had been selected as the event type 
+      // if it has, it makes the max_entrants piece visible. otherwise, its hidden.
+      function check_event_type(type) {
+        // if the event is a lottery
+        if(type == 1) {
+          // the id tells us where our change is supposed to occur
+          // this unhides the max entrants field
+          $('#div_id_max_entrants').prop('hidden', false);
+          // this sets the text for the num winners field
+          $("#div_id_num_possible_winners").children('label').text('Number of possible winners*');
+        // if the event is an auction
+        } else if (type == 2) {
+          // this hides the max entrants field
+          $('#div_id_max_entrants').prop('hidden', true);
+          // this sets the text for the num winners field
+          $("#div_id_num_possible_winners").children('label').text('Number of possible winners*');
+        // if the event is a buy
+        } else {
+          // this hides the max entrants field
+          $('#div_id_max_entrants').prop('hidden', true);
+          // this sets the text for the num winners field
+          $("#div_id_num_possible_winners").children('label').text('Number of purchases available*');
+        }
       }
 
       // this is the main event rendering function. it takes the container ID
@@ -220,6 +245,7 @@ of the formatting in the head, so it must be imported into every file. -->
           this_.prop('disabled', true)
           this_.text(joined)
         })
+
 
         // this allows search along hashtags. its called upon creation
         // could be useful for categorization
