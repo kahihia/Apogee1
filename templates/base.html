@@ -142,6 +142,7 @@ of the formatting in the head, so it must be imported into every file. -->
           let this_ = $(this)
           // selector for the button. makes sure we're starring the correct button
           let partyID = this_.attr('data-id')
+
           // api endpoint
           let starredUrl = '/api/events/' + partyID + '/star/'
           // ajax is what actually accesses the API
@@ -176,21 +177,25 @@ of the formatting in the head, so it must be imported into every file. -->
         // this is the join function. it works just like the star function
         $(document.body).on(click, '.joinBtn', function(e){
           e.preventDefault()
-          let bid = 3
-          if(!document.getElementsByName("bid_amount")[0]==undefined){
-            bid = document.getElementsByName("bid_amount")[0].value
-          }
-          
+
           let this_ = $(this)
           // selector for the button. makes sure we have the event id 
           let partyID = this_.attr('data-id')
+          let partyType = this_.attr('event-id')
+          console.log("The party is "+partyType)
           // api endpoint
-          let joinedUrl = '/api/events/' + partyID + '/join/'+ bid
+          let joinedUrl;
+          if(partyType == 1 || partyType == 3){
+            joinedUrl = '/api/events/' + partyID + '/join/'
+          }
+          else{
+            let bid = document.getElementsByName("bid_amount")[0].value
+            joinedUrl = '/api/events/' + partyID + '/join/'+ bid
+          }
+          
           // ajax accesses the api
-          console.log(bid)
           $.ajax({
             method: 'GET',
-            bid_amount: bid,
             url: joinedUrl,
 
             success: function(data){
@@ -327,7 +332,7 @@ of the formatting in the head, so it must be imported into every file. -->
           // this sets the display of the join button
           let join_verb = ''
           if (!partyValue.is_owner){
-              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '">' + join + '</button>'
+              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '" event-id="'+partyValue.event_type+'">' + join + '</button>'
             if (partyValue.did_join) {
               join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' + partyValue.id + '">' + joined + '</button>'
             }
