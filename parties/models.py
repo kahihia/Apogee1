@@ -37,7 +37,7 @@ class PartyManager(models.Manager):
 		else:
 			is_joined = True
 			party_obj.joined.add(user)
-		return is_joined
+		return {'is_joined':is_joined, 'num_joined':party_obj.joined.all().count()}
 
 	def buyout_toggle(self, user, party_obj):
 		hold_val = party_obj.num_curr_winners
@@ -125,7 +125,7 @@ class PartyManager(models.Manager):
 				party_obj.save()
 
 		print(5)			
-		return bid_accepted
+		return {'bid_accepted':bid_accepted, 'min_bid':party_obj.minimum_bid}
 
 
 	# this isnt really a toggle. once you've been added, it sticks

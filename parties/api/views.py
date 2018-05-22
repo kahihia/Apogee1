@@ -37,9 +37,10 @@ class BidToggleAPIView(APIView):
 		#if party_event is bid	
 		if party_event_type == 2:
 			if request.user.is_authenticated:
-				bid_accepted = Party.objects.bid_toggle(request.user, party_qeryset.first(), bids)
-				print("bid_accepted: "+str(bid_accepted))
-				return Response({'bid_accepted': "true:"})
+				bid_table = Party.objects.bid_toggle(request.user, party_qeryset.first(), bids)
+				return Response({'bid_accepted': bid_table["bid_accepted"],
+								'min_bid': bid_table["min_bid"]
+								})
 
 
 
@@ -52,9 +53,10 @@ class JoinToggleAPIView(APIView):
 		#if party_event is drawing
 		if party_event_type == 1:
 			if request.user.is_authenticated:
-				is_joined = Party.objects.join_toggle(request.user, party_qeryset.first())
-				print("is_joined: "+str(is_joined))
-				return Response({'joined': is_joined})
+				joined_table = Party.objects.join_toggle(request.user, party_qeryset.first())
+				return Response({'joined': joined_table["is_joined"],
+								'num_joined':joined_table["num_joined"]
+								})
 		#if party_event is buyout
 		else:
 			if request.user.is_authenticated:
