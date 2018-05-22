@@ -40,6 +40,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	winner_names = serializers.SerializerMethodField()
 	# tells us if requestuser was the one who created this event. 
 	is_owner = serializers.SerializerMethodField()
+	num_curr_winners = serializers.SerializerMethodField()
 
 	class Meta:
 		# the API is built on the party model
@@ -143,6 +144,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		return tz_converted.strftime('%b %d at %I:%M %p')
 
 	def get_timeuntil(self, obj):
+		print("getting time")
 		return timeuntil(obj.party_time)
 
 	# this compares the current time to the event time and tells us if it's closed
@@ -152,5 +154,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	def get_time_created_display(self, obj):
 		# strftime is python datetime method
 		return obj.time_created.strftime('%b %d at %I:%M %p')
+
+	def get_num_curr_winners(self, obj):
+		return obj.winners.all().count()
 
 
