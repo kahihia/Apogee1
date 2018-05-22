@@ -224,6 +224,10 @@ of the formatting in the head, so it must be imported into every file. -->
             url: joinedUrl,
 
             success: function(data){
+              console.log(document.getElementsByName("party_id")[0].value)
+              console.log(document.getElementsByName("num_possible_winners")[0].textContent)
+              document.getElementsByName("num_possible_winners")[0].innerHTML = 55
+              console.log(data)
               // the api handles updating the database 
             }, 
             error: function(data){
@@ -455,7 +459,7 @@ of the formatting in the head, so it must be imported into every file. -->
               '<p class="text-muted">' + partyValue.timeuntil + ' <medium class="text-muted"> left to bid</medium></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.num_possible_winners + ' <small class="text-muted">Winners possible</small></p>' +
+              '<p class="text-muted" name="num_possible_winners">' + partyValue.num_possible_winners + ' <small class="text-muted">Winners possible</small></p>' +
             '</div>' +
           '</div>' +
           '<form id= "bid-submit" method="GET">'+
