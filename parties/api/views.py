@@ -60,9 +60,10 @@ class JoinToggleAPIView(APIView):
 		#if party_event is buyout
 		else:
 			if request.user.is_authenticated:
-				bought_out = Party.objects.buyout_toggle(request.user, party_qeryset.first())
-				print("bought_out: "+str(bought_out))
-				return Response({'boughtout': bought_out})	
+				buy_table = Party.objects.buyout_toggle(request.user, party_qeryset.first())
+				return Response({'won':buy_table["winner"],
+								'num_curr_winners':buy_table["num_winners"]
+								})
 #deprecated ToggleAPIViews
 '''
 class JoinToggleAPIView(APIView):

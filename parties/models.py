@@ -40,51 +40,52 @@ class PartyManager(models.Manager):
 		return {'is_joined':is_joined, 'num_joined':party_obj.joined.all().count()}
 
 	def buyout_toggle(self, user, party_obj):
-		hold_val = party_obj.num_curr_winners
 		if not party_obj.is_open:
 			won = False
 		elif user in party_obj.winners.all():
 			won=True
 
-		elif party_obj.num_curr_winners>=party_obj.num_possible_winners:
+		elif party_obj.winners.all().count()>=party_obj.num_possible_winners:
 			won = False
 		else:
-			party_obj.num_curr_winners =F('num_curr_winners') + 1
 			party_obj.winners.add(user)
-			hold_val = hold_val+1
-			print(party_obj.num_curr_winners)
+			print(party_obj.winners.all().count())
 			print("<")
 			print(party_obj.num_possible_winners)
-			if hold_val==party_obj.num_possible_winners:
+			if party_obj.winners.all().count()==party_obj.num_possible_winners:
 				print("Closing party object")
 				party_obj.is_open = False
 			won= True
 			party_obj.save()
-		return won
+		return {'winner':won, 'num_winners':party_obj.winners.all().count()}
 
 	def bid_toggle(self, user, party_obj, bid):
 		print("First for loop")
-		party_num_curr_winners = party_obj.num_curr_winners
-		party_num_possible_winners = party_obj.num_possible_winners
+		#party_num_curr_winners = party_obj.num_curr_winners
 		bid_list = Bid.objects.filter(party=party_obj.pk)
 		for b in bid_list:
 			print("USER: "+str(b.user)+"  AMOUNT: "+str(b.bid_amount)+" PARTY: "+str(b.party))
 		print("end for loop")
-		print(1)
+		print("NUMBER OF WINNERS")
+		print(party_obj.joined.all().count())
+		print(party_obj.num_possible_winners)
 		if not party_obj.is_open:
 			won = False 
 		elif user in party_obj.joined.all():
-			print(2)
 			print("User already in bid_list")
 			bid_accepted = False
-		elif party_obj.num_curr_winners<party_obj.num_possible_winners:
-			print(3)
-			party_obj.num_curr_winners = F('num_curr_winners') + 1
+		elif party_obj.joined.all().count()<party_obj.num_possible_winners:
 			party_obj.joined.add(user)
 			new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
 			print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+" from open slot")
 			bid_accepted = True
-			if party_num_curr_winners+1==party_num_possible_winners:
+			print("HERE IS THE CHECK")
+			print(party_obj.joined.all().count())
+			print(party_obj.num_possible_winners)
+			print("DID I PASS")
+			if party_obj.joined.all().count()==party_obj.num_possible_winners:
+				print("IS THIS HAPPENING??????????")
+				bid_list = Bid.objects.filter(party=party_obj.pk)
 				min_bid = bid_list.first()
 				for bs in bid_list:
 					if min_bid.bid_amount>bs.bid_amount:
@@ -187,7 +188,7 @@ class Party(models.Model):
 	#Number of possible winners - sepcified by the creator on event creation
 	num_possible_winners = models.PositiveSmallIntegerField(default=1)
 	#Number of current winners, incremented each time a winner is added to winners list
-	num_curr_winners = models.PositiveSmallIntegerField(default=0)
+	#num_curr_winners = models.PositiveSmallIntegerField(default=0)
 	# The maximum number of entrants to a lottery event. not required, defaults to no limit
 	max_entrants = models.PositiveSmallIntegerField(blank=True, null=True)
 	#is_open refers to whether the event has closed either

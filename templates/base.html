@@ -231,7 +231,8 @@ of the formatting in the head, so it must be imported into every file. -->
                 document.getElementsByName("min_bid")[0].innerHTML = data.min_bid + " is the minimum bid"
               }
               if(partyType == 3){
-
+                document.getElementsByName("num_curr_winners")[0].innerHTML = 
+                data.num_curr_winners + " current winners"
               }
 
               console.log(data.min_bid)
@@ -507,7 +508,7 @@ of the formatting in the head, so it must be imported into every file. -->
               '<p class="text-muted">' + partyValue.timeuntil + ' <medium class="text-muted"> left to bid</medium></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.num_curr_winners + ' <small class="text-muted">current winners</small></p>' +
+              '<p class="text-muted" name="num_curr_winners">' + partyValue.num_curr_winners + ' <small class="text-muted">current winners</small></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
               '<p class="text-muted">' + partyValue.num_possible_winners + ' <small class="text-muted">possible winners</small></p>' +
