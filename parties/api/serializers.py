@@ -40,6 +40,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	winner_names = serializers.SerializerMethodField()
 	# tells us if requestuser was the one who created this event. 
 	is_owner = serializers.SerializerMethodField()
+	num_curr_winners = serializers.SerializerMethodField()
 
 	class Meta:
 		# the API is built on the party model
@@ -69,7 +70,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'cost',
 			'num_possible_winners',
 			'num_curr_winners',
-			'minimum_bid'
+			'minimum_bid',
+			'max_entrants'
 		]
 
 	# method if you want the human readable format of the event type
@@ -152,5 +154,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	def get_time_created_display(self, obj):
 		# strftime is python datetime method
 		return obj.time_created.strftime('%b %d at %I:%M %p')
+
+	def get_num_curr_winners(self, obj):
+		return obj.winners.all().count()
 
 

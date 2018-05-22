@@ -224,6 +224,21 @@ of the formatting in the head, so it must be imported into every file. -->
             url: joinedUrl,
 
             success: function(data){
+              if(partyType == 1){
+                document.getElementsByName("num_joined")[0].innerHTML = data.num_joined + " Joined"
+              }
+              if(partyType == 2){
+                document.getElementsByName("min_bid")[0].innerHTML = data.min_bid + " is the minimum bid"
+              }
+              if(partyType == 3){
+                document.getElementsByName("num_curr_winners")[0].innerHTML = 
+                data.num_curr_winners + " current winners"
+              }
+              if(data.error_message!=""){
+                alert(data.error_message)
+              }
+              
+              console.log(data.min_bid)
               // the api handles updating the database 
             }, 
             error: function(data){
@@ -411,10 +426,10 @@ of the formatting in the head, so it must be imported into every file. -->
               '<p class="text-muted">' + partyValue.timeuntil + ' <medium class="text-muted"> left to bid</medium></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
+              '<p class="text-muted" name="num_joined">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.num_curr_winners + ' <small class="text-muted">Current winners</small></p>' +
+              '<p class="text-muted">' + partyValue.max_entrants + ' <small class="text-muted">Max entrants</small></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
               '<p class="text-muted">' + partyValue.num_possible_winners + ' <small class="text-muted">Winners possible</small></p>' +
@@ -449,13 +464,13 @@ of the formatting in the head, so it must be imported into every file. -->
               '<p class="text-muted">' + price + ' ' + type_icon + '</p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.minimum_bid + ' <small class="text-muted"> is the minimum bid</small></p>' +
+              '<p class="text-muted" name="min_bid">' + partyValue.minimum_bid + ' <small class="text-muted"> is the minimum bid</small></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
               '<p class="text-muted">' + partyValue.timeuntil + ' <medium class="text-muted"> left to bid</medium></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.num_possible_winners + ' <small class="text-muted">Winners possible</small></p>' +
+              '<p class="text-muted" name="num_possible_winners">' + partyValue.num_possible_winners + ' <small class="text-muted">Winners possible</small></p>' +
             '</div>' +
           '</div>' +
           '<form id= "bid-submit" method="GET">'+
@@ -499,7 +514,7 @@ of the formatting in the head, so it must be imported into every file. -->
               '<p class="text-muted">' + partyValue.timeuntil + ' <medium class="text-muted"> left to bid</medium></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.num_curr_winners + ' <small class="text-muted">current winners</small></p>' +
+              '<p class="text-muted" name="num_curr_winners">' + partyValue.num_curr_winners + ' <small class="text-muted">current winners</small></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
               '<p class="text-muted">' + partyValue.num_possible_winners + ' <small class="text-muted">possible winners</small></p>' +
