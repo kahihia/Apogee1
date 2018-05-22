@@ -4,12 +4,3 @@ myvenv
 db.sqlite3
 /static
 .DS_Store
-*.pyc
-*.pyc
-parties/__pycache__/models.cpython-36.pyc
-parties/api/__pycache__/serializers.cpython-36.pyc
-parties/api/__pycache__/views.cpython-36.pyc
-parties/__pycache__/models.cpython-36.pyc
-parties/api/__pycache__/views.cpython-36.pyc
-parties/__pycache__/models.cpython-36.pyc
-parties/api/__pycache__/views.cpython-36.pyc
