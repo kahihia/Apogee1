@@ -70,7 +70,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'cost',
 			'num_possible_winners',
 			'num_curr_winners',
-			'minimum_bid'
+			'minimum_bid',
+			'max_entrants'
 		]
 
 	# method if you want the human readable format of the event type
@@ -144,7 +145,6 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		return tz_converted.strftime('%b %d at %I:%M %p')
 
 	def get_timeuntil(self, obj):
-		print("getting time")
 		return timeuntil(obj.party_time)
 
 	# this compares the current time to the event time and tells us if it's closed

@@ -37,9 +37,28 @@ class PartyManager(models.Manager):
 		elif user in party_obj.joined.all():
 			error_message = "You have already joined this event"
 			is_joined = False
-		else:
+		elif party_obj.max_entrants is None:
 			is_joined = True
 			party_obj.joined.add(user)
+			party_obj.save()
+		else:
+			if party_obj.joined.all().count()>=party_obj.max_entrants:
+				error_message= "This event is already at max capacity"
+				is_joined = False
+			else:
+				is_joined = True
+				party_obj.joined.add(user)
+				party_obj.save()
+		if party_obj.max_entrants is not None and party_obj.joined.all().count()==party_obj.max_entrants:
+				print("Closing party object")
+				party_obj.is_open = False
+				pool = party_obj.joined.all().order_by('?')
+				for i in range(1,party_obj.max_entrants):
+					winner = pool.first()
+					party_obj.winners.add(winner)
+					pool.exclude(pk=winner.pk)
+				party_obj.save()
+
 		return {'is_joined':is_joined, 'num_joined':party_obj.joined.all().count(), 'error_message':error_message}
 
 	def buyout_toggle(self, user, party_obj):
@@ -51,6 +70,7 @@ class PartyManager(models.Manager):
 			error_message = "You have already purchased this event"
 			won=False
 		elif party_obj.winners.all().count()>=party_obj.num_possible_winners:
+			error_message = "This event is already at max capacity"
 			won = False
 		else:
 			party_obj.winners.add(user)
