@@ -30,21 +30,26 @@ class PartyManager(models.Manager):
 
 	# this isnt really a toggle. once you've been added, it sticks
 	def join_toggle(self, user, party_obj):
+		error_message=""
 		if not party_obj.is_open:
+			error_message = "Event is closed"
 			won = False
 		elif user in party_obj.joined.all():
-			is_joined = True
+			error_message = "You have already joined this event"
+			is_joined = False
 		else:
 			is_joined = True
 			party_obj.joined.add(user)
-		return {'is_joined':is_joined, 'num_joined':party_obj.joined.all().count()}
+		return {'is_joined':is_joined, 'num_joined':party_obj.joined.all().count(), 'error_message':error_message}
 
 	def buyout_toggle(self, user, party_obj):
+		error_message=""
 		if not party_obj.is_open:
+			error_message = "Event is closed"
 			won = False
 		elif user in party_obj.winners.all():
-			won=True
-
+			error_message = "You have already purchased this event"
+			won=False
 		elif party_obj.winners.all().count()>=party_obj.num_possible_winners:
 			won = False
 		else:
@@ -57,22 +62,24 @@ class PartyManager(models.Manager):
 				party_obj.is_open = False
 			won= True
 			party_obj.save()
-		return {'winner':won, 'num_winners':party_obj.winners.all().count()}
+		return {'winner':won, 'num_winners':party_obj.winners.all().count(), 'error_message':error_message}
 
 	def bid_toggle(self, user, party_obj, bid):
 		print("First for loop")
+		error_message=""
 		#party_num_curr_winners = party_obj.num_curr_winners
 		bid_list = Bid.objects.filter(party=party_obj.pk)
-		for b in bid_list:
-			print("USER: "+str(b.user)+"  AMOUNT: "+str(b.bid_amount)+" PARTY: "+str(b.party))
-		print("end for loop")
-		print("NUMBER OF WINNERS")
-		print(party_obj.joined.all().count())
-		print(party_obj.num_possible_winners)
+		# for b in bid_list:
+		# 	print("USER: "+str(b.user)+"  AMOUNT: "+str(b.bid_amount)+" PARTY: "+str(b.party))
+		# print("end for loop")
+		# print("NUMBER OF WINNERS")
+		# print(party_obj.joined.all().count())
+		# print(party_obj.num_possible_winners)
 		if not party_obj.is_open:
+			error_message = "Event is closed"
 			won = False 
 		elif user in party_obj.joined.all():
-			print("User already in bid_list")
+			error_message = "You already have a bid registered"
 			bid_accepted = False
 		elif party_obj.joined.all().count()<party_obj.num_possible_winners:
 			party_obj.joined.add(user)
@@ -120,13 +127,14 @@ class PartyManager(models.Manager):
 
 			else:
 				party_obj.minimum_bid = min_bid.bid_amount
-				print("party min bid is: "+str(party_obj.minimum_bid))
-				print("Bid not large enough to usurp other")
+				# print("party min bid is: "+str(party_obj.minimum_bid))
+				# print("Bid not large enough to usurp other")
+				error_message = "You must beat the minimum bid"
 				bid_accepted=False
 				party_obj.save()
 
 		print(5)			
-		return {'bid_accepted':bid_accepted, 'min_bid':party_obj.minimum_bid}
+		return {'bid_accepted':bid_accepted, 'min_bid':party_obj.minimum_bid, 'error_message':error_message}
 
 
 	# this isnt really a toggle. once you've been added, it sticks

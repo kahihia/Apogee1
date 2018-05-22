@@ -234,7 +234,10 @@ of the formatting in the head, so it must be imported into every file. -->
                 document.getElementsByName("num_curr_winners")[0].innerHTML = 
                 data.num_curr_winners + " current winners"
               }
-
+              if(data.error_message!=""){
+                alert(data.error_message)
+              }
+              
               console.log(data.min_bid)
               // the api handles updating the database 
             }, 
