@@ -53,10 +53,14 @@ class PartyManager(models.Manager):
 				print("Closing party object")
 				party_obj.is_open = False
 				pool = party_obj.joined.all().order_by('?')
-				for i in range(1,party_obj.max_entrants):
+				print("The max entrants are: "+str(party_obj.max_entrants))
+				for i in range(0,party_obj.num_possible_winners):
 					winner = pool.first()
+					print("WINNNER")
+					print(i)
+					print(winner)
 					party_obj.winners.add(winner)
-					pool.exclude(pk=winner.pk)
+					winner = pool.exclude(pk=winner.pk)
 				party_obj.save()
 
 		return {'is_joined':is_joined, 'num_joined':party_obj.joined.all().count(), 'error_message':error_message}

@@ -21,16 +21,24 @@ def pick_winner(party_id):
 	# if there are people that joined the event
 	if party.joined.all().count() > 0:
 		#if the party event is a lottery
+		# gets all users in joined, orders them randomly
+		pool = party.joined.all().order_by('?')
+
 		if party.event_type==1:
-			# gets all users in joined, orders them randomly
-			pool = party.joined.all().order_by('?')
-			print (pool)
-			# the winner is just the top of the random stack
-			winner = pool.first()
-			print (winner)
-			# use an add method to add the winner to winners many to many
-			Party.objects.win_toggle(winner, party)
-			print ('it worked')
+			for i in range(0,party.num_possible_winners):
+				winner = pool.first()
+				print("Scheduler")
+				print(i)
+				print(winner)
+				Party.objects.win_toggle(winner, party)
+				winner = pool.exclude(pk=winner.pk)
+			# print (pool)
+			# # the winner is just the top of the random stack
+			# winner = pool.first()
+			# print (winner)
+			# # use an add method to add the winner to winners many to many
+			# #
+			# print ('it worked')
 		#If the party event is a bid
 		elif party.event_type==2:
 			#Anyone in the joined list at the end of the event is a winner
