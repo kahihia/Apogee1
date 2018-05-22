@@ -26,12 +26,13 @@ def pick_winner(party_id):
 		if party.event_type==1 and party.is_open:
 			party.is_open = False
 			for i in range(0,party.num_possible_winners):
-				winner = pool.first()
-				print("Scheduler")
-				print(i)
-				print(winner)
-				Party.objects.win_toggle(winner, party)
-				winner = pool.exclude(pk=winner.pk)
+				if pool:
+					winner = pool.first()
+					print("Scheduler")
+					print(i)
+					print(winner)
+					Party.objects.win_toggle(winner, party)
+					winner = pool.exclude(pk=winner.pk)
 			# print (pool)
 			# # the winner is just the top of the random stack
 			# winner = pool.first()

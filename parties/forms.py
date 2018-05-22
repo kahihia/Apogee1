@@ -21,8 +21,16 @@ class PartyModelForm(forms.ModelForm):
 		time_attrs={'placeholder': 'Time: hh:mm AM/PM or hh:mm 24-hr','type': 'time', 'class': 'form-control'}
 		), input_time_formats=['%I:%M %p', '%H:%M', '%H:%M:%S'])
 
-	max_entrants = forms.IntegerField(required=False, label='', min_value=1, 
-		widget=forms.NumberInput(attrs={'placeholder': 'How many people can enter?', 'class': 'form-control'}))
+	# max_entrants = forms.ChoiceField(required=False, label='How many people can enter?',
+	# 	widget=forms.Select(attrs={'class': 'form-control'}), 
+	# 	choices=(
+	# 			(None, 'Unlimited'), 
+	# 			(10, 10), 
+	# 			(25, 25), 
+	# 			(50, 50), 
+	# 			(100, 100), 
+	# 			(500, 500), 
+	# 			(1000, 1000)))
 
 	num_possible_winners = forms.DecimalField(label='Number of possible winners', min_value=1, 
 		widget=forms.NumberInput(attrs={'placeholder': 'Minimum of 1 winner', 'class': 'form-control'}))

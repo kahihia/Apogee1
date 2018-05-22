@@ -475,7 +475,7 @@ of the formatting in the head, so it must be imported into every file. -->
           '</div>' +
           '<form id= "bid-submit" method="GET">'+
             '<div class="col-sm-20">'+
-            '<input type="number" id="bid_amount" name="bid_amount" value="20" min="10" ' + '{{ request.GET.bid_amount }}' + '">'+
+            '<input type="number" id="bid_amount" name="bid_amount" ' + '{{ request.GET.bid_amount }}' + '">'+
             '</div>'+
             '</form>'+
             '<div class="col-sm-20">'+
