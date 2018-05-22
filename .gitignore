@@ -6,3 +6,7 @@ db.sqlite3
 .DS_Store
 parties/__pycache__/models.cpython-36.pyc
 parties/api/__pycache__/serializers.cpython-36.pyc
+parties/__pycache__/models.cpython-36.pyc
+parties/__pycache__/forms.cpython-36.pyc
+parties/migrations/__pycache__/0003_auto_20180111_1610.cpython-36.pyc
+parties/migrations/__pycache__/0022_party_num_winners.cpython-36.pyc
