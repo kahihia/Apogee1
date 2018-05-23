@@ -520,26 +520,10 @@
 	"buffers":
 	[
 		{
-			"file": "parties/templates/parties/party_detail.html",
+			"file": "parties/models.py",
 			"settings":
 			{
-				"buffer_size": 1085,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "accounts/views.py",
-			"settings":
-			{
-				"buffer_size": 4721,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "accounts/forms.py",
-			"settings":
-			{
-				"buffer_size": 2545,
+				"buffer_size": 11841,
 				"line_ending": "Unix"
 			}
 		}
@@ -577,19 +561,13 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/caldwellclarke/DjangoProjects/apogee1",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templates",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templates/registration",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/templatetags",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/api",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/api/__pycache__",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates",
-		"/Users/caldwellclarke/DjangoProjects/apogee1/parties/templates/parties"
+		"/Users/caldwellclarke/Documents/GitHub/Apogee1",
+		"/Users/caldwellclarke/Documents/GitHub/Apogee1/parties"
 	],
 	"file_history":
 	[
+		"/Users/caldwellclarke/Documents/GitHub/Apogee1/parties/templates/parties/party_detail.html",
+		"/Users/caldwellclarke/Documents/GitHub/Apogee1/accounts/views.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/views.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/urls.py",
 		"/Users/caldwellclarke/DjangoProjects/apogee1/accounts/tests.py",
@@ -715,9 +693,7 @@
 		"/Users/caldwellclarke/DjangoProjects/tweetme/accounts/api/__init__.py",
 		"/Users/caldwellclarke/DjangoProjects/tweetme/tweets/api/__init__.py",
 		"/Users/caldwellclarke/DjangoProjects/tweetme/tweets/templates/tweets/list_view.html",
-		"/Users/caldwellclarke/DjangoProjects/tweetme/tweets/templates/tweets/detail_view.html",
-		"/Users/caldwellclarke/DjangoProjects/mysite/mysite/urls.py",
-		"/Users/caldwellclarke/DjangoProjects/tweetme/tweetme/__init__.py"
+		"/Users/caldwellclarke/DjangoProjects/tweetme/tweets/templates/tweets/detail_view.html"
 	],
 	"find":
 	{
@@ -767,75 +743,16 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "parties/templates/parties/party_detail.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1085,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								957,
-								950
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "accounts/views.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4721,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1140,
-								1284
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 149.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "accounts/forms.py",
+					"file": "parties/models.py",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 2545,
+						"buffer_size": 11841,
 						"regions":
 						{
 						},
@@ -852,7 +769,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2363.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
