@@ -19,7 +19,7 @@ from apogee1.settings import celery_app
 ############################ HELPER FUNCTIONS ##################################
 ################################################################################
 
-############################ GENERAL FUNCTIONS #################################
+######################### GENERAL EVENT FUNCTIONS ##############################
 
 #Returns dict with event information
 #error = event closed
@@ -34,7 +34,7 @@ def event_is_closed():
 def event_user_already_in_event(party_obj):
 	if party_obj.event_type == 1:
 		error_message = "You have already joined this event"
-	elif party_obj.event_type == 2:
+	elif party_obj.event_type == 3:
 		error_message = "You have already bought this event"
 	else:
 		error_message = "You have already bid on this event"
@@ -47,6 +47,7 @@ def event_at_max_capacity():
 	return {'added':False,\
 	'error_message':"This event is already at max capacity"}
 
+#Used for testing notifications in the database
 def printNotifications():
 	notification_list = Notification.objects.all()
 	print("ALL NOTIFS")
@@ -56,7 +57,7 @@ def printNotifications():
 		print("The user is: "+str(n.user))
 		print("The timestamp is: "+str(n.timestamp))
 
-########################## END GENERAL FUNCTIONS ###############################
+####################### END GENERAL EVENT FUNCTIONS ############################
 
 ############################ LOTTERY FUNCTIONS #################################
 
@@ -115,6 +116,51 @@ def buyout_end(user, party_obj):
 ########################## END BUYOUT FUNCTIONS ################################
 
 ############################## BID FUNCTIONS ###################################
+def bid_add_user_when_open_spots(party_obj, bid, user):
+	party_obj.joined.add(user)
+	new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
+	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+" from open slot")
+	return{'added':True, 'error_message':""}
+
+def bid_get_min_bid_number(party_obj):
+	print("Bid reached max slots")
+	bid_list = Bid.objects.filter(party=party_obj.pk)
+	min_bid = bid_list.first()
+	for bs in bid_list:
+		if min_bid.bid_amount>bs.bid_amount:
+			min_bid=bs
+	return min_bid.bid_amount
+def bid_get_min_bid_object(party_obj):
+	print("Bid reached max slots")
+	bid_list = Bid.objects.filter(party=party_obj.pk)
+	min_bid = bid_list.first()
+	for bs in bid_list:
+		if min_bid.bid_amount>bs.bid_amount:
+			min_bid=bs
+	return min_bid
+
+def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
+	print("Removing smallest bid by: "+str(min_bid.user))
+	Bid.objects.filter(pk=min_bid.pk).delete()
+	party_obj.joined.remove(min_bid.user)
+	party_obj.joined.add(user)
+
+	new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
+	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+\
+	" from winning slot")
+	# blist = Bid.objects.filter(party=party_obj.pk)
+	# min_bid = blist.first()
+	# for bs in blist:
+	# 	print("This is what I am talking about: "+str(bs.bid_amount))
+	# 	if min_bid.bid_amount>bs.bid_amount:
+	# 		min_bid=bs
+	party_obj.minimum_bid = bid_get_min_bid_number(party_obj)
+	party_obj.save2(update_fields=['minimum_bid'])
+	return{'added':True, 'error_message':""}
+
+def bid_bid_too_low():
+	return{'added':False, 'error_message':"You must beat the minimum bid"}
+
 ############################ END BID FUNCTIONS #################################
 
 ################################################################################
@@ -135,6 +181,8 @@ class PartyManager(models.Manager):
 		return is_starred
 
 	# Used for managing users (Winners/joined) in lottery event
+	#lottery event ending is handled here (if max slots is not none and reached)
+	# or in scheduler (when time expires)
 	def join_toggle(self, user, party_obj):
 		# If party is closed
 		# returns dict with joined = False and error_message
@@ -180,6 +228,8 @@ class PartyManager(models.Manager):
 		'error_message':error_message}
 
 	# Used for managing users (winners/joined) in buyout event
+	#buyout event ending is handled here (if max slots reached)
+	# or in scheduler (when time expires)
 	def buyout_toggle(self, user, party_obj):
 		printNotifications()
 		# If party is closed
@@ -218,74 +268,39 @@ class PartyManager(models.Manager):
 
 
 	# Used for managing users (winners/joined) in bid event
+	# Bid event ending is handled in scheduler (when time expires)
 	def bid_toggle(self, user, party_obj, bid):
-		print("First for loop")
-		error_message=""
-		#party_num_curr_winners = party_obj.num_curr_winners
 		bid_list = Bid.objects.filter(party=party_obj.pk)
-		# for b in bid_list:
-		# 	print("USER: "+str(b.user)+"  AMOUNT: "+str(b.bid_amount)+" PARTY: "+str(b.party))
-		# print("end for loop")
-		# print("NUMBER OF WINNERS")
-		# print(party_obj.joined.all().count())
-		# print(party_obj.num_possible_winners)
 		if not party_obj.is_open:
-			error_message = "Event is closed"
-			won = False 
+			event_info = event_is_closed()
+			# error_message = "Event is closed"
+			# won = False 
 		elif user in party_obj.joined.all():
-			error_message = "You already have a bid registered"
-			bid_accepted = False
+			event_info = event_user_already_in_event(party_obj)
+			# error_message = "You already have a bid registered"
+			# bid_accepted = False
 		elif party_obj.joined.all().count()<party_obj.num_possible_winners:
-			party_obj.joined.add(user)
-			new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
-			print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+" from open slot")
-			bid_accepted = True
-			print("HERE IS THE CHECK")
-			print(party_obj.joined.all().count())
-			print(party_obj.num_possible_winners)
-			print("DID I PASS")
+			event_info = bid_add_user_when_open_spots(party_obj, bid, user)
 			if party_obj.joined.all().count()==party_obj.num_possible_winners:
-				print("IS THIS HAPPENING??????????")
-				bid_list = Bid.objects.filter(party=party_obj.pk)
-				min_bid = bid_list.first()
-				for bs in bid_list:
-					if min_bid.bid_amount>bs.bid_amount:
-						min_bid=bs
-				party_obj.minimum_bid = min_bid.bid_amount		
-			party_obj.save2(update_fields=['minimum_bid'])
-		else:
-			print(4)
-			min_bid = bid_list.first()
-			for bids in bid_list:
-				if min_bid.bid_amount>bids.bid_amount:
-					min_bid=bids
-			if min_bid.bid_amount<bid:
-				print("Removing smallest bid by: "+str(min_bid.user))
-				Bid.objects.filter(pk=min_bid.pk).delete()
-				party_obj.joined.remove(min_bid.user)
-				party_obj.joined.add(user)
-
-				new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
-				print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+" from winning slot")
-				blist = Bid.objects.filter(party=party_obj.pk)
-				min_bid = blist.first()
-				for bs in blist:
-					print("This is what I am talking about: "+str(bs.bid_amount))
-					if min_bid.bid_amount>bs.bid_amount:
-						min_bid=bs
-				party_obj.minimum_bid = min_bid.bid_amount
-				bid_accepted=True
+				party_obj.minimum_bid = bid_get_min_bid_number(party_obj)		
 				party_obj.save2(update_fields=['minimum_bid'])
+		else:
+
+			min_bid = bid_get_min_bid_object(party_obj)
+			if min_bid.bid_amount<bid:
+				event_info = bid_add_user_replace_lowest_bid(party_obj, 
+				bid, user, min_bid)
 
 			else:
+				event_info = bid_bid_too_low()
 				party_obj.minimum_bid = min_bid.bid_amount
-				# print("party min bid is: "+str(party_obj.minimum_bid))
-				# print("Bid not large enough to usurp other")
-				error_message = "You must beat the minimum bid"
-				bid_accepted=False
 				party_obj.save2(update_fields=['minimum_bid'])
+				# error_message = "You must beat the minimum bid"
+				# bid_accepted=False
 
-		print(5)			
+
+		bid_accepted = event_info["added"]
+		error_message = event_info["error_message"]		
 		return {'bid_accepted':bid_accepted, 'min_bid':party_obj.minimum_bid, 'error_message':error_message}
 
 
