@@ -10,12 +10,12 @@ from django.db import models
 from django.urls import reverse
 
 from bids.models import Bid
+from notifications.models import Notification
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
 
 # Create your models here.
-
 # the manager creates additional methods the objects can use
 class PartyManager(models.Manager):
 	# this both adds or removes the user and tells us if they're on it
@@ -65,8 +65,18 @@ class PartyManager(models.Manager):
 				party_obj.save()
 
 		return {'is_joined':is_joined, 'num_joined':party_obj.joined.all().count(), 'error_message':error_message}
+	def printNotifications(self):
+		notification_list = Notification.objects.all()
+		print("ALL NOTIFS")
+		for n in notification_list:
+			print("The action is: "+n.action)
+			print("The user is: "+n.user)
+			print("The timestamp is: "+n.timestamp)
+			print("The action is: "+n.timestamp)
+			print("The action is: "+n.timestamp)
 
 	def buyout_toggle(self, user, party_obj):
+		self.printNotifications()
 		error_message=""
 		if not party_obj.is_open:
 			error_message = "Event is closed"
@@ -79,15 +89,19 @@ class PartyManager(models.Manager):
 			won = False
 		else:
 			party_obj.winners.add(user)
-			print(party_obj.winners.all().count())
-			print("<")
-			print(party_obj.num_possible_winners)
+			#Creating a notification for the user on buyout win
+			print("Creating Notifiaction for buyout win on buyout click")
+			Notification.objects.create(user=user, party=party_obj.pk, action="buyout_win")
+			print("Notification Created")
 			if party_obj.winners.all().count()==party_obj.num_possible_winners:
+				Notification.objects.create(user=user, party=party_obj.pk, action="buyout_close")
 				print("Closing party object")
 				party_obj.is_open = False
 			won= True
 			party_obj.save()
 		return {'winner':won, 'num_winners':party_obj.winners.all().count(), 'error_message':error_message}
+
+
 
 	def bid_toggle(self, user, party_obj, bid):
 		print("First for loop")
