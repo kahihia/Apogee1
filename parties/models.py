@@ -119,7 +119,8 @@ def buyout_end(user, party_obj):
 def bid_add_user_when_open_spots(party_obj, bid, user):
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
-	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+" from open slot")
+	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+\
+	" from open slot")
 	return{'added':True, 'error_message':""}
 
 def bid_get_min_bid_number(party_obj):
@@ -239,7 +240,7 @@ class PartyManager(models.Manager):
 			event_info = event_is_closed()
 		# If user already bought this event
 		# returns dict with added = False and error_message 
-		# = You have already joined this event
+		# = You have bought this event
 		elif user in party_obj.winners.all():
 			event_info = event_user_already_in_event(party_obj)
 		# if the party has reached its max cap
@@ -266,39 +267,53 @@ class PartyManager(models.Manager):
 		'num_winners':party_obj.winners.all().count(),\
 		'error_message':error_message}
 
-
+	#FUCK THIS EVENT GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH
 	# Used for managing users (winners/joined) in bid event
 	# Bid event ending is handled in scheduler (when time expires)
 	def bid_toggle(self, user, party_obj, bid):
-		bid_list = Bid.objects.filter(party=party_obj.pk)
+		# If party is closed
+		# returns dict with added = False and error_message
+		# = Event is closed
 		if not party_obj.is_open:
 			event_info = event_is_closed()
-			# error_message = "Event is closed"
-			# won = False 
+		# If user already bought this event
+		# returns dict with added = False and error_message 
+		# = You have already bid on this event
 		elif user in party_obj.joined.all():
 			event_info = event_user_already_in_event(party_obj)
-			# error_message = "You already have a bid registered"
-			# bid_accepted = False
+		# If there are still slots available
+		# add user to joined list
+		# returns dict with added = True and error_message
+		# = ""
+		# if this results in there being no slots remaining
+		# get min bid on this party, and set as party's minimum bid
 		elif party_obj.joined.all().count()<party_obj.num_possible_winners:
 			event_info = bid_add_user_when_open_spots(party_obj, bid, user)
 			if party_obj.joined.all().count()==party_obj.num_possible_winners:
 				party_obj.minimum_bid = bid_get_min_bid_number(party_obj)		
 				party_obj.save2(update_fields=['minimum_bid'])
+		#if no slots available
+		# get min bid on party object, and check if current bid beats it
+		#if so, add user to joined list, and find new lowest bid and set that
+		# as party's min bid
+		#returns dict with added = True and error_message
+		#=""
+		#if not
+		#return dict with added = False and error_message
+		#="Bid Too low"
+		#sets min bid again (probably unecessary)
 		else:
-
 			min_bid = bid_get_min_bid_object(party_obj)
 			if min_bid.bid_amount<bid:
 				event_info = bid_add_user_replace_lowest_bid(party_obj, 
 				bid, user, min_bid)
-
 			else:
 				event_info = bid_bid_too_low()
 				party_obj.minimum_bid = min_bid.bid_amount
 				party_obj.save2(update_fields=['minimum_bid'])
-				# error_message = "You must beat the minimum bid"
-				# bid_accepted=False
 
-
+		#Send dictonary info and number of joined
+		#to parties/api/views under JoinToggleAPIView
 		bid_accepted = event_info["added"]
 		error_message = event_info["error_message"]		
 		return {'bid_accepted':bid_accepted, 'min_bid':party_obj.minimum_bid, 'error_message':error_message}
