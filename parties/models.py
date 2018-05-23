@@ -56,13 +56,14 @@ class PartyManager(models.Manager):
 			for i in range(0,party_obj.num_possible_winners):
 				winner = pool.first()
 				print("WINNNER")
-				print(i)
 				print(winner)
 				party_obj.winners.add(winner)
 				winner = pool.exclude(pk=winner.pk)
 			party_obj.is_open = False
 			party_obj.save2(update_fields=['is_open'])
 		return {'is_joined':is_joined, 'num_joined':party_obj.joined.all().count(), 'error_message':error_message}
+
+		# pls
 	def printNotifications(self):
 		notification_list = Notification.objects.all()
 		print("ALL NOTIFS")
