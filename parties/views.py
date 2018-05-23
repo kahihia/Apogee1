@@ -89,6 +89,7 @@ class PartyListView(LoginRequiredMixin, ListView):
 		context = super(PartyListView, self).get_context_data(*args, **kwargs)
 		return context
 
+
 # following list requires the same info as the party list, plus a template name
 class FollowingListView(LoginRequiredMixin, ListView):
 	template_name = 'parties/following_list.html'

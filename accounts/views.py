@@ -108,6 +108,11 @@ class UserProfileUpdateView(LoginRequiredMixin, ProfileOwnerMixin, UpdateView):
     def get_object(self):
         return get_object_or_404(UserProfile.objects.all(), user__username__iexact=self.kwargs.get('username'))
 
+#This is the notification page for an individual user
+#The mixin requires you to be logged in and
+# authenticated and the owner of the page to view
+class UserNotificationsListView(LoginRequiredMixin, ProfileOwnerMixin, ListView):
+    
 
 
 
