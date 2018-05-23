@@ -25,42 +25,48 @@ from apogee1.settings import celery_app
 #error = event closed
 #joined = False
 def event_is_closed():
-	return {'joined':False, 'error_message':"Event is closed"}
+	return {'added':False, 'error_message':"Event is closed"}
+
+#Returns dict with event information
+#error = user already in event
+#added = False
+#uses party_obj to determine what error message to send
+def event_user_already_in_event(party_obj):
+	if party_obj.event_type == 1:
+		error_message = "You have already joined this event"
+	elif party_obj.event_type == 2:
+		error_message = "You have already bought this event"
+	else:
+		error_message = "You have already bid on this event"
+	return {'added':False,\
+	'error_message': error_message}
+#Returns dict with event information
+#error = event at max capacity
+#joined = False
+def event_at_max_capacity():
+	return {'added':False,\
+	'error_message':"This event is already at max capacity"}
 
 def printNotifications():
 	notification_list = Notification.objects.all()
 	print("ALL NOTIFS")
 	for n in notification_list:
-		print("The action is: "+n.action)
-		print("The user is: "+n.user)
-		print("The timestamp is: "+n.timestamp)
-		print("The action is: "+n.timestamp)
-		print("The action is: "+n.timestamp)
+		print("Notification number: "+n)
+		print("The action is: "+str(n.action))
+		print("The user is: "+str(n.user))
+		print("The timestamp is: "+str(n.timestamp))
 
 ########################## END GENERAL FUNCTIONS ###############################
 
 ############################ LOTTERY FUNCTIONS #################################
 
 #Returns dict with event information
-#error = user already in event
-#joined = False
-def lottery_user_already_in_event():
-	return {'joined':False,\
-	'error_message':"You have already joined this event"}
-#Returns dict with event information
-#error = event at max capacity
-#joined = False
-def lottery_max_capacity():
-	party_obj.joined.add(user)
-	return {'joined':False,\
-	'error_message':"This event is already at max capacity"}
-#Returns dict with event information
-#Adds user to party that is passed's joined list
+#Adds user that is passed to party joined list
 #error = None
 #joined = True
 def lottery_add_user(user,party_obj):
 	party_obj.joined.add(user)
-	return {'joined':False, 'error_message':""}
+	return {'added':True, 'error_message':""}
 #Ends the lottery event
 #1.Party that is passed to it has its joined list shuffled
 #2.For loop iterates (stops at the parties max winners)
@@ -68,7 +74,7 @@ def lottery_add_user(user,party_obj):
 #added to party's winner list
 #4.Closes the party by setting party's is_open to false
 def lottery_end(party_obj):
-	print("Closing party object")
+	print("Closing lottery")
 	pool = party_obj.joined.all().order_by('?')
 	print("The max entrants are: "+str(party_obj.max_entrants))
 	for i in range(0,party_obj.num_possible_winners):
@@ -83,8 +89,30 @@ def lottery_end(party_obj):
 ########################## END LOTTERY FUNCTIONS ###############################
 
 ############################ BUYOUT FUNCTIONS ##################################
+#Returns dict with event information
+#Adds user that is passed to party winner list
+#Create Notification for user, buyout_win
+#error_message = None
+#added = True
+def buyout_add_user(user, party_obj):
+	party_obj.winners.add(user)
+	#Creating a notification for the user on buyout win
+	print("Creating Notifiaction for buyout win on buyout click")
+	Notification.objects.create(user=user, party=party_obj.pk,\
+	action="buyout_win")
+	print("Notification Created")
+	return {'added':True, 'error_message':""}
+#Ends the buyout event
+#1. Party that is passed is closed
+#2. Create notification for user who is passed: buy_out close
+def buyout_end(user, party_obj):
+	print("Closing buyout")
+	Notification.objects.create(user=user, party=party_obj.pk,\
+	action="buyout_close")
+	party_obj.is_open = False
+	party_obj.save2(update_fields=['is_open'])
 
-########################## END BOYOUT FUNCTIONS ################################
+########################## END BUYOUT FUNCTIONS ################################
 
 ############################## BID FUNCTIONS ###################################
 ############################ END BID FUNCTIONS #################################
@@ -117,7 +145,7 @@ class PartyManager(models.Manager):
 		# returns dict with joined = False and error_message 
 		# = You have already joined this event
 		elif user in party_obj.joined.all():
-			event_info = lottery_user_already_in_event()
+			event_info = event_user_already_in_event(party_obj)
 		# If there is no cap on how many users can enter the party
 		# add user to joined list
 		# returns dict with joined = True and error_message
@@ -128,7 +156,7 @@ class PartyManager(models.Manager):
 		# returns dict with joined = False and error_message
 		# = This event is already at max capacity
 		elif party_obj.joined.all().count()>=party_obj.max_entrants:
-			event_info = lottery_max_capacity()
+			event_info = event_at_max_capacity()
 		# No constraints left
 		# add user to joined list
 		# returns dict with joined = True and error_message
@@ -143,7 +171,7 @@ class PartyManager(models.Manager):
 		party_obj.joined.all().count()== party_obj.max_entrants:
 			lottery_end(party_obj)
 		#get information from the dictionaries	
-		is_joined = event_info["joined"]
+		is_joined = event_info["added"]
 		error_message = event_info["error_message"]
 		#Send dictonary info and number of joined
 		#to parties/api/views under JoinToggleAPIView
@@ -151,42 +179,45 @@ class PartyManager(models.Manager):
 		'num_joined':party_obj.joined.all().count(),\
 		'error_message':error_message}
 
-
+	# Used for managing users (winners/joined) in buyout event
 	def buyout_toggle(self, user, party_obj):
 		printNotifications()
+		# If party is closed
+		# returns dict with added = False and error_message
+		# = Event is closed
 		if not party_obj.is_open:
 			event_info = event_is_closed()
-			# error_message = "Event is closed"
-			# won = False
+		# If user already bought this event
+		# returns dict with added = False and error_message 
+		# = You have already joined this event
 		elif user in party_obj.winners.all():
-			event_info = buyout_user_already_in_event()
-			# error_message = "You have already purchased this event"
-			# won=False
+			event_info = event_user_already_in_event(party_obj)
+		# if the party has reached its max cap
+		# returns dict with added = False and error_message
+		# = This event is already at max capacity
 		elif party_obj.winners.all().count()>=party_obj.num_possible_winners:
-			error_message = "This event is already at max capacity"
-			won = False
+			event_info = event_at_max_capacity()
+		# No constraints
+		# adds user to winners list of event
+		# returns dict with added=True and error_message
+		# = ""
+		#Also checks, after adding user, if winners has reached max cap
+		#if so, ends buyout event
 		else:
-			party_obj.winners.add(user)
-			#Creating a notification for the user on buyout win
-			print("Creating Notifiaction for buyout win on buyout click")
-			Notification.objects.create(user=user, party=party_obj.pk,\
-			action="buyout_win")
-			print("Notification Created")
+			event_info = buyout_add_user(user, party_obj)
+
 			if party_obj.winners.all().count()==party_obj.num_possible_winners:
-				Notification.objects.create(user=user, party=party_obj.pk,\
-				action="buyout_close")
-				print("Closing party object")
-				party_obj.is_open = False
-				party_obj.save2(update_fields=['is_open'])
-			won= True
-		won = event_info["won"]
+				buyout_end(user, party_obj)
+		#Send dictonary info and number of joined
+		#to parties/api/views under JoinToggleAPIView
+		won = event_info["added"]
 		error_message = event_info["error_message"]
 		return {'winner':won,\
 		'num_winners':party_obj.winners.all().count(),\
 		'error_message':error_message}
 
 
-
+	# Used for managing users (winners/joined) in bid event
 	def bid_toggle(self, user, party_obj, bid):
 		print("First for loop")
 		error_message=""
