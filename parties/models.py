@@ -40,7 +40,7 @@ class PartyManager(models.Manager):
 		elif party_obj.max_entrants is None:
 			is_joined = True
 			party_obj.joined.add(user)
-			party_obj.save()
+			# party_obj.save2()
 		else:
 			if party_obj.joined.all().count()>=party_obj.max_entrants:
 				error_message= "This event is already at max capacity"
@@ -48,22 +48,20 @@ class PartyManager(models.Manager):
 			else:
 				is_joined = True
 				party_obj.joined.add(user)
-				party_obj.save()
+				# party_obj.save2()
 		if party_obj.max_entrants is not None and party_obj.joined.all().count()==party_obj.max_entrants:
-				print("Closing party object")
-				party_obj.is_open = False
-				pool = party_obj.joined.all().order_by('?')
-				print("The max entrants are: "+str(party_obj.max_entrants))
-				for i in range(0,party_obj.num_possible_winners):
-					if pool:	
-						winner = pool.first()
-						print("WINNNER")
-						print(i)
-						print(winner)
-						party_obj.winners.add(winner)
-						winner = pool.exclude(pk=winner.pk)
-				party_obj.save()
-
+			print("Closing party object")
+			pool = party_obj.joined.all().order_by('?')
+			print("The max entrants are: "+str(party_obj.max_entrants))
+			for i in range(0,party_obj.num_possible_winners):
+				winner = pool.first()
+				print("WINNNER")
+				print(i)
+				print(winner)
+				party_obj.winners.add(winner)
+				winner = pool.exclude(pk=winner.pk)
+			party_obj.is_open = False
+			party_obj.save2(update_fields=['is_open'])
 		return {'is_joined':is_joined, 'num_joined':party_obj.joined.all().count(), 'error_message':error_message}
 
 	def buyout_toggle(self, user, party_obj):
@@ -85,8 +83,8 @@ class PartyManager(models.Manager):
 			if party_obj.winners.all().count()==party_obj.num_possible_winners:
 				print("Closing party object")
 				party_obj.is_open = False
+				party_obj.save2(update_fields=['is_open'])
 			won= True
-			party_obj.save()
 		return {'winner':won, 'num_winners':party_obj.winners.all().count(), 'error_message':error_message}
 
 	def bid_toggle(self, user, party_obj, bid):
@@ -123,8 +121,7 @@ class PartyManager(models.Manager):
 					if min_bid.bid_amount>bs.bid_amount:
 						min_bid=bs
 				party_obj.minimum_bid = min_bid.bid_amount		
-			new_bid.save()
-			party_obj.save()
+			party_obj.save2(update_fields=['minimum_bid'])
 		else:
 			print(4)
 			min_bid = bid_list.first()
@@ -147,8 +144,7 @@ class PartyManager(models.Manager):
 						min_bid=bs
 				party_obj.minimum_bid = min_bid.bid_amount
 				bid_accepted=True
-				party_obj.save()
-				new_bid.save()
+				party_obj.save2(update_fields=['minimum_bid'])
 
 			else:
 				party_obj.minimum_bid = min_bid.bid_amount
@@ -156,7 +152,7 @@ class PartyManager(models.Manager):
 				# print("Bid not large enough to usurp other")
 				error_message = "You must beat the minimum bid"
 				bid_accepted=False
-				party_obj.save()
+				party_obj.save2(update_fields=['minimum_bid'])
 
 		print(5)			
 		return {'bid_accepted':bid_accepted, 'min_bid':party_obj.minimum_bid, 'error_message':error_message}
@@ -295,8 +291,8 @@ class Party(models.Model):
 		self.task_id = self.schedule_pick_winner()
 		super(Party, self).save(*args, **kwargs)
 
-	def get_min_bid(self):
-		bid_list = self.bid_list
+	def save2(self, *args, **kwargs):
+		super(Party, self).save(*args, **kwargs)
 
 	# this validation is called anytime you save a model
 	# def clean(self, *args, **kwargs):

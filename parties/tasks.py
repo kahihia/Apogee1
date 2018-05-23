@@ -24,7 +24,6 @@ def pick_winner(party_id):
 		pool = party.joined.all().order_by('?')
 
 		if party.event_type==1 and party.is_open:
-			party.is_open = False
 			for i in range(0,party.num_possible_winners):
 				if pool:
 					winner = pool.first()
@@ -42,19 +41,24 @@ def pick_winner(party_id):
 			# print ('it worked')
 		#If the party event is a bid
 		elif party.event_type==2 and party.is_open:
-			party.is_open = False
 			#Anyone in the joined list at the end of the event is a winner
 			winners = party.joined.all()
-			for w in winner:
+			for w in winners:
 				print (w)
 			#add winners in
 			for i in winners:
 				Party.objects.win_toggle(i, party)
 		elif party.event_type==3 and party.is_open:
-			party.is_open = False
 			print("Buyout event is over")	
-		party.save()	
+
+		party.is_open = False
+		party.save2(update_fields=['is_open'])
 		return party.id
 	else:
 		print ('it didnt work')
-		return 
+		party.is_open = False
+		party.save2(update_fields=['is_open'])	
+		return party.id
+
+
+
