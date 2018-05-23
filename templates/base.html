@@ -225,19 +225,19 @@ of the formatting in the head, so it must be imported into every file. -->
 
             success: function(data){
               if(partyType == 1){
-                document.getElementsByName("num_joined")[0].innerHTML = data.num_joined + " Joined"
+                document.getElementsByName("num_joined")[0].innerHTML = data.num_joined + ' <small class="text-muted">Joined</small>'
               }
               if(partyType == 2){
-                document.getElementsByName("min_bid")[0].innerHTML = data.min_bid + " is the minimum bid"
+                document.getElementsByName("min_bid")[0].innerHTML = data.min_bid + ' <small class="text-muted">is the minimum bid</small>'
               }
               if(partyType == 3){
                 document.getElementsByName("num_curr_winners")[0].innerHTML = 
-                data.num_curr_winners + " current winners"
+                data.num_curr_winners + ' <small class="text-muted">current winners</small>'
               }
               if(data.error_message!=""){
                 alert(data.error_message)
               }
-              
+              console.log(this_)
               console.log(data.min_bid)
               // the api handles updating the database 
             }, 

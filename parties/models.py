@@ -68,11 +68,9 @@ class PartyManager(models.Manager):
 		notification_list = Notification.objects.all()
 		print("ALL NOTIFS")
 		for n in notification_list:
-			print("The action is: "+n.action)
-			print("The user is: "+n.user)
-			print("The timestamp is: "+n.timestamp)
-			print("The action is: "+n.timestamp)
-			print("The action is: "+n.timestamp)
+			print("The action is: " + n.action)
+			print("The user is: " + str(n.user))
+			print("The timestamp is: " + str(n.timestamp))
 
 	def buyout_toggle(self, user, party_obj):
 		self.printNotifications()
