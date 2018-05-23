@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'accounts',
     'hashtags',
     'bids',
+    'notifications',
 
     # third party stuff
     'crispy_forms',
