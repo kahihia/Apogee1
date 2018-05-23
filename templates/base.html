@@ -323,7 +323,7 @@ of the formatting in the head, so it must be imported into every file. -->
             '</a>' +
             '<div class="card-body">' + 
               '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
-                '<h5 class="card-title">' + partyValue.title + closed_display + '</h5>' + 
+                '<h5 class="card-title">' + partyValue.short_title + closed_display + '</h5>' + 
                 '<p class="card-text"><span class="description">' + partyValue.short_description + '</span></p>' + 
               '</a>' +
             '</div>' + 
@@ -423,7 +423,7 @@ of the formatting in the head, so it must be imported into every file. -->
               '<p class="text-muted">' + price + ' ' + type_icon + '</p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.timeuntil + ' <medium class="text-muted"> left to bid</medium></p>' +
+              '<p class="text-muted">' + partyValue.timeuntil + ' <small class="text-muted"> until close</small></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
               '<p class="text-muted" name="num_joined">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
@@ -467,7 +467,7 @@ of the formatting in the head, so it must be imported into every file. -->
               '<p class="text-muted" name="min_bid">' + partyValue.minimum_bid + ' <small class="text-muted"> is the minimum bid</small></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.timeuntil + ' <medium class="text-muted"> left to bid</medium></p>' +
+              '<p class="text-muted">' + partyValue.timeuntil + ' <small class="text-muted"> until close</small></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
               '<p class="text-muted" name="num_possible_winners">' + partyValue.num_possible_winners + ' <small class="text-muted">Winners possible</small></p>' +
@@ -511,7 +511,7 @@ of the formatting in the head, so it must be imported into every file. -->
             //   '<p class="text-muted">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
             // '</div>' +
               '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.timeuntil + ' <medium class="text-muted"> left to bid</medium></p>' +
+              '<p class="text-muted">' + partyValue.timeuntil + ' <small class="text-muted"> until close</small></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
               '<p class="text-muted" name="num_curr_winners">' + partyValue.num_curr_winners + ' <small class="text-muted">current winners</small></p>' +
