@@ -79,13 +79,11 @@ def lottery_end(party_obj):
 	pool = party_obj.joined.all().order_by('?')
 	print("The max entrants are: "+str(party_obj.max_entrants))
 	for i in range(0,party_obj.num_possible_winners):
-		winner = pool.first()
-		print("WINNNER")
-		print(winner)
-		party_obj.winners.add(winner)
-		pool = pool.exclude(pk=winner.pk)
-		for m in pool:
-			print(m)
+		if pool:
+			winner = pool.first()
+			party_obj.winners.add(winner)
+			pool = pool.exclude(pk=winner.pk)
+
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
 
@@ -190,8 +188,6 @@ class PartyManager(models.Manager):
 		# If party is closed
 		# returns dict with joined = False and error_message
 		# = Event is closed
-		party_obj.max_entrants = 6
-		party_obj.save2(update_fields=['max_entrants'])
 		if not party_obj.is_open:
 			event_info = event_is_closed()
 		# If user is already in the lottery
