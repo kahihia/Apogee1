@@ -93,6 +93,7 @@ of the formatting in the head, so it must be imported into every file. -->
 
       // this function checks to see if lottery had been selected as the event type 
       // if it has, it makes the max_entrants piece visible. otherwise, its hidden.
+      // it only gets called on the create event page.
       function check_event_type(type) {
         // if the event is a lottery
         if(type == 1) {
@@ -432,6 +433,17 @@ of the formatting in the head, so it must be imported into every file. -->
             possible_winners = '<p class="text-muted">' + partyValue.num_possible_winners + 
             ' <small class="text-muted">total spots</small></p>'
           }
+          let bid_input = ''
+          if (!partyValue.is_owner) {
+            bid_input = '<form id= "bid-submit" method="GET">'+
+            '<div class="col-sm-12" id="div_bid_amount">'+
+            '<input type="number" id="bid_amount" name="bid_amount" ' + '{{ request.GET.bid_amount }}' + '">'+
+            '</div>'+
+            '</form>'+
+            '<div class="col-sm-20">'+
+            '<input type="hidden" name="party_id" value="' + partyValue.id + '">'+
+            '</div>'
+          }
           // this sets the display of the join button
           let join_verb = ''
           if (!partyValue.is_owner){
@@ -497,14 +509,7 @@ of the formatting in the head, so it must be imported into every file. -->
               possible_winners + 
             '</div>' +
           '</div>' +
-          '<form id= "bid-submit" method="GET">'+
-            '<div class="col-sm-20">'+
-            '<input type="number" id="bid_amount" name="bid_amount" ' + '{{ request.GET.bid_amount }}' + '">'+
-            '</div>'+
-            '</form>'+
-            '<div class="col-sm-20">'+
-            '<input type="hidden" name="party_id" value="' + partyValue.id + '">'+
-            '</div>'+
+          bid_input +
           '<div class="row">' + join_verb + '</div>' + winner 
 
           return container
