@@ -32,7 +32,7 @@ class PartyModelForm(forms.ModelForm):
 	# 			(500, 500), 
 	# 			(1000, 1000)))
 
-	num_possible_winners = forms.DecimalField(label='Number of possible winners', min_value=1, 
+	num_possible_winners = forms.IntegerField(label='Number of possible winners', min_value=1, 
 		widget=forms.NumberInput(attrs={'placeholder': 'Minimum of 1 winner', 'class': 'form-control'}))
 	
 
@@ -75,3 +75,17 @@ class PartyModelForm(forms.ModelForm):
 		if party_time < timezone.now():
 			raise forms.ValidationError('Event cannot be in the past.')
 		return party_time
+
+	# ensures that the event cannot have more winners than entrants. 
+	# has to be called on the second field because the second field isnt 
+	# processed yet if its called on the first
+	def clean_num_possible_winners(self, *args, **kwargs):
+		max_entrants = self.cleaned_data.get('max_entrants')
+		num_possible_winners = self.cleaned_data.get('num_possible_winners')
+		print(max_entrants)
+		print(num_possible_winners)
+		if max_entrants is not None:
+			if num_possible_winners > max_entrants:
+				raise forms.ValidationError('Event cannot have more winners than entrants.')
+		return num_possible_winners
+		
