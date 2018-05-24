@@ -27,7 +27,7 @@ class StarToggleAPIView(APIView):
 
 #change this to handle all purchase types
 
-class BidToggleAPIView(APIView):
+class BidAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, bids, format=None):
 		print("The bid is: ")
@@ -37,7 +37,7 @@ class BidToggleAPIView(APIView):
 		#if party_event is bid	
 		if party_event_type == 2:
 			if request.user.is_authenticated:
-				bid_table = Party.objects.bid_toggle(request.user, party_qeryset.first(), bids)
+				bid_table = Party.objects.bid_add(request.user, party_qeryset.first(), bids)
 				return Response({'bid_accepted': bid_table["bid_accepted"],
 								'min_bid': bid_table["min_bid"],
 								'error_message':bid_table["error_message"]
@@ -45,16 +45,17 @@ class BidToggleAPIView(APIView):
 
 
 
-class JoinToggleAPIView(APIView):
+
+class BuyoutLotteryAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, format=None):
 		party_qeryset = Party.objects.filter(pk=pk)
 		party_event_type = party_qeryset.first().event_type
 		print('the party event type is: '+str(party_event_type))
-		#if party_event is drawing
+		#if party_event is lottery
 		if party_event_type == 1:
 			if request.user.is_authenticated:
-				joined_table = Party.objects.join_toggle(request.user, party_qeryset.first())
+				joined_table = Party.objects.lottery_add(request.user, party_qeryset.first())
 				return Response({'joined': joined_table["is_joined"],
 								'num_joined':joined_table["num_joined"],
 								'error_message':joined_table["error_message"]
@@ -62,35 +63,12 @@ class JoinToggleAPIView(APIView):
 		#if party_event is buyout
 		else:
 			if request.user.is_authenticated:
-				buy_table = Party.objects.buyout_toggle(request.user, party_qeryset.first())
+				buy_table = Party.objects.buyout_add(request.user, party_qeryset.first())
 				return Response({'won':buy_table["winner"],
 								'num_curr_winners':buy_table["num_winners"],
 								'error_message':buy_table["error_message"]
 								})
-#deprecated ToggleAPIViews
-'''
-class JoinToggleAPIView(APIView):
-	permission_classes = [permissions.IsAuthenticated]
-	def get(self, request, pk, format=None):
-		# gets the object that is being liked
-		party_qs = Party.objects.filter(pk=pk)
-		if request.user.is_authenticated:
-			is_joined = Party.objects.join_toggle(request.user, party_qs.first())
-			return Response({'joined': is_joined})
-		return Response({'message': 'Not Allowed'})
 
-class BuyoutToggleAPIView(APIView):
-	permission_classes = [permissions.IsAuthenticated]
-	def get(self, request, pk, format=None):
-		party_queryset = Party.objects.filter(pk=pk)
-		if request.user.is_authenticated:
-			bought_out =Party.objects.buyout_toggle(request.user, party_qs.first())
-			if bought_out:
-				return Response({'boughtout': bought_out})
-			else:
-				return Response({'Message': 'Capcity full'})
-
-				'''
 # used to async create events and push them to the api list
 # so that we can update the main page with the new tweet
 # CURRENTLY UNUSED
