@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
+from django.conf.urls import include, url
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.generic.base import RedirectView
 # views
 from .views import home, SearchView, set_timezone
 from parties.views import PartyListView
@@ -49,7 +50,9 @@ urlpatterns = [
 	path('api/tags/<slug:hashtag>/', TagPartyAPIView.as_view(), name='hashtag-api'),
 	# this should migrate into the settings page at some point soon
 	path('tz/', set_timezone, name='set_timezone'),
-	path('bids/', include('bids.urls', namespace='bids'))
+	#url(r'^.*$', RedirectView.as_view(url='', permanent=False), name='index')
+	#Deprecated path to bids, bid views not available to users
+	#path('bids/', include('bids.urls', namespace='bids'))
 ]
 
 # adds our static files, like css, js

@@ -15,7 +15,6 @@ from .forms import BidModelForm, BidModelForm2
 #Reached via /bids/create
 class BidCreateView(FormUserNeededMixin, CreateView):
 	form_class = BidModelForm2
-	#template_name = 'bids/create_view.html'
 	template_name = 'bids/create_view.html'
 	success_url = '/bids'
 	def post(self, request, **kwargs):
@@ -39,14 +38,6 @@ class BidUpdateView(UserOwnerMixin, UpdateView):
 	form_class = BidModelForm2
 	template_name = 'bids/update_view.html'
 	success_url = '/bids/'
-
-	# def form_valid(self, form):
-	# 	if self.request.user.is_authenticated:
-	# 		form.instance.user = self.request.user
-	# 		return super(BidCreateView, self).form_valid(form)
-	# 	else:
-	# 		form.errors[forms.forms.NON_FIELD_ERRORS] = ErrorList(["Log in to continue"])
-	# 		return self.form_invalid(form)
 
 
 #Retrieve Views (BidDetailView and BidListView)

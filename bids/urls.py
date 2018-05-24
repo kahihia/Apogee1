@@ -12,6 +12,10 @@ from .views import (
 from django.conf.urls import url
 app_name = 'bids'
 
+#Used for better understanding of MVC system of Django
+#Bid creation, retrieval, update, and deletion not available
+#to user directly anywhere
+
 #/bids routes to this
 urlpatterns = [
 	path('list/', BidListView.as_view(), name='list'), #bids/
