@@ -1,4 +1,5 @@
 *.pyc
+*\__pycache__\*
 *__pycache__*
 myvenv
 db.sqlite3
@@ -11,4 +12,5 @@ parties/__pycache__/forms.cpython-36.pyc
 parties/migrations/__pycache__/0003_auto_20180111_1610.cpython-36.pyc
 parties/migrations/__pycache__/0022_party_num_winners.cpython-36.pyc
 apogee1/settings/__pycache__/local.cpython-36.pyc
+parties/__pycache__/models.cpython-36.pyc
 parties/__pycache__/models.cpython-36.pyc
