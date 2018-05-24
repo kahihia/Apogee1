@@ -31,7 +31,7 @@ def pick_winner(party_id):
 					print(i)
 					print(winner)
 					Party.objects.win_toggle(winner, party)
-					winner = pool.exclude(pk=winner.pk)
+					pool = pool.exclude(pk=winner.pk)
 			# print (pool)
 			# # the winner is just the top of the random stack
 			# winner = pool.first()
