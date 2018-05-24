@@ -1,5 +1,4 @@
 from django import forms
-#from .models import Bid, Party
 from .models import Bid
 
 #bid model form for practice
@@ -18,13 +17,13 @@ class BidModelForm(forms.ModelForm):
 			bid = self.cleaned_data.get('bid_amount')
 			return bid
 
-#bid model form for practice
-#deprecated
-class BidModelForm2(forms.ModelForm):
-	class Meta:
-		model = Bid
-		fields =[
-			'bid_amount',
-			#'user',
-			'party'
-		]
+# #bid model form for practice
+# #deprecated
+# class BidModelForm2(forms.ModelForm):
+# 	class Meta:
+# 		model = Bid
+# 		fields =[
+# 			'bid_amount',
+# 			#'user',
+# 			'party'
+# 		]
