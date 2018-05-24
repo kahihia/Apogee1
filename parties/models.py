@@ -52,7 +52,7 @@ def printNotifications():
 	notification_list = Notification.objects.all()
 	print("ALL NOTIFS")
 	for n in notification_list:
-		print("Notification number: "+n)
+		print("Notification number: "+str(n.pk))
 		print("The action is: "+str(n.action))
 		print("The user is: "+str(n.user))
 		print("The timestamp is: "+str(n.timestamp))
@@ -184,7 +184,7 @@ class PartyManager(models.Manager):
 	# Used for managing users (Winners/joined) in lottery event
 	#lottery event ending is handled here (if max slots is not none and reached)
 	# or in scheduler (when time expires)
-	def join_toggle(self, user, party_obj):
+	def lottery_add(self, user, party_obj):
 		# If party is closed
 		# returns dict with joined = False and error_message
 		# = Event is closed
@@ -231,7 +231,7 @@ class PartyManager(models.Manager):
 	# Used for managing users (winners/joined) in buyout event
 	#buyout event ending is handled here (if max slots reached)
 	# or in scheduler (when time expires)
-	def buyout_toggle(self, user, party_obj):
+	def buyout_add(self, user, party_obj):
 		printNotifications()
 		# If party is closed
 		# returns dict with added = False and error_message
@@ -269,7 +269,7 @@ class PartyManager(models.Manager):
 
 	# Used for managing users (winners/joined) in bid event
 	# Bid event ending is handled in scheduler (when time expires)
-	def bid_toggle(self, user, party_obj, bid):
+	def bid_add(self, user, party_obj, bid):
 		# If party is closed
 		# returns dict with added = False and error_message
 		# = Event is closed
