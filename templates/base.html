@@ -99,20 +99,32 @@ of the formatting in the head, so it must be imported into every file. -->
           // the id tells us where our change is supposed to occur
           // this unhides the max entrants field
           $('#div_id_max_entrants').prop('hidden', false);
+          // this hides the minimum bid field
+          $('#div_id_minimum_bid').prop('hidden', true);
           // this sets the text for the num winners field
           $("#div_id_num_possible_winners").children('label').text('Number of possible winners*');
+          // this sets the text for cost
+          $("#div_id_cost").children('label').text('Cost ($)*');
         // if the event is an auction
         } else if (type == 2) {
           // this hides the max entrants field
           $('#div_id_max_entrants').prop('hidden', true);
+          // this hides the minimum bid field
+          $('#div_id_minimum_bid').prop('hidden', false);
           // this sets the text for the num winners field
           $("#div_id_num_possible_winners").children('label').text('Number of possible winners*');
+           // this sets the text for cost
+          $("#div_id_cost").children('label').text('Starting Bid ($)*');
         // if the event is a buy
         } else {
           // this hides the max entrants field
           $('#div_id_max_entrants').prop('hidden', true);
+          // this hides the minimum bid field
+          $('#div_id_minimum_bid').prop('hidden', true);
           // this sets the text for the num winners field
           $("#div_id_num_possible_winners").children('label').text('Number of purchases available*');
+           // this sets the text for cost
+          $("#div_id_cost").children('label').text('Cost ($)*');
         }
       }
 

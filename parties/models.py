@@ -204,7 +204,7 @@ class Party(models.Model):
 	updated 		= models.DateTimeField(auto_now=True)
 	party_time		= models.DateTimeField()
 
-	minimum_bid		= models.IntegerField(default=0)
+	minimum_bid		= models.DecimalField(max_digits=7, decimal_places=2, default=0)
 
 	# starred contains the users that have starred the event. that means that
 	# starred_by should include all the events that a user has starred
@@ -301,6 +301,7 @@ class Party(models.Model):
 		# we call save twice because we have to set the pk before we schedule
 		# then we set the task_id as the party id, then we save again
 		super(Party, self).save(*args, **kwargs)
+		self.minimum_bid = self.cost
 		self.task_id = self.schedule_pick_winner()
 		super(Party, self).save(*args, **kwargs)
 
