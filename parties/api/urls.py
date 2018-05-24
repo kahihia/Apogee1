@@ -11,9 +11,9 @@ from .views import (
 		StarToggleAPIView, 
 		TrendingListAPIView, 
 		StarredListAPIView,
-		JoinToggleAPIView, 
+		BuyoutLotteryAPIView, 
 		JoinedListAPIView,
-		BidToggleAPIView
+		BidAPIView
 	)
 
 app_name = 'parties-api'
@@ -25,6 +25,6 @@ urlpatterns = [
     path('create/', PartyCreateAPIView.as_view(), name='create'), 
     path('<int:pk>/', PartyDetailAPIView.as_view(), name='detail'),
     path('<int:pk>/star/', StarToggleAPIView.as_view(), name='star-toggle'),
-    path('<int:pk>/join/<int:bids>', BidToggleAPIView.as_view(), name='bid-toggle'),
-    path('<int:pk>/join/', JoinToggleAPIView.as_view(), name='join-toggle') 
+    path('<int:pk>/join/<int:bids>', BidAPIView.as_view(), name='bid-toggle'),
+    path('<int:pk>/join/', BuyoutLotteryAPIView.as_view(), name='join-toggle') 
  ]
