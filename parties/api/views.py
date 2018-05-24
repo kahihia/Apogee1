@@ -186,7 +186,7 @@ class PartyListAPIView(generics.ListAPIView):
 				Q(user__username__icontains=query) | 
 				Q(title__icontains=query)
 				)
-			return qs
+		return qs
 
 
 

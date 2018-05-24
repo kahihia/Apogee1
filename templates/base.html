@@ -151,8 +151,10 @@ of the formatting in the head, so it must be imported into every file. -->
         let star_active = '<i class="fa fa-star yellow-color" aria-hidden="true"></i>';
         let star_inactive = '<i class="fa fa-star grey-color" aria-hidden="true"></i>';
         let free = 'FREE';
-        let join = 'Enter';
-        let joined = 'Joined';
+        let joined = '';
+        let joined_lottery = 'Entry Purchased';
+        let joined_bid = 'Bid submitted';
+        let joined_buy = 'Event Purchased';
         let drawing_icon = '<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Drawing"></i>';
         let bid_icon = '<i class="fas fa-gavel grey-color" data-toggle="tooltip" data-placement="top" title="Auction"></i>';
         let buy_icon = '<i class="fa fa-donate grey-color" data-toggle="tooltip" data-placement="top" title="Buy Now"></i>';
@@ -237,6 +239,10 @@ of the formatting in the head, so it must be imported into every file. -->
               if(data.error_message!=""){
                 alert(data.error_message)
               }
+              if(data.error_message == ''){
+                this_.prop('disabled', true)
+                this_.text(joined)
+              }
               console.log(this_)
               console.log(data.min_bid)
               // the api handles updating the database 
@@ -253,13 +259,13 @@ of the formatting in the head, so it must be imported into every file. -->
         // anytime it is clicked, it should say joined, so it doesnt check anything
         // it doesnt have the ability to "unjoin"
         // not sure if this is a problem, but it could add disabled repeatedly
-        $(document.body).on(click, '.joinDisplay', function(e){
-          e.preventDefault()
-          let this_ = $(this)
-          let text = this_.text()
-          this_.prop('disabled', true)
-          this_.text(joined)
-        })
+        // $(document.body).on(click, '.joinDisplay', function(e){
+        //   e.preventDefault()
+        //   let this_ = $(this)
+        //   let text = this_.text()
+        //   this_.prop('disabled', true)
+        //   this_.text(joined)
+        // })
 
 
         // this allows search along hashtags. its called upon creation
@@ -294,6 +300,9 @@ of the formatting in the head, so it must be imported into every file. -->
           let price = '$' + partyValue.cost
           if (partyValue.cost == 0) {
             price = free
+          }
+          if (partyValue.event_type == 2){
+            price = '$' + partyValue.minimum_bid
           }
 
           // this checks the event type and sets the correct icon
@@ -349,33 +358,76 @@ of the formatting in the head, so it must be imported into every file. -->
           if (partyValue.did_star){
             star_verb = star_active
           }
+          // this contains the pieces that every event has at the top. title, name, time, star, desc, etc.
+          let detail_header = '<div class="row mt-3">' +
+            '<div class="col-sm-4">' +  
+              '<img class="img-fluid rounded mx-auto" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
+            '</div>' +
+            '<div class="col-sm-8">' +
+              '<h1 style="word-wrap: break-word;">' + partyValue.title + 
+                '<span class="float-right">' + 
+                  '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + star_verb + '</a>' + 
+                '</span>' + 
+              '</h1>' +
+              '<small class="text-muted">With ' + 
+                '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a> On ' + partyValue.party_time_display + 
+              '</small><br>' + 
+              '<p class="lead mt-4" style="word-wrap: break-word;">' + partyValue.description + '</p>' + 
+            '</div>' +
+          '</div>'
 
           // selects event type icon 
           let type_icon = ''
+          let join = ''
           if (partyValue.event_type == 1) {
             type_icon = drawing_icon
+            join = "Enter Drawing"
+            joined = joined_lottery
           } else if (partyValue.event_type == 2) {
             type_icon = bid_icon
+            join = "Submit a Bid"
+            joined = joined_bid
           } else if (partyValue.event_type == 3) {
             type_icon = buy_icon
-          }
-
-          // this picks the text for the join button to show event type
-          if (partyValue.event_type == 1) {
-            join = "Enter Drawing"
-          } else if (partyValue.event_type == 2) {
-            join = "Submit a Bid"
-          } else if (partyValue.event_type == 3) {
             join = "Buy Event"
-
+            joined = joined_buy
           }
 
+          // this sets the price text
+          let price = '<p class="text-muted">' + type_icon + ' $' + partyValue.cost + '</p>' 
+          if (partyValue.cost == 0) {
+            price = '<p class="text-muted">' + type_icon + ' ' + free + '</p>' 
+          } else if (partyValue.event_type == 2) {
+            price = '<p class="text-muted" name="min_bid">' + type_icon + ' $' + partyValue.minimum_bid + 
+            ' <small class="text-muted"> minimum bid</small></p>'
+          }
+          // only displays the time until close if the event is still open
+          let timeuntil = ''
+          if (partyValue.is_open) {
+            timeuntil = '<p class="text-muted">' + partyValue.timeuntil + 
+            ' <small class="text-muted"> until close</small></p>'
+          }
+          // if there is no max entrants, it doesnt display
+          let max_entrants = ''
+          if (partyValue.max_entrants != null) {
+            max_entrants = '<p class="text-muted">' + partyValue.max_entrants + 
+            ' <small class="text-muted">Max entrants</small></p>'
+          }
+          // changes the winners display on buy event
+          let possible_winners = '<p class="text-muted">' + partyValue.num_possible_winners + 
+          ' <small class="text-muted">Winners possible</small></p>'
+          if (partyValue.event_type == 3) {
+            possible_winners = '<p class="text-muted">' + partyValue.num_possible_winners + 
+            ' <small class="text-muted">total spots</small></p>'
+          }
           // this sets the display of the join button
           let join_verb = ''
           if (!partyValue.is_owner){
-              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' + partyValue.id + '" event-id="'+partyValue.event_type+'">' + join + '</button>'
+              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' 
+              + partyValue.id + '" event-id="'+partyValue.event_type+'">' + join + '</button>'
             if (partyValue.did_join) {
-              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' + partyValue.id + '" disabled>' + joined + '</button>'
+              join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' 
+              + partyValue.id + '" disabled>' + joined + '</button>'
             }
           } 
 
@@ -387,52 +439,31 @@ of the formatting in the head, so it must be imported into every file. -->
           // this displays the winners if they've been selected
           let winner = ''
           if (partyValue.winner_names.length > 0) {
-            winner = '<div class="row mt-3"><h1 class="mx-auto"> ' + partyValue.winner_names + ' is the winner!</h1></div>'
+            winner = '<div class="row mt-3"><h1 class="mx-auto"> ' + partyValue.winner_names + 
+            ' is the winner!</h1></div>'
           }
-
-          // this sets the price text
-          let price = '$' + partyValue.cost
-          if (partyValue.cost == 0) {
-            price = free
-          }
+         
 
           // this formats the event on the detail page. it has a thumbnail on the top 
           // left, the title and star on the top right, the name, time, and full 
           // description, below. below that is the price, type, and the join button
-
           if(partyValue.event_type == 1){
-             let container =
-          '<div class="row mt-3">' +
-            '<div class="col-sm-4">' +  
-              '<img class="img-fluid rounded mx-auto" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
-            '</div>' +
-            '<div class="col-sm-8">' +
-              '<h1>' + partyValue.title + 
-                '<span class="float-right">' + 
-                  '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + star_verb + '</a>' + 
-                '</span>' + 
-              '</h1>' +
-              '<small class="text-muted">With ' + 
-                '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a> On ' + partyValue.party_time_display + 
-              '</small><br>' + 
-              '<p class="lead mt-4">' + partyValue.description + '</p>' + 
-            '</div>' +
-          '</div>' +
+             let container = detail_header +
           '<div class="row mt-3">' + 
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + price + ' ' + type_icon + '</p>' +
+              price + 
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.timeuntil + ' <small class="text-muted"> until close</small></p>' +
+              timeuntil +
             '</div>' +
             '<div class="col-sm-12">' + 
               '<p class="text-muted" name="num_joined">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.max_entrants + ' <small class="text-muted">Max entrants</small></p>' +
+              max_entrants + 
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.num_possible_winners + ' <small class="text-muted">Winners possible</small></p>' +
+              possible_winners + 
             '</div>' +
           '</div>' +
           '<div class="row">' + join_verb + '</div>' + winner 
@@ -442,35 +473,16 @@ of the formatting in the head, so it must be imported into every file. -->
 
 
           if(partyValue.event_type == 2){
-                      let container =
-          '<div class="row mt-3">' +
-            '<div class="col-sm-4">' +  
-              '<img class="img-fluid rounded mx-auto" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
-            '</div>' +
-            '<div class="col-sm-8">' +
-              '<h1>' + partyValue.title + 
-                '<span class="float-right">' + 
-                  '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + star_verb + '</a>' + 
-                '</span>' + 
-              '</h1>' +
-              '<small class="text-muted">With ' + 
-                '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a> On ' + partyValue.party_time_display + 
-              '</small><br>' + 
-              '<p class="lead mt-4">' + partyValue.description + '</p>' + 
-            '</div>' +
-          '</div>' +
+            let container = detail_header +
           '<div class="row mt-3">' + 
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + price + ' ' + type_icon + '</p>' +
+              price + 
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted" name="min_bid">' + partyValue.minimum_bid + ' <small class="text-muted"> is the minimum bid</small></p>' +
+              timeuntil +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.timeuntil + ' <small class="text-muted"> until close</small></p>' +
-            '</div>' +
-            '<div class="col-sm-12">' + 
-              '<p class="text-muted" name="num_possible_winners">' + partyValue.num_possible_winners + ' <small class="text-muted">Winners possible</small></p>' +
+              possible_winners + 
             '</div>' +
           '</div>' +
           '<form id= "bid-submit" method="GET">'+
@@ -486,38 +498,20 @@ of the formatting in the head, so it must be imported into every file. -->
           return container
           }
           if(partyValue.event_type == 3){
-             let container =
-          '<div class="row mt-3">' +
-            '<div class="col-sm-4">' +  
-              '<img class="img-fluid rounded mx-auto" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
-            '</div>' +
-            '<div class="col-sm-8">' +
-              '<h1>' + partyValue.title + 
-                '<span class="float-right">' + 
-                  '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + star_verb + '</a>' + 
-                '</span>' + 
-              '</h1>' +
-              '<small class="text-muted">With ' + 
-                '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a> On ' + partyValue.party_time_display + 
-              '</small><br>' + 
-              '<p class="lead mt-4">' + partyValue.description + '</p>' + 
-            '</div>' +
-          '</div>' +
+             let container = detail_header +
           '<div class="row mt-3">' + 
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + price + ' ' + type_icon + '</p>' +
-            '</div>' +
-            // '<div class="col-sm-12">' + 
-            //   '<p class="text-muted">' + partyValue.joins + ' <small class="text-muted">Joined</small></p>' +
-            // '</div>' +
-              '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.timeuntil + ' <small class="text-muted"> until close</small></p>' +
+              price + 
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted" name="num_curr_winners">' + partyValue.num_curr_winners + ' <small class="text-muted">current winners</small></p>' +
+              timeuntil +
             '</div>' +
             '<div class="col-sm-12">' + 
-              '<p class="text-muted">' + partyValue.num_possible_winners + ' <small class="text-muted">possible winners</small></p>' +
+              '<p class="text-muted" name="num_curr_winners">' + partyValue.num_curr_winners + 
+              ' <small class="text-muted">spots taken</small></p>' +
+            '</div>' +
+            '<div class="col-sm-12">' + 
+              possible_winners + 
             '</div>' +
           '</div>' +
           '<div class="row">' + join_verb + '</div>' + winner 
