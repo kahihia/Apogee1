@@ -267,7 +267,6 @@ class PartyManager(models.Manager):
 		'num_winners':party_obj.winners.all().count(),\
 		'error_message':error_message}
 
-	#FUCK THIS EVENT GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH
 	# Used for managing users (winners/joined) in bid event
 	# Bid event ending is handled in scheduler (when time expires)
 	def bid_toggle(self, user, party_obj, bid):
