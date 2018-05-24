@@ -433,6 +433,7 @@ of the formatting in the head, so it must be imported into every file. -->
             possible_winners = '<p class="text-muted">' + partyValue.num_possible_winners + 
             ' <small class="text-muted">Spots total</small></p>'
           }
+          // this sets the bid input so that owners dont see it
           let bid_input = ''
           if (!partyValue.is_owner) {
             bid_input = '<form id= "bid-submit" method="GET">'+
@@ -495,7 +496,6 @@ of the formatting in the head, so it must be imported into every file. -->
           return container
           }
 
-
           if(partyValue.event_type == 2){
             let container = detail_header +
           '<div class="row mt-3">' + 
@@ -514,6 +514,7 @@ of the formatting in the head, so it must be imported into every file. -->
 
           return container
           }
+          
           if(partyValue.event_type == 3){
              let container = detail_header +
           '<div class="row mt-3">' + 
