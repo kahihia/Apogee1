@@ -25,17 +25,4 @@ class Bid(models.Model):
 
 # set integrity constraints for database
 	def clean(self, *args, **kwargs):
-		# bid_amount = self.bid_amount
-		# user = self.user
-		# party = self.party
-
-		# #bid can't be less than 0
-		# if bid_amount<0:
-		#  	raise ValidationError("CONTENT ERROR: Cannot be less than 0")
-		# #if the user does not exist, bid can't be created	
-		# if not User.objects.filter(id = user.id).exists():
-		# 	raise ValidationError("CONTENT ERROR: User does not exist")
-		# #if the party does not exist, bid can't be created	
-		# if not Party.objects.filter(id = party.id).exists():
-		# 	raise ValidationError("CONTENT ERROR: Party does not exist")
 		return super(Bid, self).clean(*args,**kwargs)
