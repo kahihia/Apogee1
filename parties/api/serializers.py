@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.template.defaultfilters import truncatechars
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from datetime import timedelta
 
 from parties.models import Party 
 # we import the user serializer as well since the event 
@@ -30,6 +31,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	did_star = serializers.SerializerMethodField()
 	# routes to the thumbnail in the media folder. 
 	thumbnail_url = serializers.SerializerMethodField()
+	# this is a shortened version of the title that fits the thumbnail
+	short_title = serializers.SerializerMethodField()
 	# this is a shortened version of the description that fits the thumbnail
 	short_description = serializers.SerializerMethodField()
 	# numberof people that have joined the event
@@ -62,6 +65,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'stars',
 			'did_star',
 			'thumbnail_url',
+			'short_title',
 			'short_description',
 			'joins', 
 			'did_join',
@@ -101,6 +105,9 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		return names
 
 	# this limits the characters for displaying on the thumbnail
+	def get_short_title(self, obj):
+		return truncatechars(obj.title, 25)
+
 	def get_short_description(self, obj):
 		return truncatechars(obj.description, 40)
 
@@ -145,7 +152,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		return tz_converted.strftime('%b %d at %I:%M %p')
 
 	def get_timeuntil(self, obj):
-		return timeuntil(obj.party_time)
+		return timeuntil(obj.party_time - timedelta(minutes=10))
 
 	# this compares the current time to the event time and tells us if it's closed
 	# def get_is_open(self, obj):
