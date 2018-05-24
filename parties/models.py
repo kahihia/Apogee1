@@ -280,6 +280,9 @@ class PartyManager(models.Manager):
 		# = You have already bid on this event
 		elif user in party_obj.joined.all():
 			event_info = event_user_already_in_event(party_obj)
+		#bid must beat the current minimum_bid
+		elif bid <= party_obj.minimum_bid:
+			event_info = bid_bid_too_low()
 		# If there are still slots available
 		# add user to joined list
 		# returns dict with added = True and error_message
@@ -315,7 +318,9 @@ class PartyManager(models.Manager):
 		#to parties/api/views under JoinToggleAPIView
 		bid_accepted = event_info["added"]
 		error_message = event_info["error_message"]		
-		return {'bid_accepted':bid_accepted, 'min_bid':party_obj.minimum_bid, 'error_message':error_message}
+		return {'bid_accepted':bid_accepted,\
+		'min_bid':party_obj.minimum_bid,\
+		'error_message':error_message}
 
 
 	# this isnt really a toggle. once you've been added, it sticks
