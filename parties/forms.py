@@ -82,8 +82,6 @@ class PartyModelForm(forms.ModelForm):
 	def clean_num_possible_winners(self, *args, **kwargs):
 		max_entrants = self.cleaned_data.get('max_entrants')
 		num_possible_winners = self.cleaned_data.get('num_possible_winners')
-		print(max_entrants)
-		print(num_possible_winners)
 		if max_entrants is not None:
 			if num_possible_winners > max_entrants:
 				raise forms.ValidationError('Event cannot have more winners than entrants.')

@@ -243,7 +243,7 @@ of the formatting in the head, so it must be imported into every file. -->
                 document.getElementsByName("num_joined")[0].innerHTML = data.num_joined + ' <small class="text-muted">Joined</small>'
               }
               if(partyType == 2){
-                document.getElementsByName("min_bid")[0].innerHTML = data.min_bid + ' <small class="text-muted">is the minimum bid</small>'
+                document.getElementsByName("min_bid")[0].innerHTML = bid_icon + ' $' + data.min_bid + ' <small class="text-muted">is the minimum bid</small>'
               }
               if(partyType == 3){
                 document.getElementsByName("num_curr_winners")[0].innerHTML = 
@@ -421,17 +421,17 @@ of the formatting in the head, so it must be imported into every file. -->
             ' <small class="text-muted"> until close</small></p>'
           }
           // if there is no max entrants, it doesnt display
-          let max_entrants = ''
-          if (partyValue.max_entrants != null) {
-            max_entrants = '<p class="text-muted">' + partyValue.max_entrants + 
+          let max_entrants = '<p class="text-muted">' + partyValue.max_entrants + 
             ' <small class="text-muted">Max entrants</small></p>'
+          if (partyValue.max_entrants == null) {
+            max_entrants = '<p class="text-muted"><small class="text-muted">Unlimited entrants</small></p>'
           }
           // changes the winners display on buy event
           let possible_winners = '<p class="text-muted">' + partyValue.num_possible_winners + 
           ' <small class="text-muted">Winners possible</small></p>'
           if (partyValue.event_type == 3) {
             possible_winners = '<p class="text-muted">' + partyValue.num_possible_winners + 
-            ' <small class="text-muted">total spots</small></p>'
+            ' <small class="text-muted">Spots total</small></p>'
           }
           let bid_input = ''
           if (!partyValue.is_owner) {
@@ -525,7 +525,7 @@ of the formatting in the head, so it must be imported into every file. -->
             '</div>' +
             '<div class="col-sm-12">' + 
               '<p class="text-muted" name="num_curr_winners">' + partyValue.num_curr_winners + 
-              ' <small class="text-muted">spots taken</small></p>' +
+              ' <small class="text-muted">Spots taken</small></p>' +
             '</div>' +
             '<div class="col-sm-12">' + 
               possible_winners + 
