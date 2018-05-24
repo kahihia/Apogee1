@@ -273,6 +273,7 @@ class PartyManager(models.Manager):
 		# If party is closed
 		# returns dict with added = False and error_message
 		# = Event is closed
+		print("here is the bid")
 		if not party_obj.is_open:
 			event_info = event_is_closed()
 		# If user already bought this event
@@ -281,6 +282,9 @@ class PartyManager(models.Manager):
 		elif user in party_obj.joined.all():
 			event_info = event_user_already_in_event(party_obj)
 		#bid must beat the current minimum_bid
+		elif bid:
+			print("here is the bid")
+			event_info = bid_bid_too_low()
 		elif bid <= party_obj.minimum_bid:
 			event_info = bid_bid_too_low()
 		# If there are still slots available

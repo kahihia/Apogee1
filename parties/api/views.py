@@ -61,6 +61,11 @@ class BuyoutLotteryAPIView(APIView):
 								'error_message':joined_table["error_message"]
 								})
 		#if party_event is buyout
+		elif party_event_type == 2:
+			return Response({'bid_accepted': False,
+			'min_bid':party_qeryset.first().minimum_bid,
+			'error_message':"Improper input"
+			})
 		else:
 			if request.user.is_authenticated:
 				buy_table = Party.objects.buyout_add(request.user, party_qeryset.first())
