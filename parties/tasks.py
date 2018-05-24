@@ -4,7 +4,7 @@ from __future__ import absolute_import
 from celery import shared_task
 
 from .models import Party
-
+from notifications.models import Notification
 # the shared task just makes it so the celery app can access this
 @shared_task
 # this method takes the list of joined, reorders it randomly, and picks one
@@ -60,5 +60,10 @@ def pick_winner(party_id):
 		party.save2(update_fields=['is_open'])	
 		return party.id
 
-
-
+# def send_end_notifications(party_id):
+# 	# gets the correct party
+# 	# filter would return a queryset, we want an object.
+# 	party = Party.objects.get(pk=party_id)
+# 	except Party.DoesNotExist:
+# 	# if the party is deleted, it does nothing
+# 		return 
