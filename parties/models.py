@@ -326,6 +326,15 @@ class PartyManager(models.Manager):
 			won = True
 
 		else:
+			if(party_obj.event_type==1):
+				Notification.objects.create(user=user, party=party_obj.pk,\
+				action="lottery_winner")
+			elif(party_obj.event_type==2):
+				Notification.objects.create(user=user, party=party_obj.pk,\
+				action="bid_winner")
+			else:
+				Notification.objects.create(user=user, party=party_obj.pk,\
+				action="buyout_winner")
 			won = True
 			party_obj.winners.add(user)
 		return won
@@ -439,8 +448,10 @@ class Party(models.Model):
 		return result.id
 
 	# def send_notifications(self):
-	# 	pick_time = self.party_time - timedelta(minutes=10)
-	# 	success = send_notif.apply_async()
+	# 	pick_time = self.party_time - timedelta(minutes=9)
+	# 	from .tasks import  send_end_notifications
+	# 	success =  send_end_notifications.apply_async((self.pk,), eta=pick_time)
+	# 	return success
 
 	# used to change the dataset ordering
 	class Meta:
