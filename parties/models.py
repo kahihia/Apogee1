@@ -9,6 +9,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 
+import math
+
 from bids.models import Bid
 from notifications.models import Notification
 from .validators import validate_title
@@ -97,6 +99,7 @@ def lottery_end(party_obj):
 #added = True
 def buyout_add_user(user, party_obj):
 	party_obj.winners.add(user)
+	party_obj.joined.add(user)
 	#Creating a notification for the user on buyout win
 	print("Creating Notifiaction for buyout win on buyout click")
 	Notification.objects.create(user=user, party=party_obj.pk,\
@@ -270,22 +273,39 @@ class PartyManager(models.Manager):
 	# Used for managing users (winners/joined) in bid event
 	# Bid event ending is handled in scheduler (when time expires)
 	def bid_add(self, user, party_obj, bid):
+		#Checks if bid is a number
+		#if not returns error
+		try:
+			bid = float(bid)
+		except ValueError:
+			return {'bid_accepted':False,\
+			'min_bid':party_obj.minimum_bid,\
+			'error_message':"Improper bid value"}
+
+		#Floors bid at two decimal places
+		
+		bid = math.floor(bid*100)/100
+
+		print("bid_add:")
+		print(bid)
 		# If party is closed
 		# returns dict with added = False and error_message
 		# = Event is closed
-		print("here is the bid")
 		if not party_obj.is_open:
+			print("Party closed - bid")
 			event_info = event_is_closed()
 		# If user already bought this event
 		# returns dict with added = False and error_message 
 		# = You have already bid on this event
 		elif user in party_obj.joined.all():
+			print("Already in party - bid")
 			event_info = event_user_already_in_event(party_obj)
 		#bid must beat the current minimum_bid
-		elif bid:
-			print("here is the bid")
+		elif not bid:
+			print("Bid doesn't exist - bid")
 			event_info = bid_bid_too_low()
 		elif bid <= party_obj.minimum_bid:
+			print("Bid is too low - bid")
 			event_info = bid_bid_too_low()
 		# If there are still slots available
 		# add user to joined list
@@ -294,8 +314,10 @@ class PartyManager(models.Manager):
 		# if this results in there being no slots remaining
 		# get min bid on this party, and set as party's minimum bid
 		elif party_obj.joined.all().count()<party_obj.num_possible_winners:
+			print("Free spot - bid")
 			event_info = bid_add_user_when_open_spots(party_obj, bid, user)
 			if party_obj.joined.all().count()==party_obj.num_possible_winners:
+				print("Max spots reached - bid")
 				party_obj.minimum_bid = bid_get_min_bid_number(party_obj)		
 				party_obj.save2(update_fields=['minimum_bid'])
 		#if no slots available
@@ -321,9 +343,13 @@ class PartyManager(models.Manager):
 		#Send dictonary info and number of joined
 		#to parties/api/views under JoinToggleAPIView
 		bid_accepted = event_info["added"]
-		error_message = event_info["error_message"]		
+		error_message = event_info["error_message"]	
+		print("end of bid_add - bid")	
+		#This is done for formatting purposes on front end
+		# to display only two decimal places
+		f_min_bid = '%.2f' % party_obj.minimum_bid
 		return {'bid_accepted':bid_accepted,\
-		'min_bid':party_obj.minimum_bid,\
+		'min_bid':f_min_bid,\
 		'error_message':error_message}
 
 

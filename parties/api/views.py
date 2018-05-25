@@ -28,6 +28,7 @@ class StarToggleAPIView(APIView):
 #change this to handle all purchase types
 
 class BidAPIView(APIView):
+	print("BIDAPIVIEW")
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, bids, format=None):
 		print("The bid is: ")
@@ -47,6 +48,7 @@ class BidAPIView(APIView):
 
 
 class BuyoutLotteryAPIView(APIView):
+	print("BUYOUTLOTTERYAPIVIEW")
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, format=None):
 		party_qeryset = Party.objects.filter(pk=pk)
