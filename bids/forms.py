@@ -14,8 +14,8 @@ class BidModelForm(forms.ModelForm):
 
 
 	def clean_bid_amount(self, *args, **kwargs):
-			bid = self.cleaned_data.get('bid_amount')
-			return bid
+			bid_amount = self.cleaned_data.get('bid_amount')
+			return bid_amount
 
 # #bid model form for practice
 # #deprecated

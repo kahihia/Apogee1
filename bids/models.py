@@ -12,7 +12,7 @@ User = get_user_model()
 
 # Model for bid which inludes bid amount, user (fk) and party pk (int)
 class Bid(models.Model):
-	bid_amount 	= models.DecimalField(max_digits=7, decimal_places=2, default=0,\
+	bid_amount 	= models.IntegerField(default=0,\
 	 validators =[validate_bid_amount])
 	user 		= models.ForeignKey(settings.AUTH_USER_MODEL,
 					on_delete=models.CASCADE)
