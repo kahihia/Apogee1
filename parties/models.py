@@ -10,12 +10,20 @@ from django.db import models
 from django.urls import reverse
 
 import math
+import sys
 
 from bids.models import Bid
 from notifications.models import Notification
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
+
+
+############################ GLOBAL VARIABLES #################################
+max_acceptable_bid = 99999.99
+
+############################ GLOBAL VARIABLES #################################
+
 
 ################################################################################
 ############################ HELPER FUNCTIONS ##################################
@@ -283,7 +291,11 @@ class PartyManager(models.Manager):
 			'error_message':"Improper bid value"}
 
 		#Floors bid at two decimal places
-		
+		if bid >= max_acceptable_bid:
+			return {'bid_accepted':False,\
+			'min_bid':party_obj.minimum_bid,\
+			'error_message':"Bid value too large"}
+
 		bid = math.floor(bid*100)/100
 
 		print("bid_add:")
@@ -440,7 +452,7 @@ class Party(models.Model):
 	# declares our choices for event types
 	event_type		= models.IntegerField(
 						choices=(
-							(1, 'Drawing'), 
+							(1, 'Lottery'), 
 							(2, 'Bid'), 
 							(3, 'Buy')),  
 						default=1)
