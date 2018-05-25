@@ -31,10 +31,10 @@ class PartyDeleteView(UserOwnerMixin, LoginRequiredMixin, DeleteView):
 
 # update takes the data from the already-created event and fill sthe form with it
 # the mixins ensure only a logged in owner can access the page
-class PartyUpdateView(UserOwnerMixin, LoginRequiredMixin, UpdateView):
-	queryset = Party.objects.all()
-	form_class = PartyModelForm
-	template_name = 'parties/update_view.html'
+# class PartyUpdateView(UserOwnerMixin, LoginRequiredMixin, UpdateView):
+# 	queryset = Party.objects.all()
+# 	form_class = PartyModelForm
+# 	template_name = 'parties/update_view.html'
 
 
 # the two mixins both ensure that the user is logged so that no event can be created 
