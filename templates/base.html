@@ -243,7 +243,7 @@ of the formatting in the head, so it must be imported into every file. -->
                 document.getElementsByName("num_joined")[0].innerHTML = data.num_joined + ' <small class="text-muted">Joined</small>'
               }
               if(partyType == 2){
-                document.getElementsByName("min_bid")[0].innerHTML = bid_icon + ' $' + data.min_bid + ' <small class="text-muted">is the minimum bid</small>'
+                document.getElementsByName("min_bid")[0].innerHTML = bid_icon + ' $' + data.min_bid + ' <small class="text-muted">bid to beat</small>'
               }
               if(partyType == 3){
                 document.getElementsByName("num_curr_winners")[0].innerHTML = 
@@ -412,7 +412,7 @@ of the formatting in the head, so it must be imported into every file. -->
             price = '<p class="text-muted">' + type_icon + ' ' + free + '</p>' 
           } if (partyValue.event_type == 2) {
             price = '<p class="text-muted" name="min_bid">' + type_icon + ' $' + partyValue.minimum_bid + 
-            ' <small class="text-muted"> minimum bid</small></p>'
+            ' <small class="text-muted"> bid to beat</small></p>'
           }
           // only displays the time until close if the event is still open
           let timeuntil = ''
