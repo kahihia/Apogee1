@@ -173,6 +173,8 @@ def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 def bid_bid_too_low():
 	return{'added':False, 'error_message':"You must beat the minimum bid"}
 
+
+
 ############################ END BID FUNCTIONS #################################
 
 ################################################################################
@@ -286,17 +288,20 @@ class PartyManager(models.Manager):
 		try:
 			bid = float(bid)
 		except ValueError:
+			f_min_bid = '%.2f' % party_obj.minimum_bid
 			return {'bid_accepted':False,\
-			'min_bid':party_obj.minimum_bid,\
+			'min_bid':f_min_bid,\
 			'error_message':"Improper bid value"}
 
 		#Floors bid at two decimal places
 		if bid >= max_acceptable_bid:
+			f_min_bid = '%.2f' % party_obj.minimum_bid
 			return {'bid_accepted':False,\
-			'min_bid':party_obj.minimum_bid,\
+			'min_bid':f_min_bid ,\
 			'error_message':"Bid value too large"}
 
 		bid = math.floor(bid*100)/100
+
 
 		print("bid_add:")
 		print(bid)
