@@ -86,7 +86,7 @@ def lottery_end(party_obj):
 			party_obj.winners.add(winner)
 			Notification.objects.create(user=winner.user, party=party_obj.pk,\
 			action="lottery_winner")
-			winner = pool.exclude(pk=winner.pk)
+			pool = pool.exclude(pk=winner.pk)
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
 
