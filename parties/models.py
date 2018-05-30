@@ -13,6 +13,7 @@ import math
 import sys
 
 from bids.models import Bid
+from userstatistics import statisticsfunctions
 from notifications.models import Notification
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
@@ -121,6 +122,7 @@ def buyout_end(user, party_obj):
 	print("Closing buyout")
 	Notification.objects.create(user=user, party=party_obj.pk,\
 	action="buyout_close")
+	statisticsfunctions.end_buyout_stats(party_obj)
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
 

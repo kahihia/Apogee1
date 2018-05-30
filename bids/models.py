@@ -16,7 +16,7 @@ class Bid(models.Model):
 	 validators =[validate_bid_amount])
 	user 		= models.ForeignKey(settings.AUTH_USER_MODEL,
 					on_delete=models.CASCADE)
-	party = models.IntegerField(default = 0)
+	party 		= models.IntegerField(default = 0)
 	def __str__(self):
 		return str(self.bid_amount)
 

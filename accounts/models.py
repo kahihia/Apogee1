@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 from django.urls import reverse_lazy
 
 from parties.models import Party
+from userstatistics.models import StatisticsInfo
 # Create your models here.
 
 class UserProfileManager(models.Manager):
@@ -130,10 +131,13 @@ class UserProfile(models.Model):
 def post_save_user_reciever(sender, instance, created, *args, **kwargs):
 	if created: 
 		new_profile = UserProfile.objects.get_or_create(user=instance)
+		StatisticsInfo.objects.create(user=instance)
 		# could run celery+redis deferred tasks here like an email task
 
 # sending user object to the receiver
 post_save.connect(post_save_user_reciever, sender=settings.AUTH_USER_MODEL)
+
+
 
 
 
