@@ -14,7 +14,8 @@ class StatisticsInfo(models.Model):
 	user 				= models.ForeignKey(settings.AUTH_USER_MODEL,
 						on_delete=models.CASCADE)
 	max_profit_event 	= models.IntegerField(default = -1)
-
+	max_profit 			= models.DecimalField(max_digits=12,\
+	 							decimal_places=2, default=0)
 	#LOTTERY STATISTICS
 	lottery_num_events 			= models.IntegerField(default = 0)
 	lottery_total_earnings 		= models.DecimalField(max_digits=12,\

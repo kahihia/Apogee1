@@ -96,6 +96,7 @@ def lottery_end(party_obj):
 			party_obj.winners.add(winner)
 			pool = pool.exclude(pk=winner.pk)
 
+	statisticsfunctions.lottery_update_end_stats(party_obj)
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
 
@@ -166,12 +167,6 @@ def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
 	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+\
 	" from winning slot")
-	# blist = Bid.objects.filter(party=party_obj.pk)
-	# min_bid = blist.first()
-	# for bs in blist:
-	# 	print("This is what I am talking about: "+str(bs.bid_amount))
-	# 	if min_bid.bid_amount>bs.bid_amount:
-	# 		min_bid=bs
 	party_obj.minimum_bid = bid_get_min_bid_number(party_obj)
 	party_obj.save2(update_fields=['minimum_bid'])
 	return{'added':True, 'error_message':""}
