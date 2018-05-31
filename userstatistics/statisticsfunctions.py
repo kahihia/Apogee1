@@ -8,7 +8,7 @@ import datetime
 ##########################BUYOUT EVENT FUNCTIONS################################
 def buyout_update_end_stats(party_obj):
 	event_earnings = party_obj.winners.all().count() * party_obj.cost
-	user_stats_page = StatisticsInfo.objects.get(pk=party_obj.user.id)
+	user_stats_page = StatisticsInfo.objects.get(user=party_obj.user)
 	if event_earnings > user_stats_page.max_profit:
 		user_stats_page.max_profit = event_earnings
 		user_stats_page.max_profit_event = party_obj.pk
@@ -23,7 +23,7 @@ def buyout_update_end_stats(party_obj):
 										])
 
 def buyout_update_star_stats(party_obj):
-	user_stats_page = StatisticsInfo.objects.get(pk=party_obj.user.id)
+	user_stats_page = StatisticsInfo.objects.get(user=party_obj.user)
 	user_star_time = datetime.datetime.now().time()
 	party_end_time = party_obj.party_time.time()
 	user_bucket = get_bucket(user_star_time)
@@ -46,7 +46,7 @@ def buyout_update_star_stats(party_obj):
 
 
 def buyout_update_join_stats(party_obj):
-	user_stats_page = StatisticsInfo.objects.get(pk=party_obj.user.id)
+	user_stats_page = StatisticsInfo.objects.get(user=party_obj.user)
 	user_join_time = datetime.datetime.now().time()
 	party_end_time = party_obj.party_time.time()
 	user_bucket = get_bucket(user_join_time)
@@ -70,7 +70,7 @@ def buyout_update_join_stats(party_obj):
 def lottery_update_end_stats(party_obj):
 	total_participants = party_obj.joined.all().count()
 	event_earnings = total_participants * party_obj.cost
-	user_stats_page = StatisticsInfo.objects.get(pk=party_obj.user.id)
+	user_stats_page = StatisticsInfo.objects.get(user=party_obj.user)
 	if event_earnings > user_stats_page.max_profit:
 		user_stats_page.max_profit = event_earnings
 		user_stats_page.max_profit_event = party_obj.pk
@@ -90,7 +90,7 @@ def lottery_update_end_stats(party_obj):
 										'max_profit_event'])
 
 def lottery_update_star_stats(party_obj):
-	user_stats_page = StatisticsInfo.objects.get(pk=party_obj.user.id)
+	user_stats_page = StatisticsInfo.objects.get(user=party_obj.user)
 	user_star_time = datetime.datetime.now().time()
 	party_end_time = party_obj.party_time.time()
 	user_bucket = get_bucket(user_star_time)
@@ -112,7 +112,7 @@ def lottery_update_star_stats(party_obj):
 										])
 
 def lottery_update_join_stats(party_obj):
-	user_stats_page = StatisticsInfo.objects.get(pk=party_obj.user.id)
+	user_stats_page = StatisticsInfo.objects.get(user=party_obj.user)
 	user_join_time = datetime.datetime.now().time()
 	party_end_time = party_obj.party_time.time()
 	user_bucket = get_bucket(user_join_time)
@@ -140,7 +140,7 @@ def bid_update_end_stats(party_obj):
 
 	event_earnings = 0
 
-	user_stats_page = StatisticsInfo.objects.get(pk=party_obj.user.id)
+	user_stats_page = StatisticsInfo.objects.get(user=party_obj.user)
 
 	max_bid = user_stats_page.max_bid_event
 	for bid in bid_list:
@@ -163,7 +163,7 @@ def bid_update_end_stats(party_obj):
 										'max_profit_event'
 										])
 def bid_update_star_stats(party_obj):
-	user_stats_page = StatisticsInfo.objects.get(pk=party_obj.user.id)
+	user_stats_page = StatisticsInfo.objects.get(user=party_obj.user)
 	user_star_time = datetime.datetime.now().time()
 	party_end_time = party_obj.party_time.time()
 	user_bucket = get_bucket(user_star_time)
@@ -185,7 +185,7 @@ def bid_update_star_stats(party_obj):
 										])
 
 def bid_update_join_stats(party_obj):
-	user_stats_page = StatisticsInfo.objects.get(pk=party_obj.user.id)
+	user_stats_page = StatisticsInfo.objects.get(user=party_obj.user)
 	user_join_time = datetime.datetime.now().time()
 	party_end_time = party_obj.party_time.time()
 	user_bucket = get_bucket(user_join_time)
