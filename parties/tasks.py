@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 from celery import shared_task
 
+from userstatistics import statisticsfunctions
 from .models import Party
 
 # the shared task just makes it so the celery app can access this
@@ -32,7 +33,7 @@ def pick_winner(party_id):
 					print(winner)
 					Party.objects.win_toggle(winner, party)
 					pool = pool.exclude(pk=winner.pk)
-			# print (pool)
+			lottery_update_end_stats(party)
 			# # the winner is just the top of the random stack
 			# winner = pool.first()
 			# print (winner)
@@ -48,9 +49,10 @@ def pick_winner(party_id):
 			#add winners in
 			for i in winners:
 				Party.objects.win_toggle(i, party)
+			bid_update_end_stats(party)
 		elif party.event_type==3 and party.is_open:
 			print("Buyout event is over")	
-
+			buyout_update_end_stats(party)
 		party.is_open = False
 		party.save2(update_fields=['is_open'])
 		return party.id

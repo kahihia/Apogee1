@@ -441,7 +441,8 @@ class Party(models.Model):
 	# The maximum number of entrants to a lottery event. not required, defaults to no limit
 	max_entrants = models.PositiveSmallIntegerField(blank=True, null=True, 
 													choices=(
-														(None, 'Unlimited'), 
+														(None, 'Unlimited'),
+														(3,3), 
 														(10, 10), 
 														(25, 25), 
 														(50, 50), 
