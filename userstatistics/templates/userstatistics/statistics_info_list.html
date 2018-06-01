@@ -1,5 +1,18 @@
 {% include 'base.html' %}
-<h1>hello<h1/>
-{{object_list.user}}
-{{object_list.lottery_join_event_time}}
+{% load static %}
+<script src='{%static "js/userstatistics/display.js"%}'></script>
+
 <br>
+<div class="mx-auto" style="width: 200px;">
+	<div class="btn-group mx-auto" role="group" aria-label="Basic example">
+	  <button type="button" id ="general_btn" class="btn btn-secondary">General</button>
+	  <button type="button" id ="lottery_btn" class="btn btn-outline-secondary">Lottery</button>
+	  <button type="button" id ="bid_btn" class="btn btn-outline-secondary">Bid</button>
+	  <button type="button" id ="buyout_btn" class="btn btn-outline-secondary">Buy</button>
+	</div>
+</div>
+
+
+<div id='party-container'></div>
+
+
