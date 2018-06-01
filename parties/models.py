@@ -85,6 +85,8 @@ def lottery_add_user(user,party_obj):
 #added to party's winner list
 #4.Closes the party by setting party's is_open to false
 def lottery_end(party_obj):
+	Notification.objects.create(user=party_obj.user, party=party_obj.pk,\
+	action="lottery_maxcap")
 	print("Closing lottery")
 	pool = party_obj.joined.all().order_by('?')
 	print("The max entrants are: "+str(party_obj.max_entrants))
@@ -92,8 +94,9 @@ def lottery_end(party_obj):
 		if pool:
 			winner = pool.first()
 			party_obj.winners.add(winner)
+			Notification.objects.create(user=winner.user, party=party_obj.pk,\
+			action="lottery_winner")
 			pool = pool.exclude(pk=winner.pk)
-
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
 
@@ -115,12 +118,12 @@ def buyout_add_user(user, party_obj):
 	print("Notification Created")
 	return {'added':True, 'error_message':""}
 #Ends the buyout event
-#1. Party that is passed is closed
-#2. Create notification for user who is passed: buy_out close
+#1. event that is passed is closed
+#2. Create notification for event owner
 def buyout_end(user, party_obj):
 	print("Closing buyout")
-	Notification.objects.create(user=user, party=party_obj.pk,\
-	action="buyout_close")
+	Notification.objects.create(user=party_obj.user, party=party_obj.pk,\
+	action="buyout_maxcap")
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
 
@@ -154,18 +157,13 @@ def bid_get_min_bid_object(party_obj):
 def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	print("Removing smallest bid by: "+str(min_bid.user))
 	Bid.objects.filter(pk=min_bid.pk).delete()
+	Notification.objects.create(user=min_bid.user, party=party_obj.pk,\
+	action="bid_outbid")
 	party_obj.joined.remove(min_bid.user)
 	party_obj.joined.add(user)
-
 	new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
 	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+\
 	" from winning slot")
-	# blist = Bid.objects.filter(party=party_obj.pk)
-	# min_bid = blist.first()
-	# for bs in blist:
-	# 	print("This is what I am talking about: "+str(bs.bid_amount))
-	# 	if min_bid.bid_amount>bs.bid_amount:
-	# 		min_bid=bs
 	party_obj.minimum_bid = bid_get_min_bid_number(party_obj)
 	party_obj.save2(update_fields=['minimum_bid'])
 	return{'added':True, 'error_message':""}
@@ -237,6 +235,7 @@ class PartyManager(models.Manager):
 		error_message = event_info["error_message"]
 		#Send dictonary info and number of joined
 		#to parties/api/views under JoinToggleAPIView
+		printNotifications()
 		return {'is_joined':is_joined,\
 		'num_joined':party_obj.joined.all().count(),\
 		'error_message':error_message}
@@ -245,7 +244,6 @@ class PartyManager(models.Manager):
 	#buyout event ending is handled here (if max slots reached)
 	# or in scheduler (when time expires)
 	def buyout_add(self, user, party_obj):
-		printNotifications()
 		# If party is closed
 		# returns dict with added = False and error_message
 		# = Event is closed
@@ -276,6 +274,7 @@ class PartyManager(models.Manager):
 		#to parties/api/views under JoinToggleAPIView
 		won = event_info["added"]
 		error_message = event_info["error_message"]
+		printNotifications()
 		return {'winner':won,\
 		'num_winners':party_obj.winners.all().count(),\
 		'error_message':error_message}
@@ -376,6 +375,15 @@ class PartyManager(models.Manager):
 			won = True
 
 		else:
+			if(party_obj.event_type==1):
+				Notification.objects.create(user=user, party=party_obj.pk,\
+				action="lottery_winner")
+			elif(party_obj.event_type==2):
+				Notification.objects.create(user=user, party=party_obj.pk,\
+				action="bid_winner")
+			else:
+				Notification.objects.create(user=user, party=party_obj.pk,\
+				action="buyout_winner")
 			won = True
 			party_obj.winners.add(user)
 		return won
@@ -488,6 +496,12 @@ class Party(models.Model):
 		result = pick_winner.apply_async((self.pk,), eta=pick_time)
 		return result.id
 
+	# def send_notifications(self):
+	# 	pick_time = self.party_time - timedelta(minutes=9)
+	# 	from .tasks import  send_end_notifications
+	# 	success =  send_end_notifications.apply_async((self.pk,), eta=pick_time)
+	# 	return success
+
 	# used to change the dataset ordering
 	class Meta:
 		ordering = ['-time_created']
@@ -502,6 +516,7 @@ class Party(models.Model):
 		super(Party, self).save(*args, **kwargs)
 		self.minimum_bid = self.cost
 		self.task_id = self.schedule_pick_winner()
+		# self.send_notifications()
 		super(Party, self).save(*args, **kwargs)
 
 	def save2(self, *args, **kwargs):

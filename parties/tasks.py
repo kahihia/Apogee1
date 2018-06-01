@@ -4,7 +4,7 @@ from __future__ import absolute_import
 from celery import shared_task
 
 from .models import Party
-
+from notifications.models import Notification
 # the shared task just makes it so the celery app can access this
 @shared_task
 # this method takes the list of joined, reorders it randomly, and picks one
@@ -27,9 +27,6 @@ def pick_winner(party_id):
 			for i in range(0,party.num_possible_winners):
 				if pool:
 					winner = pool.first()
-					print("Scheduler")
-					print(i)
-					print(winner)
 					Party.objects.win_toggle(winner, party)
 					pool = pool.exclude(pk=winner.pk)
 			# print (pool)
@@ -59,6 +56,28 @@ def pick_winner(party_id):
 		party.is_open = False
 		party.save2(update_fields=['is_open'])	
 		return party.id
+	if party.winners.all().count() > 0:
+		notification_list = party.winners.all()
+		for n in notification_list:
+			Notification.objects.create(user=user, party=party_obj.pk,\
+			action="event_reminder")
+	Notification.objects.create(user=user, party=party_obj.pk,\
+	action="owner_reminder")
 
+# def send_end_notifications(party_id):
+# 	try:
+# 		# gets the correct party
+# 		# filter would return a queryset, we want an object.
+# 		party = Party.objects.get(pk=party_id)
+# 	except Party.DoesNotExist:
+# 		# if the party is deleted, it does nothing
+# 		return False
 
+# 	# if there are people that joined the event
+# 	if party.winners.all().count() > 0:
+# 		if party.event_type==1 and not party.is_open:
+# 			winners = party.winners.all()
+# 			for w in winners:
 
+# 		if party.event_type==2 and not party.is_open:
+# 		if party.event_type==3 and not party.is_open:
