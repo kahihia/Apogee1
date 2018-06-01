@@ -1,7 +1,7 @@
 <!-- this HTML governs the navbar that is present on every single page
 it's imported into base, which is then imported into almost every single page -->
 <!-- the navbar itself if based almost entirely on the bootstrap navbar template -->
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
   <!-- fluid makes the navbar expand continuously with the page, not at break points -->
   <div class='container-fluid'>
     <!-- brand refers to the big name that links to the home page -->
@@ -28,7 +28,7 @@ it's imported into base, which is then imported into almost every single page --
       <ul class="navbar-nav ml-auto">
         
         <li class="nav-item mx-3">
-          <a class="nav-link" href="{% url 'parties:joined-list' %}">Notifications</a>
+          <a class="nav-link" href="{% url 'notifications:list' %}">Notifications</a>
         </li>
 
         <!-- link to following page -->

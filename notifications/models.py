@@ -1,13 +1,24 @@
 from django.db import models
 from django.conf import settings
 # Create your models here.
+
+class NotificationManager(models.Manager):
+	# this both adds or removes the user and tells us if they're on it
+	def make_seen(self, notif_obj):
+		notif_obj.seen = True
+		notif_obj.save(update_fields=['seen'])
+		return True
+
 class Notification(models.Model):
 	action 				= models.CharField(max_length=10)
 	user 				= models.ForeignKey(settings.AUTH_USER_MODEL,
 						on_delete=models.CASCADE)
-	timestamp 			= models.DateTimeField(auto_now=True)
+	time_created 		= models.DateTimeField(auto_now_add=True)
 	party 				= models.IntegerField(default = 0)
 	seen 				= models.BooleanField(default=False)
+
+	# this just allows the notification objects to use the manager methods
+	objects = NotificationManager()
 
 	def __str__(self):
 		return str(self.action)
