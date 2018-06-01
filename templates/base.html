@@ -150,9 +150,6 @@ of the formatting in the head, so it must be imported into every file. -->
         // data url should be defined in the container specified in the HTML
         let initialUrl = notifContainer.attr('data-url') || '/api/notifications/';
 
-        // MESSAGES
-
-
         // TRIGGER FUNCTIONS
         $(document.body).on('mouseover', '#notif-display', function(e){
           e.preventDefault()
@@ -190,14 +187,36 @@ of the formatting in the head, so it must be imported into every file. -->
             card_highlight = 'grey-background'
             seen = 'false'
           }
+
+          // NOTIFICATION TEXT
+          let notif_text = ''
+          let link_url = 'href="/events/' + notifValue.party  
+          if (notifValue.action == 'owner_event_close'){
+            notif_text = 'Your event, ' + notifValue.party_title + ', has closed.'
+          } else if (notifValue.action == 'owner_reminder'){
+            notif_text = 'Your event, ' + notifValue.party_title + ', starts in 10 minutes!'
+          } else if (notifValue.action == 'fan_reminder'){
+            notif_text = notifValue.party_title + ', with ' + notifValue.party_owner + 
+            ', begins in 10 minutes!'
+          } else if (notifValue.action == 'fan_win'){
+            notif_text = "You're going to " + notifValue.party_title + ' with ' + 
+            notifValue.party_owner + ' on ' + notifValue.party_time
+          } else if (notifValue.action == 'fan_outbid'){
+            notif_text = 'Your bid on ' + notifValue.party_title + ' with ' + 
+            notifValue.party_owner + ' is no longer high enough to win.'
+          }
+          if (notifValue.party_title == null) {
+            notif_text = "This event has been deleted."
+            link_url = ''
+          }
+
           let container = 
-          '<a class="text-dark" href="/events/' + notifValue.party + 
+          '<a class="text-dark" ' + link_url +  
           '" style="text-decoration: none;">' +
             '<div class="card ' + card_highlight + '" id="notif-display" seen-id=' 
             + seen + ' data-id="' + notifValue.id + '">' +
               '<div class="card-body">' +
-                notifValue.action + ' with ' + notifValue.party_owner + ' at ' +
-                notifValue.party_time +
+                notif_text +
               '</div>' +
             '</div>' + 
           '</a>' 

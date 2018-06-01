@@ -17,6 +17,9 @@ def pick_winner(party_id):
 		# if the party is deleted, it does nothing
 		return 
 
+	if party.is_open:
+		Notification.objects.create(user=party.user, party=party_obj.pk,\
+		action="owner_event_close")
 	# if there are people that joined the event
 	if party.joined.all().count() > 0:
 		#if the party event is a lottery
@@ -59,9 +62,9 @@ def pick_winner(party_id):
 	if party.winners.all().count() > 0:
 		notification_list = party.winners.all()
 		for n in notification_list:
-			Notification.objects.create(user=user, party=party_obj.pk,\
-			action="event_reminder")
-	Notification.objects.create(user=user, party=party_obj.pk,\
+			Notification.objects.create(user=n, party=party_obj.pk,\
+			action="fan_reminder")
+	Notification.objects.create(user=party.user, party=party_obj.pk,\
 	action="owner_reminder")
 
 # def send_end_notifications(party_id):
