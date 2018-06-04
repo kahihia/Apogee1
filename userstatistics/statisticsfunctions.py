@@ -152,8 +152,8 @@ def bid_update_end_stats(party_obj):
 		user_stats_page.max_profit = event_earnings
 		user_stats_page.max_profit_event = party_obj.pk
 	user_stats_page.max_bid_event = max_bid
-	user_stats_page.buyout_num_events = F('bid_num_events') + 1
-	user_stats_page.buyout_total_earnings = F('bid_total_earnings')\
+	user_stats_page.bid_num_events = F('bid_num_events') + 1
+	user_stats_page.bid_total_earnings = F('bid_total_earnings')\
 											 + event_earnings
 
 	user_stats_page.save(update_fields=['bid_num_events',\

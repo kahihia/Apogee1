@@ -1,6 +1,7 @@
 {% include 'base.html' %}
 {% load static %}
 <script src='{%static "js/userstatistics/display.js"%}'></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <br>
 <div class="mx-auto" style="width: 200px;">
@@ -13,6 +14,37 @@
 </div>
 
 
-<div id='party-container'></div>
 
+<div id='num_events'>
+	<p> 
+		<div style="display: inline-block;" id="stat_description4"></div>
+		<div style="display: inline-block;" id="num_events_val"></div>
+	</p>
+</div>
+
+<div id='total_profit'>
+	<p> 
+		<div style="display: inline-block;" id="stat_description2"></div>
+		<div style="display: inline-block;" id="total_earnings_val"></div>
+	</p> 
+</div>
+
+<div id='average_profit'>
+	<p> 
+		<div style="display: inline-block;" id="stat_description3"></div>
+		<div style="display: inline-block;" id="average_earnings_val"></div>
+	</p> 
+</div>
+
+<div id='max_profit'>
+	<p> 
+		<div style="display: inline-block;" id="stat_description1"></div>
+		<div style="display: inline-block;" id="max_earnings_val"></div>
+	</p> 
+</div>
+
+
+<div id= 'graphic_display'>
+
+</div>
 
