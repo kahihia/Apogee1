@@ -71,33 +71,42 @@ class StatisticsInfoModelSerializer(serializers.ModelSerializer):
 		buyout_join_event = obj.buyout_join_event_time 
 		lottery_join_event = obj.lottery_join_event_time
 		bid_join_event = obj.bid_join_event_time
-		print("goodbye")
-		for i in buyout_join_event:
+		for i in range(48):
 			general_join_event[i]= buyout_join_event[i]+lottery_join_event[i]+\
 			bid_join_event[i]
-			print(general_join_event[i])
-		print("hello")
 		return general_join_event
 
 	def get_general_join_time(self,obj):
+		general_join=[0]*48
 		buyout_join = obj.buyout_join_time 
 		lottery_join = obj.lottery_join_time
 		bid_join = obj.bid_join_time
-		for i in buyout_join:
-			print(buyout_join[i])
+		for i in range(48):
+			general_join[i]= buyout_join[i]+lottery_join[i]+\
+			bid_join[i]
+		return general_join
+
 
 	def get_general_star_time(self,obj):
-		buyout_join = obj.buyout_join_time 
-		lottery_join = obj.lottery_join_time
-		bid_join = obj.bid_join_time
-		for i in bid_join:
-			print(bid_join[i])
+		general_star=[0]*48
+		buyout_star = obj.buyout_star_time 
+		lottery_star = obj.lottery_star_time
+		bid_star = obj.bid_star_time
+		for i in range(48):
+			general_star[i]= buyout_star[i]+lottery_star[i]+\
+			bid_star[i]
+		return general_star
+
+
 	def get_general_star_event_time(self,obj):
-		buyout_join = obj.buyout_join_time 
-		lottery_join = obj.lottery_join_time
-		bid_join = obj.bid_join_time
-		for i in bid_join:
-			print(bid_join[i])
+		general_star_event=[0]*48
+		buyout_star_event = obj.buyout_star_event_time 
+		lottery_star_event = obj.lottery_star_event_time
+		bid_star_event = obj.bid_star_event_time
+		for i in range(48):
+			general_star_event[i]= buyout_star_event[i]+lottery_star_event[i]+\
+			bid_star_event[i]
+		return general_star_event
 
 	def get_buyout_average_earnings(self,obj):
 		num_events = obj.buyout_num_events
