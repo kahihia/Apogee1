@@ -237,9 +237,9 @@ class PartyManager(models.Manager):
 		#that cap has been reached in the 
 		#joined list, end the lottery and
 		#select the winners	
-		if party_obj.max_entrants is not None and\
-		party_obj.joined.all().count()== party_obj.max_entrants:
-			lottery_end(party_obj)
+			if party_obj.max_entrants is not None and\
+			party_obj.joined.all().count()== party_obj.max_entrants:
+				lottery_end(party_obj)
 		#get information from the dictionaries	
 		is_joined = event_info["added"]
 		error_message = event_info["error_message"]

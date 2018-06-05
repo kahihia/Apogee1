@@ -68,6 +68,7 @@ def buyout_update_join_stats(party_obj):
 										])
 ######################LOTTO EVENT FUNCTIONS#####################################\
 def lottery_update_end_stats(party_obj):
+	print("Updating Stats for Ending of lottery")
 	total_participants = party_obj.joined.all().count()
 	event_earnings = total_participants * party_obj.cost
 	user_stats_page = StatisticsInfo.objects.get(user=party_obj.user)

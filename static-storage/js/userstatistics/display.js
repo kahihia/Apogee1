@@ -1,6 +1,8 @@
 let currSelected ="#general_btn";
 let statistics=""
 let chartType=""
+let graphWidth=600;
+let graphHeight=300;
 $(document).ready(function(){
 	firstRender();
 	addBtnFunctions();
@@ -208,95 +210,51 @@ function renderBuyoutNumEvents(){
 ///////////////////////////CHART RENDERING FUNCTIONS////////////////////////
 function drawJoinChart() {
 	let array;
-	let graphTitle;
-	let graphDiv;
+	let graphTitle = "Join Time";
+	let graphDiv = "join_time";
+	let graphAction = "Joins";
+
 	if(currSelected=="#general_btn"){
 		array = statistics.general_join_time;
-		graphTitle= "Join Time";
-		graphDiv = "join_time";
 	}
 	else if(currSelected=="#lottery_btn"){
 		array = statistics.lottery_join_time;
-		graphTitle= "Join Time";
-		graphDiv = "join_time";
 	}
 	else if(currSelected=="#buyout_btn"){
 		array = statistics.buyout_join_time;
-		graphTitle= "Join Time";
-		graphDiv = "join_time";
 	}
 	else if(currSelected=="#bid_btn"){
 		array = statistics.bid_join_time;
-		graphTitle= "Join Time";
-		graphDiv = "join_time";
 	}
 	else{
 		return;
 	}
 	var data = new google.visualization.DataTable();
 		data.addColumn('timeofday', 'Time');
-		data.addColumn('number', 'Joins');
-		data.addRows([
-		[{v: [0, 1], f: '12:00 am'}, array[0]],
-		[{v: [1, 2], f: '12:30 am'}, array[1]],
-		[{v: [2, 3], f:'1:00 am'}, array[2]],
-		[{v: [3, 4], f: '1:30 am'}, array[3]],
-		[{v: [4, 5], f: '2:00 am'}, array[4]],
-		[{v: [5, 6], f: '2:30 am'}, array[5]],
-		[{v: [6, 7], f: '3:00 am'}, array[6]],
-		[{v: [7, 8], f: '3:30 am'}, array[7]],
-		[{v: [8, 9], f: '4:00 am'}, array[8]],
-		[{v: [9, 10], f: '4:30 am'}, array[9]],
-		[{v: [10, 0], f: '5:00 am'}, array[10]],
-		[{v: [11, 0], f: '5:30 am'}, array[11]],
-		[{v: [12, 0], f: '6:00 am'}, array[12]],
-		[{v: [13, 0], f:'6:30 am'}, array[13]],
-		[{v: [14, 0], f: '7:00 am'}, array[14]],
-		[{v: [15, 0], f: '7:30 am'}, array[15]],
-		[{v: [16, 0], f: '8:00 am'}, array[16]],
-		[{v: [17, 0], f: '8:30 am'}, array[17]],
-		[{v: [18, 0], f: '9:00 am'}, array[18]],
-		[{v: [19, 0], f: '9:30 am'}, array[19]],
-		[{v: [20, 0], f: '10:00 am'}, array[20]],
-		[{v: [21, 0], f: '10:30 am'}, array[21]],
-		[{v: [22, 0], f: '11:00 am'}, array[22]],
-		[{v: [23, 0], f: '11:30 am'}, array[23]],
-		[{v: [24, 0], f: '12:00 pm'}, array[24]],
-		[{v: [25, 0], f: '12:30 pm'}, array[25]],
-		[{v: [26, 0], f:'1:00 pm'}, array[26]],
-		[{v: [27, 0], f: '1:30 pm'}, array[27]],
-		[{v: [28, 0], f: '2:00 pm'}, array[28]],
-		[{v: [29, 0], f: '2:30 pm'}, array[29]],
-		[{v: [30, 0], f: '3:00 pm'}, array[30]],
-		[{v: [31, 0], f: '3:30 pm'}, array[31]],
-		[{v: [32, 0], f: '4:00 pm'}, array[32]],
-		[{v: [33, 0], f: '4:30 pm'}, array[33]],
-		[{v: [34, 0], f: '5:00 pm'}, array[34]],
-		[{v: [35, 0], f: '5:30 pm'}, array[35]],
-		[{v: [36, 0], f: '6:00 pm'}, array[36]],
-		[{v: [37, 0], f:'6:30 pm'}, array[37]],
-		[{v: [38, 0], f: '7:00 pm'}, array[38]],
-		[{v: [39, 0], f: '7:30 pm'}, array[39]],
-		[{v: [40, 0], f: '8:00 pm'}, array[40]],
-		[{v: [41, 0], f: '8:30 pm'}, array[41]],
-		[{v: [42, 0], f: '9:00 pm'}, array[42]],
-		[{v: [43, 0], f: '9:30 pm'}, array[43]],
-		[{v: [44, 0], f: '10:00 pm'}, array[44]],
-		[{v: [45, 0], f: '10:30 pm'}, array[45]],
-		[{v: [46, 0], f: '11:00 pm'}, array[46]],
-		[{v: [47, 0], f: '11:30 pm'}, array[47]]
-	]);
+		data.addColumn('number', graphAction);
+		let i;
+		let t = "am"
+		let time = 0;
+		for(i = 0; i<24;i++){
+			console.log(array[i*2]+" "+array[i*2+1]);
+			data.addRow([{v: [i*2/2, 0], f: time+':00'+t}, array[i*2]+array[i*2+1]]);
+			if(time==12){
+				time=0;
+				t="pm"
+			}
+			time++;
+		}
 
       var options = {
         title: graphTitle,
-        width:800,
-        height:400,
+        width:graphWidth,
+        height:graphHeight,
         hAxis: {
           title: 'Time',
           format: 'h:mm a',
           viewWindow: {
             min: [0, 0],
-            max: [47, 15]
+            max: [23, 0]
           }
         },
         vAxis: {
@@ -308,98 +266,54 @@ function drawJoinChart() {
         document.getElementById(graphDiv));
 
       chart.draw(data, options);
-    }
+}
 function drawJoinEventChart() {
 	let array;
-	let graphTitle;
-	let graphDiv;
+	let graphTitle = "Join Event Time";
+	let graphDiv = "join_event_time";
+	let graphAction = "Joins";
+
 	if(currSelected=="#general_btn"){
 		array = statistics.general_join_event_time;
-		graphTitle= "Join Event Time";
-		graphDiv = "join_event_time";
 	}
 	else if(currSelected=="#lottery_btn"){
 		array = statistics.lottery_join_event_time;
-		graphTitle= "Join Event Time";
-		graphDiv = "join_event_time";
 	}
 	else if(currSelected=="#buyout_btn"){
 		array = statistics.buyout_join_event_time;
-		graphTitle= "Join Event Time";
-		graphDiv = "join_event_time";
 	}
 	else if(currSelected=="#bid_btn"){
 		array = statistics.bid_join_event_time;
-		graphTitle= "Join Event Time";
-		graphDiv = "join_event_time";
 	}
 	else{
 		return;
 	}
 	var data = new google.visualization.DataTable();
 		data.addColumn('timeofday', 'Time');
-		data.addColumn('number', 'Joins');
-		data.addRows([
-		[{v: [0, 1], f: '12:00 am'}, array[0]],
-		[{v: [1, 2], f: '12:30 am'}, array[1]],
-		[{v: [2, 3], f:'1:00 am'}, array[2]],
-		[{v: [3, 4], f: '1:30 am'}, array[3]],
-		[{v: [4, 5], f: '2:00 am'}, array[4]],
-		[{v: [5, 6], f: '2:30 am'}, array[5]],
-		[{v: [6, 7], f: '3:00 am'}, array[6]],
-		[{v: [7, 8], f: '3:30 am'}, array[7]],
-		[{v: [8, 9], f: '4:00 am'}, array[8]],
-		[{v: [9, 10], f: '4:30 am'}, array[9]],
-		[{v: [10, 0], f: '5:00 am'}, array[10]],
-		[{v: [11, 0], f: '5:30 am'}, array[11]],
-		[{v: [12, 0], f: '6:00 am'}, array[12]],
-		[{v: [13, 0], f:'6:30 am'}, array[13]],
-		[{v: [14, 0], f: '7:00 am'}, array[14]],
-		[{v: [15, 0], f: '7:30 am'}, array[15]],
-		[{v: [16, 0], f: '8:00 am'}, array[16]],
-		[{v: [17, 0], f: '8:30 am'}, array[17]],
-		[{v: [18, 0], f: '9:00 am'}, array[18]],
-		[{v: [19, 0], f: '9:30 am'}, array[19]],
-		[{v: [20, 0], f: '10:00 am'}, array[20]],
-		[{v: [21, 0], f: '10:30 am'}, array[21]],
-		[{v: [22, 0], f: '11:00 am'}, array[22]],
-		[{v: [23, 0], f: '11:30 am'}, array[23]],
-		[{v: [24, 0], f: '12:00 pm'}, array[24]],
-		[{v: [25, 0], f: '12:30 pm'}, array[25]],
-		[{v: [26, 0], f:'1:00 pm'}, array[26]],
-		[{v: [27, 0], f: '1:30 pm'}, array[27]],
-		[{v: [28, 0], f: '2:00 pm'}, array[28]],
-		[{v: [29, 0], f: '2:30 pm'}, array[29]],
-		[{v: [30, 0], f: '3:00 pm'}, array[30]],
-		[{v: [31, 0], f: '3:30 pm'}, array[31]],
-		[{v: [32, 0], f: '4:00 pm'}, array[32]],
-		[{v: [33, 0], f: '4:30 pm'}, array[33]],
-		[{v: [34, 0], f: '5:00 pm'}, array[34]],
-		[{v: [35, 0], f: '5:30 pm'}, array[35]],
-		[{v: [36, 0], f: '6:00 pm'}, array[36]],
-		[{v: [37, 0], f:'6:30 pm'}, array[37]],
-		[{v: [38, 0], f: '7:00 pm'}, array[38]],
-		[{v: [39, 0], f: '7:30 pm'}, array[39]],
-		[{v: [40, 0], f: '8:00 pm'}, array[40]],
-		[{v: [41, 0], f: '8:30 pm'}, array[41]],
-		[{v: [42, 0], f: '9:00 pm'}, array[42]],
-		[{v: [43, 0], f: '9:30 pm'}, array[43]],
-		[{v: [44, 0], f: '10:00 pm'}, array[44]],
-		[{v: [45, 0], f: '10:30 pm'}, array[45]],
-		[{v: [46, 0], f: '11:00 pm'}, array[46]],
-		[{v: [47, 0], f: '11:30 pm'}, array[47]]
-	]);
+		data.addColumn('number', graphAction);
+		let i;
+		let t = "am"
+		let time = 0;
+		for(i = 0; i<24;i++){
+			console.log(array[i*2]+" "+array[i*2+1]);
+			data.addRow([{v: [i*2/2, 0], f: time+':00'+t}, array[i*2]+array[i*2+1]]);
+			if(time==12){
+				time=0;
+				t="pm"
+			}
+			time++;
+		}
 
       var options = {
         title: graphTitle,
-        width:800,
-        height:400,
+        width:graphWidth,
+        height:graphHeight,
         hAxis: {
           title: 'Time',
           format: 'h:mm a',
           viewWindow: {
             min: [0, 0],
-            max: [47, 15]
+            max: [23, 0]
           }
         },
         vAxis: {
@@ -411,98 +325,54 @@ function drawJoinEventChart() {
         document.getElementById(graphDiv));
 
       chart.draw(data, options);
-    }
+}
 function drawStarChart() {
 	let array;
-	let graphTitle;
-	let graphDiv;
+	let graphTitle = "Star Time";
+	let graphDiv = "star_time";
+	let graphAction = "Stars";
+
 	if(currSelected=="#general_btn"){
 		array = statistics.general_star_time;
-		graphTitle= "Star Time";
-		graphDiv = "star_time";
 	}
 	else if(currSelected=="#lottery_btn"){
 		array = statistics.lottery_star_time;
-		graphTitle= "Star Time";
-		graphDiv = "star_time";
 	}
 	else if(currSelected=="#buyout_btn"){
 		array = statistics.buyout_star_time;
-		graphTitle= "Star Time";
-		graphDiv = "star_time";
 	}
 	else if(currSelected=="#bid_btn"){
 		array = statistics.bid_star_time;
-		graphTitle= "Star Time";
-		graphDiv = "star_time";
 	}
 	else{
 		return;
 	}
 	var data = new google.visualization.DataTable();
 		data.addColumn('timeofday', 'Time');
-		data.addColumn('number', 'Joins');
-		data.addRows([
-		[{v: [0, 1], f: '12:00 am'}, array[0]],
-		[{v: [1, 2], f: '12:30 am'}, array[1]],
-		[{v: [2, 3], f:'1:00 am'}, array[2]],
-		[{v: [3, 4], f: '1:30 am'}, array[3]],
-		[{v: [4, 5], f: '2:00 am'}, array[4]],
-		[{v: [5, 6], f: '2:30 am'}, array[5]],
-		[{v: [6, 7], f: '3:00 am'}, array[6]],
-		[{v: [7, 8], f: '3:30 am'}, array[7]],
-		[{v: [8, 9], f: '4:00 am'}, array[8]],
-		[{v: [9, 10], f: '4:30 am'}, array[9]],
-		[{v: [10, 0], f: '5:00 am'}, array[10]],
-		[{v: [11, 0], f: '5:30 am'}, array[11]],
-		[{v: [12, 0], f: '6:00 am'}, array[12]],
-		[{v: [13, 0], f:'6:30 am'}, array[13]],
-		[{v: [14, 0], f: '7:00 am'}, array[14]],
-		[{v: [15, 0], f: '7:30 am'}, array[15]],
-		[{v: [16, 0], f: '8:00 am'}, array[16]],
-		[{v: [17, 0], f: '8:30 am'}, array[17]],
-		[{v: [18, 0], f: '9:00 am'}, array[18]],
-		[{v: [19, 0], f: '9:30 am'}, array[19]],
-		[{v: [20, 0], f: '10:00 am'}, array[20]],
-		[{v: [21, 0], f: '10:30 am'}, array[21]],
-		[{v: [22, 0], f: '11:00 am'}, array[22]],
-		[{v: [23, 0], f: '11:30 am'}, array[23]],
-		[{v: [24, 0], f: '12:00 pm'}, array[24]],
-		[{v: [25, 0], f: '12:30 pm'}, array[25]],
-		[{v: [26, 0], f:'1:00 pm'}, array[26]],
-		[{v: [27, 0], f: '1:30 pm'}, array[27]],
-		[{v: [28, 0], f: '2:00 pm'}, array[28]],
-		[{v: [29, 0], f: '2:30 pm'}, array[29]],
-		[{v: [30, 0], f: '3:00 pm'}, array[30]],
-		[{v: [31, 0], f: '3:30 pm'}, array[31]],
-		[{v: [32, 0], f: '4:00 pm'}, array[32]],
-		[{v: [33, 0], f: '4:30 pm'}, array[33]],
-		[{v: [34, 0], f: '5:00 pm'}, array[34]],
-		[{v: [35, 0], f: '5:30 pm'}, array[35]],
-		[{v: [36, 0], f: '6:00 pm'}, array[36]],
-		[{v: [37, 0], f:'6:30 pm'}, array[37]],
-		[{v: [38, 0], f: '7:00 pm'}, array[38]],
-		[{v: [39, 0], f: '7:30 pm'}, array[39]],
-		[{v: [40, 0], f: '8:00 pm'}, array[40]],
-		[{v: [41, 0], f: '8:30 pm'}, array[41]],
-		[{v: [42, 0], f: '9:00 pm'}, array[42]],
-		[{v: [43, 0], f: '9:30 pm'}, array[43]],
-		[{v: [44, 0], f: '10:00 pm'}, array[44]],
-		[{v: [45, 0], f: '10:30 pm'}, array[45]],
-		[{v: [46, 0], f: '11:00 pm'}, array[46]],
-		[{v: [47, 0], f: '11:30 pm'}, array[47]]
-	]);
+		data.addColumn('number', graphAction);
+		let i;
+		let t = "am"
+		let time = 0;
+		for(i = 0; i<24;i++){
+			console.log(array[i*2]+" "+array[i*2+1]);
+			data.addRow([{v: [i*2/2, 0], f: time+':00'+t}, array[i*2]+array[i*2+1]]);
+			if(time==12){
+				time=0;
+				t="pm"
+			}
+			time++;
+		}
 
       var options = {
         title: graphTitle,
-        width:800,
-        height:400,
+        width:graphWidth,
+        height:graphHeight,
         hAxis: {
           title: 'Time',
           format: 'h:mm a',
           viewWindow: {
             min: [0, 0],
-            max: [47, 15]
+            max: [23, 0]
           }
         },
         vAxis: {
@@ -514,98 +384,54 @@ function drawStarChart() {
         document.getElementById(graphDiv));
 
       chart.draw(data, options);
-    }
+}
 function drawStarEventChart() {
 	let array;
-	let graphTitle;
-	let graphDiv;
+	let graphTitle = "Star Event Time";
+	let graphDiv = "star_event_time";
+	let graphAction = "Stars";
+
 	if(currSelected=="#general_btn"){
 		array = statistics.general_star_event_time;
-		graphTitle= "Star Event Time";
-		graphDiv = "star_event_time";
 	}
 	else if(currSelected=="#lottery_btn"){
 		array = statistics.lottery_star_event_time;
-		graphTitle= "Star Event Time";
-		graphDiv = "star_event_time";
 	}
 	else if(currSelected=="#buyout_btn"){
 		array = statistics.buyout_star_event_time;
-		graphTitle= "Star Event Time";
-		graphDiv = "star_event_time";
 	}
 	else if(currSelected=="#bid_btn"){
 		array = statistics.bid_star_event_time;
-		graphTitle= "Star Event Time";
-		graphDiv = "star_event_time";
 	}
 	else{
 		return;
 	}
 	var data = new google.visualization.DataTable();
 		data.addColumn('timeofday', 'Time');
-		data.addColumn('number', 'Joins');
-		data.addRows([
-		[{v: [0, 1], f: '12:00 am'}, array[0]],
-		[{v: [1, 2], f: '12:30 am'}, array[1]],
-		[{v: [2, 3], f:'1:00 am'}, array[2]],
-		[{v: [3, 4], f: '1:30 am'}, array[3]],
-		[{v: [4, 5], f: '2:00 am'}, array[4]],
-		[{v: [5, 6], f: '2:30 am'}, array[5]],
-		[{v: [6, 7], f: '3:00 am'}, array[6]],
-		[{v: [7, 8], f: '3:30 am'}, array[7]],
-		[{v: [8, 9], f: '4:00 am'}, array[8]],
-		[{v: [9, 10], f: '4:30 am'}, array[9]],
-		[{v: [10, 0], f: '5:00 am'}, array[10]],
-		[{v: [11, 0], f: '5:30 am'}, array[11]],
-		[{v: [12, 0], f: '6:00 am'}, array[12]],
-		[{v: [13, 0], f:'6:30 am'}, array[13]],
-		[{v: [14, 0], f: '7:00 am'}, array[14]],
-		[{v: [15, 0], f: '7:30 am'}, array[15]],
-		[{v: [16, 0], f: '8:00 am'}, array[16]],
-		[{v: [17, 0], f: '8:30 am'}, array[17]],
-		[{v: [18, 0], f: '9:00 am'}, array[18]],
-		[{v: [19, 0], f: '9:30 am'}, array[19]],
-		[{v: [20, 0], f: '10:00 am'}, array[20]],
-		[{v: [21, 0], f: '10:30 am'}, array[21]],
-		[{v: [22, 0], f: '11:00 am'}, array[22]],
-		[{v: [23, 0], f: '11:30 am'}, array[23]],
-		[{v: [24, 0], f: '12:00 pm'}, array[24]],
-		[{v: [25, 0], f: '12:30 pm'}, array[25]],
-		[{v: [26, 0], f:'1:00 pm'}, array[26]],
-		[{v: [27, 0], f: '1:30 pm'}, array[27]],
-		[{v: [28, 0], f: '2:00 pm'}, array[28]],
-		[{v: [29, 0], f: '2:30 pm'}, array[29]],
-		[{v: [30, 0], f: '3:00 pm'}, array[30]],
-		[{v: [31, 0], f: '3:30 pm'}, array[31]],
-		[{v: [32, 0], f: '4:00 pm'}, array[32]],
-		[{v: [33, 0], f: '4:30 pm'}, array[33]],
-		[{v: [34, 0], f: '5:00 pm'}, array[34]],
-		[{v: [35, 0], f: '5:30 pm'}, array[35]],
-		[{v: [36, 0], f: '6:00 pm'}, array[36]],
-		[{v: [37, 0], f:'6:30 pm'}, array[37]],
-		[{v: [38, 0], f: '7:00 pm'}, array[38]],
-		[{v: [39, 0], f: '7:30 pm'}, array[39]],
-		[{v: [40, 0], f: '8:00 pm'}, array[40]],
-		[{v: [41, 0], f: '8:30 pm'}, array[41]],
-		[{v: [42, 0], f: '9:00 pm'}, array[42]],
-		[{v: [43, 0], f: '9:30 pm'}, array[43]],
-		[{v: [44, 0], f: '10:00 pm'}, array[44]],
-		[{v: [45, 0], f: '10:30 pm'}, array[45]],
-		[{v: [46, 0], f: '11:00 pm'}, array[46]],
-		[{v: [47, 0], f: '11:30 pm'}, array[47]]
-	]);
+		data.addColumn('number', graphAction);
+		let i;
+		let t = "am"
+		let time = 0;
+		for(i = 0; i<24;i++){
+			console.log(array[i*2]+" "+array[i*2+1]);
+			data.addRow([{v: [i*2/2, 0], f: time+':00'+t}, array[i*2]+array[i*2+1]]);
+			if(time==12){
+				time=0;
+				t="pm"
+			}
+			time++;
+		}
 
       var options = {
         title: graphTitle,
-        width:800,
-        height:400,
+        width:graphWidth,
+        height:graphHeight,
         hAxis: {
           title: 'Time',
           format: 'h:mm a',
           viewWindow: {
             min: [0, 0],
-            max: [47, 15]
+            max: [23, 0]
           }
         },
         vAxis: {
@@ -617,4 +443,4 @@ function drawStarEventChart() {
         document.getElementById(graphDiv));
 
       chart.draw(data, options);
-    }
+}
