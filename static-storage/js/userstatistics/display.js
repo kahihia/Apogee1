@@ -69,15 +69,8 @@ function renderGeneralStatistics(){
 	renderGeneralAverageEarnings();
 	renderGeneralNumEvents();
 
+	renderChart();
 
-	chartType="join"
-	renderChart();
-	chartType="join_event"
-	renderChart();
-	chartType="star"
-	renderChart();
-	chartType="star_event"
-	renderChart();
 }
 
 function renderChart(){
@@ -234,13 +227,19 @@ function drawJoinChart() {
 		data.addColumn('number', graphAction);
 		let i;
 		let t = "am"
-		let time = 0;
+		let time = 12;
 		for(i = 0; i<24;i++){
-			console.log(array[i*2]+" "+array[i*2+1]);
 			data.addRow([{v: [i*2/2, 0], f: time+':00'+t}, array[i*2]+array[i*2+1]]);
-			if(time==12){
+			if(time%12==0){
 				time=0;
-				t="pm"
+			}
+			if(time%12==11){
+				if(t=="pm"){
+					t="am";
+				}
+				else if(t=="am"){
+					t="pm";
+				}
 			}
 			time++;
 		}
@@ -291,15 +290,21 @@ function drawJoinEventChart() {
 	var data = new google.visualization.DataTable();
 		data.addColumn('timeofday', 'Time');
 		data.addColumn('number', graphAction);
-		let i;
+				let i;
 		let t = "am"
-		let time = 0;
+		let time = 12;
 		for(i = 0; i<24;i++){
-			console.log(array[i*2]+" "+array[i*2+1]);
 			data.addRow([{v: [i*2/2, 0], f: time+':00'+t}, array[i*2]+array[i*2+1]]);
-			if(time==12){
+			if(time%12==0){
 				time=0;
-				t="pm"
+			}
+			if(time%12==11){
+				if(t=="pm"){
+					t="am";
+				}
+				else if(t=="am"){
+					t="pm";
+				}
 			}
 			time++;
 		}
@@ -322,7 +327,7 @@ function drawJoinEventChart() {
       };
 
       var chart = new google.visualization.ColumnChart(
-        document.getElementById(graphDiv));
+      document.getElementById(graphDiv));
 
       chart.draw(data, options);
 }
@@ -352,17 +357,22 @@ function drawStarChart() {
 		data.addColumn('number', graphAction);
 		let i;
 		let t = "am"
-		let time = 0;
+		let time = 12;
 		for(i = 0; i<24;i++){
-			console.log(array[i*2]+" "+array[i*2+1]);
 			data.addRow([{v: [i*2/2, 0], f: time+':00'+t}, array[i*2]+array[i*2+1]]);
-			if(time==12){
+			if(time%12==0){
 				time=0;
-				t="pm"
+			}
+			if(time%12==11){
+				if(t=="pm"){
+					t="am";
+				}
+				else if(t=="am"){
+					t="pm";
+				}
 			}
 			time++;
 		}
-
       var options = {
         title: graphTitle,
         width:graphWidth,
@@ -411,13 +421,20 @@ function drawStarEventChart() {
 		data.addColumn('number', graphAction);
 		let i;
 		let t = "am"
-		let time = 0;
+		let time = 12;
 		for(i = 0; i<24;i++){
-			console.log(array[i*2]+" "+array[i*2+1]);
 			data.addRow([{v: [i*2/2, 0], f: time+':00'+t}, array[i*2]+array[i*2+1]]);
-			if(time==12){
+			if(time%12==0){
 				time=0;
-				t="pm"
+			}
+			if(time%12==11){
+				console.log(time)
+				if(t=="pm"){
+					t="am";
+				}
+				else if(t=="am"){
+					t="pm";
+				}
 			}
 			time++;
 		}
