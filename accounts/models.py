@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 
 from notifications.models import Notification
 from parties.models import Party
+from userstatistics.models import StatisticsInfo
 # Create your models here.
 
 class UserProfileManager(models.Manager):
@@ -139,6 +140,7 @@ class UserProfile(models.Model):
 def post_save_user_reciever(sender, instance, created, *args, **kwargs):
 	if created: 
 		new_profile = UserProfile.objects.get_or_create(user=instance)
+		StatisticsInfo.objects.create(user=instance)
 		# could run celery+redis deferred tasks here like an email task
 		
 # this looks for a notification signal and uses the user to set the 
@@ -153,6 +155,8 @@ def post_save_has_notification(sender, instance, created, *args, **kwargs):
 # these connect our receivers and set them to listen to the appropriate model
 post_save.connect(post_save_user_reciever, sender=settings.AUTH_USER_MODEL)
 post_save.connect(post_save_has_notification, sender=Notification)
+
+
 
 
 

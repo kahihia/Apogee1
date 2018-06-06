@@ -13,6 +13,7 @@ import math
 import sys
 
 from bids.models import Bid
+from userstatistics import statisticsfunctions
 from notifications.models import Notification
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
@@ -66,6 +67,7 @@ def event_at_max_capacity():
 #error = None
 #joined = True
 def lottery_add_user(user,party_obj):
+	statisticsfunctions.lottery_update_join_stats(party_obj)
 	party_obj.joined.add(user)
 	return {'added':True, 'error_message':""}
 #Ends the lottery event
@@ -88,6 +90,7 @@ def lottery_end(party_obj):
 			Notification.objects.create(user=winner, party=party_obj.pk,\
 			action="fan_win")
 			pool = pool.exclude(pk=winner.pk)
+	statisticsfunctions.lottery_update_end_stats(party_obj)
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
 
@@ -100,6 +103,7 @@ def lottery_end(party_obj):
 #error_message = None
 #added = True
 def buyout_add_user(user, party_obj):
+	statisticsfunctions.buyout_update_join_stats(party_obj)
 	party_obj.winners.add(user)
 	party_obj.joined.add(user)
 	#Creating a notification for the user on buyout win
@@ -113,6 +117,7 @@ def buyout_add_user(user, party_obj):
 #2. Create notification for event owner
 def buyout_end(user, party_obj):
 	print("Closing buyout")
+	statisticsfunctions.buyout_update_end_stats(party_obj)
 	Notification.objects.create(user=party_obj.user, party=party_obj.pk,\
 	action="owner_event_close")
 	party_obj.is_open = False
@@ -122,6 +127,7 @@ def buyout_end(user, party_obj):
 
 ############################## BID FUNCTIONS ###################################
 def bid_add_user_when_open_spots(party_obj, bid, user):
+	statisticsfunctions.bid_update_join_stats(party_obj)
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
 	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+\
@@ -146,6 +152,7 @@ def bid_get_min_bid_object(party_obj):
 	return min_bid
 
 def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
+	statisticsfunctions.bid_update_join_stats(party_obj)
 	print("Removing smallest bid by: "+str(min_bid.user))
 	Bid.objects.filter(pk=min_bid.pk).delete()
 	# notifies the lowest bidder that they have been knocked off
@@ -176,6 +183,13 @@ def bid_bid_too_low():
 class PartyManager(models.Manager):
 	# this both adds or removes the user and tells us if they're on it
 	def star_toggle(self, user, party_obj):
+		print("STAR TOGGLE TOGGLE TOGGLE TOGGLE STAR TOGGLE")
+		if party_obj.event_type==1:
+			statisticsfunctions.lottery_update_star_stats(party_obj)
+		if party_obj.event_type==2:
+			statisticsfunctions.bid_update_star_stats(party_obj)
+		if party_obj.event_type==3:
+			statisticsfunctions.buyout_update_star_stats(party_obj)
 		if user in party_obj.starred.all():
 			is_starred = False
 			party_obj.starred.remove(user)

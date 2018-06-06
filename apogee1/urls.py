@@ -45,6 +45,7 @@ urlpatterns = [
 	path('events/', include('parties.urls', namespace='parties')), 
 	path('api/events/', include('parties.api.urls', namespace='parties-api')),
 	path('api/', include('accounts.api.urls', namespace='profiles-api')),
+	path('api/statistics', include('userstatistics.api.urls', namespace='statistics-api')),
 	path('profiles/', include('accounts.urls', namespace='profiles')),
 	path('notifications/', include('notifications.urls', namespace='notifications')),
 	path('api/notifications/', include('notifications.api.urls', namespace='notifications-api')),
@@ -52,6 +53,7 @@ urlpatterns = [
 	path('api/tags/<slug:hashtag>/', TagPartyAPIView.as_view(), name='hashtag-api'),
 	# this should migrate into the settings page at some point soon
 	path('tz/', set_timezone, name='set_timezone'),
+	path('stats/', include('userstatistics.urls', namespace='statistics'))
 	#url(r'^.*$', RedirectView.as_view(url='', permanent=False), name='index')
 	#Deprecated path to bids, bid views not available to users
 	#path('bids/', include('bids.urls', namespace='bids'))

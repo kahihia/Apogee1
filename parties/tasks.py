@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 from celery import shared_task
 
+from userstatistics import statisticsfunctions
 from .models import Party
 from notifications.models import Notification
 # the shared task just makes it so the celery app can access this
@@ -32,6 +33,7 @@ def pick_winner(party_id):
 					winner = pool.first()
 					Party.objects.win_toggle(winner, party)
 					pool = pool.exclude(pk=winner.pk)
+			statisticsfunctions.lottery_update_end_stats(party)
 		#If the party event is a bid and hasnt closed for some reason
 		elif party.event_type==2 and party.is_open:
 			#Anyone in the joined list at the end of the event is a winner
@@ -41,15 +43,22 @@ def pick_winner(party_id):
 			#add winners in
 			for i in winners:
 				Party.objects.win_toggle(i, party)
-		# if its a buy, there is no one to add, so nothing happens
+			statisticsfunctions.bid_update_end_stats(party)
 		elif party.event_type==3 and party.is_open:
 			print("Buyout event is over")	
+			statisticsfunctions.buyout_update_end_stats(party)
 
 		# this closes all parties that had any joins
 		party.is_open = False
 		party.save2(update_fields=['is_open'])
 	# this is if no one has joined the event
 	else:
+		if party.event_type==1 and party.is_open:
+			statisticsfunctions.lottery_update_end_stats(party)
+		elif party.event_type==2 and party.is_open:
+			statisticsfunctions.bid_update_end_stats(party)
+		elif party.event_type==3 and party.is_open:
+			statisticsfunctions.buyout_update_end_stats(party)
 		print ('it didnt work')
 		# this closes the unjoined event
 		party.is_open = False

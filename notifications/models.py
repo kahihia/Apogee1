@@ -10,7 +10,7 @@ class NotificationManager(models.Manager):
 		return True
 
 class Notification(models.Model):
-	action 				= models.CharField(max_length=10)
+	action 				= models.CharField(max_length=15)
 	user 				= models.ForeignKey(settings.AUTH_USER_MODEL,
 						on_delete=models.CASCADE)
 	time_created 		= models.DateTimeField(auto_now_add=True)
