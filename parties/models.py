@@ -432,6 +432,7 @@ class Party(models.Model):
 	max_entrants = models.PositiveSmallIntegerField(blank=True, null=True, 
 													choices=(
 														(None, 'Unlimited'), 
+														(3, 3),
 														(10, 10), 
 														(25, 25), 
 														(50, 50), 
