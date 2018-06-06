@@ -4,6 +4,7 @@ from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from accounts.models import UserProfile
 from notifications.models import Notification
 from .pagination import NotificationsPagination
 from .serializers import NotificationModelSerializer
@@ -18,6 +19,16 @@ class NotificationListAPIView(generics.ListAPIView):
 		qs = Notification.objects.filter(user__id=self.request.user.id).order_by('-time_created')
 		return qs
 
+# this view sets the user profile as not having new notifs
+class CheckedNotificationsAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+
+	def get(self, request, format=None):
+		if request.user.is_authenticated:
+			profile_obj = UserProfile.objects.get(user=request.user)
+			UserProfile.objects.checked_notifications(profile_obj)
+			return Response(True)
+
 # this is the view that sets the notification as read
 class SeenAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
@@ -26,6 +37,5 @@ class SeenAPIView(APIView):
 		# gets the notification that is being seen
 		notification_obj = Notification.objects.get(pk=pk)
 		if request.user.is_authenticated:
-			is_starred = Notification.objects.make_seen(notification_obj)
-			return Response({'starred': is_starred})
-			return Response({'message': 'Not Allowed'})
+			Notification.objects.make_seen(notification_obj)
+			return Response(True)

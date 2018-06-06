@@ -57,16 +57,6 @@ def event_at_max_capacity():
 	return {'added':False,\
 	'error_message':"This event is already at max capacity"}
 
-#Used for testing notifications in the database
-def printNotifications():
-	notification_list = Notification.objects.all()
-	print("ALL NOTIFS")
-	for n in notification_list:
-		print("Notification number: "+str(n.pk))
-		print("The action is: "+str(n.action))
-		print("The user is: "+str(n.user))
-		print("The timestamp is: "+str(n.timestamp))
-
 ####################### END GENERAL EVENT FUNCTIONS ############################
 
 ############################ LOTTERY FUNCTIONS #################################
@@ -85,8 +75,9 @@ def lottery_add_user(user,party_obj):
 #added to party's winner list
 #4.Closes the party by setting party's is_open to false
 def lottery_end(party_obj):
+	# this creates the owner close notification, alerts the fans that they have won
 	Notification.objects.create(user=party_obj.user, party=party_obj.pk,\
-	action="lottery_maxcap")
+	action="owner_event_close")
 	print("Closing lottery")
 	pool = party_obj.joined.all().order_by('?')
 	print("The max entrants are: "+str(party_obj.max_entrants))
@@ -94,8 +85,8 @@ def lottery_end(party_obj):
 		if pool:
 			winner = pool.first()
 			party_obj.winners.add(winner)
-			Notification.objects.create(user=winner.user, party=party_obj.pk,\
-			action="lottery_winner")
+			Notification.objects.create(user=winner, party=party_obj.pk,\
+			action="fan_win")
 			pool = pool.exclude(pk=winner.pk)
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
@@ -114,7 +105,7 @@ def buyout_add_user(user, party_obj):
 	#Creating a notification for the user on buyout win
 	print("Creating Notifiaction for buyout win on buyout click")
 	Notification.objects.create(user=user, party=party_obj.pk,\
-	action="buyout_win")
+	action="fan_win")
 	print("Notification Created")
 	return {'added':True, 'error_message':""}
 #Ends the buyout event
@@ -123,7 +114,7 @@ def buyout_add_user(user, party_obj):
 def buyout_end(user, party_obj):
 	print("Closing buyout")
 	Notification.objects.create(user=party_obj.user, party=party_obj.pk,\
-	action="buyout_maxcap")
+	action="owner_event_close")
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
 
@@ -157,8 +148,9 @@ def bid_get_min_bid_object(party_obj):
 def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	print("Removing smallest bid by: "+str(min_bid.user))
 	Bid.objects.filter(pk=min_bid.pk).delete()
+	# notifies the lowest bidder that they have been knocked off
 	Notification.objects.create(user=min_bid.user, party=party_obj.pk,\
-	action="bid_outbid")
+	action="fan_outbid")
 	party_obj.joined.remove(min_bid.user)
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
@@ -227,15 +219,14 @@ class PartyManager(models.Manager):
 		#that cap has been reached in the 
 		#joined list, end the lottery and
 		#select the winners	
-		if party_obj.max_entrants is not None and\
-		party_obj.joined.all().count()== party_obj.max_entrants:
-			lottery_end(party_obj)
+			if party_obj.max_entrants is not None and\
+			party_obj.joined.all().count()== party_obj.max_entrants:
+				lottery_end(party_obj)
 		#get information from the dictionaries	
 		is_joined = event_info["added"]
 		error_message = event_info["error_message"]
 		#Send dictonary info and number of joined
 		#to parties/api/views under JoinToggleAPIView
-		printNotifications()
 		return {'is_joined':is_joined,\
 		'num_joined':party_obj.joined.all().count(),\
 		'error_message':error_message}
@@ -274,7 +265,6 @@ class PartyManager(models.Manager):
 		#to parties/api/views under JoinToggleAPIView
 		won = event_info["added"]
 		error_message = event_info["error_message"]
-		printNotifications()
 		return {'winner':won,\
 		'num_winners':party_obj.winners.all().count(),\
 		'error_message':error_message}
@@ -377,13 +367,13 @@ class PartyManager(models.Manager):
 		else:
 			if(party_obj.event_type==1):
 				Notification.objects.create(user=user, party=party_obj.pk,\
-				action="lottery_winner")
+				action="fan_win")
 			elif(party_obj.event_type==2):
 				Notification.objects.create(user=user, party=party_obj.pk,\
-				action="bid_winner")
+				action="fan_win")
 			else:
 				Notification.objects.create(user=user, party=party_obj.pk,\
-				action="buyout_winner")
+				action="fan_win")
 			won = True
 			party_obj.winners.add(user)
 		return won
@@ -442,6 +432,7 @@ class Party(models.Model):
 	max_entrants = models.PositiveSmallIntegerField(blank=True, null=True, 
 													choices=(
 														(None, 'Unlimited'), 
+														(3, 3),
 														(10, 10), 
 														(25, 25), 
 														(50, 50), 
