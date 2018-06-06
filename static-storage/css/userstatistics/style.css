@@ -1,17 +1,22 @@
+/*
+css for:
+userstatistics/templates/userstatistics.statistics_info_list.html
+*/
+
 #number_statistics{
 	padding-left: 6em;
 }
-#stat_description4{
+#num_events_description{
 	display: inline-block;
 
 }
-#stat_description3{
+#average_earnings_description{
 	display: inline-block;
 }
-#stat_description2{
+#total_earnings_description{
 	display: inline-block;
 }
-#stat_description1{
+#misc_description{
 	display: inline-block;
 }
 #num_events_val{
@@ -23,7 +28,7 @@
 #average_earnings_val{
 	display: inline-block;
 }
-#max_earnings_val{
+#misc_val{
 	display: inline-block;
 }
 
@@ -46,6 +51,7 @@
 }
 #join_time{
 	width:37em;
+	display: inline-block;
 }
 #star_time{
 	width:37em;
@@ -54,6 +60,7 @@
 }
 #join_event_time{
 	width:37em;
+	display: inline-block;
 }
 #star_event_time{
 	display: inline-block;

@@ -43,7 +43,7 @@ class StatisticsInfo(models.Model):
 	bid_join_time			= ArrayField(models.IntegerField(),	size = \
 							partitions, null=True, default = default_array)
 
-	max_bid_event			= models.IntegerField(default = -1)
+	max_bid_event			= models.IntegerField(default = 0)
 
 	#BUYOUT STATISTICS
 	buyout_num_events 		= models.IntegerField(default = 0)
