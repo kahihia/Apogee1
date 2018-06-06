@@ -177,7 +177,7 @@ function renderBidTotalEarnings(){
 function renderBidMaxBid(){
 	let bid_max_bid_display = parseFloat(statistics.max_bid_event).toFixed(2);
 	 $('#misc_description').text("Maximum amount bid: ");
-	 $('#misc_val').text(bid_max_bid_display);
+	 $('#misc_val').text('$' + bid_max_bid_display);
 }
 /**************************BUYOUT STATISTICS FUNCTIONS*************************/
 //Function that is called by buyout button click to render buyout stats

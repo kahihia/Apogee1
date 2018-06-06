@@ -34,7 +34,7 @@ def pick_winner(party_id):
 					Party.objects.win_toggle(winner, party)
 					pool = pool.exclude(pk=winner.pk)
 			print("********************************************************************************************************************")
-			lottery_update_end_stats(party)
+			statisticsfunctions.lottery_update_end_stats(party)
 			# # the winner is just the top of the random stack
 			# winner = pool.first()
 			# print (winner)
@@ -50,14 +50,20 @@ def pick_winner(party_id):
 			#add winners in
 			for i in winners:
 				Party.objects.win_toggle(i, party)
-			bid_update_end_stats(party)
+			statisticsfunctions.bid_update_end_stats(party)
 		elif party.event_type==3 and party.is_open:
 			print("Buyout event is over")	
-			buyout_update_end_stats(party)
+			statisticsfunctions.buyout_update_end_stats(party)
 		party.is_open = False
 		party.save2(update_fields=['is_open'])
 		return party.id
 	else:
+		if party.event_type==1 and party.is_open:
+			statisticsfunctions.lottery_update_end_stats(party)
+		elif party.event_type==2 and party.is_open:
+			statisticsfunctions.bid_update_end_stats(party)
+		elif party.event_type==3 and party.is_open:
+			statisticsfunctions.buyout_update_end_stats(party)
 		print ('it didnt work')
 		party.is_open = False
 		party.save2(update_fields=['is_open'])	

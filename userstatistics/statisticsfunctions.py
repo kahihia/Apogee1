@@ -1,7 +1,6 @@
 from .models import StatisticsInfo
 from django.db.models import F
-from parties import models
-from bids import models
+from bids.models import Bid
 import datetime
 
 # All functions related to userstastics.models.py

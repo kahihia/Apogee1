@@ -112,9 +112,12 @@ WSGI_APPLICATION = 'apogee1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydb',
-        'USER': 'me',
-        'PASSWORD': 'pass',
+        'NAME': 'apogeetestdb',
+        'USER': 'caldwell',
+        'PASSWORD': 'apogeedb',
+        # 'NAME': 'mydb',
+        # 'USER': 'me',
+        # 'PASSWORD': 'pass',
         'HOST': 'localhost',
         'PORT': '',
     }
