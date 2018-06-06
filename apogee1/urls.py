@@ -47,6 +47,8 @@ urlpatterns = [
 	path('api/', include('accounts.api.urls', namespace='profiles-api')),
 	path('api/statistics', include('userstatistics.api.urls', namespace='statistics-api')),
 	path('profiles/', include('accounts.urls', namespace='profiles')),
+	path('notifications/', include('notifications.urls', namespace='notifications')),
+	path('api/notifications/', include('notifications.api.urls', namespace='notifications-api')),
 	path('tags/<slug:hashtag>/', HashTagView.as_view(), name='hashtag'),
 	path('api/tags/<slug:hashtag>/', TagPartyAPIView.as_view(), name='hashtag-api'),
 	# this should migrate into the settings page at some point soon

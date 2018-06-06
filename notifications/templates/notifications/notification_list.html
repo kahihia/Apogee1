@@ -1,0 +1,45 @@
+<!--this is the HTML for the notifications page.-->
+{% extends 'base.html' %}
+
+<!-- sets the tab info -->
+{% block title %}
+	Notifications | {{ block.super }}
+{% endblock title %}
+
+<!-- contains our custom JS -->
+{% block script %}
+<script>
+	// runs when page DOM is ready
+	$(document).ready(function(){
+		loadNotificationContainer('notif-container')
+	});
+</script>
+{% endblock script %}
+
+<!-- contains our custom html and django stuff -->
+{% block content %}
+<div class='row'>
+	<!-- left side column -->
+	<div class='col-sm-3 grey-background'>
+		<!-- separated so that the background wont follow the right columns length -->
+		<div class='col-sm-12 mt-4'>
+			<!-- current logged user -->
+			<h3>{{ request.user }}</h3><hr>
+		</div>
+	</div>
+	<div class='col-sm-9 mt-3'>
+		<!-- title for the following section -->
+		<h1>Notifications</h1><hr>
+		<!-- this holds all of our JS rendered stuff -->
+		<!-- the id and dataurl are set so that the base render function can 
+		get the appropriate info from them -->
+		<div class='ml-1' id='notif-container' data-url='/api/notifications/'></div>
+
+		<!-- this is our load more button for the pagination -->
+		<button type="button" class="btn btn-outline-secondary btn-block" id='loadmore'>Show More Events</button>
+		<!-- this lists the load button off of the bottom -->
+		<br><p></p>
+
+	</div>
+</div>
+{% endblock content %}
