@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.urls import reverse_lazy
 
+from notifications.models import Notification
 from parties.models import Party
 # Create your models here.
 
@@ -63,6 +64,12 @@ class UserProfileManager(models.Manager):
 		qs = self.get_queryset().exclude(user__in=following).exclude(id=profile.id).order_by('?')[:limit_to]
 		return qs
 
+	# this changes the profiles notifications boolean
+	def checked_notifications(self, profile_obj):
+		profile_obj.new_notifications = False
+		profile_obj.save(update_fields=['new_notifications'])
+		return True
+
 
 # this is the profile model. it allows us, through a 
 # many to many relationship, to follow people and see 
@@ -90,6 +97,8 @@ class UserProfile(models.Model):
 	banner = models.ImageField(upload_to='banners/%Y/%m/%d/', blank=True)	
 
 	bio = models.TextField(max_length=700, blank=True)
+
+	new_notifications = models.BooleanField(default=False)
 
 	# this is the same as calling UserProfile.objects.all()
 	# it just connects to the manager
@@ -131,9 +140,19 @@ def post_save_user_reciever(sender, instance, created, *args, **kwargs):
 	if created: 
 		new_profile = UserProfile.objects.get_or_create(user=instance)
 		# could run celery+redis deferred tasks here like an email task
+		
+# this looks for a notification signal and uses the user to set the 
+# notifications variable on the appropriate profile
+def post_save_has_notification(sender, instance, created, *args, **kwargs):
+	if created:
+		notif_profile = instance.user.profile
+		notif_profile.new_notifications = True
+		notif_profile.save(update_fields=['new_notifications'])
 
-# sending user object to the receiver
+
+# these connect our receivers and set them to listen to the appropriate model
 post_save.connect(post_save_user_reciever, sender=settings.AUTH_USER_MODEL)
+post_save.connect(post_save_has_notification, sender=Notification)
 
 
 

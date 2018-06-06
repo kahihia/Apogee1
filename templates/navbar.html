@@ -26,10 +26,18 @@ it's imported into base, which is then imported into almost every single page --
       {% include 'parties/search_form.html' %}
       <!-- url calls are built on django -->
       <ul class="navbar-nav ml-auto">
-        
+        <!-- if the request user has a new notification, display the ding -->
+        {% if request.user.profile.new_notifications == True %}
+        <li class="nav-item mx-3" id="new-notification-ding">
+          <a class="nav-link" href="{% url 'notifications:list' %}">Notifications 
+            <span class="badge badge-pill badge-danger">!</span>
+          </a>
+        </li>
+        {% else %}
         <li class="nav-item mx-3">
           <a class="nav-link" href="{% url 'notifications:list' %}">Notifications</a>
         </li>
+        {% endif %}
 
         <!-- link to following page -->
         <li class="nav-item mx-3">

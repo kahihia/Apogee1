@@ -1,5 +1,5 @@
 # tasks manages all of the celery processes we want 
-# to happen with parties
+# to happen with parties at their close time
 from __future__ import absolute_import
 from celery import shared_task
 
@@ -16,30 +16,23 @@ def pick_winner(party_id):
 	except Party.DoesNotExist:
 		# if the party is deleted, it does nothing
 		return 
-
+	# for any party that hasnt closed by end time, tell the owner its closing
 	if party.is_open:
-		Notification.objects.create(user=party.user, party=party_obj.pk,\
+		Notification.objects.create(user=party.user, party=party.pk,\
 		action="owner_event_close")
 	# if there are people that joined the event
 	if party.joined.all().count() > 0:
-		#if the party event is a lottery
 		# gets all users in joined, orders them randomly
 		pool = party.joined.all().order_by('?')
-
+		# if the party is a lottery that isnt closed, take the max number of winners
+		# off of the top and add them to winners
 		if party.event_type==1 and party.is_open:
 			for i in range(0,party.num_possible_winners):
 				if pool:
 					winner = pool.first()
 					Party.objects.win_toggle(winner, party)
 					pool = pool.exclude(pk=winner.pk)
-			# print (pool)
-			# # the winner is just the top of the random stack
-			# winner = pool.first()
-			# print (winner)
-			# # use an add method to add the winner to winners many to many
-			# #
-			# print ('it worked')
-		#If the party event is a bid
+		#If the party event is a bid and hasnt closed for some reason
 		elif party.event_type==2 and party.is_open:
 			#Anyone in the joined list at the end of the event is a winner
 			winners = party.joined.all()
@@ -48,39 +41,24 @@ def pick_winner(party_id):
 			#add winners in
 			for i in winners:
 				Party.objects.win_toggle(i, party)
+		# if its a buy, there is no one to add, so nothing happens
 		elif party.event_type==3 and party.is_open:
 			print("Buyout event is over")	
 
+		# this closes all parties that had any joins
 		party.is_open = False
 		party.save2(update_fields=['is_open'])
-		return party.id
+	# this is if no one has joined the event
 	else:
 		print ('it didnt work')
+		# this closes the unjoined event
 		party.is_open = False
 		party.save2(update_fields=['is_open'])	
-		return party.id
+	# this sends a reminder to the event owner and all the winners 
 	if party.winners.all().count() > 0:
 		notification_list = party.winners.all()
 		for n in notification_list:
-			Notification.objects.create(user=n, party=party_obj.pk,\
+			Notification.objects.create(user=n, party=party.pk,\
 			action="fan_reminder")
-	Notification.objects.create(user=party.user, party=party_obj.pk,\
+	Notification.objects.create(user=party.user, party=party.pk,\
 	action="owner_reminder")
-
-# def send_end_notifications(party_id):
-# 	try:
-# 		# gets the correct party
-# 		# filter would return a queryset, we want an object.
-# 		party = Party.objects.get(pk=party_id)
-# 	except Party.DoesNotExist:
-# 		# if the party is deleted, it does nothing
-# 		return False
-
-# 	# if there are people that joined the event
-# 	if party.winners.all().count() > 0:
-# 		if party.event_type==1 and not party.is_open:
-# 			winners = party.winners.all()
-# 			for w in winners:
-
-# 		if party.event_type==2 and not party.is_open:
-# 		if party.event_type==3 and not party.is_open:

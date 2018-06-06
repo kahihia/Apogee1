@@ -3,7 +3,7 @@ from django.conf import settings
 # Create your models here.
 
 class NotificationManager(models.Manager):
-	# this both adds or removes the user and tells us if they're on it
+	# this changes the notifications seen boolean
 	def make_seen(self, notif_obj):
 		notif_obj.seen = True
 		notif_obj.save(update_fields=['seen'])

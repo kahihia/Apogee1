@@ -75,6 +75,7 @@ def lottery_add_user(user,party_obj):
 #added to party's winner list
 #4.Closes the party by setting party's is_open to false
 def lottery_end(party_obj):
+	# this creates the owner close notification, alerts the fans that they have won
 	Notification.objects.create(user=party_obj.user, party=party_obj.pk,\
 	action="owner_event_close")
 	print("Closing lottery")
@@ -84,7 +85,7 @@ def lottery_end(party_obj):
 		if pool:
 			winner = pool.first()
 			party_obj.winners.add(winner)
-			Notification.objects.create(user=winner.user, party=party_obj.pk,\
+			Notification.objects.create(user=winner, party=party_obj.pk,\
 			action="fan_win")
 			pool = pool.exclude(pk=winner.pk)
 	party_obj.is_open = False
@@ -147,6 +148,7 @@ def bid_get_min_bid_object(party_obj):
 def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	print("Removing smallest bid by: "+str(min_bid.user))
 	Bid.objects.filter(pk=min_bid.pk).delete()
+	# notifies the lowest bidder that they have been knocked off
 	Notification.objects.create(user=min_bid.user, party=party_obj.pk,\
 	action="fan_outbid")
 	party_obj.joined.remove(min_bid.user)
@@ -217,9 +219,9 @@ class PartyManager(models.Manager):
 		#that cap has been reached in the 
 		#joined list, end the lottery and
 		#select the winners	
-		if party_obj.max_entrants is not None and\
-		party_obj.joined.all().count()== party_obj.max_entrants:
-			lottery_end(party_obj)
+			if party_obj.max_entrants is not None and\
+			party_obj.joined.all().count()== party_obj.max_entrants:
+				lottery_end(party_obj)
 		#get information from the dictionaries	
 		is_joined = event_info["added"]
 		error_message = event_info["error_message"]
