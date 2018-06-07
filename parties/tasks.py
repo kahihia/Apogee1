@@ -6,6 +6,7 @@ from celery import shared_task
 from userstatistics import statisticsfunctions
 from .models import Party
 from notifications.models import Notification
+from parties import partyHandling
 # the shared task just makes it so the celery app can access this
 @shared_task
 # this method takes the list of joined, reorders it randomly, and picks one
@@ -31,7 +32,7 @@ def pick_winner(party_id):
 			for i in range(0,party.num_possible_winners):
 				if pool:
 					winner = pool.first()
-					Party.objects.win_toggle(winner, party)
+					partyHandling.win_toggle(winner, party)
 					pool = pool.exclude(pk=winner.pk)
 			statisticsfunctions.lottery_update_end_stats(party)
 		#If the party event is a bid and hasnt closed for some reason
@@ -42,7 +43,7 @@ def pick_winner(party_id):
 				print (w)
 			#add winners in
 			for i in winners:
-				Party.objects.win_toggle(i, party)
+				partyHandling.win_toggle(i, party)
 			statisticsfunctions.bid_update_end_stats(party)
 		elif party.event_type==3 and party.is_open:
 			print("Buyout event is over")	
