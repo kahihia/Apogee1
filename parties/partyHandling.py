@@ -78,7 +78,7 @@ def lottery_add_user(user,party_obj):
 #4.Closes the party by setting party's is_open to false
 def lottery_end(party_obj):
 	# this creates the owner close notification, alerts the fans that they have won
-	Notification.objects.create(user=party_obj.user, party=party_obj.pk,\
+	Notification.objects.create(user=party_obj.user, party=party_obj,\
 	action="owner_event_close")
 	print("Closing lottery")
 	pool = party_obj.joined.all().order_by('?')
@@ -87,7 +87,7 @@ def lottery_end(party_obj):
 		if pool:
 			winner = pool.first()
 			party_obj.winners.add(winner)
-			Notification.objects.create(user=winner, party=party_obj.pk,\
+			Notification.objects.create(user=winner, party=party_obj,\
 			action="fan_win")
 			pool = pool.exclude(pk=winner.pk)
 	statisticsfunctions.lottery_update_end_stats(party_obj)
@@ -108,7 +108,7 @@ def buyout_add_user(user, party_obj):
 	party_obj.joined.add(user)
 	#Creating a notification for the user on buyout win
 	print("Creating Notifiaction for buyout win on buyout click")
-	Notification.objects.create(user=user, party=party_obj.pk,\
+	Notification.objects.create(user=user, party=party_obj,\
 	action="fan_win")
 	print("Notification Created")
 	return {'added':True, 'error_message':""}
@@ -118,7 +118,7 @@ def buyout_add_user(user, party_obj):
 def buyout_end(user, party_obj):
 	print("Closing buyout")
 	statisticsfunctions.buyout_update_end_stats(party_obj)
-	Notification.objects.create(user=party_obj.user, party=party_obj.pk,\
+	Notification.objects.create(user=party_obj.user, party=party_obj,\
 	action="owner_event_close")
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
@@ -129,14 +129,15 @@ def buyout_end(user, party_obj):
 def bid_add_user_when_open_spots(party_obj, bid, user):
 	statisticsfunctions.bid_update_join_stats(party_obj)
 	party_obj.joined.add(user)
-	new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
+	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
 	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+\
 	" from open slot")
 	return{'added':True, 'error_message':""}
 
 def bid_get_min_bid_number(party_obj):
 	print("Bid reached max slots")
-	bid_list = Bid.objects.filter(party=party_obj.pk)
+	# bid_list = Bid.objects.filter(party=party_obj)
+	bid_list = party_obj.bids_list.all()
 	min_bid = bid_list.first()
 	for bs in bid_list:
 		if min_bid.bid_amount>bs.bid_amount:
@@ -144,7 +145,8 @@ def bid_get_min_bid_number(party_obj):
 	return min_bid.bid_amount
 def bid_get_min_bid_object(party_obj):
 	print("Bid reached max slots")
-	bid_list = Bid.objects.filter(party=party_obj.pk)
+	# bid_list = Bid.objects.filter(party=party_obj)
+	bid_list = party_obj.bids_list.all()
 	min_bid = bid_list.first()
 	for bs in bid_list:
 		if min_bid.bid_amount>bs.bid_amount:
@@ -156,11 +158,11 @@ def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	print("Removing smallest bid by: "+str(min_bid.user))
 	Bid.objects.filter(pk=min_bid.pk).delete()
 	# notifies the lowest bidder that they have been knocked off
-	Notification.objects.create(user=min_bid.user, party=party_obj.pk,\
+	Notification.objects.create(user=min_bid.user, party=party_obj,\
 	action="fan_outbid")
 	party_obj.joined.remove(min_bid.user)
 	party_obj.joined.add(user)
-	new_bid = Bid.objects.create(user=user, party=party_obj.pk, bid_amount=bid)
+	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
 	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+\
 	" from winning slot")
 	party_obj.minimum_bid = bid_get_min_bid_number(party_obj)
@@ -379,13 +381,13 @@ def win_toggle(user, party_obj):
 
 	else:
 		if(party_obj.event_type==1):
-			Notification.objects.create(user=user, party=party_obj.pk,\
+			Notification.objects.create(user=user, party=party_obj,\
 			action="fan_win")
 		elif(party_obj.event_type==2):
-			Notification.objects.create(user=user, party=party_obj.pk,\
+			Notification.objects.create(user=user, party=party_obj,\
 			action="fan_win")
 		else:
-			Notification.objects.create(user=user, party=party_obj.pk,\
+			Notification.objects.create(user=user, party=party_obj,\
 			action="fan_win")
 		won = True
 		party_obj.winners.add(user)

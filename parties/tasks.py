@@ -20,7 +20,7 @@ def pick_winner(party_id):
 		return 
 	# for any party that hasnt closed by end time, tell the owner its closing
 	if party.is_open:
-		Notification.objects.create(user=party.user, party=party.pk,\
+		Notification.objects.create(user=party.user, party=party,\
 		action="owner_event_close")
 	# if there are people that joined the event
 	if party.joined.all().count() > 0:
@@ -68,7 +68,7 @@ def pick_winner(party_id):
 	if party.winners.all().count() > 0:
 		notification_list = party.winners.all()
 		for n in notification_list:
-			Notification.objects.create(user=n, party=party.pk,\
+			Notification.objects.create(user=n, party=party,\
 			action="fan_reminder")
-	Notification.objects.create(user=party.user, party=party.pk,\
+	Notification.objects.create(user=party.user, party=party,\
 	action="owner_reminder")
