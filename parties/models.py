@@ -37,6 +37,7 @@ class Party(models.Model):
 	party_time		= models.DateTimeField()
 
 	minimum_bid		= models.DecimalField(max_digits=7, decimal_places=2, default=0)
+	popularity		= models.IntegerField(default=0)
 
 	# starred contains the users that have starred the event. that means that
 	# starred_by should include all the events that a user has starred

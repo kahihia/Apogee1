@@ -33,7 +33,17 @@ of usernames and a lidt of events -->
 			<!-- through user, calls who they follow.
 			this gets actual user instances -->
 			{% for user in request.user.profile.get_following %}
-				<a class='text-dark' href='/profiles/{{ user.username }}'>{{ user.username }}</a><br>
+			<p class='mb-3'>
+				<a class='text-dark' href='/profiles/{{ user.username }}'>
+					{% if user.profile.profile_picture %}
+					<img src='{{ user.profile.profile_picture.url }}' class="rounded-circle float-left" style='max-height: 30;'>
+					{% else %}
+					<!-- this is a blank profile pic, cause we at least need the circle to show. it only shows if the user doesnt have a profile-->
+					<img src='/media/profile_pics/blank_profile.png' class="rounded-circle float-left" style='max-height: 30;'>
+					{% endif %}
+					<span class='ml-1'>{{ user.username }}</span>
+				</a>
+			</p>
 			{% empty %}
 				<p>Not following anyone</p>
 			{% endfor %}

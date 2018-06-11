@@ -1,7 +1,11 @@
 <!--this is the HTML for the main page. it has recommended users 
 a create event button, and the event thumbnails-->
 {% extends 'base.html' %}
-{% load recommended %}
+
+<!-- we would use this if we wanted to suggest users to follow -->
+<!-- {% load recommended %}
+<p class='lead'>Recommended users</p>
+<p>{% recommended request.user %}</p> -->
 <!-- {% load static %} -->
 
 <!-- sets the tab info -->
@@ -17,6 +21,8 @@ a create event button, and the event thumbnails-->
 	$(document).ready(function(){
 		// tells us where the thumbnails go
 		loadPartyListContainer('party-container')
+		loadPartyListContainer('trending-container')
+		loadPartyListContainer('closing-container')
 	});
 </script>
 {% endblock script %}
@@ -39,17 +45,37 @@ a create event button, and the event thumbnails-->
 		</div>
 		<!-- holds recommended users -->
 		<div class='col-sm-12 mt-5'>
-			<p class='lead'>Recommended users</p>
-			<p>{% recommended request.user %}</p>
+			<h3 class='mb-3'>Following</h3>
+			{% for user in request.user.profile.get_following %}
+			<p class='mb-3'>
+				<a class='text-dark' href='/profiles/{{ user.username }}'>
+					{% if user.profile.profile_picture %}
+					<img src='{{ user.profile.profile_picture.url }}' class="rounded-circle float-left" style='max-height: 30;'>
+					{% else %}
+					<!-- this is a blank profile pic, cause we at least need the circle to show. it only shows if the user doesnt have a profile-->
+					<img src='/media/profile_pics/blank_profile.png' class="rounded-circle float-left" style='max-height: 30;'>
+					{% endif %}
+					<span class='ml-1'>{{ user.username }}</span>
+				</a>
+			</p>
+			{% empty %}
+				<p>Not following anyone</p>
+			{% endfor %}
 		</div>
 	</div>
 	<div class='col-sm-9 mt-3'>
 		<!-- title for the following section -->
-		<h1>New Events</h1><hr>
+		<h1>Following</h1><hr>
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
 		<div class='ml-1' id='party-container' data-url='/api/events/'></div>
+
+		<h1 class='mt-5'>Trending</h1>
+		<div class='ml-1' id='trending-container' data-url='/api/events/trending/'></div>
+
+		<h1 class='mt-5'>Closing Soon</h1>
+		<div class='ml-1' id='closing-container' data-url='/api/events/closing/'></div>		
 
 		<!-- this is our load more button for the pagination -->
 		<!-- weve disabled this for now since we wanted to pu the trending piece in -->
