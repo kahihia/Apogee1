@@ -125,6 +125,12 @@ class Party(models.Model):
 	# 	from .tasks import  send_end_notifications
 	# 	success =  send_end_notifications.apply_async((self.pk,), eta=pick_time)
 	# 	return success
+	# @app.on_after_configure.connect
+	# def setup_periodic_popularity_decay(self):
+	# 	decay_time = timedelta(minutes=15)
+	# 	from .tasks import decay_popularity
+	# 	decay_popularity.add_periodic_task(450.0,)
+	# 	if self.is_open:
 
 	# used to change the dataset ordering
 	class Meta:
