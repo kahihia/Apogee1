@@ -9,6 +9,9 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 
+from celery.task.schedules import crontab
+from celery.decorators import periodic_task
+
 import math
 import sys
 
@@ -119,6 +122,18 @@ class Party(models.Model):
 		from .tasks import pick_winner
 		result = pick_winner.apply_async((self.pk,), eta=pick_time)
 		return result.id
+
+
+	@periodic_task(
+    	run_every=(crontab(minute='*/15')),
+    	name="decay_popularity",
+    	ignore_result=True
+	)
+	def task_decay_populairty(self):
+		decay_rate =.03
+	    self.popularity = F('popularity') * (1-decay_rate)
+		self.save2(update_fields=['popularity'])
+
 
 	# def send_notifications(self):
 	# 	pick_time = self.party_time - timedelta(minutes=9)
