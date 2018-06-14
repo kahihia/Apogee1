@@ -31,7 +31,6 @@ class StarToggleAPIView(APIView):
 #change this to handle all purchase types
 
 class BidAPIView(APIView):
-	print("BIDAPIVIEW")
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, bids, format=None):
 		print("The bid is: ")
@@ -51,7 +50,6 @@ class BidAPIView(APIView):
 
 
 class BuyoutLotteryAPIView(APIView):
-	print("BUYOUTLOTTERYAPIVIEW")
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, format=None):
 		party_qeryset = Party.objects.filter(pk=pk)
@@ -112,9 +110,7 @@ class SearchPartyAPIView(generics.ListAPIView):
 	serializer_class = PartyModelSerializer
 	pagination_class = StandardResultsPagination
 
-	# this allows us to pass a request into the serializer
-	# it'll tell us if the user starred the event so we can display the 
-	# correct verb at the outset
+	# this allows us to pass the request into the serializer and get requestuser info
 	def get_serializer_context(self, *args, **kwargs):
 		context = super(SearchPartyAPIView, self).get_serializer_context(*args, **kwargs)
 		context['request'] = self.request
@@ -132,6 +128,7 @@ class SearchPartyAPIView(generics.ListAPIView):
 				Q(user__username__icontains=query) | 
 				Q(title__icontains=query)
 				)
+			qs = qs.filter(is_open=True).order_by('-popularity')
 			return qs
 
 
@@ -140,9 +137,7 @@ class PartyListAPIView(generics.ListAPIView):
 	serializer_class = PartyModelSerializer
 	pagination_class = StandardResultsPagination
 
-	# this allows us to pass a request into the serializer
-	# it'll tell us if the user starred the event so we can display the 
-	# correct verb at the outset
+	# this allows us to pass the request into the serializer and get requestuser info
 	def get_serializer_context(self, *args, **kwargs):
 		context = super(PartyListAPIView, self).get_serializer_context(*args, **kwargs)
 		context['request'] = self.request
@@ -159,21 +154,23 @@ class PartyListAPIView(generics.ListAPIView):
 		else:
 			# uses methods form the userprofile model
 			im_following = self.request.user.profile.get_following()
-			qs1 = Party.objects.filter(user__in=im_following)
+			qs = Party.objects.filter(user__in=im_following)
+			qs = qs.filter(is_open=True).order_by('-time_created')
 			# includes our own events in our feed
-			qs2 = Party.objects.filter(user=self.request.user)
+			# qs2 = Party.objects.filter(user=self.request.user)
 			# sets the ordering. party_time would be soonest expiration at the top
-			qs = (qs1 | qs2).distinct().order_by('-time_created')
+			# qs = (qs1 | qs2).distinct().order_by('-time_created')
 
 		# this return the string form of the search passed into the url
-		query = self.request.GET.get('q', None)
-		if query is not None:
-			# Q is a lookup function
-			qs = qs.filter(
-				Q(description__icontains=query) | 
-				Q(user__username__icontains=query) | 
-				Q(title__icontains=query)
-				)
+		# currentyl all search goes to the search api view, not this
+		# query = self.request.GET.get('q', None)
+		# if query is not None:
+		# 	# Q is a lookup function
+		# 	qs = qs.filter(
+		# 		Q(description__icontains=query) | 
+		# 		Q(user__username__icontains=query) | 
+		# 		Q(title__icontains=query)
+		# 		)
 		return qs
 
 
@@ -183,9 +180,7 @@ class StarredListAPIView(generics.ListAPIView):
 	serializer_class = PartyModelSerializer
 	pagination_class = StandardResultsPagination
 
-	# this allows us to pass a request into the serializer
-	# it'll tell us if the user starred the event so we can display the 
-	# correct verb at the outset
+	# this allows us to pass the request into the serializer and get requestuser info
 	def get_serializer_context(self, *args, **kwargs):
 		context = super(StarredListAPIView, self).get_serializer_context(*args, **kwargs)
 		context['request'] = self.request
@@ -201,9 +196,7 @@ class JoinedListAPIView(generics.ListAPIView):
 	serializer_class = PartyModelSerializer
 	pagination_class = StandardResultsPagination
 
-	# this allows us to pass a request into the serializer
-	# it'll tell us if the user starred the event so we can display the 
-	# correct verb at the outset
+	# this allows us to pass the request into the serializer and get requestuser info
 	def get_serializer_context(self, *args, **kwargs):
 		context = super(JoinedListAPIView, self).get_serializer_context(*args, **kwargs)
 		context['request'] = self.request
@@ -220,9 +213,7 @@ class TrendingListAPIView(generics.ListAPIView):
 	serializer_class = PartyModelSerializer
 	pagination_class = StandardResultsPagination
 
-	# this allows us to pass a request into the serializer
-	# it'll tell us if the user starred the event so we can display the 
-	# correct verb at the outset
+	# this allows us to pass the request into the serializer and get requestuser info
 	def get_serializer_context(self, *args, **kwargs):
 		context = super(TrendingListAPIView, self).get_serializer_context(*args, **kwargs)
 		context['request'] = self.request
@@ -230,6 +221,7 @@ class TrendingListAPIView(generics.ListAPIView):
 
 	# this interacts with the ajax call to this url
 	def get_queryset(self, *args, **kwargs):
+		# trending is all the open events, ordered by their popularity, descending
 		qs = Party.objects.filter(is_open=True).order_by('-popularity')
 		return qs
 
@@ -246,6 +238,8 @@ class ClosingSoonListAPIView(generics.ListAPIView):
 
 	# this interacts with the ajax call to this url
 	def get_queryset(self, *args, **kwargs):
+		# closing soon is events closing in 5 mins (delta is 10)
+		# that are open, ordered by popularity, descending
 		soon_time = timezone.now() + timedelta(minutes=15)
 		qs = Party.objects.filter(is_open=True)
 		qs = qs.filter(party_time__lte=soon_time)
