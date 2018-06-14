@@ -72,3 +72,4 @@ def pick_winner(party_id):
 			action="fan_reminder")
 	Notification.objects.create(user=party.user, party=party,\
 	action="owner_reminder")
+

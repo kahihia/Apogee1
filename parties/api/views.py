@@ -4,6 +4,8 @@ from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q, Count
+from django.utils import timezone
+from datetime import timedelta
 
 from parties import partyHandling
 from bids.models import Bid
@@ -214,7 +216,6 @@ class JoinedListAPIView(generics.ListAPIView):
 
 
 # this creates the api view that the trending list of our home page pulls from
-# its currently not working
 class TrendingListAPIView(generics.ListAPIView):
 	serializer_class = PartyModelSerializer
 	pagination_class = StandardResultsPagination
@@ -229,15 +230,27 @@ class TrendingListAPIView(generics.ListAPIView):
 
 	# this interacts with the ajax call to this url
 	def get_queryset(self, *args, **kwargs):
-		# uses methods form the userprofile model
-		im_following = self.request.user.profile.get_following()
-		qs1 = Party.objects.filter(user__in=im_following)
-		# includes our own events in our feed
-		qs2 = Party.objects.filter(user=self.request.user)
-		# sets the ordering. party_time would be soonest expiration at the top
-		qs = (qs1 | qs2).distinct().order_by('starred')
+		qs = Party.objects.filter(is_open=True).order_by('-popularity')
 		return qs
 
+# this creates the api view that the closing soon list of our home page pulls from
+class ClosingSoonListAPIView(generics.ListAPIView):
+	serializer_class = PartyModelSerializer
+	pagination_class = StandardResultsPagination
+
+	# this allows us to pass the request into the serializer and get requestuser info
+	def get_serializer_context(self, *args, **kwargs):
+		context = super(ClosingSoonListAPIView, self).get_serializer_context(*args, **kwargs)
+		context['request'] = self.request
+		return context
+
+	# this interacts with the ajax call to this url
+	def get_queryset(self, *args, **kwargs):
+		soon_time = timezone.now() + timedelta(minutes=15)
+		qs = Party.objects.filter(is_open=True)
+		qs = qs.filter(party_time__lte=soon_time)
+		qs = qs.order_by('-popularity')
+		return qs
 
 
 

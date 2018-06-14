@@ -13,6 +13,7 @@ import math
 import sys
 #I am changing stuff here
 from .models import Party
+from parties import popularityHandling
 from bids.models import Bid
 from userstatistics import statisticsfunctions
 from notifications.models import Notification
@@ -68,6 +69,7 @@ def event_at_max_capacity():
 #joined = True
 def lottery_add_user(user,party_obj):
 	statisticsfunctions.lottery_update_join_stats(party_obj)
+	popularityHandling.lottery_popularity_join(party_obj)
 	party_obj.joined.add(user)
 	return {'added':True, 'error_message':""}
 #Ends the lottery event
@@ -103,6 +105,7 @@ def lottery_end(party_obj):
 #error_message = None
 #added = True
 def buyout_add_user(user, party_obj):
+	popularityHandling.buyout_popularity_join(party_obj)
 	statisticsfunctions.buyout_update_join_stats(party_obj)
 	party_obj.winners.add(user)
 	party_obj.joined.add(user)
@@ -127,6 +130,7 @@ def buyout_end(user, party_obj):
 
 ############################## BID FUNCTIONS ###################################
 def bid_add_user_when_open_spots(party_obj, bid, user):
+	popularityHandling.bid_popularity_join(party_obj)
 	statisticsfunctions.bid_update_join_stats(party_obj)
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
@@ -154,6 +158,7 @@ def bid_get_min_bid_object(party_obj):
 	return min_bid
 
 def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
+	popularityHandling.bid_popularity_join(party_obj)
 	statisticsfunctions.bid_update_join_stats(party_obj)
 	print("Removing smallest bid by: "+str(min_bid.user))
 	Bid.objects.filter(pk=min_bid.pk).delete()
@@ -194,9 +199,21 @@ def star_toggle(user, party_obj):
 	if user in party_obj.starred.all():
 		is_starred = False
 		party_obj.starred.remove(user)
+		if party_obj.event_type==1:
+			popularityHandling.lottery_popularity_unstar(party_obj)
+		if party_obj.event_type==2:
+			popularityHandling.bid_popularity_unstar(party_obj)
+		if party_obj.event_type==3:
+			popularityHandling.buyout_popularity_unstar(party_obj)
 	else:
 		is_starred = True
 		party_obj.starred.add(user)
+		if party_obj.event_type==1:
+			popularityHandling.lottery_popularity_star(party_obj)
+		if party_obj.event_type==2:
+			popularityHandling.bid_popularity_star(party_obj)
+		if party_obj.event_type==3:
+			popularityHandling.buyout_popularity_star(party_obj)
 	return is_starred
 
 # Used for managing users (Winners/joined) in lottery event

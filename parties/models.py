@@ -2,12 +2,16 @@
 import re
 import pytz
 from django.db.models import F
-from datetime import timedelta
+from datetime import timedelta, datetime
 from django.db.models.signals import post_save
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
+
+from celery.task.schedules import crontab
+from celery.decorators import periodic_task
 
 import math
 import sys
@@ -15,7 +19,6 @@ import sys
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
-
 
 
 # this is the actual model that stores all the data
@@ -37,6 +40,9 @@ class Party(models.Model):
 	party_time		= models.DateTimeField()
 
 	minimum_bid		= models.DecimalField(max_digits=7, decimal_places=2, default=0)
+	interaction_pts	= models.IntegerField(default=0)
+	time_pts		= models.DecimalField(default=0, max_digits=10, decimal_places=4)
+	popularity		= models.DecimalField(default=0, max_digits=10, decimal_places=4)
 
 	# starred contains the users that have starred the event. that means that
 	# starred_by should include all the events that a user has starred
@@ -96,8 +102,6 @@ class Party(models.Model):
 							(3, 'Buy')),  
 						default=1)
 
-	# durationField for when to close it relative to the event time
-	# use small integerfield for event type? map 1 to lottery, 2 to buy, 3 to bid?
 	
 	# this is what success_url reroutes to if it is not defined in the view
 	def get_absolute_url(self):
@@ -119,11 +123,35 @@ class Party(models.Model):
 		result = pick_winner.apply_async((self.pk,), eta=pick_time)
 		return result.id
 
+	# sets our time point offset on creation
+	def set_time_pts(self):
+		epoch = datetime(2018, 1, 1, 0, 0).astimezone(pytz.utc)
+		td = self.time_created - epoch
+		seconds = td.total_seconds()
+		return seconds/45000
+
+	# @periodic_task(
+ #    	run_every=(crontab(minute='*/1')),
+ #    	name="decay_popularity",
+ #    	ignore_result=True
+	# )
+	# def task_decay_popularity(self):
+	# 	decay_rate =.03
+	# 	self.popularity = F('popularity') * (1-decay_rate)
+	# 	self.save2(update_fields=['popularity'])
+
+
 	# def send_notifications(self):
 	# 	pick_time = self.party_time - timedelta(minutes=9)
 	# 	from .tasks import  send_end_notifications
 	# 	success =  send_end_notifications.apply_async((self.pk,), eta=pick_time)
 	# 	return success
+	# @app.on_after_configure.connect
+	# def setup_periodic_popularity_decay(self):
+	# 	decay_time = timedelta(minutes=15)
+	# 	from .tasks import decay_popularity
+	# 	decay_popularity.add_periodic_task(450.0,)
+	# 	if self.is_open:
 
 	# used to change the dataset ordering
 	class Meta:
@@ -138,6 +166,7 @@ class Party(models.Model):
 		# then we set the task_id as the party id, then we save again
 		super(Party, self).save(*args, **kwargs)
 		self.minimum_bid = self.cost
+		self.time_pts = self.set_time_pts()
 		self.task_id = self.schedule_pick_winner()
 		# self.send_notifications()
 		super(Party, self).save(*args, **kwargs)
