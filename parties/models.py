@@ -125,9 +125,9 @@ class Party(models.Model):
 
 	# sets our time point offset on creation
 	def set_time_pts(self):
-		epoch = datetime(2018, 1, 1, 0).astimezone(pytz.utc)
+		epoch = datetime(2018, 1, 1, 0, 0).astimezone(pytz.utc)
 		td = self.time_created - epoch
-		seconds = td.days*86400 + td.seconds + (float(td.microseconds)/1000000)
+		seconds = td.total_seconds()
 		return seconds/45000
 
 	# @periodic_task(
