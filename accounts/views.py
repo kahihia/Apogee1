@@ -76,9 +76,13 @@ class UserDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(UserDetailView, self).get_context_data(*args, **kwargs)
         following = UserProfile.objects.is_following(self.request.user, self.get_object())
-        # in teh html, we call both following and recommended. this is how those 
+        blocking = UserProfile.objects.is_blocking(self.request.user, self.get_object())
+        blocked = UserProfile.objects.is_blocked(self.request.user, self.get_object())
+        # in the html, we call both following and recommended. this is how those 
         # variables get passed through
         context['following'] = following
+        context['blocking'] = blocking
+        context['blocked'] = blocked
         context['recommended'] = UserProfile.objects.recommended(self.request.user)
         return context
 
@@ -90,6 +94,17 @@ class UserFollowView(View):
         # you can only follow if you are signed in
         if request.user.is_authenticated:
             is_following = UserProfile.objects.toggle_follow(request.user, toggle_user)
+            # it redirects you to the same page you were on and updates the text on the button
+            return redirect('profiles:detail', username=username)
+
+# this is used to toggle blocking
+class UserBlockView(View):
+    def get(self, request, username, *args, **kwargs):
+        # this returns the object user we are trying to follow or nothing
+        toggle_user = get_object_or_404(User, username__iexact=username)
+        # you can only follow if you are signed in
+        if request.user.is_authenticated:
+            is_blocking = UserProfile.objects.toggle_block(request.user, toggle_user)
             # it redirects you to the same page you were on and updates the text on the button
             return redirect('profiles:detail', username=username)
 

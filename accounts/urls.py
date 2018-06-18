@@ -6,6 +6,7 @@ from django.views.generic import RedirectView
 from .views import (
 		UserDetailView, 
 		UserFollowView, 
+		UserBlockView,
 		UserProfileUpdateView
 	)
 
@@ -15,5 +16,6 @@ app_name = 'profiles'
 urlpatterns = [
     path('<username>/', UserDetailView.as_view(), name='detail'), 
     path('<username>/follow/', UserFollowView.as_view(), name='follow'),
+    path('<username>/block/', UserBlockView.as_view(), name='block'),
     path('<username>/edit/', UserProfileUpdateView.as_view(), name='edit'), 
 ]
