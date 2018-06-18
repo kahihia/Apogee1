@@ -58,6 +58,12 @@ def event_user_already_in_event(party_obj):
 def event_at_max_capacity():
 	return {'added':False,\
 	'error_message':"This event is already at max capacity"}
+#Returns dict with event information
+#error = blocked by event owner
+#joined = False
+def event_blocked():
+	return {'added':False,\
+	'error_message':"You've been blocked from this event"}
 
 ####################### END GENERAL EVENT FUNCTIONS ############################
 
@@ -225,6 +231,11 @@ def lottery_add(user, party_obj):
 	# = Event is closed
 	if not party_obj.is_open:
 		event_info = event_is_closed()
+	# If user has been banned by event owner
+	# returns dict with joined = False and error_message
+	# = you've been blocked from this event
+	elif user in party_obj.user.profile.blocking.all():
+		event_info = event_blocked()
 	# If user is already in the lottery
 	# returns dict with joined = False and error_message 
 	# = You have already joined this event
@@ -272,6 +283,11 @@ def buyout_add(user, party_obj):
 	# = Event is closed
 	if not party_obj.is_open:
 		event_info = event_is_closed()
+	# If user has been banned by event owner
+	# returns dict with joined = False and error_message
+	# = you've been blocked from this event
+	elif user in party_obj.user.profile.blocking.all():
+		event_info = event_blocked()
 	# If user already bought this event
 	# returns dict with added = False and error_message 
 	# = You have bought this event
@@ -332,6 +348,11 @@ def bid_add(user, party_obj, bid):
 	if not party_obj.is_open:
 		print("Party closed - bid")
 		event_info = event_is_closed()
+	# If user has been banned by event owner
+	# returns dict with joined = False and error_message
+	# = you've been blocked from this event
+	elif user in party_obj.user.profile.blocking.all():
+		event_info = event_blocked()
 	# If user already bought this event
 	# returns dict with added = False and error_message 
 	# = You have already bid on this event

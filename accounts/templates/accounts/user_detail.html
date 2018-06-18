@@ -64,20 +64,68 @@
 	<!-- This controls the follow button appearance. the actual toggle is a method on the userprofile model -->
 	<div class='col-sm-2 my-3 text-right'>
 		{% if object == request.user %}
-		<!-- blank because we dont need the follow button on your own profile -->
+		<!-- no follow button if its your own profile -->
+		{% elif blocking %}
+		<!-- this is the follow button. if youre blocking
+		it says so. if youre blocked, it says so. otherwise, follow button -->
+		<small class='text-muted'>User blocked</small>
+		{% elif blocked %}
+		<!-- theres no follow button if youre blocked -->
 		{% else %}
-		<!-- gets the follow url via method in the model -->
 		<a class='btn btn-outline-secondary mr-auto' href='{{ object.profile.get_follow_url }}'>
 			<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
 			{% if following %}Unfollow{% else %}Follow{% endif %}
 		</a>
 		{% endif %}
+		
+		<!-- this is the user settings menu -->
+		<div class="dropdown mt-2">
+			<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    	<i class="fas fa-cog fa-lg mr-2 grey-color"></i>
+			</button>
+			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+				{% if object == request.user %}
+				<a class="dropdown-item" href="{{ request.user.profile.get_edit_url }}">Edit Profile</a>
+				{% else %}
+					{% if blocking %}
+					<a class="dropdown-item" href='{{ object.profile.get_block_url }}'>Unblock {{ object.username }}</a>
+					{% else %}
+					<a class="dropdown-item" data-toggle="modal" data-target="#blockModal">Block {{ object.username }}</a>
+					{% endif %}
+				{% endif %}
+			</div>
+		</div>
+
+		<!-- this is the block confirm modal -->
+		<div class="modal fade" id="blockModal" tabindex="-1" role="dialog" aria-labelledby="blockModalTitle" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="blockModalTitle">Block {{ object.username }}?</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body text-left">
+		        <p>Blocking <strong>{{ object.username }}</strong> will prevent them from seeing and participating in your events.</p>
+		      </div>
+		      <div class="modal-footer">
+		        <a class="btn btn-outline-danger btn-block" href='{{ object.profile.get_block_url }}'>
+		        	Block
+		    	</a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 	</div>
 </div>
 
 <!-- this contains the actual events -->
 <div class='row mt-5'>
 	<div class='col-sm-8 offset-sm-2'>
+		{% if blocked %}
+		<p class='text-muted text-center'>{{object.username}} has blocked you from viewing events.</p>
+		{% else %}
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
@@ -86,7 +134,8 @@
 		<!-- this is our load more button for the pagination. loadmore is a method specified in the JS from base.html -->
 		<button type="button" class="btn btn-outline-secondary btn-sm btn-block" id='loadmore'>Show More Events</button>
 		<!-- this lists the load button off of the bottom -->
-		<br><p></p>		
+		<br><p></p>	
+		{% endif %}	
 	</div>	
 </div>
 {% endblock content %}

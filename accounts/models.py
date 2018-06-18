@@ -44,6 +44,29 @@ class UserProfileManager(models.Manager):
 			added = True
 		return added
 
+	# changes whether the requestuser is blocking someone
+	# the requestuser is just whoever is doing the clicking
+	def toggle_block(self, user, to_toggle_user):
+		# this is our own profile
+		# created is just a boolean thats part of th method we're using
+		# its not actually used
+		user_profile, created = UserProfile.objects.get_or_create(user=user)
+		toggle_user_profile, created2 = UserProfile.objects.get_or_create(user=to_toggle_user)
+		# checks to see if the requestuser is already blocking the toggleuser
+		if to_toggle_user in user_profile.blocking.all():
+			# if they are, remove them from the blocking list
+			user_profile.blocking.remove(to_toggle_user)
+			added = False
+		else:
+			# if they arent, add them to the blocking list
+			user_profile.blocking.add(to_toggle_user)
+			if to_toggle_user in user_profile.following.all():
+				user_profile.following.remove(to_toggle_user)
+			if user in toggle_user_profile.following.all():
+				toggle_user_profile.following.remove(user)
+			added = True
+		return added
+
 	# checks if requestuser is following someone
 	def is_following(self, user, followed_by_user):
 		# user is the one we're looking for. self is the request user
@@ -52,6 +75,28 @@ class UserProfileManager(models.Manager):
 		if created: # cant be following anyone if the profile was just made
 			return False
 		if followed_by_user in user_profile.following.all():
+			return True
+		return False
+
+	# checks if requestuser is blocking someone
+	def is_blocking(self, user, blocked_by_user):
+		# user is the one we're looking for. self is the request user
+		user_profile, created = UserProfile.objects.get_or_create(user=user)
+		# created tells us if the user we were searching for exists
+		if created: # cant be blocking anyone if the profile was just made
+			return False
+		if blocked_by_user in user_profile.blocking.all():
+			return True
+		return False
+
+	# checks if requestuser is blocked by someone
+	def is_blocked(self, user, blocking_user):
+		# user is the one we're looking for. self is the request user
+		blocking_user_profile, created = UserProfile.objects.get_or_create(user=blocking_user)
+		# created tells us if the user we were searching for exists
+		if created: # cant be blocking anyone if the profile was just made
+			return False
+		if blocking_user_profile in user.blocked_by.all():
 			return True
 		return False
 
@@ -92,6 +137,15 @@ class UserProfile(models.Model):
 			related_name='followed_by'
 		)
 
+	# user.profile.blocking gives us the users that i blocked
+	# user.blocked_by gives the reverse of blocking, 
+	# which is users that have blocked me
+	blocking = models.ManyToManyField(
+			settings.AUTH_USER_MODEL,
+			blank=True, 
+			related_name='blocked_by'
+		)
+
 	# other fields attatched to users, like their banner, profile pic, bio
 	profile_picture = models.ImageField(upload_to='profile_pics/%Y/%m/%d/', blank=True)
 
@@ -119,6 +173,10 @@ class UserProfile(models.Model):
 	# gets the follow url for the person whose page you are on
 	def get_follow_url(self):
 		return reverse_lazy('profiles:follow', kwargs={'username': self.user.username})
+
+	# gets the follow url for the person whose page you are on
+	def get_block_url(self):
+		return reverse_lazy('profiles:block', kwargs={'username': self.user.username})
 
 	# gets the detail view url for a profile
 	def get_absolute_url(self):
