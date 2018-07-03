@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-
+from decouple import config
+import dj_database_url
+import django-heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # points us back to the root folder, where manage.py is
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -22,13 +24,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6fw*ujba!d-3^a8ez_9*da+2@bt2(-1*4@f7bjuvxas$puux_8'
-
+#HEROKU
+#SECRET_KEY = '6fw*ujba!d-3^a8ez_9*da+2@bt2(-1*4@f7bjuvxas$puux_8'
+SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # shows debug messages in the page 
-DEBUG = True
-
-ALLOWED_HOSTS = []
+#HEROKU 
+#DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
+ALLOWED_HOSTS = ['apogee-prod.herokuapp.com']
 
 
 # Application definition
@@ -108,21 +112,25 @@ WSGI_APPLICATION = 'apogee1.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
-
+#HEROKU
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'apogeetestdb',
+#         'USER': 'caldwell',
+#         'PASSWORD': 'apogeedb',
+#         # 'NAME': 'mydb',
+#         # 'USER': 'me',
+#         # 'PASSWORD': 'pass',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'apogeetestdb',
-        'USER': 'caldwell',
-        'PASSWORD': 'apogeedb',
-        # 'NAME': 'mydb',
-        # 'USER': 'me',
-        # 'PASSWORD': 'pass',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -174,6 +182,7 @@ STATICFILES_DIRS = [
 # in production, this should be done by a cdn, not django
 # will be served
 STATIC_ROOT = os.path.join(BASE_DIR, "static-serve")
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 # this holds our media stuff like thumbnails and profile pics
@@ -183,7 +192,7 @@ MEDIA_URL = '/media/'
 # this just works with crispy form to render properly
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-
+django_heroku.settings(locals())
 
 
 
