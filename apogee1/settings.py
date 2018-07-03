@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 #HEROKU 
 #DEBUG = True
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['apogee-prod.herokuapp.com']
+ALLOWED_HOSTS = ['apogee1.herokuapp.com']
 
 
 
