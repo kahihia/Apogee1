@@ -128,7 +128,7 @@ WSGI_APPLICATION = 'apogee1.wsgi.application'
 # }
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL')
+        default=config('DATABASE_URL', default='postgres://localhost')
     )
 }
 
