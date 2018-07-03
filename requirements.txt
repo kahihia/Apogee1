@@ -10,3 +10,10 @@ Markdown==2.6.11
 Pillow==5.0.0
 pytz==2017.3
 vine==1.1.4
+gunicorn==19.6.0
+whitenoise
+python-decouple
+dj-database-url
+psycopg2
+django-heroku
+psycopg2-binary
