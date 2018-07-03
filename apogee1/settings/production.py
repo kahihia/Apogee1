@@ -191,7 +191,7 @@ MEDIA_URL = '/media/'
 # this just works with crispy form to render properly
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
 
 
 
