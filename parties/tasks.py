@@ -8,6 +8,9 @@ from .models import Party
 from notifications.models import Notification
 from parties import partyHandling
 # the shared task just makes it so the celery app can access this
+@app.task
+def add(x, y):
+    return x + y
 @shared_task
 # this method takes the list of joined, reorders it randomly, and picks one
 def pick_winner(party_id):
