@@ -14,7 +14,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 from decouple import config
 import dj_database_url
-import django-heroku
+#import django-heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # points us back to the root folder, where manage.py is
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -194,7 +194,7 @@ MEDIA_URL = '/media/'
 # this just works with crispy form to render properly
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
 
 
 
