@@ -8,7 +8,7 @@ from .models import Party
 from notifications.models import Notification
 from parties import partyHandling
 # the shared task just makes it so the celery app can access this
-@app.task
+@shared_task
 def add(x, y):
     return x + y
 @shared_task
