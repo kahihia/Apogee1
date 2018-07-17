@@ -83,7 +83,7 @@ class PartyModelForm(forms.ModelForm):
 		conn = S3Connection(config('AWS_ACCESS_KEY_ID'), config('AWS_SECRET_ACCESS_KEY'))
 		bucket = conn.get_bucket(config('S3_BUCKET_NAME'))
 		k = Key(bucket)
-		k.key = self.title # for example, 'images/bob/resized_image1.png'
+		k.key = self.id # for example, 'images/bob/resized_image1.png'
 		k.set_contents_from_file(resized_photo)
 	# ensures that the event cannot have more winners than entrants. 
 	# has to be called on the second field because the second field isnt 

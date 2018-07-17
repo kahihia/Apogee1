@@ -10,6 +10,8 @@ from parties.models import Party
 # we import the user serializer as well since the event 
 # serializer displays user info as well
 from accounts.api.serializers import UserDisplaySerializer
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 
 class PartyModelSerializer(serializers.ModelSerializer):
 	# foreign key relationship to the user serializer

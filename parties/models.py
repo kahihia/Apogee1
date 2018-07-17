@@ -85,7 +85,7 @@ class Party(models.Model):
 	is_open = models.BooleanField(default=True)
 
 	#highest_bid = models.PositiveSmallIntegerField(default = 0)
-	thumbnail 		= models.ImageField(upload_to=self.pk) 
+	thumbnail 		= models.ImageField(upload_to=get_pk()) 
 	#thumbnail 		= models.ImageField(upload_to='thumbnails/%Y/%m/%d/') 
 	# task_id is the celery identifier, used to make sure that we don't 
 	# duplicate picking winners
@@ -103,6 +103,8 @@ class Party(models.Model):
 						default=1)
 
 	
+	def get_pk(self):
+		return self.pk
 	# this is what success_url reroutes to if it is not defined in the view
 	def get_absolute_url(self):
 		return reverse('parties:detail', kwargs={'pk':self.pk})
