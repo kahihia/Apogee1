@@ -114,6 +114,11 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		return truncatechars(obj.description, 40)
 
 	def get_thumbnail_url(self, obj):
+		conn = S3Connection(config('AWS_ACCESS_KEY_ID'), config('AWS_SECRET_ACCESS_KEY'))
+		bucket = conn.get_bucket(config('S3_BUCKET_NAME'))
+		k = Key(bucket)
+		k.key = self.id # for example, 'images/bob/resized_image1.png'
+		k.get_contents_from_file()
 		return "https://s3-us-west-1.amazonaws.com/apogee-assets/thumbnails/2018/07/17/HovaGolfWithFriends.jpg"
 		#return obj.thumbnail.url
 
