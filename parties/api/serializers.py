@@ -12,6 +12,7 @@ from parties.models import Party
 from accounts.api.serializers import UserDisplaySerializer
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
+from decouple import config
 
 class PartyModelSerializer(serializers.ModelSerializer):
 	# foreign key relationship to the user serializer
