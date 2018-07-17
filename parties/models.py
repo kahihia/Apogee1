@@ -85,7 +85,7 @@ class Party(models.Model):
 	is_open = models.BooleanField(default=True)
 
 	#highest_bid = models.PositiveSmallIntegerField(default = 0)
-	thumbnail 		= models.ImageField(upload_to=get_pk()) 
+	thumbnail 		= models.ImageField() 
 	#thumbnail 		= models.ImageField(upload_to='thumbnails/%Y/%m/%d/') 
 	# task_id is the celery identifier, used to make sure that we don't 
 	# duplicate picking winners
