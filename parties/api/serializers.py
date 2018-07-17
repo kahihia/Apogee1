@@ -112,7 +112,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		return truncatechars(obj.description, 40)
 
 	def get_thumbnail_url(self, obj):
-		return obj.thumbnail.url
+		return "https://s3-us-west-1.amazonaws.com/apogee-assets/thumbnails/2018/07/17/HovaGolfWithFriends.jpg"
+		#return obj.thumbnail.url
 
 	# requires try block because it may throw an error
 	def get_did_star(self, obj):
