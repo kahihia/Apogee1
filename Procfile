@@ -3,4 +3,4 @@ web: python manage.py makemigrations
 web: python manage.py migrate
 web: python manage.py runserver 0.0.0.0:$PORT
 worker: celery worker --app=parties.tasks
-celeryworker: celery -A apogee1.settings -l info
+celeryworker: celery -A apogee1.settings worker -l info

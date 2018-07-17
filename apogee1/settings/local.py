@@ -34,6 +34,14 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = ['apogee1.herokuapp.com']
 
+AWS_QUERYSTRING_AUTH = False
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('S3_BUCKET_NAME')
+MEDIA_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3BotoStorage"
+AWS_S3_REGION_NAME = config('REGION_NAME')
+
 
 # Application definition
 
@@ -56,6 +64,7 @@ INSTALLED_APPS = [
     # third party stuff
     'crispy_forms',
     'rest_framework',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -189,7 +198,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # this holds our media stuff like thumbnails and profile pics
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = '/media/'
+#MEDIA_URL = '/media/'
 
 # this just works with crispy form to render properly
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

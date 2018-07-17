@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 
 from .models import Party
-
+import boto3
 
 class PartyModelForm(forms.ModelForm):
 	# the altered form fields are for formatting on the create page
@@ -76,6 +76,10 @@ class PartyModelForm(forms.ModelForm):
 			raise forms.ValidationError('Event cannot be in the past.')
 		return party_time
 
+	def clean_upload(self):
+		upload = self.cleaned_data.get('thumbnail')
+		s3 = boto3.resource('s3')
+		s3.Bucket('apogee-assets').put_object(Key='test.jpg', Body=data)
 	# ensures that the event cannot have more winners than entrants. 
 	# has to be called on the second field because the second field isnt 
 	# processed yet if its called on the first

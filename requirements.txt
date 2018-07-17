@@ -5,6 +5,9 @@ django-heroku
 gunicorn==19.6.0
 whitenoise
 redis
+django-storages
+boto3
+boto
 
 amqp==2.2.2
 billiard==3.5.0.3
