@@ -120,8 +120,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		# k = Key(bucket)
 		# k.key = obj.id # for example, 'images/bob/resized_image1.png'
 		# k.get_contents_from_file()
-		return "https://s3-us-west-1.amazonaws.com/apogee-assets/thumbnails/2018/07/17/HovaGolfWithFriends.jpg"
-		#return obj.thumbnail.url
+		#return "https://s3-us-west-1.amazonaws.com/apogee-assets/thumbnails/2018/07/17/HovaGolfWithFriends.jpg"
+		return "https://s3-us-west-1.amazonaws.com/apogee-assets/"+obj.thumbnail.url
 
 	# requires try block because it may throw an error
 	def get_did_star(self, obj):
