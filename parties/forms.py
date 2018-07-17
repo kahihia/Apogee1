@@ -77,6 +77,7 @@ class PartyModelForm(forms.ModelForm):
 		return party_time
 
 	def clean_upload(self):
+		print("clean_upload")
 		upload = self.cleaned_data.get('thumbnail')
 		s3 = boto3.resource('s3')
 		s3.Bucket('apogee-assets').put_object(Key='test.jpg', Body=data)

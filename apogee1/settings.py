@@ -38,7 +38,7 @@ AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = config('S3_BUCKET_NAME')
 MEDIA_URL = 'https://s3-%s.amazonaws.com/%s/media/' % (AWS_S3_REGION_NAME, AWS_STORAGE_BUCKET_NAME)
 MEDIA_URL = 'http://%s.s3.amazonaws.com/thumbnails/' % AWS_STORAGE_BUCKET_NAME
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3BotoStorage"
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 AWS_S3_REGION_NAME = config('REGION_NAME')
 
 
