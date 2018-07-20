@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'storages',
+    'paypal.standard.ipn'
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,9 @@ MIDDLEWARE = [
     # from django docs for setting the current session timezone
     'parties.middleware.TimezoneMiddleware',
 ]
+
+PAYPAL_TEST = True
+
 
 # root url sets the main routing file. those then refer to the other url docs
 ROOT_URLCONF = 'apogee1.urls'
