@@ -6,6 +6,9 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
+# from django.core.urlresolvers import reverse
+# from django.shortcuts import render
+from paypal.standard.forms import PayPalPaymentsForm
 from django.views.generic import (
 		ListView, 
 		DetailView, 
@@ -17,9 +20,7 @@ from django.views.generic import (
 from .forms import PartyModelForm
 from .mixins import FormUserNeededMixin, UserOwnerMixin
 from .models import Party
-# from django.core.urlresolvers import reverse
-# from django.shortcuts import render
-#from paypal.standard.forms import PayPalPaymentsForm
+
 
 # Create your views here.
 
