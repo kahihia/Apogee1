@@ -6,9 +6,9 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
-from django.core.urlresolvers import reverse
-from django.shortcuts import render
-from paypal.standard.forms import PayPalPaymentsForm
+# from django.core.urlresolvers import reverse
+# from django.shortcuts import render
+# from paypal.standard.forms import PayPalPaymentsForm
 from django.views.generic import (
 		ListView, 
 		DetailView, 
