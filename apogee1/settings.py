@@ -79,7 +79,7 @@ MIDDLEWARE = [
     'parties.middleware.TimezoneMiddleware',
 ]
 
-PAYPAL_TEST = True
+# PAYPAL_TEST = True
 
 
 # root url sets the main routing file. those then refer to the other url docs

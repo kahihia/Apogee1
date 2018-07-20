@@ -17,9 +17,7 @@ from django.views.generic import (
 from .forms import PartyModelForm
 from .mixins import FormUserNeededMixin, UserOwnerMixin
 from .models import Party
-from django.core.urlresolvers import reverse
-from django.shortcuts import render
-from paypal.standard.forms import PayPalPaymentsForm
+
 
 # Create your views here.
 
