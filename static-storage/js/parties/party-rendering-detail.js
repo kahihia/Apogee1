@@ -155,19 +155,19 @@ function renderPartyList(partyContainerID){
     // for the title and description, and a footer for name, time, 
     // event type, and star
     let container =  
-    '<div class="card" style="max-width: 16rem;">' + 
-      '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
+    '<div class="card home-card col-xs-12 col-md-4 col-lg-4 col-xl-3"' + 
+      '<a class="text-light" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
         '<img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
       '</a>' +
       '<div class="card-body">' + 
-        '<a class="text-dark" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
+        '<a class="text-light" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
           '<h5 class="card-title">' + partyValue.short_title + closed_display + '</h5>' + 
           '<p class="card-text"><span class="description">' + partyValue.short_description + '</span></p>' + 
         '</a>' +
       '</div>' + 
       '<div class="card-footer">' + 
         '<small class="text-muted">With ' + 
-          '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a>' + 
+          '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a>' + 
           '<span class="float-right">' + price + ' ' + type_icon + '</span>' +
           '<br>' + partyValue.party_time_display + 
         '</small>' + 
