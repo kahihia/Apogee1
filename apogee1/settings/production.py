@@ -31,9 +31,9 @@ SECRET_KEY = config('SECRET_KEY')
 #HEROKU 
 #DEBUG = True
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['apogee1.herokuapp.com', 'apogee.gg']
+ALLOWED_HOSTS = ['.apogee.gg']
 
-#
+#'apogee1.herokuapp.com',
 AWS_QUERYSTRING_AUTH = False
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
