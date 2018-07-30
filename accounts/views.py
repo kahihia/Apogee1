@@ -38,7 +38,6 @@ class UserRegisterView(FormView):
         print(recaptcha_response)
         url = 'https://www.google.com/recaptcha/api/siteverify'
         values = {
-        #'secret': '6Lf-zFcUAAAAAE1JPNccVx2u9bCQEJhES-czlNhE',
         'secret': config('CAPTCHA_SECRET_KEY'),
         'response': recaptcha_response
         }
