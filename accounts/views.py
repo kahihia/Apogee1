@@ -45,7 +45,6 @@ class UserRegisterView(FormView):
         req =  urllib.request.Request(url, data=data)
         response = urllib.request.urlopen(req)
         result = json.loads(response.read().decode())
-        send_mail('Subject here', 'Here is the message.', 'apogee@apogee.gg', ['malek@apogee.gg'], fail_silently=False)
         if result['success']:
             #Set this config variable to TRUE on heroku to enable account registration
             captcha_good = config('ALLOW_REGISTRATION')
