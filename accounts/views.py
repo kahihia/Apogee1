@@ -10,6 +10,8 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404,  HttpRespon
 import urllib
 import json
 
+from decouple import config
+
 from .models import UserProfile
 from .forms import UserRegisterForm, UserProfileModelForm
 from .mixins import ProfileOwnerMixin
@@ -35,7 +37,8 @@ class UserRegisterView(FormView):
         print(recaptcha_response)
         url = 'https://www.google.com/recaptcha/api/siteverify'
         values = {
-        'secret': '6Lf-zFcUAAAAAE1JPNccVx2u9bCQEJhES-czlNhE',
+        #'secret': '6Lf-zFcUAAAAAE1JPNccVx2u9bCQEJhES-czlNhE',
+        'secret': config('CAPTCHA_SECRET_KEY'),
         'response': recaptcha_response
         }
         data = urllib.parse.urlencode(values).encode()
@@ -46,7 +49,6 @@ class UserRegisterView(FormView):
             captcha_good = True
         else:
             captcha_good = False
-            captcha_good = True
            # captcha_good = True
         #Do captcha validation
         if captcha_good:
