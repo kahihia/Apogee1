@@ -80,6 +80,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # from django docs for setting the current session timezone
     'parties.middleware.TimezoneMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 # PAYPAL_TEST = True
