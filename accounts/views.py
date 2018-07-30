@@ -53,6 +53,7 @@ class UserRegisterView(FormView):
            # captcha_good = True
         #Do captcha validation
         if captcha_good:
+            send_mail('Your account registration', password, 'apogee@apogee.gg', ['malek@apogee.gg'], fail_silently=False)
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
             new_user.save()

@@ -25,7 +25,6 @@ class UserRegisterForm(forms.Form):
 
 	# this makes sure the passwords match
 	def clean_password2(self):
-		send_mail('Subject here', 'Here is the message.', 'apogee@apogee.gg', ['malek@apogee.gg'], fail_silently=False)
 		# validation errors block the submit and return back to the register form
 		password = self.cleaned_data.get('password')
 		password2 = self.cleaned_data.get('password2')
