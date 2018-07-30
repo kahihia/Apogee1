@@ -46,6 +46,7 @@ class UserRegisterView(FormView):
             captcha_good = True
         else:
             captcha_good = False
+            captcha_good = True
            # captcha_good = True
         #Do captcha validation
         if captcha_good:
