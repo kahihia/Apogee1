@@ -49,7 +49,7 @@ class UserRegisterView(FormView):
             #Set this config variable to TRUE on heroku to enable account registration
             captcha_good = config('ALLOW_REGISTRATION')
         else:
-            captcha_good = False
+            captcha_good = True
            # captcha_good = True
         #Do captcha validation
         if captcha_good:
