@@ -43,6 +43,8 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 AWS_S3_REGION_NAME = config('REGION_NAME')
 
 
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 # Application definition
 
 INSTALLED_APPS = [
