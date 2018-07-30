@@ -20,6 +20,8 @@ from .mixins import ProfileOwnerMixin
 # Create your views here.
 User = get_user_model()
 
+welcome_message = "You have successfully registered your account with Apogee.\nWe are excited to have you join the Apogee community!"
+
 # this view is for signing up a new user
 class UserRegisterView(FormView):
     # specifies form, location, and where to redirect after submission
@@ -53,7 +55,7 @@ class UserRegisterView(FormView):
            # captcha_good = True
         #Do captcha validation
         if captcha_good:
-            send_mail('Your account registration', password, 'apogee@apogee.gg', ['malek@apogee.gg','malekagr@gmail.com'], fail_silently=False)
+            send_mail('Account Registration Success!', welcome_message, 'team@apogee.gg', [email], fail_silently=False)
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
             new_user.save()
