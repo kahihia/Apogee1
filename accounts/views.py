@@ -46,7 +46,7 @@ class UserRegisterView(FormView):
         response = urllib.request.urlopen(req)
         result = json.loads(response.read().decode())
         if result['success']:
-            captcha_good = True
+            captcha_good = False
         else:
             captcha_good = False
            # captcha_good = True
