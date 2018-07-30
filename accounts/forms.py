@@ -28,10 +28,10 @@ class UserRegisterForm(forms.Form):
 		password = self.cleaned_data.get('password')
 		password2 = self.cleaned_data.get('password2')
 		if len(password) < 7:
-			raise forms.ValidationError('Passwords must be longer than 7 characters.')
-		first_isalpha = password1[0].isalpha()
-        if all(c.isalpha() == first_isalpha for c in password1):
-            raise forms.ValidationError('Password must contain one letter and one number.')
+			raise forms.ValidationError('Passwords must be at least 8 characters.')
+		# first_isalpha = password1[0].isalpha()
+  #       if all(c.isalpha() == first_isalpha for c in password1):
+  #           raise forms.ValidationError('Password must contain one letter and one number.')
 		if password != password2:
 			raise forms.ValidationError('Passwords must match.')
 		return password
