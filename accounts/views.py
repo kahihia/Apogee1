@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseNotFound, Http404,  HttpResponseRedirect
 import urllib
 import json
+from django.core.mail import send_mail
 
 from decouple import config
 
@@ -46,12 +47,14 @@ class UserRegisterView(FormView):
         response = urllib.request.urlopen(req)
         result = json.loads(response.read().decode())
         if result['success']:
-            captcha_good = False
+            #Set this config variable to TRUE on heroku to enable account registration
+            captcha_good = config('ALLOW_REGISTRATION')
         else:
             captcha_good = False
            # captcha_good = True
         #Do captcha validation
         if captcha_good:
+            send_mail('Subject here', 'Here is the message.', 'apogee@apogee.gg', ['malekagr@gmail.com'], fail_silently=False)
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
             new_user.save()

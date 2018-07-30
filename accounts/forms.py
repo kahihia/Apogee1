@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.conf import settings
 from .models import UserProfile
+from django.core.mail import send_mail
 
 # this is the base user model in django
 User = get_user_model()
