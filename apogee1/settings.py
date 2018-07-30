@@ -41,7 +41,7 @@ MEDIA_URL = 'http://%s.s3.amazonaws.com/thumbnails/' % AWS_STORAGE_BUCKET_NAME
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 AWS_S3_REGION_NAME = config('REGION_NAME')
 
-SECURE_SSL_REDIRECT = True
+
 # Application definition
 
 INSTALLED_APPS = [
