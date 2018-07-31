@@ -4,7 +4,8 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 
 from .models import Party
-
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 
 class PartyModelForm(forms.ModelForm):
 	# the altered form fields are for formatting on the create page
@@ -76,6 +77,16 @@ class PartyModelForm(forms.ModelForm):
 			raise forms.ValidationError('Event cannot be in the past.')
 		return party_time
 
+	def clean_upload(self):
+		print("clean_upload")
+		upload = self.cleaned_data.get('thumbnail')
+		conn = S3Connection(config('AWS_ACCESS_KEY_ID'), config('AWS_SECRET_ACCESS_KEY'))
+		bucket = conn.get_bucket(config('S3_BUCKET_NAME'))
+		k = Key(bucket)
+		k.key = self.id # for example, 'images/bob/resized_image1.png'
+		upload.name="hey you"
+		k.set_contents_from_file(upload)
+		#k.set_contents_from_file(resized_photo)
 	# ensures that the event cannot have more winners than entrants. 
 	# has to be called on the second field because the second field isnt 
 	# processed yet if its called on the first
