@@ -1,0 +1,87 @@
+<!-- this HTML governs the navbar that is present on every single page
+it's imported into base, which is then imported into almost every single page -->
+<!-- the navbar itself if based almost entirely on the bootstrap navbar template -->
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+  <!-- fluid makes the navbar expand continuously with the page, not at break points -->
+  <div class='container-fluid'>
+    <!-- brand refers to the big name that links to the home page -->
+    <a class="navbar-brand ml-3" href="{% url 'home' %}">Apogee</a>
+
+    <!-- this button is for when the navbar is small enough to collapse. 
+    it turns into this button, which is from bootstrap -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- this holds the remaining portion of the navbar. it is in the 
+    collapse class so that the button knows what information and buttons are being collapsed -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <!-- this is the search bar from parties -->
+      
+
+      <!-- these are the items on far right of the bar when logged in -->
+      {% if request.user.is_authenticated %}
+      <!-- Search bar only shows up for authenticated users -->
+      {% include 'parties/search_form.html' %}
+      <!-- url calls are built on django -->
+      <ul class="navbar-nav ml-auto">
+        <!-- if the request user has a new notification, display the ding -->
+        {% if request.user.profile.new_notifications == True %}
+        <li class="nav-item mx-3" id="new-notification-ding">
+          <a class="nav-link" href="{% url 'notifications:list' %}">Notifications 
+            <span class="badge badge-pill badge-danger">!</span>
+          </a>
+        </li>
+        {% else %}
+        <li class="nav-item mx-3">
+          <a class="nav-link" href="{% url 'notifications:list' %}">Notifications</a>
+        </li>
+        {% endif %}
+
+        <!-- link to following page -->
+        <li class="nav-item mx-3">
+          <a class="nav-link" href="{% url 'parties:following-list' %}">Following</a>
+        </li>
+        <!-- link to starred events -->
+        <li class="nav-item mx-3">
+          <a class="nav-link" href="{% url 'parties:starred-list' %}">Starred</a>
+        </li>
+        <!-- link to joined events -->
+        <li class="nav-item mx-3">
+          <a class="nav-link" href="{% url 'parties:joined-list' %}">Joined</a>
+        </li>
+        <!-- profile dropdown menu -->
+        <li class="nav-item dropdown mx-3">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Account
+          </a>
+          <!-- this contains the dropdown items -->
+          <!-- first is requestusers profile -->
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ request.user.profile.get_absolute_url }}">Profile</a>
+            <!-- second is the time settings -->
+            <a class="dropdown-item" href="{% url 'statistics:list' %}">Stats</a>
+            <!-- third is the time settings -->
+            <a class="dropdown-item" href="{% url 'set_timezone' %}">Settings</a>
+            <!-- fourth is the logout function -->
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+          </div>
+        </li>
+      </ul>
+      <!-- items on far right of the bar when not logged in -->
+      <!-- it only contains an option to login or register -->
+      {% else %}
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}">Register</a>
+        </li>
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</nav>

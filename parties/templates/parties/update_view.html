@@ -1,0 +1,20 @@
+<!-- this is the same exact thing as the create view, just with different 
+button text -->
+{% extends 'base.html' %}
+
+<!-- tab title -->
+{% block title %}
+	Update Event | {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+<div class='row'>
+	<!-- centers the content -->
+	<div class='col-sm-8 offset-sm-2 mt-3'>
+		<!-- brings in the create/update form. because it is custom, it
+		doesnt use the crispy formatting or the normal django form call.
+		it directly imports a html file -->
+		{% include "parties/form.html" with form_id='party-form' form=form btn_title="Update" %}
+	</div>
+</div>
+{% endblock content %}

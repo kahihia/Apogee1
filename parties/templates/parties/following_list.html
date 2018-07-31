@@ -1,0 +1,67 @@
+<!-- this is the html for the "following" tab. it includes a list
+of usernames and a lidt of events -->
+{% extends 'base.html' %}
+<!-- {% load static %} -->
+
+<!-- sets the tab info -->
+{% block title %}
+	Following | {{ block.super }}
+{% endblock title %}
+
+<!-- contains our custom JS -->
+{% block script %}
+<script src='{% static "js/parties/party-rendering-detail.js"%}'></script>
+<script>
+	// runs when page DOM is ready
+	$(document).ready(function(){
+		// tells us where the thumbnails go
+		loadPartyListContainer('follow-container')
+	});
+</script>
+{% endblock script %}
+
+<!-- contains our custom html and django stuff -->
+{% block content %}
+<div class='row'>
+	<!-- left side column -->
+	<div class='col-sm-3 grey-background'>
+		<!-- separated so that the background wont follow the right columns length -->
+		<div class='col-sm-12 mt-3'>
+			<h1>Following</h1><hr>
+		</div>
+		<div class='col-sm-12'>
+			<!-- through user, calls who they follow.
+			this gets actual user instances -->
+			{% for user in request.user.profile.get_following %}
+			<p class='mb-3'>
+				<a class='text-dark' href='/profiles/{{ user.username }}'>
+					{% if user.profile.profile_picture %}
+					<img src='{{ user.profile.profile_picture.url }}' class="rounded-circle float-left" style='max-height: 30;'>
+					{% else %}
+					<!-- this is a blank profile pic, cause we at least need the circle to show. it only shows if the user doesnt have a profile-->
+					<img src='/media/profile_pics/blank_profile.png' class="rounded-circle float-left" style='max-height: 30;'>
+					{% endif %}
+					<span class='ml-1'>{{ user.username }}</span>
+				</a>
+			</p>
+			{% empty %}
+				<p>Not following anyone</p>
+			{% endfor %}
+		</div>
+	</div>
+	<div class='col-sm-9 mt-3'>
+		<!-- title for the following section -->
+		<h1>Events</h1><hr>
+		<!-- this holds all of our JS rendered stuff -->
+		<!-- the id and dataurl are set so that the base render function can 
+		get the appropriate info from them -->
+		<div class='ml-1' id='follow-container' data-url='/api/events/'></div>
+
+		<!-- this is our load more button for the pagination -->
+		<button type="button" class="btn btn-outline-secondary btn-block" id='loadmore'>Show More Events</button>
+		<!-- this lists the load button off of the bottom -->
+		<br><p></p>
+
+	</div>
+</div>
+{% endblock content %}

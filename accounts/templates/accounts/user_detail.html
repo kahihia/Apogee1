@@ -1,0 +1,144 @@
+<!-- This is the profile page for an individual user -->
+{% extends 'base.html' %}
+{% load recommended %}
+<!-- {% load static %} -->
+{% block title %}
+	{{ object.username }} | {{ block.super }}
+{% endblock title%}
+
+<!-- contains our custom JS -->
+{% block script %}
+<script src='{% static "js/parties/party-rendering-detail.js"%}'></script>
+<script>
+	// runs when page DOM is ready
+	$(document).ready(function(){
+		// tells us where the thumbnails go
+		loadPartyListContainer('party-container')
+	});
+</script>
+{% endblock script %}
+
+
+{% block content %}
+<!-- this div contains only the banner photo -->
+<div class='row grey-background'>
+	<div class='col-sm-10 offset-sm-1'>
+		<!-- object refers to the user object passed into the view. profile is the model connected to the user model -->
+		{% if object.profile.banner %}
+		<!-- the image source refers to the url property of the banner image in the profile of the user object. the url property is automatically created for any django imageField -->
+		<img src='{{ object.profile.banner.url }}' class='img-fluid rounded mx-auto d-block' style='max-height: 350;'>
+		{% else %}
+		<!-- this is if we want a blank banner, but right now it just doesnt display if there isnt a banner -->
+		<!-- <img src='/media/banners/blank_banner.png' class='img-fluid rounded mx-auto d-block' style='max-height: 350;'> -->
+		{% endif %}
+	</div>
+</div>
+<!-- this contains profile info, like picture, name, bio, etc -->
+<div class='row grey-background'>
+	<div class='col-sm-2 offset-sm-1 my-3'>
+		{% if object.profile.profile_picture %}
+		<img src='{{ object.profile.profile_picture.url }}' class="img-thumbnail rounded-circle float-left" style='max-height: 150;'>
+		{% else %}
+		<!-- this is a blank profile pic, cause we at least need the circle to show. it only shows if the user doesnt have a profile-->
+		<img src='/media/profile_pics/blank_profile.png' class="img-thumbnail rounded-circle float-left" style='max-height: 150;'>
+		{% endif %}
+	</div>
+	<div class='col-sm-6 my-3'>
+		<h2>{{ object.username }}</h2>
+		<p>{{ object.profile.bio }}</p>
+		<div class='row'>
+			<div class='col-sm-4'>
+				<!-- gives the number of followers OF a user. normally this would come from user.profile, but the profile has the followers attribute. its a many to many field with the user model, not other profiles. that means that followed by is the reverse call and is called on the user model, not the profile -->
+				<p>{{ object.followed_by.all.count }} <small>Followers</small></p>
+			</div>
+			<div class='col-sm-4'>
+				<!-- this returns the number of followers the object user has. its a property on the profile object. Followed_by is the reverse -->
+				<p>{{ object.profile.get_following.count }} <small>Following</small></p>
+			</div>
+			<div class='col-sm-4'>
+				<!-- this just returns how many events the user has created -->
+				<p>{{ object.profile.event_count.count }} <small>Events</small></p>
+			</div>	
+		</div>
+	</div>
+	<!-- This controls the follow button appearance. the actual toggle is a method on the userprofile model -->
+	<div class='col-sm-2 my-3 text-right'>
+		{% if object == request.user %}
+		<!-- no follow button if its your own profile -->
+		{% elif blocking %}
+		<!-- this is the follow button. if youre blocking
+		it says so. if youre blocked, it says so. otherwise, follow button -->
+		<small class='text-muted'>User blocked</small>
+		{% elif blocked %}
+		<!-- theres no follow button if youre blocked -->
+		{% else %}
+		<a class='btn btn-outline-secondary mr-auto' href='{{ object.profile.get_follow_url }}'>
+			<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
+			{% if following %}Unfollow{% else %}Follow{% endif %}
+		</a>
+		{% endif %}
+		
+		<!-- this is the user settings menu -->
+		<div class="dropdown mt-2">
+			<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    	<i class="fas fa-cog fa-lg mr-2 grey-color"></i>
+			</button>
+			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+				{% if object == request.user %}
+				<a class="dropdown-item" href="{{ request.user.profile.get_edit_url }}">Edit Profile</a>
+				{% else %}
+					{% if blocking %}
+					<a class="dropdown-item" href='{{ object.profile.get_block_url }}'>Unblock {{ object.username }}</a>
+					{% else %}
+					<a class="dropdown-item" data-toggle="modal" data-target="#blockModal">Block {{ object.username }}</a>
+					{% endif %}
+				{% endif %}
+			</div>
+		</div>
+
+		<!-- this is the block confirm modal -->
+		<div class="modal fade" id="blockModal" tabindex="-1" role="dialog" aria-labelledby="blockModalTitle" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="blockModalTitle">Block {{ object.username }}?</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body text-left">
+		        <p>Blocking <strong>{{ object.username }}</strong> will prevent them from seeing and participating in your events.</p>
+		      </div>
+		      <div class="modal-footer">
+		        <a class="btn btn-outline-danger btn-block" href='{{ object.profile.get_block_url }}'>
+		        	Block
+		    	</a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</div>
+
+<!-- this contains the actual events -->
+<div class='row mt-5'>
+	<div class='col-sm-8 offset-sm-2'>
+		{% if blocked %}
+		<p class='text-muted text-center'>{{object.username}} has blocked you from viewing events.</p>
+		{% else %}
+		<!-- this holds all of our JS rendered stuff -->
+		<!-- the id and dataurl are set so that the base render function can 
+		get the appropriate info from them -->
+		<div class='ml-1' id='party-container' data-url='/api/{{ user.username }}/events/'></div>
+
+		<!-- this is our load more button for the pagination. loadmore is a method specified in the JS from base.html -->
+		<button type="button" class="btn btn-outline-secondary btn-sm btn-block" id='loadmore'>Show More Events</button>
+		<!-- this lists the load button off of the bottom -->
+		<br><p></p>	
+		{% endif %}	
+	</div>	
+</div>
+{% endblock content %}
+
+
+
