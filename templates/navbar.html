@@ -16,7 +16,7 @@
     <div class="order-1 order-lg-1" id="navbarToggler">
 
         <form id='navbar-search-form' class="input-group m-2 my-lg-0 col-lg-12 mr-xs-2 nav-search-field" method='GET' action='{% url "search" %}'>
-              <input type="text" class="no-border no-shadow no-bg typeahead tt-input" placeholder='Search...' value='{{ request.GET.q }}' autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;">
+              <input type="text" class="no-border no-shadow no-bg typeahead tt-input" name='q' placeholder='Search...' value='{{ request.GET.q }}' autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;">
               <!-- <button type="submit" class="btn btn-primary-new my-2 my-sm-0">Submit</button> -->
         </form>
     </div>
