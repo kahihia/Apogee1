@@ -6,6 +6,9 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
+# from django.core.urlresolvers import reverse
+# from django.shortcuts import render
+# from paypal.standard.forms import PayPalPaymentsForm
 from django.views.generic import (
 		ListView, 
 		DetailView, 
@@ -17,7 +20,10 @@ from django.views.generic import (
 from .forms import PartyModelForm
 from .mixins import FormUserNeededMixin, UserOwnerMixin
 from .models import Party
+
+
 # Create your views here.
+
 
 
 # userownermixin doesnt work here. it only works on the update view 
@@ -72,6 +78,25 @@ class PartyDetailView(LoginRequiredMixin, DetailView):
 class PartyListView(LoginRequiredMixin, ListView):
 	def get_queryset(self, *args, **kwargs):
 		qs = Party.objects.all()
+		def view_that_asks_for_money(request):
+
+		    # What you want the button to do.
+		    paypal_dict = {
+		        "business": "receiver_email@example.com",
+		        "amount": "10000000.00",
+		        "item_name": "name of the item",
+		        "invoice": "unique-invoice-id",
+		        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+		        "return": request.build_absolute_uri(reverse('your-return-view')),
+		        "cancel_return": request.build_absolute_uri(reverse('your-cancel-view')),
+		        "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
+		    }
+
+		    # Create the instance.
+		    form = PayPalPaymentsForm(initial=paypal_dict)
+		    context = {"form": form}
+		    return render(request, "payment.html", context)
+
 		# currently unused because the search goes to a different view
 		# this return the string form of the search passed into the url
 		# query = self.request.GET.get('q', None)
