@@ -12,6 +12,9 @@
     "AWS_SECRET_ACCESS_KEY": {
       "required": true
     },
+    "CAPTCHA_OFF": {
+      "required": true
+    },
     "CAPTCHA_SECRET_KEY": {
       "required": true
     },
