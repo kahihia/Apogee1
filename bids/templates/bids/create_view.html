@@ -1,8 +1,0 @@
-{% include "bids/form.html" with form=create_form action=create_url btn_title='bid'%}
-
-{% for obj in object_list %}
-	{{obj.bid_amount}}
-	 by 
-	 {{obj.user}}
-	<br/>
-{% endfor %}

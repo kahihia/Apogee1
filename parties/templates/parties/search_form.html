@@ -1,6 +1,0 @@
-<!-- this is the search form in the navbar -->
-<form id='navbar-search-form' class="form-inline my-2 my-lg-0 mx-auto" method='GET' action='{% url "search" %}'>
-	<!-- value keeps the search term in the search bar after submitting -->
-	<input class="form-control mr-sm-2" type='text' name='q' placeholder='Your search' value='{{ request.GET.q }}'>
-	<button type="submit" class="btn btn-outline-secondary my-2 my-sm-0">Search</button>
-</form>
