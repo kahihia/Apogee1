@@ -11,4 +11,5 @@ def email(subject, from_email, to_emails, template, email_data):
 	text_content = 'Your mail client does not support HTML, you should probably move to one that does! In the meantime you have important messages on Apogee.'
 	msg = EmailMultiAlternatives(subject, text_content, from_email, [to_emails])
 	msg.attach_alternative(html_content, "text/html")
+	msg.attach_alternative(text_content, "text/plain")
 	msg.send()
