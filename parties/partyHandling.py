@@ -39,8 +39,6 @@ max_acceptable_bid = 99999.99
 def event_is_closed():
 	return {'added':False, 'error_message':"Event is closed"}
 
-
-
 #Returns dict with event information
 #error = insufficient funds
 #joined = False
@@ -191,7 +189,6 @@ def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 def bid_bid_too_low():
 	return{'added':False, 'error_message':"You must beat the minimum bid"}
 
-
 ############################ END BID FUNCTIONS #################################
 
 ################################################################################
@@ -199,7 +196,6 @@ def bid_bid_too_low():
 ################################################################################
 
 ########################## FUNCTIONS USED BY API ###############################
-
 
 # this both adds or removes the user and tells us if they're on it
 def star_toggle(user, party_obj):
@@ -307,7 +303,7 @@ def buyout_add(user, party_obj):
 		event_info = event_user_already_in_event(party_obj)
 	#if user does not have enough money in their account
 	#returns dict with joined=false and error_message
-	elif user.account_balance<party_obj.cost:
+	elif user.profile.account_balance<party_obj.cost:
 		event_info = event_insufficient_funds()
 	# if the party has reached its max cap
 	# returns dict with added = False and error_message
@@ -372,7 +368,7 @@ def bid_add(user, party_obj, bid):
 	#bid must beat the current minimum_bid
 	#if user does not have enough money in their account
 	#returns dict with joined=false and error_message
-	elif user.account_balance<bid:
+	elif user.profile.account_balance<bid:
 		event_info = event_insufficient_funds()
 	elif not bid:
 		event_info = bid_bid_too_low()
