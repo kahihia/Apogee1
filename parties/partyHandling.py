@@ -83,6 +83,8 @@ def lottery_add_user(user,party_obj):
 	statisticsfunctions.lottery_update_join_stats(party_obj)
 	popularityHandling.lottery_popularity_join(party_obj)
 	party_obj.joined.add(user)
+	user.profile.account_balance-=party_obj.cost
+	user.save()
 	return {'added':True, 'error_message':""}
 #Ends the lottery event
 #1.Party that is passed to it has its joined list shuffled
@@ -121,11 +123,11 @@ def buyout_add_user(user, party_obj):
 	statisticsfunctions.buyout_update_join_stats(party_obj)
 	party_obj.winners.add(user)
 	party_obj.joined.add(user)
+	user.profile.account_balance-=party_obj.cost
+	user.save()
 	#Creating a notification for the user on buyout win
-	print("Creating Notifiaction for buyout win on buyout click")
 	Notification.objects.create(user=user, party=party_obj,\
 	action="fan_win")
-	print("Notification Created")
 	return {'added':True, 'error_message':""}
 #Ends the buyout event
 #1. event that is passed is closed
@@ -146,8 +148,8 @@ def bid_add_user_when_open_spots(party_obj, bid, user):
 	statisticsfunctions.bid_update_join_stats(party_obj)
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
-	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+\
-	" from open slot")
+	user.profile.account_balance-=bid
+	user.save()
 	return{'added':True, 'error_message':""}
 
 def bid_get_min_bid_number(party_obj):
@@ -172,7 +174,8 @@ def bid_get_min_bid_object(party_obj):
 def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	popularityHandling.bid_popularity_join(party_obj)
 	statisticsfunctions.bid_update_join_stats(party_obj)
-	print("Removing smallest bid by: "+str(min_bid.user))
+	user.profile.account_balance-=bid
+	user.save()
 	Bid.objects.filter(pk=min_bid.pk).delete()
 	# notifies the lowest bidder that they have been knocked off
 	Notification.objects.create(user=min_bid.user, party=party_obj,\
@@ -180,8 +183,6 @@ def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	party_obj.joined.remove(min_bid.user)
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
-	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+\
-	" from winning slot")
 	party_obj.minimum_bid = bid_get_min_bid_number(party_obj)
 	party_obj.save2(update_fields=['minimum_bid'])
 	return{'added':True, 'error_message':""}
