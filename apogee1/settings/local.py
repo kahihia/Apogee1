@@ -49,8 +49,7 @@ EMAIL_HOST_PASSWORD = 'f44c2ec0910495b35f830b5bc2aafd584fbaa3a6'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
 CSRF_COOKIE_SECURE = True
 # Application definition
 
