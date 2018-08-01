@@ -251,9 +251,8 @@ def lottery_add(user, party_obj):
 		event_info = event_user_already_in_event(party_obj)
 	#if user does not have enough money in their account
 	#returns dict with joined=false and error_message
-	elif user.account_balance<party_obj.cost:
-		loopcarar=0
-		#event_info = event_insufficient_funds()
+	elif user.profile.account_balance<party_obj.cost:
+		event_info = event_insufficient_funds()
 	# If there is no cap on how many users can enter the party
 	# add user to joined list
 	# returns dict with joined = True and error_message
