@@ -50,7 +50,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)
 CSRF_COOKIE_SECURE = True
 # Application definition
 
