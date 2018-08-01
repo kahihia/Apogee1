@@ -1,4 +1,4 @@
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 
 def email(subject, from_email, to_emails, template, email_data):
