@@ -125,7 +125,7 @@ def buyout_add_user(user, party_obj):
 	party_obj.joined.add(user)
 	curr_balance = user.profile.account_balance - party_obj.cost
 	user.profile.account_balance = curr_balance
-	user.save()
+	user.profile.save(update_fields=['account_balance'])
 	#Creating a notification for the user on buyout win
 	Notification.objects.create(user=user, party=party_obj,\
 	action="fan_win")
