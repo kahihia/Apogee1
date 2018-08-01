@@ -51,8 +51,8 @@ def pick_winner(party_id):
 			#add winners in
 			for i in winners:
 				partyHandling.win_toggle(i, party)
-	            email_data = {'username': winner.username}
-	            emailer.email(winner_text, 'team@apogee.gg', [winner.email], 'winner_email.html', email_data)
+				email_data = {'username': winner.username}
+				emailer.email(winner_text, 'team@apogee.gg', [winner.email], 'winner_email.html', email_data)
 			statisticsfunctions.bid_update_end_stats(party)
 		elif party.event_type==3 and party.is_open:
 			print("Buyout event is over")	
@@ -79,8 +79,8 @@ def pick_winner(party_id):
 		for n in notification_list:
 			Notification.objects.create(user=n, party=party,\
 			action="fan_reminder")
-            email_data = {'username': n.username}
-            emailer.email(reminder_text.format(party.user.username), 'team@apogee.gg', [n.email], 'event_reminder_email.html', email_data)
+			email_data = {'username': n.username}
+			emailer.email(reminder_text.format(party.user.username), 'team@apogee.gg', [n.email], 'event_reminder_email.html', email_data)
 	Notification.objects.create(user=party.user, party=party,\
 	action="owner_reminder")
 
