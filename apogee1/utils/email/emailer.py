@@ -8,6 +8,7 @@ def email(subject, from_email, to_emails, template, email_data):
 	"""
 	template = get_template('emails/' + template)
 	html_content = template.render(email_data)
-	msg = EmailMessage(subject, html_content, from_email, to_emails)
-	msg.content_subtype = "html"
+	text_content = 'Your mail client does not support HTML, you should probably move to one that does! In the meantime you have important messages on Apogee.'
+	msg = EmailMultiAlternatives(subject, text_content, from_email, [to_emails])
+	msg.attach_alternative(html_content, "text/html")
 	msg.send()
