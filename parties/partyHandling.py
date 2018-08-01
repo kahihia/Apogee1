@@ -39,6 +39,14 @@ max_acceptable_bid = 99999.99
 def event_is_closed():
 	return {'added':False, 'error_message':"Event is closed"}
 
+
+
+#Returns dict with event information
+#error = insufficient funds
+#joined = False
+def event_insufficient_funds():
+	return {'added':False, 'error_message':"Your account has insufficient funds for this event"}	
+
 #Returns dict with event information
 #error = user already in event
 #added = False
@@ -241,6 +249,10 @@ def lottery_add(user, party_obj):
 	# = You have already joined this event
 	elif user in party_obj.joined.all():
 		event_info = event_user_already_in_event(party_obj)
+	#if user does not have enough money in their account
+	#returns dict with joined=false and error_message
+	elif user.account_balance<party_obj.cost:
+		event_info = event_insufficient_funds()
 	# If there is no cap on how many users can enter the party
 	# add user to joined list
 	# returns dict with joined = True and error_message
@@ -293,6 +305,10 @@ def buyout_add(user, party_obj):
 	# = You have bought this event
 	elif user in party_obj.winners.all():
 		event_info = event_user_already_in_event(party_obj)
+	#if user does not have enough money in their account
+	#returns dict with joined=false and error_message
+	elif user.account_balance<party_obj.cost:
+		event_info = event_insufficient_funds()
 	# if the party has reached its max cap
 	# returns dict with added = False and error_message
 	# = This event is already at max capacity
@@ -338,15 +354,10 @@ def bid_add(user, party_obj, bid):
 		'error_message':"Bid value too large"}
 
 	bid = math.floor(bid*100)/100
-
-
-	print("bid_add:")
-	print(bid)
 	# If party is closed
 	# returns dict with added = False and error_message
 	# = Event is closed
 	if not party_obj.is_open:
-		print("Party closed - bid")
 		event_info = event_is_closed()
 	# If user has been banned by event owner
 	# returns dict with joined = False and error_message
@@ -357,14 +368,15 @@ def bid_add(user, party_obj, bid):
 	# returns dict with added = False and error_message 
 	# = You have already bid on this event
 	elif user in party_obj.joined.all():
-		print("Already in party - bid")
 		event_info = event_user_already_in_event(party_obj)
 	#bid must beat the current minimum_bid
+	#if user does not have enough money in their account
+	#returns dict with joined=false and error_message
+	elif user.account_balance<bid:
+		event_info = event_insufficient_funds()
 	elif not bid:
-		print("Bid doesn't exist - bid")
 		event_info = bid_bid_too_low()
 	elif bid <= party_obj.minimum_bid:
-		print("Bid is too low - bid")
 		event_info = bid_bid_too_low()
 	# If there are still slots available
 	# add user to joined list
