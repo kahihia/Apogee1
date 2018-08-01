@@ -123,7 +123,8 @@ def buyout_add_user(user, party_obj):
 	statisticsfunctions.buyout_update_join_stats(party_obj)
 	party_obj.winners.add(user)
 	party_obj.joined.add(user)
-	user.profile.account_balance-=party_obj.cost
+	curr_balance = user.profile.account_balance - party_obj.cost
+	user.profile.account_balance = curr_balance
 	user.save()
 	#Creating a notification for the user on buyout win
 	Notification.objects.create(user=user, party=party_obj,\
