@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Welcome!</title>
-</head>
-<body>
+{% extends 'emails/base_email.html' %}
+
+{% block title %}
+    {{ block.super }} | Welcome
+{% endblock title %}
+
+{% block content %}
 	<h1>Welcome to Apogee!</h1>
-	<p>Thanks for signing up {{ username }}!</p>
-</body>
-</html>
+	<p>Thanks for signing up {{ username }}, if this email was sent to you by mistake or you did not sign up for apogee please disregard.</p>
+	{% include 'emails/email_footer.html' %}
+{% endblock content %}
+

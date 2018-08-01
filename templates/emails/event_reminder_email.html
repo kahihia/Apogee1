@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Reminder</title>
-</head>
-<body>
+{% extends 'base_email.html' %}
+
+{% block title %}
+    {{ block.super }} | Welcome
+{% endblock title %}
+
+{% block content %}
 	<h1>Just a reminder</h1>
 	<p>Your meetup with {{ creator }} is at {{ event_time }}.</p>
-</body>
-</html>
+{% endblock content %}
+
+{% include 'email_footer.html' %}

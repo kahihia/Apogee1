@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Congrats!</title>
-</head>
-<body>
+{% extends 'base_email.html' %}
+
+{% block title %}
+    {{ block.super }} | Welcome
+{% endblock title %}
+
+{% block content %}
 	<h1>You've won an event with {{creator}}!</h1>
 	<p>You're event is on {{ date }} with {{creator}}!</p>
-</body>
-</html>
+{% endblock content %}
+
+{% include 'email_footer.html' %}

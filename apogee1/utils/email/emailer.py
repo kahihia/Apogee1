@@ -1,5 +1,6 @@
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
+from random import randint
 
 def email(subject, from_email, to_emails, template, email_data):
 	""" Utility email function
@@ -8,7 +9,8 @@ def email(subject, from_email, to_emails, template, email_data):
 	"""
 
 	template = get_template('emails/' + template)
+	email_data['email'] = ''.join(to_emails)
 	html_content = template.render(email_data)
-	msg = EmailMessage(subject, html_content, from_email, to_emails)
+	msg = EmailMessage(subject, html_content, from_email, to_emails, headers={'Precedence': 'bulk'})
 	msg.content_subtype = "html"
 	msg.send()
