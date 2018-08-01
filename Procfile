@@ -1,4 +1,4 @@
-release: ./post_deploy.sh
+release: bash ./post_deploy.sh
 
 web: gunicorn apogee1.wsgi.py
 web: python manage.py runserver 0.0.0.0:$PORT
