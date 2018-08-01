@@ -18,7 +18,7 @@ it's imported into base, which is then imported into almost every single page --
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
       <!-- this is the search bar from parties -->
-      {{request.user.profile.account_balance}}
+
 
       <!-- these are the items on far right of the bar when logged in -->
       {% if request.user.is_authenticated %}
@@ -26,6 +26,7 @@ it's imported into base, which is then imported into almost every single page --
       {% include 'parties/search_form.html' %}
       <!-- url calls are built on django -->
       <ul class="navbar-nav ml-auto">
+              {{request.user.profile.account_balance}}
         <!-- if the request user has a new notification, display the ding -->
         {% if request.user.profile.new_notifications == True %}
         <li class="nav-item mx-3" id="new-notification-ding">
