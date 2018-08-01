@@ -83,8 +83,9 @@ def lottery_add_user(user,party_obj):
 	statisticsfunctions.lottery_update_join_stats(party_obj)
 	popularityHandling.lottery_popularity_join(party_obj)
 	party_obj.joined.add(user)
-	user.profile.account_balance-=party_obj.cost
-	user.save()
+	curr_balance = user.profile.account_balance - party_obj.cost
+	user.profile.account_balance = curr_balance
+	user.profile.save(update_fields=['account_balance'])
 	return {'added':True, 'error_message':""}
 #Ends the lottery event
 #1.Party that is passed to it has its joined list shuffled
@@ -149,8 +150,9 @@ def bid_add_user_when_open_spots(party_obj, bid, user):
 	statisticsfunctions.bid_update_join_stats(party_obj)
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
-	user.profile.account_balance-=bid
-	user.save()
+	curr_balance = user.profile.account_balance - bid
+	user.profile.account_balance = curr_balance
+	user.profile.save(update_fields=['account_balance'])
 	return{'added':True, 'error_message':""}
 
 def bid_get_min_bid_number(party_obj):
@@ -175,8 +177,9 @@ def bid_get_min_bid_object(party_obj):
 def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	popularityHandling.bid_popularity_join(party_obj)
 	statisticsfunctions.bid_update_join_stats(party_obj)
-	user.profile.account_balance-=bid
-	user.save()
+	curr_balance = user.profile.account_balance - bid
+	user.profile.account_balance = curr_balance
+	user.profile.save(update_fields=['account_balance'])
 	Bid.objects.filter(pk=min_bid.pk).delete()
 	# notifies the lowest bidder that they have been knocked off
 	Notification.objects.create(user=min_bid.user, party=party_obj,\
