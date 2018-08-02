@@ -180,7 +180,7 @@ def bid_get_min_bid_object(party_obj):
 def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	popularityHandling.bid_popularity_join(party_obj)
 	statisticsfunctions.bid_update_join_stats(party_obj)
-	partyTransactions.bid_reduction(user, bid)
+	#partyTransactions.bid_reduction(user, bid)
 	# curr_balance = user.profile.account_balance - bid
 	# user.profile.account_balance = curr_balance
 	# user.profile.save(update_fields=['account_balance'])
