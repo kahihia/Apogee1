@@ -2,10 +2,8 @@ from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
-
 from parties.models import Party
 # from parties.models import Party
-
 from .validators import validate_bid_amount
 User = get_user_model()
 

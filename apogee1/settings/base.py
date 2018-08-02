@@ -39,15 +39,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    #add django captcha here
     # these are our custom apps
     'parties',
     'accounts',
     'hashtags',
+    'bids',
+    'notifications',
+    'userstatistics',
 
     # third party stuff
     'crispy_forms',
     'rest_framework',
+    'storages',
+    # 'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [

@@ -16,6 +16,7 @@ from .models import Party
 from parties import popularityHandling
 from bids.models import Bid
 from userstatistics import statisticsfunctions
+from event_payment import partyTransactions
 from notifications.models import Notification
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
@@ -83,9 +84,11 @@ def lottery_add_user(user,party_obj):
 	statisticsfunctions.lottery_update_join_stats(party_obj)
 	popularityHandling.lottery_popularity_join(party_obj)
 	party_obj.joined.add(user)
-	curr_balance = user.profile.account_balance - party_obj.cost
-	user.profile.account_balance = curr_balance
-	user.profile.save(update_fields=['account_balance'])
+	partyTransactions.buy_lottery_reduction(user, party_obj)
+	# curr_balance = user.profile.account_balance - party_obj.cost
+	# user.profile.account_balance = curr_balance
+	# user.profile.save(update_fields=['account_balance'])
+
 	return {'added':True, 'error_message':""}
 #Ends the lottery event
 #1.Party that is passed to it has its joined list shuffled
@@ -180,7 +183,8 @@ def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	curr_balance = user.profile.account_balance - bid
 	user.profile.account_balance = curr_balance
 	user.profile.save(update_fields=['account_balance'])
-	Bid.objects.filter(pk=min_bid.pk).delete()
+	lowest_bid = Bid.objects.filter(pk=min_bid.pk)
+	lowest_bid.delete()
 	# notifies the lowest bidder that they have been knocked off
 	Notification.objects.create(user=min_bid.user, party=party_obj,\
 	action="fan_outbid")
