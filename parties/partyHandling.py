@@ -152,7 +152,7 @@ def bid_add_user_when_open_spots(party_obj, bid, user):
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
 	#partyTransactions.bid_reduction(user, new_bid)
-	curr_balance = user.profile.account_balance - bid
+	curr_balance = user.profile.account_balance - decimal.Decimal(bid)
 	user.profile.account_balance = curr_balance
 	user.profile.save(update_fields=['account_balance'])
 	return{'added':True, 'error_message':""}
