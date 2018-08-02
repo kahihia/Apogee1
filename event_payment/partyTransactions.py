@@ -3,7 +3,7 @@ from django.db.models.signals import post_save
 
 #Reduces the user's account balance by the bid amount
 def bid_reduction(user, bid):
-	bid_amount = bid
+	bid_amount = bid.amount
 	curr_balance = user.profile.account_balance
 	new_balance = curr_balance+bid_amount
 	user.profile.account_balance = new_balance
