@@ -151,8 +151,7 @@ def bid_add_user_when_open_spots(party_obj, bid, user):
 	statisticsfunctions.bid_update_join_stats(party_obj)
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
-	partyTransactions.bid_reduction(user, bid)
-
+	#partyTransactions.bid_reduction(user, bid)
 	# curr_balance = user.profile.account_balance - bid
 	# user.profile.account_balance = curr_balance
 	# user.profile.save(update_fields=['account_balance'])
@@ -393,10 +392,8 @@ def bid_add(user, party_obj, bid):
 	# if this results in there being no slots remaining
 	# get min bid on this party, and set as party's minimum bid
 	elif party_obj.joined.all().count()<party_obj.num_possible_winners:
-		print("Free spot - bid")
 		event_info = bid_add_user_when_open_spots(party_obj, bid, user)
 		if party_obj.joined.all().count()==party_obj.num_possible_winners:
-			print("Max spots reached - bid")
 			party_obj.minimum_bid = bid_get_min_bid_number(party_obj)		
 			party_obj.save2(update_fields=['minimum_bid'])
 	#if no slots available
@@ -423,7 +420,6 @@ def bid_add(user, party_obj, bid):
 	#to parties/api/views under JoinToggleAPIView
 	bid_accepted = event_info["added"]
 	error_message = event_info["error_message"]	
-	print("end of bid_add - bid")	
 	#This is done for formatting purposes on front end
 	# to display only two decimal places
 	f_min_bid = '%.2f' % party_obj.minimum_bid
