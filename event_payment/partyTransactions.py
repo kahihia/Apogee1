@@ -1,7 +1,6 @@
 from bids.models import Bid
 from django.db.models.signals import post_save
-from decimal import *
-
+import decimal
 #Reduces the user's account balance by the bid amount
 def bid_reduction(user, bid):
 	curr_balance = user.profile.account_balance - decimal.Decimal(str(bid))
