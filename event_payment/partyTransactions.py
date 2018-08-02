@@ -1,12 +1,11 @@
 from bids.models import Bid
 from django.db.models.signals import post_save
+from decimal import *
 
 #Reduces the user's account balance by the bid amount
 def bid_reduction(user, bid):
-	bid_amount = bid.amount
-	curr_balance = user.profile.account_balance
-	new_balance = curr_balance+bid_amount
-	user.profile.account_balance = new_balance
+	curr_balance = user.profile.account_balance - decimal.Decimal(bid)
+	user.profile.account_balance = curr_balance
 	user.profile.save(update_fields=['account_balance'])
 #Reduces the user's account balance by the cost of the party_obj
 def buy_lottery_reduction(user, party_obj):

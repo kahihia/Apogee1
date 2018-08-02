@@ -151,14 +151,10 @@ def bid_add_user_when_open_spots(party_obj, bid, user):
 	statisticsfunctions.bid_update_join_stats(party_obj)
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
-	#partyTransactions.bid_reduction(user, new_bid)
-	curr_balance = user.profile.account_balance - decimal.Decimal(bid)
-	user.profile.account_balance = curr_balance
-	user.profile.save(update_fields=['account_balance'])
+	partyTransactions.bid_reduction(user, bid)
 	return{'added':True, 'error_message':""}
 
 def bid_get_min_bid_number(party_obj):
-	print("Bid reached max slots")
 	# bid_list = Bid.objects.filter(party=party_obj)
 	bid_list = party_obj.bids_list.all()
 	min_bid = bid_list.first()
@@ -167,7 +163,6 @@ def bid_get_min_bid_number(party_obj):
 			min_bid=bs
 	return min_bid.bid_amount
 def bid_get_min_bid_object(party_obj):
-	print("Bid reached max slots")
 	# bid_list = Bid.objects.filter(party=party_obj)
 	bid_list = party_obj.bids_list.all()
 	min_bid = bid_list.first()
