@@ -184,9 +184,10 @@ def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	# curr_balance = user.profile.account_balance - bid
 	# user.profile.account_balance = curr_balance
 	# user.profile.save(update_fields=['account_balance'])
-	lowest_bid = Bid.objects.filter(pk=min_bid.pk)
-	partyTransactions.outbid_return(lowest_bid)
-	lowest_bid.delete()
+	Bid.objects.filter(pk=min_bid.pk).delete()
+	#lowest_bid = Bid.objects.filter(pk=min_bid.pk)
+	#partyTransactions.outbid_return(lowest_bid)
+	#lowest_bid.delete()
 	# notifies the lowest bidder that they have been knocked off
 	Notification.objects.create(user=min_bid.user, party=party_obj,\
 	action="fan_outbid")
