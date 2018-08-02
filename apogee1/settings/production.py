@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 from decouple import config
 import dj_database_url
+#import django-heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # points us back to the root folder, where manage.py is
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -24,16 +25,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #HEROKU
-#SECRET_KEY = '6fw*ujba!d-3^a8ez_9*da+2@bt2(-1*4@f7bjuvxas$puux_8'
 SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # shows debug messages in the page 
 #HEROKU 
 #DEBUG = True
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['.apogee.gg']
+ALLOWED_HOSTS = [config('DJANGO_ALLOWED_HOSTS')]
 
-#'apogee1.herokuapp.com',
 AWS_QUERYSTRING_AUTH = False
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
@@ -42,8 +41,15 @@ MEDIA_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 AWS_S3_REGION_NAME = config('REGION_NAME')
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sparkpostmail.com'
+EMAIL_HOST_USER = 'SMTP_Injection'
+EMAIL_HOST_PASSWORD = 'f44c2ec0910495b35f830b5bc2aafd584fbaa3a6'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
-
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
+CSRF_COOKIE_SECURE = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -79,10 +85,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # from django docs for setting the current session timezone
     'parties.middleware.TimezoneMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 # PAYPAL_TEST = True
-
 
 # root url sets the main routing file. those then refer to the other url docs
 ROOT_URLCONF = 'apogee1.urls'
@@ -95,6 +101,7 @@ LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 # Address of RabbitMQ instance, our Celery broker
 #CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_BROKER_URL=config('REDIS_URL')
+print(config('REDIS_URL'))
 CELERY_BROKER_POOL_LIMIT = 8
 
 TEMPLATES = [
@@ -116,7 +123,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'apogee1.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
