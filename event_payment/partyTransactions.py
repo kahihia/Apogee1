@@ -1,6 +1,6 @@
 #Reduces the user's account balance by the bid amount
 def bid_reduction(user, bid):
-	curr_balance = user.profile.account_balance - bid
+	curr_balance = decimal.Decimal(user.profile.account_balance) - decimal.Decimal(bid)
 	user.profile.account_balance = curr_balance
 	user.profile.save(update_fields=['account_balance'])
 #Reduces the user's account balance by the cost of the party_obj

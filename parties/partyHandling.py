@@ -127,9 +127,7 @@ def buyout_add_user(user, party_obj):
 	statisticsfunctions.buyout_update_join_stats(party_obj)
 	party_obj.winners.add(user)
 	party_obj.joined.add(user)
-	curr_balance = user.profile.account_balance - party_obj.cost
-	user.profile.account_balance = curr_balance
-	user.profile.save(update_fields=['account_balance'])
+	partyTransactions.buy_lottery_reduction(user, party_obj)
 	#Creating a notification for the user on buyout win
 	Notification.objects.create(user=user, party=party_obj,\
 	action="fan_win")
@@ -153,9 +151,11 @@ def bid_add_user_when_open_spots(party_obj, bid, user):
 	statisticsfunctions.bid_update_join_stats(party_obj)
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
-	curr_balance = user.profile.account_balance - bid
-	user.profile.account_balance = curr_balance
-	user.profile.save(update_fields=['account_balance'])
+	partyTransactions.bid_reduction(user, bid)
+
+	# curr_balance = user.profile.account_balance - bid
+	# user.profile.account_balance = curr_balance
+	# user.profile.save(update_fields=['account_balance'])
 	return{'added':True, 'error_message':""}
 
 def bid_get_min_bid_number(party_obj):
@@ -180,10 +180,12 @@ def bid_get_min_bid_object(party_obj):
 def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	popularityHandling.bid_popularity_join(party_obj)
 	statisticsfunctions.bid_update_join_stats(party_obj)
-	curr_balance = user.profile.account_balance - bid
-	user.profile.account_balance = curr_balance
-	user.profile.save(update_fields=['account_balance'])
+	partyTransactions.bid_reduction(user, bid)
+	# curr_balance = user.profile.account_balance - bid
+	# user.profile.account_balance = curr_balance
+	# user.profile.save(update_fields=['account_balance'])
 	lowest_bid = Bid.objects.filter(pk=min_bid.pk)
+	partyTransactions.outbid_return(lowest_bid)
 	lowest_bid.delete()
 	# notifies the lowest bidder that they have been knocked off
 	Notification.objects.create(user=min_bid.user, party=party_obj,\
