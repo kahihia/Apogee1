@@ -36,11 +36,6 @@ class PaypalVerificationAPI(APIView):
 
 		json_paypal = json.loads(request.body)		
 		print(json.dumps(json_paypal))
-		print(transmission_id)
-		print( timestamp)
-		print(webhook_id)
-		print(actual_signature)
-		print(cert_url)
 		response = WebhookEvent.verify(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo)
 		return Response(response)
 
