@@ -174,14 +174,10 @@ def bid_get_min_bid_object(party_obj):
 def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	popularityHandling.bid_popularity_join(party_obj)
 	statisticsfunctions.bid_update_join_stats(party_obj)
-	#partyTransactions.bid_reduction(user, bid)
-	# curr_balance = user.profile.account_balance - bid
-	# user.profile.account_balance = curr_balance
-	# user.profile.save(update_fields=['account_balance'])
-	Bid.objects.filter(pk=min_bid.pk).delete()
-	#lowest_bid = Bid.objects.filter(pk=min_bid.pk)
-	#partyTransactions.outbid_return(lowest_bid)
-	#lowest_bid.delete()
+	partyTransactions.bid_reduction(user, bid)
+	lowest_bid= Bid.objects.filter(pk=min_bid.pk)
+	partyTransactions.outbid_return(lowest_bid)
+	lowest_bid.delete()
 	# notifies the lowest bidder that they have been knocked off
 	Notification.objects.create(user=min_bid.user, party=party_obj,\
 	action="fan_outbid")
