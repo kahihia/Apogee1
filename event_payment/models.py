@@ -19,6 +19,16 @@ class EventPayment(models.Model):
 
 
 
+	def schedule_pay_owner(self):
+		# the pick time is set to be slightly before when the event 
+		# actully happens to allow everyone to get set up.
+		pay_time = self.party_time + timedelta(minutes=2)
+		# .astimezone(pytz.utc)
+		# brings in the pick winner method
+		from .tasks import pay_owner
+		result = pay_owner.apply_async((self.pk,), eta=pick_time)
+		return result.id
+
 # set integrity constraints for database
 	def clean(self, *args, **kwargs):
 		return super(EventPayment, self).clean(*args,**kwargs)
