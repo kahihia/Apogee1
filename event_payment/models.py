@@ -14,7 +14,7 @@ class EventPayment(models.Model):
 	party 		= models.ForeignKey(Party,on_delete=models.SET_NULL, null=True, \
 		related_name="payment_object")
 	is_paid 	= models.BooleanField(default=False)
-	task_id			= models.CharField(max_length=50, blank=True, editable=False)
+	task_id			= models.CharField(max_length=50, blank=True, editable=False, null=True)
 	def __str__(self):
 		return str(self.payment_user.username) +" payment for "+str(self.party.title)
 
