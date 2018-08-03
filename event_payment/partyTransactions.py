@@ -15,5 +15,5 @@ def buy_lottery_reduction(user, party_obj):
 def outbid_return(bid_obj):
 	user = bid_obj.user
 	curr_balance = user.profile.account_balance + bid_obj.bid_amount
-	user.profile.account_balanc = curr_balance
+	user.profile.account_balance = curr_balance
 	user.profile.save(update_fields=['account_balance'])
