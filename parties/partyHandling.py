@@ -100,6 +100,7 @@ def lottery_end(party_obj):
 	# this creates the owner close notification, alerts the fans that they have won
 	Notification.objects.create(user=party_obj.user, party=party_obj,\
 	action="owner_event_close")
+	partyTransactions.create_payment(party_obj)
 	pool = party_obj.joined.all().order_by('?')
 	for i in range(0,party_obj.num_possible_winners):
 		if pool:
