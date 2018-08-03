@@ -30,5 +30,5 @@ def create_payment(party_obj):
 	else:
 		payment_amount = party_obj.winners.all().count() * party_obj.cost
 
-	EventPayment.objects.create(user=party_obj.user, party=party_obj, \
+	EventPayment.objects.create(payment_user=party_obj.user, party=party_obj, \
 		payment_amount=payment_amount)
