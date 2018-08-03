@@ -28,9 +28,7 @@ def pick_winner(party_id):
 	if party.is_open:
 		Notification.objects.create(user=party.user, party=party,\
 		action="owner_event_close")
-		print("and"*20)
 		partyTransactions.create_payment(party)
-		print("here"*15)
 	# if there are people that joined the event
 	if party.joined.all().count() > 0:
 		# gets all users in joined, orders them randomly
@@ -54,6 +52,7 @@ def pick_winner(party_id):
 				print (w)
 			#add winners in
 			for i in winners:
+				print("HERE")
 				partyHandling.win_toggle(i, party)
 				# email_data = {'username': winner.username}
 				# emailer.email(winner_text, 'team@apogee.gg', [winner.email], 'winner_email.html', email_data)
