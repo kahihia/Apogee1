@@ -14,6 +14,7 @@ class EventPayment(models.Model):
 	party 		= models.ForeignKey(Party,on_delete=models.SET_NULL, null=True, \
 		related_name="payment_object")
 	is_paid 	= models.BooleanField(default=False)
+	task_id			= models.CharField(max_length=50, blank=True, editable=False)
 	def __str__(self):
 		return str(self.payment_user.username) +" payment for "+str(self.party.title)
 
@@ -29,7 +30,19 @@ class EventPayment(models.Model):
 		from .tasks import pay_owner
 		result = pay_owner.apply_async((self.pk,), eta=pick_time)
 		return result.id
+	def save(self, *args, **kwargs):
+		# if we've already shceduled it, as in we're editing, cancel it
+		if self.task_id:
+			celery_app.control.revoke(self.task_id)
+		# we call save twice because we have to set the pk before we schedule
+		# then we set the task_id as the party id, then we save again
+		super(EventPayment, self).save(*args, **kwargs)
+		self.task_id = self.schedule_pick_winner()
+		# self.send_notifications()
+		super(EventPayment, self).save(*args, **kwargs)
 
+	def save2(self, *args, **kwargs):
+		super(Party, self).save(*args, **kwargs)
 # set integrity constraints for database
 	def clean(self, *args, **kwargs):
 		return super(EventPayment, self).clean(*args,**kwargs)
