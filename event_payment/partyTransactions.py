@@ -25,7 +25,7 @@ def create_payment(party_obj):
 	if party_obj.event_type==1:
 		payment_amount = party_obj.joined.all().count() * party_obj.cost
 	elif party_obj.event_type==2:
-		bid_list = Bid.objects.filter(pk=party_obj.pk)
+		bid_list = Bid.objects.filter(party=party_obj)
 		print(bid_list.all().count())
 		for bids in bid_list:
 			payment_amount+=bids.bid_amount
