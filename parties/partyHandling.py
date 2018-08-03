@@ -100,9 +100,7 @@ def lottery_end(party_obj):
 	# this creates the owner close notification, alerts the fans that they have won
 	Notification.objects.create(user=party_obj.user, party=party_obj,\
 	action="owner_event_close")
-	print("Closing lottery")
 	pool = party_obj.joined.all().order_by('?')
-	print("The max entrants are: "+str(party_obj.max_entrants))
 	for i in range(0,party_obj.num_possible_winners):
 		if pool:
 			winner = pool.first()
@@ -136,10 +134,10 @@ def buyout_add_user(user, party_obj):
 #1. event that is passed is closed
 #2. Create notification for event owner
 def buyout_end(user, party_obj):
-	print("Closing buyout")
 	statisticsfunctions.buyout_update_end_stats(party_obj)
 	Notification.objects.create(user=party_obj.user, party=party_obj,\
 	action="owner_event_close")
+	partyTransactions.create_payment(party_obj)
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
 
