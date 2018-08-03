@@ -11,8 +11,8 @@ class EventPayment(models.Model):
 	payment_amount 	= models.DecimalField(max_digits=7, decimal_places=2, default=0)
 	payment_user 		= models.ForeignKey(settings.AUTH_USER_MODEL,
 					on_delete=models.SET_NULL)
-	party 		= models.ForeignKey(Party,
-						on_delete=models.SET_NULL, related_name="payment_object")
+	party 		= models.ForeignKey(Party,on_delete=models.SET_NULL, null=True, \
+		related_name="payment_object")
 	is_paid 	= models.BooleanField(default=False)
 	def __str__(self):
 		return str(self.payment_user +" payment for "+self.party)
