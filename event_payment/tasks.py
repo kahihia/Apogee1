@@ -1,6 +1,9 @@
 from .models import EventPayment
+from celery import shared_task
 
+@shared_task
 def pay_owner(payment_id):
+	print("_______________________________________________________RUNNING PAYMENT______________")
 	try:
 		# gets the correct payment
 		# filter would return a queryset, we want an object.
