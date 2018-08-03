@@ -14,13 +14,15 @@ from .views import (
 		StarredListAPIView,
 		BuyoutLotteryAPIView, 
 		JoinedListAPIView,
-		BidAPIView
+		BidAPIView,
+		PaypalVerificationAPI
 	)
 
 app_name = 'parties-api'
 # /api/events/ routes to this 
 urlpatterns = [
     path('', PartyListAPIView.as_view(), name='list'),
+    path('verify/', PaypalVerificationAPI.as_view(), name='paypal-verify-api'),
     path('starred/', StarredListAPIView.as_view(), name='starred-api'),
     path('joined/', JoinedListAPIView.as_view(), name='joined-api'),
     path('create/', PartyCreateAPIView.as_view(), name='create'),

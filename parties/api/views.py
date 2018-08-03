@@ -5,13 +5,44 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q, Count
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 from datetime import timedelta
+import json
 
 from parties import partyHandling
 from bids.models import Bid
 from parties.models import Party
+from accounts.models import UserProfile
 from .pagination import StandardResultsPagination
 from .serializers import PartyModelSerializer
+from paypalrestsdk.notifications import WebhookEvent
+from decouple import config
+
+class PaypalVerificationAPI(APIView):
+	@csrf_exempt
+	def post(self, request, format=None):
+		# Paypal-Transmission-Id in webhook payload header
+		transmission_id = request.META.get("HTTP_PAYPAL_TRANSMISSION_ID")
+		# Paypal-Transmission-Time in webhook payload header
+		timestamp =  request.META.get("HTTP_PAYPAL_TRANSMISSION_TIME")
+		# Webhook id created
+		webhook_id = config("WEBHOOK_ID", default="9EC012240A567735B")
+		# Paypal-Transmission-Sig in webhook payload header
+		actual_signature = request.META.get("HTTP_PAYPAL_TRANSMISSION_SIG") 
+		# Paypal-Cert-Url in webhook payload header
+		cert_url = request.META.get("HTTP_PAYPAL_CERT_URL")
+		# PayPal-Auth-Algo in webhook payload header
+		auth_algo = 'sha256'
+
+		json_paypal = json.loads(request.body)		
+		print(json.dumps(json_paypal))
+		print(transmission_id)
+		print( timestamp)
+		print(webhook_id)
+		print(actual_signature)
+		print(cert_url)
+		response = WebhookEvent.verify(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo)
+		return Response(response)
 
 # star toggle is a method from the model that just adds the user to the 
 # list containing the people who have starred it

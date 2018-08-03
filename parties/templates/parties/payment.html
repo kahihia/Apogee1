@@ -13,11 +13,11 @@ paypal.Button.render({
 					total: '10.00',
 					currency: 'USD',
 				},
-				description: 'The payment transaction description.',
+				description: '{{ object.description }}',
 	      item_list: {
 	        items: [
 	          {
-	            name: 'buy',
+	            name: '{{ object.title }}',
 	            description: 'buy an event with dude',
 	            quantity: '1',
 	            price: '10',
@@ -26,10 +26,7 @@ paypal.Button.render({
 	            currency: 'USD'
 	          }
 	        ],
-	      },
-				payment_options: {
-					allowed_payment_method: 'INSTANT_FUNDING_SOURCE'
-				},
+	      }
 			}],
 			note_to_payer: 'Contact us for any questions on your order.'
 		});
