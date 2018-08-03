@@ -15,7 +15,7 @@ class EventPayment(models.Model):
 		related_name="payment_object")
 	is_paid 	= models.BooleanField(default=False)
 	def __str__(self):
-		return self.payment_user +" payment for "+self.party
+		return str(self.payment_user.username) +" payment for "+str(self.party.title)
 
 
 
