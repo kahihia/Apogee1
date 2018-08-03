@@ -28,7 +28,7 @@ def pick_winner(party_id):
 	if party.is_open:
 		Notification.objects.create(user=party.user, party=party,\
 		action="owner_event_close")
-		partyTransactions.create_payment(party_obj)
+		partyTransactions.create_payment(party)
 	# if there are people that joined the event
 	if party.joined.all().count() > 0:
 		# gets all users in joined, orders them randomly
