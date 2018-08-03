@@ -21,9 +21,9 @@ def outbid_return(bid_obj):
 #Create a payment object for party owner
 def create_payment(party_obj):
 	payment_amount = 0
-	if party_obj.type==1:
+	if party_obj.event_type==1:
 		payment_amount = party_obj.joined.all().count() * party_obj.cost
-	elif party_obj.type==2:
+	elif party_obj.event_type==2:
 		bid_list = Bid.objects.filter(pk=party_obj.pk)
 		for bids in bid_list:
 			payment_amount+=bids.bid_amount
