@@ -27,7 +27,7 @@ SECRET_KEY = '6fw*ujba!d-3^a8ez_9*da+2@bt2(-1*4@f7bjuvxas$puux_8'
 # this just allows the page to send debug messages when somethin goes wrong
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [*]
 
 
 # Application definition
@@ -39,20 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #add django captcha here
+
     # these are our custom apps
     'parties',
     'accounts',
     'hashtags',
-    'bids',
-    'notifications',
-    'userstatistics',
 
     # third party stuff
     'crispy_forms',
     'rest_framework',
-    'storages',
-    # 'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
