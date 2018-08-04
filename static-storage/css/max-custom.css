@@ -55,6 +55,14 @@ body {
     padding: 30px 0;
 }
 
+.placeholder-hero-img {
+    background: #fff;
+    border-radius: 4px;
+    height: 150px;
+    max-width: 450px;
+    margin: -40px 0 40px;
+}
+
 .btn-new {
     border-radius: 4px !important;
 	border: 1px solid hsla(270,100%,10%,0.5) !important;
@@ -229,6 +237,13 @@ body {
 	color: #fff;
 }
 
+.stats-nav {
+    max-width: 320px;
+    float: none;
+    margin: 0 auto;
+    text-align: center;
+}
+
 .apogee-btn {
     color: black;
     background-color: orchid;
@@ -244,7 +259,7 @@ body {
 
 .yellow-color {
     content: "\f005";
-    color: #e4c43a;
+    color: hsl(270, 100%, 50%);
 }
 
 .media-focus {
@@ -663,9 +678,13 @@ Card
 
 .card-header,
 .card-footer {
-    background-color: transparent;
-    border-color: rgba(135, 150, 165, 0.1);
-    background-clip: padding-box;
+    padding: 0 !important;
+    margin-top: 15px;
+}
+
+.card-text {
+    font-size: 14px;
+    font-weight: 100;
 }
 
 .card-body p:last-child {
@@ -679,6 +698,8 @@ Card
 .card-title {
     line-height: 1.5;
     margin: 15px auto;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 .block-fold:before,

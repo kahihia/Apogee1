@@ -23,13 +23,8 @@ of usernames and a lidt of events -->
 <!-- contains our custom html and django stuff -->
 {% block content %}
 <div class='row'>
-	<!-- left side column -->
-	<div class='col-sm-3 grey-background'>
-		<!-- separated so that the background wont follow the right columns length -->
-		<div class='col-sm-12 mt-3'>
-			<h1>Following</h1><hr>
-		</div>
 		<div class='col-sm-12'>
+			<h1>Following</h1><hr>
 			<!-- through user, calls who they follow.
 			this gets actual user instances -->
 			{% for user in request.user.profile.get_following %}
@@ -49,7 +44,7 @@ of usernames and a lidt of events -->
 			{% endfor %}
 		</div>
 	</div>
-	<div class='col-sm-9 mt-3'>
+	<div class='col-sm-12 mt-3'>
 		<!-- title for the following section -->
 		<h1>Events</h1><hr>
 		<!-- this holds all of our JS rendered stuff -->

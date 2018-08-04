@@ -15,7 +15,7 @@
 {% block content %}
 <!-- this was built off of a django template -->
 <div class='col-sm-6 offset-sm-3 text-center mt-4'>
-    <h1>Login</h1>
+    <h1>Log In</h1>
     <!-- form.errors is from the default django forms. it recognizes when the input information is incorrect -->
     {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>
@@ -46,7 +46,7 @@
         {{ form.password }}    
     </div>
 
-    <button type="submit" class='btn btn-outline-secondary'>Login</button>
+    <button type="submit" class='btn btn-primary-new'>Log In</button>
     <input type="hidden" name="next" value="{{ next }}" />
     </form>
 

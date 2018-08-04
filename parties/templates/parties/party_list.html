@@ -22,117 +22,26 @@ $(document).ready(function() {
 });
 </script>
 {% endblock script %}
-<!-- contains our custom html and django stuff -->
 {% block content %}
+
 <header class="hero-section">
     <div class="header-wrapper">
-        <h1 class="text-center">Featured Creator<span class="d-none d-md-inline">s</span></h1>
-        <!-- 		<h4>Check out the latest creators</h4> -->
-        <div class="row">
-            <div class="col-xl-3 col-lg-4 offset-lg-0 col-md-5 offset-md-1 col-sm-6 offset-sm-3 col-xs-12">
-                <div class="card card-profile text-center">
-                    <!-- 				  <img alt="" class="card-img-top"> -->
-                    <div class="card-block">
-                        <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
-                        <h4 class="card-title">
-				      John Smith
-				      <small>Tagline Goes Here</small>
-				      
-				    </h4>
-				    	<a href="{{ request.user.profile.get_absolute_url }}">
-                        	<button class="btn btn-new btn-primary-new">View Profile</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-5 d-none d-md-block d-lg-block d-xl-block">
-                <div class="card card-profile text-center">
-                    <!-- 				  <img alt="" class="card-img-top"> -->
-                    <div class="card-block">
-                        <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
-                        <h4 class="card-title">
-				      John Smith
-				      <small>Tagline Goes Here</small>
-				      
-				    </h4>
-				    	<a href="{{ request.user.profile.get_absolute_url }}">
-                        	<button class="btn btn-new btn-primary-new">View Profile</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 d-none d-lg-block d-xl-block">
-                <div class="card card-profile text-center">
-                    <!-- 				  <img alt="" class="card-img-top"> -->
-                    <div class="card-block">
-                        <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
-                        <h4 class="card-title">
-				      John Smith
-				      <small>Tagline Goes Here</small>
-				      
-				    </h4>
-				    	<a href="{{ request.user.profile.get_absolute_url }}">
-                        	<button class="btn btn-new btn-primary-new">View Profile</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 d-none d-xl-block">
-                <div class="card card-profile text-center">
-                    <!-- 				  <img alt="" class="card-img-top"> -->
-                    <div class="card-block">
-                        <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
-                        <h4 class="card-title">
-				      John Smith
-				      <small>Tagline Goes Here</small>
-				      
-				    </h4>
-				    	<a href="{{ request.user.profile.get_absolute_url }}">
-                        	<button class="btn btn-new btn-primary-new">View Profile</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h1 class="text-left">Featured Event</h1>
+        <div class="placeholder-hero-img"></div>
+        <p>Details of the event will appear here. This section of text can extend to multiple lines.</p>
     </div>
 </header>
+
 <div class="home-content">
-<!--     <div class='col-sm-3 main-sidebar'>
-        <div class='col-sm-12 mt-4'>
-            <h3>{{ request.user }}</h3>
-            <hr>
-        </div>
-        <div class='col-sm-12 mt-3'>
-            <a href="{% url 'parties:create' %}">
-                <button class='btn btn-outline-secondary'>Create an event</button>
-            </a>
-        </div>
-        <div class='col-sm-12 mt-5'>
-            <h3 class='mb-3'>Following</h3> {% for user in request.user.profile.get_following %}
-            <p class='mb-3'>
-                <a class='text-dark' href='/profiles/{{ user.username }}'>
-					{% if user.profile.profile_picture %}
-					<img src='{{ user.profile.profile_picture.url }}' class="rounded-circle float-left" style='max-height: 30;'>
-					{% else %}
-					<img src='/media/profile_pics/blank_profile.png' class="rounded-circle float-left" style='max-height: 30;'>
-					{% endif %}
-					<span class='ml-1'>{{ user.username }}</span>
-				</a>
-            </p>
-            {% empty %}
-            <p>Not following anyone</p>
-            {% endfor %}
-        </div>
-    </div> -->
     <div class="row">
 	    <div class="pl-3">
 	        <div class="d-flex nav-active-border home-nav">
 	            <ul class="nav">
 	                <li class="nav-item">
-	                    <a class="nav-link pt-4 pb-4 mb-2 active show" href="#" data-toggle="tab" data-target="#tab_1">Trending</a>
+	                    <a class="nav-link pt-4 pb-4 mb-2 active show" href="#" data-toggle="tab" data-target="#tab_1">Closing Soon</a>
 	                </li>
 	                <li class="nav-item">
-	                    <a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_2">Closing Soon</a>
+	                    <a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_2">Trending</a>
 	                </li>
 	                <li class="nav-item">
 	                    <a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_3">Following</a>
@@ -147,49 +56,22 @@ $(document).ready(function() {
             <div class="tab-content pl-3">
                 <div class="tab-pane fade active show" id="tab_1">
                 	<div class="row">
-                    	<div id='party-container' data-url='/api/events/'></div>
+                    	<div id='party-container' data-url='/api/events/closing'></div>
                 	</div>
                 </div>
                 <div class="tab-pane fade" id="tab_2">
-
-                	<div id='closing-container' data-url='/api/events/closing/'></div>	
+                    <div class="row">
+                	   <div id='closing-container' data-url='/api/events/'></div>	
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="tab_3">
-                	<div id='party-container' data-url='/api/events/'></div>
+                    <div class="row">
+                	   <div id='party-container' data-url='/api/events/'></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!--     <div class='col-sm-9 mt-3'>
-		<h4>Following</h4><br>
-		<div id='party-container' data-url='/api/events/'></div>
-
-		<h4 class='mt-5'>Trending</h4><br>
-		<div id='trending-container' data-url='/api/events/trending/'></div>
-
-		<h4 class='mt-5'>Closing Soon</h4><br>
-		<div id='closing-container' data-url='/api/events/closing/'></div>		
-
-	</div> -->
 </div>
 {% endblock content %}
-<!-- this is the django method for the list view -->
-<!-- {% for object in object_list %}
-			<div class="media">
-				<div class="media-body">
-					<a href="{{ object.get_absolute_url }}" class='text-dark'>
-				    	<h5 class="mt-0">{{ object.title }}</h5>
-				    </a>
-					{{ object.description }}<br>
-					With {{ object.user }} | on {{ object.party_time }}
-				</div>
-			</div>
-			<hr>
-		{% empty %}
-			{% if request.GET.q %}
-			<p>No events match your search :(</p>
-			{% else %}
-			<p>No events at this time</p>
-			{% endif %}
-		{% endfor %}
