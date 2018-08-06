@@ -10,26 +10,25 @@ paypal.Button.render({
 		return actions.payment.create({
 			transactions: [{
 				amount: {
-					total: '10.00',
+					total: '{{ object.cost }}',
 					currency: 'USD',
 				},
-				custom: "{{ object.id }}",
+				custom: '{{ request.user.id }}',
 				description: '{{ object.description }}',
 	      item_list: {
 	        items: [
 	          {
 	            name: '{{ object.title }}',
-	            description: 'buy an event with dude',
+	            description: '{{ object.description }}',
 	            quantity: '1',
-	            price: '10',
+	            price: '{{ object.cost }}',
 	            tax: '0.01',
 	            sku: '1',
 	            currency: 'USD'
 	          }
 	        ],
 	      }
-			}],
-			note_to_payer: 'Contact us for any questions on your order.'
+			}]
 		});
 	},
 	onAuthorize: function (data, actions) {

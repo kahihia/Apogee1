@@ -7,6 +7,7 @@ from django.db.models import Q, Count
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from datetime import timedelta
+from decimal import Decimal
 import json
 
 from parties import partyHandling
@@ -17,6 +18,12 @@ from .pagination import StandardResultsPagination
 from .serializers import PartyModelSerializer
 from paypalrestsdk.notifications import WebhookEvent
 from decouple import config
+import paypalrestsdk
+paypal_api = paypalrestsdk.Api({
+  'mode': 'sandbox',
+  'client_id': 'AYVs-7u_YV5YGnV2c8q4L0i8Ke6iZjVwY6JoumipioAh-8do6ZHCC9sYP94PpS62ZTbdqVTCNV39h0uw',
+  'client_secret': 'EBL0rnyKpDsbb5Tg657jVfJGU-uT8mDu8LuwbBucDAGEbAWu2-h59WMb7Uv6mcA1TtGH3gVwCoekOWJ_'})
+
 
 class PaypalVerificationAPI(APIView):
 	@csrf_exempt
@@ -35,8 +42,15 @@ class PaypalVerificationAPI(APIView):
 		auth_algo = 'sha256'
 
 		json_paypal = json.loads(request.body)		
-		print(json.dumps(json_paypal))
+		original_payment = paypalrestsdk.Payment.find(json_paypal['resource']['parent_payment'])
+		user_id = original_payment['transactions'][0]['custom']
+		u = UserProfile.objects.get(id=user_id)
 		response = WebhookEvent.verify(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo)
+		if response:
+			payment = Decimal(original_payment['transactions'][0]['amount']['total'])
+			u.account_balance = u.account_balance + payment
+			u.save()
+
 		return Response(response)
 
 # star toggle is a method from the model that just adds the user to the 
