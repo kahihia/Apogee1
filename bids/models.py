@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from parties.models import Party
@@ -25,3 +27,11 @@ class Bid(models.Model):
 # set integrity constraints for database
 	def clean(self, *args, **kwargs):
 		return super(Bid, self).clean(*args,**kwargs)
+
+@receiver(pre_delete, sender=Bid)
+def return_funds(sender, instance, **kwargs):
+	bid = instance
+	user = bid.user
+	curr_balance = user.profile.account_balance + bid.bid_amount
+	user.profile.account_balance = curr_balance
+	user.profile.save(update_fields=['account_balance'])
