@@ -20,7 +20,7 @@ from paypalrestsdk.notifications import WebhookEvent
 from decouple import config
 import paypalrestsdk
 paypal_api = paypalrestsdk.Api({
-  'mode': config("PAYPAL_ENV") or 'sandbox',
+  'mode': config("PAYPAL_ENV", default="sandbox"),
   'client_id': config("PAYPAL_CLIENT_ID"),
   'client_secret': config("PAYPAL_CLIENT_SECRET") })
 
