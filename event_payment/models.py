@@ -4,6 +4,7 @@ from parties.models import Party
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
+from datetime import timedelta, datetime
 
 # Create your models here.
 # Model for bid which inludes bid amount, user (fk) and party pk (int)
