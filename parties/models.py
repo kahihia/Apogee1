@@ -226,7 +226,7 @@ def return_funds(sender, instance, **kwargs):
 	if party_obj.event_type==1:
 		user_list = party_obj.joined.all()
 		for user in user_list:
-			curr_balance = user.profile.account_balance - party_obj.cost
+			curr_balance = user.profile.account_balance + party_obj.cost
 			user.profile.account_balance = curr_balance
 			user.profile.save(update_fields=['account_balance'])
 	elif party_obj.event_type==2:
@@ -239,6 +239,6 @@ def return_funds(sender, instance, **kwargs):
 	else:
 		user_list = party_obj.winners.all()
 		for user in user_list:
-			curr_balance = user.profile.account_balance - party_obj.cost
+			curr_balance = user.profile.account_balance + party_obj.cost
 			user.profile.account_balance = curr_balance
 			user.profile.save(update_fields=['account_balance'])
