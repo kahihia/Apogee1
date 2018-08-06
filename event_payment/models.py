@@ -12,7 +12,7 @@ class EventPayment(models.Model):
 	payment_amount 	= models.DecimalField(max_digits=7, decimal_places=2, default=0)
 	payment_user 		= models.ForeignKey(settings.AUTH_USER_MODEL,
 					on_delete=models.CASCADE)
-	party 		= models.ForeignKey(Party,on_delete=models.SET_NULL, null=True, \
+	party 		= models.ForeignKey(Party,on_delete=models.CASCADE, null=True, \
 		related_name="payment_object")
 	is_paid 	= models.BooleanField(default=False)
 	task_id			= models.CharField(max_length=50, blank=True, editable=False)
