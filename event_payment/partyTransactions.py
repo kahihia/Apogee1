@@ -18,6 +18,29 @@ def outbid_return(bid_obj):
 	curr_balance = user.profile.account_balance + bid_obj.bid_amount
 	user.profile.account_balance = curr_balance
 	user.profile.save(update_fields=['account_balance'])
+#Gets all users associated with a party_obj
+#Returns the event proceeds to user account_balance
+def return_event_proceeds(party_obj):
+	if party_obj.event_type==1:
+		user_list = party_obj.joined
+		for user in user_list:
+			curr_balance = user.profile.account_balance - party_obj.cost
+			user.profile.account_balance = curr_balance
+			user.profile.save(update_fields=['account_balance'])
+	elif party_obj.event_type==2:
+		bid_list = Bid.objects.filter(party=party_obj)
+		for bid in bid_list:
+			user = bid.user
+			curr_balance = user.profile.account_balance + bid.bid_amount
+			user.profile.account_balance = curr_balance
+			user.profile.save(update_fields=['account_balance'])
+	else:
+		user_list = party_obj.winners
+		for user in user_list:
+			curr_balance = user.profile.account_balance - party_obj.cost
+			user.profile.account_balance = curr_balance
+			user.profile.save(update_fields=['account_balance'])
+
 #Create a payment object for party owner
 def create_payment(party_obj):
 	payment_amount = 0
