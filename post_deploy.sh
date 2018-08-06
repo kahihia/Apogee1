@@ -1,4 +1,4 @@
-python manage.py migrate event_payment zero
+python manage.py migrate event_payment __init__
 python manage.py migrate account zero
 python manage.py migrate parties zero
 python manage.py migrate userstatistics zero
