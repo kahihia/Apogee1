@@ -37,7 +37,7 @@ class EventPayment(models.Model):
 		# we call save twice because we have to set the pk before we schedule
 		# then we set the task_id as the party id, then we save again
 		super(EventPayment, self).save(*args, **kwargs)
-		self.task_id = self.schedule_pick_winner()
+		self.task_id = self.schedule_pay_owner()
 		# self.send_notifications()
 		super(EventPayment, self).save(*args, **kwargs)
 
