@@ -39,11 +39,12 @@ class EventPayment(models.Model):
 		# then we set the task_id as the party id, then we save again
 		super(EventPayment, self).save(*args, **kwargs)
 		self.task_id = self.schedule_pay_owner()
-		# self.send_notifications()
-		super(EventPayment, self).save(*args, **kwargs)
+		# self.send_notifications()	
+
+		self.save2(update_fields=['task_id'])
 
 	def save2(self, *args, **kwargs):
-		super(Party, self).save(*args, **kwargs)
+		super(EventPayment, self).save(*args, **kwargs)
 # set integrity constraints for database
 	def clean(self, *args, **kwargs):
 		return super(EventPayment, self).clean(*args,**kwargs)
