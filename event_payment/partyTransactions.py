@@ -20,6 +20,7 @@ def outbid_return(bid_obj):
 	user.profile.save(update_fields=['account_balance'])
 #Gets all users associated with a party_obj
 #Returns the event proceeds to user account_balance
+#THIS FUNCTION IS NEVER CALLED BUT IS USED IN THE PARTY MODEL
 def return_event_proceeds(party_obj):
 	if party_obj.event_type==1:
 		user_list = party_obj.joined
