@@ -15,7 +15,7 @@ from celery.task.schedules import crontab
 from celery.decorators import periodic_task
 import math
 import sys
-import return_funds.py
+from . import return_funds
 #from event_payment import partyTransactions
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
