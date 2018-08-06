@@ -9,17 +9,16 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from celery.task.schedules import crontab
 from celery.decorators import periodic_task
-
 import math
 import sys
 #from event_payment import partyTransactions
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
-
 import os
 from uuid import uuid4
 
