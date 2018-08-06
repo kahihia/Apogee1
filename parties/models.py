@@ -15,7 +15,7 @@ from celery.decorators import periodic_task
 
 import math
 import sys
-from event_payment import partyTransactions
+#from event_payment import partyTransactions
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
@@ -223,11 +223,5 @@ post_save.connect(party_save_receiver, sender=Party)
 
 @receiver(pre_delete, sender=Party)
 def return_funds(sender, instance, **kwargs):
-     	partyTransactions.return_event_proceeds(instance)
-
-
-
-
-
-
-
+	print("DASBJHSDHASDBHAJdshbasdddbjhdbjhdbjhadbjhadsdbjhasdbhjasbjhdsbjhdasbjhdsjbhdasbhsdabjhdsbjhasdbhdsdasdjdsbhasdabhsdbhdsbhsdbhdsbhdsbhsdbhsdbhsdbhsdbhdsbhdbhs")
+     	#partyTransactions.return_event_proceeds(instance)
