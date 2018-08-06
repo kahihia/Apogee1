@@ -18,4 +18,4 @@ def pay_owner(payment_id):
 		owner.profile.account_balance = curr_balance
 		owner.profile.save(update_fields=['account_balance'])
 		payment.is_paid = True
-		payment.save(update_fields=['is_paid'])
+		payment.save2(update_fields=['is_paid'])
