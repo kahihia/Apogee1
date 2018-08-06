@@ -20,9 +20,9 @@ from paypalrestsdk.notifications import WebhookEvent
 from decouple import config
 import paypalrestsdk
 paypal_api = paypalrestsdk.Api({
-  'mode': 'sandbox',
-  'client_id': 'AYVs-7u_YV5YGnV2c8q4L0i8Ke6iZjVwY6JoumipioAh-8do6ZHCC9sYP94PpS62ZTbdqVTCNV39h0uw',
-  'client_secret': 'EBL0rnyKpDsbb5Tg657jVfJGU-uT8mDu8LuwbBucDAGEbAWu2-h59WMb7Uv6mcA1TtGH3gVwCoekOWJ_'})
+  'mode': config("PAYPAL_ENV") or 'sandbox',
+  'client_id': config("PAYPAL_CLIENT_ID"),
+  'client_secret': config("PAYPAL_CLIENT_SECRET") })
 
 
 class PaypalVerificationAPI(APIView):
@@ -45,13 +45,16 @@ class PaypalVerificationAPI(APIView):
 		original_payment = paypalrestsdk.Payment.find(json_paypal['resource']['parent_payment'])
 		user_id = original_payment['transactions'][0]['custom']
 		u = UserProfile.objects.get(id=user_id)
-		response = WebhookEvent.verify(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo)
-		if response:
+		
+		# The Below function verified the payment from the webhook, if it exists increment user balance and send out success response
+		payment_verified = WebhookEvent.verify(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo)
+
+		if payment_verified:
 			payment = Decimal(original_payment['transactions'][0]['amount']['total'])
 			u.account_balance = u.account_balance + payment
 			u.save()
 
-		return Response(response)
+		return Response(payment_verified)
 
 # star toggle is a method from the model that just adds the user to the 
 # list containing the people who have starred it
