@@ -1,4 +1,8 @@
-python manage.py makemigrations
-python manage.py migrate auth
-python manage.py migrate
-python manage.py collectstatic
+yes | python manage.py makemigrations parties
+yes | python manage.py makemigrations event_payment
+yes | python manage.py makemigrations
+yes | python manage.py migrate parties
+yes | python manage.py migrate event_payment
+yes | python manage.py migrate auth
+yes | python manage.py migrate
+yes | python manage.py collectstatic
