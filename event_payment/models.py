@@ -29,7 +29,7 @@ class EventPayment(models.Model):
 		# .astimezone(pytz.utc)
 		# brings in the pick winner method
 		from .tasks import pay_owner
-		result = pay_owner.apply_async((self.pk,), eta=pick_time)
+		result = pay_owner.apply_async((self.pk,), eta=pay_time)
 		return result.id
 	def save(self, *args, **kwargs):
 		# if we've already shceduled it, as in we're editing, cancel it
