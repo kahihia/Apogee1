@@ -24,7 +24,7 @@ class EventPayment(models.Model):
 		print("I am getting scheduled________________________________________________")
 		# the pick time is set to be slightly before when the event 
 		# actully happens to allow everyone to get set up.
-		pay_time = self.party_time + timedelta(minutes=1)
+		pay_time = self.party.party_time + timedelta(minutes=1)
 		# .astimezone(pytz.utc)
 		# brings in the pick winner method
 		from .tasks import pay_owner
