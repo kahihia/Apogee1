@@ -11,6 +11,8 @@ boto
 paypal
 django-paypal
 paypalrestsdk
+twisted
+channels
 
 amqp==2.2.2
 billiard==3.5.0.3
