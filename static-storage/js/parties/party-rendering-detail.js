@@ -10,7 +10,7 @@ function loadPartyListContainer(partyContainerID){
 
 function renderPartyList(partyContainerID){
   // this is the set of events in the api
-   let query = getParameterByName('q');
+  let query = getParameterByName('q');
   let partyList = [];
   // this links to the following page in the api
   let nextPartyUrl;
@@ -75,6 +75,7 @@ function renderPartyList(partyContainerID){
         // if there are more pages in the API, the loadmore appears
         if (data.next) {
           nextPartyUrl = data.next
+          $('#loadmore').css('display', 'inline-block')
         } else {
           $('#loadmore').css('display', 'none')
         }

@@ -69,7 +69,7 @@ class PartyDetailView(LoginRequiredMixin, DetailView):
 
 # this is the main home page view. all the rendering is handled by the api and 
 # JS in base. I believe the queryset isn't even used, its just required by Django
-class PartyListView(LoginRequiredMixin, ListView):
+class PartyListView(ListView):
 	def get_queryset(self, *args, **kwargs):
 		qs = Party.objects.all()
 		# currently unused because the search goes to a different view

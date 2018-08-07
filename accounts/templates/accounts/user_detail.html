@@ -80,20 +80,21 @@
 		
 		<!-- this is the user settings menu -->
 		<div class="dropdown mt-2">
-			<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		    	<i class="fas fa-cog fa-lg mr-2 grey-color"></i>
-			</button>
-			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-				{% if object == request.user %}
-				<a class="dropdown-item" href="{{ request.user.profile.get_edit_url }}">Edit Profile</a>
+			{% if object == request.user %}
+			<a href="{{ request.user.profile.get_edit_url }}">
+		    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
+			</a>
+			{% else %}
+				{% if blocking %}
+				<a data-toggle="modal" data-target="#unblockModal">
+			    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
+				</a>
 				{% else %}
-					{% if blocking %}
-					<a class="dropdown-item" href='{{ object.profile.get_block_url }}'>Unblock {{ object.username }}</a>
-					{% else %}
-					<a class="dropdown-item" data-toggle="modal" data-target="#blockModal">Block {{ object.username }}</a>
-					{% endif %}
+				<a data-toggle="modal" data-target="#blockModal">
+			    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
+				</a>
 				{% endif %}
-			</div>
+			{% endif %}
 		</div>
 
 		<!-- this is the block confirm modal -->
@@ -117,6 +118,28 @@
 		    </div>
 		  </div>
 		</div>
+
+		<!-- this is the unblock confirm modal -->
+		<div class="modal fade" id="unblockModal" tabindex="-1" role="dialog" aria-labelledby="unblockModalTitle" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="unblockModalTitle">Unblock {{ object.username }}?</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body text-left">
+		        <p>Unblocking <strong>{{ object.username }}</strong> will allow them to see and participate in your events.</p>
+		      </div>
+		      <div class="modal-footer">
+		        <a class="btn btn-outline-danger btn-block" href='{{ object.profile.get_block_url }}'>
+		        	Unblock
+		    	</a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 	</div>
 </div>
 
@@ -132,7 +155,7 @@
 		<div class='ml-1' id='party-container' data-url='/api/{{ user.username }}/events/'></div>
 
 		<!-- this is our load more button for the pagination. loadmore is a method specified in the JS from base.html -->
-		<button type="button" class="btn btn-outline-secondary btn-sm btn-block" id='loadmore'>Show More Events</button>
+		<button type="button" class="btn btn-outline-secondary btn-sm btn-block" id='loadmore' style="display:none">Show More Events</button>
 		<!-- this lists the load button off of the bottom -->
 		<br><p></p>	
 		{% endif %}	
