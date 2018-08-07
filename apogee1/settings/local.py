@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'bids',
     'notifications',
     'userstatistics',
+    'eventmessages',
 
     # third party stuff
     'crispy_forms',

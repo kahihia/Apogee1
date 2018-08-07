@@ -54,6 +54,7 @@ urlpatterns = [
 	# this should migrate into the settings page at some point soon
 	path('tz/', set_timezone, name='set_timezone'),
 	path('stats/', include('userstatistics.urls', namespace='statistics'))
+	path('messages/', include('eventmessages.urls', namespace='eventmessages'))
 	#url(r'^.*$', RedirectView.as_view(url='', permanent=False), name='index')
 	#Deprecated path to bids, bid views not available to users
 	#path('bids/', include('bids.urls', namespace='bids'))
