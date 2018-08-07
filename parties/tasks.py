@@ -8,6 +8,7 @@ from .models import Party
 from notifications.models import Notification
 from parties import partyHandling
 from apogee1.utils.email import emailer
+from event_payment import partyTransactions
 
 winner_text = "You Won!"
 reminder_text = "Your event with {} is soon "
@@ -27,6 +28,7 @@ def pick_winner(party_id):
 	if party.is_open:
 		Notification.objects.create(user=party.user, party=party,\
 		action="owner_event_close")
+		partyTransactions.create_payment(party)
 	# if there are people that joined the event
 	if party.joined.all().count() > 0:
 		# gets all users in joined, orders them randomly
@@ -50,9 +52,12 @@ def pick_winner(party_id):
 				print (w)
 			#add winners in
 			for i in winners:
+				print("HERE")
 				partyHandling.win_toggle(i, party)
-				email_data = {'username': winner.username}
-				emailer.email(winner_text, 'team@apogee.gg', [winner.email], 'winner_email.html', email_data)
+				# email_data = {'username': winner.username}
+				# emailer.email(winner_text, 'team@apogee.gg', [winner.email], 'winner_email.html', email_data)
+				email_data = {'username': i.username}
+				emailer.email(winner_text, 'team@apogee.gg', [i.email], 'winner_email.html', email_data)
 			statisticsfunctions.bid_update_end_stats(party)
 		elif party.event_type==3 and party.is_open:
 			print("Buyout event is over")	

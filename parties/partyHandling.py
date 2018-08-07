@@ -16,6 +16,7 @@ from .models import Party
 from parties import popularityHandling
 from bids.models import Bid
 from userstatistics import statisticsfunctions
+from event_payment import partyTransactions
 from notifications.models import Notification
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
@@ -38,6 +39,12 @@ max_acceptable_bid = 99999.99
 #joined = False
 def event_is_closed():
 	return {'added':False, 'error_message':"Event is closed"}
+
+#Returns dict with event information
+#error = insufficient funds
+#joined = False
+def event_insufficient_funds():
+	return {'added':False, 'error_message':"Your account has insufficient funds for this event"}	
 
 #Returns dict with event information
 #error = user already in event
@@ -77,6 +84,11 @@ def lottery_add_user(user,party_obj):
 	statisticsfunctions.lottery_update_join_stats(party_obj)
 	popularityHandling.lottery_popularity_join(party_obj)
 	party_obj.joined.add(user)
+	partyTransactions.buy_lottery_reduction(user, party_obj)
+	# curr_balance = user.profile.account_balance - party_obj.cost
+	# user.profile.account_balance = curr_balance
+	# user.profile.save(update_fields=['account_balance'])
+
 	return {'added':True, 'error_message':""}
 #Ends the lottery event
 #1.Party that is passed to it has its joined list shuffled
@@ -88,9 +100,8 @@ def lottery_end(party_obj):
 	# this creates the owner close notification, alerts the fans that they have won
 	Notification.objects.create(user=party_obj.user, party=party_obj,\
 	action="owner_event_close")
-	print("Closing lottery")
+	partyTransactions.create_payment(party_obj)
 	pool = party_obj.joined.all().order_by('?')
-	print("The max entrants are: "+str(party_obj.max_entrants))
 	for i in range(0,party_obj.num_possible_winners):
 		if pool:
 			winner = pool.first()
@@ -115,20 +126,19 @@ def buyout_add_user(user, party_obj):
 	statisticsfunctions.buyout_update_join_stats(party_obj)
 	party_obj.winners.add(user)
 	party_obj.joined.add(user)
+	partyTransactions.buy_lottery_reduction(user, party_obj)
 	#Creating a notification for the user on buyout win
-	print("Creating Notifiaction for buyout win on buyout click")
 	Notification.objects.create(user=user, party=party_obj,\
 	action="fan_win")
-	print("Notification Created")
 	return {'added':True, 'error_message':""}
 #Ends the buyout event
 #1. event that is passed is closed
 #2. Create notification for event owner
 def buyout_end(user, party_obj):
-	print("Closing buyout")
 	statisticsfunctions.buyout_update_end_stats(party_obj)
 	Notification.objects.create(user=party_obj.user, party=party_obj,\
 	action="owner_event_close")
+	partyTransactions.create_payment(party_obj)
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
 
@@ -140,12 +150,10 @@ def bid_add_user_when_open_spots(party_obj, bid, user):
 	statisticsfunctions.bid_update_join_stats(party_obj)
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
-	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+\
-	" from open slot")
+	partyTransactions.bid_reduction(user, bid)
 	return{'added':True, 'error_message':""}
 
 def bid_get_min_bid_number(party_obj):
-	print("Bid reached max slots")
 	# bid_list = Bid.objects.filter(party=party_obj)
 	bid_list = party_obj.bids_list.all()
 	min_bid = bid_list.first()
@@ -154,7 +162,6 @@ def bid_get_min_bid_number(party_obj):
 			min_bid=bs
 	return min_bid.bid_amount
 def bid_get_min_bid_object(party_obj):
-	print("Bid reached max slots")
 	# bid_list = Bid.objects.filter(party=party_obj)
 	bid_list = party_obj.bids_list.all()
 	min_bid = bid_list.first()
@@ -166,23 +173,21 @@ def bid_get_min_bid_object(party_obj):
 def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	popularityHandling.bid_popularity_join(party_obj)
 	statisticsfunctions.bid_update_join_stats(party_obj)
-	print("Removing smallest bid by: "+str(min_bid.user))
-	Bid.objects.filter(pk=min_bid.pk).delete()
+	partyTransactions.bid_reduction(user, bid)
+	lowest_bid = Bid.objects.get(pk=min_bid.pk)
+	lowest_bid.delete()
 	# notifies the lowest bidder that they have been knocked off
 	Notification.objects.create(user=min_bid.user, party=party_obj,\
 	action="fan_outbid")
 	party_obj.joined.remove(min_bid.user)
 	party_obj.joined.add(user)
 	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
-	print("New bid is: "+str(new_bid.bid_amount)+" by "+str(new_bid.user)+\
-	" from winning slot")
 	party_obj.minimum_bid = bid_get_min_bid_number(party_obj)
 	party_obj.save2(update_fields=['minimum_bid'])
 	return{'added':True, 'error_message':""}
 
 def bid_bid_too_low():
 	return{'added':False, 'error_message':"You must beat the minimum bid"}
-
 
 ############################ END BID FUNCTIONS #################################
 
@@ -191,7 +196,6 @@ def bid_bid_too_low():
 ################################################################################
 
 ########################## FUNCTIONS USED BY API ###############################
-
 
 # this both adds or removes the user and tells us if they're on it
 def star_toggle(user, party_obj):
@@ -241,6 +245,10 @@ def lottery_add(user, party_obj):
 	# = You have already joined this event
 	elif user in party_obj.joined.all():
 		event_info = event_user_already_in_event(party_obj)
+	#if user does not have enough money in their account
+	#returns dict with joined=false and error_message
+	elif user.profile.account_balance<party_obj.cost:
+		event_info = event_insufficient_funds()
 	# If there is no cap on how many users can enter the party
 	# add user to joined list
 	# returns dict with joined = True and error_message
@@ -293,6 +301,10 @@ def buyout_add(user, party_obj):
 	# = You have bought this event
 	elif user in party_obj.winners.all():
 		event_info = event_user_already_in_event(party_obj)
+	#if user does not have enough money in their account
+	#returns dict with joined=false and error_message
+	elif user.profile.account_balance<party_obj.cost:
+		event_info = event_insufficient_funds()
 	# if the party has reached its max cap
 	# returns dict with added = False and error_message
 	# = This event is already at max capacity
@@ -338,15 +350,10 @@ def bid_add(user, party_obj, bid):
 		'error_message':"Bid value too large"}
 
 	bid = math.floor(bid*100)/100
-
-
-	print("bid_add:")
-	print(bid)
 	# If party is closed
 	# returns dict with added = False and error_message
 	# = Event is closed
 	if not party_obj.is_open:
-		print("Party closed - bid")
 		event_info = event_is_closed()
 	# If user has been banned by event owner
 	# returns dict with joined = False and error_message
@@ -357,14 +364,15 @@ def bid_add(user, party_obj, bid):
 	# returns dict with added = False and error_message 
 	# = You have already bid on this event
 	elif user in party_obj.joined.all():
-		print("Already in party - bid")
 		event_info = event_user_already_in_event(party_obj)
 	#bid must beat the current minimum_bid
+	#if user does not have enough money in their account
+	#returns dict with joined=false and error_message
+	elif user.profile.account_balance<bid:
+		event_info = event_insufficient_funds()
 	elif not bid:
-		print("Bid doesn't exist - bid")
 		event_info = bid_bid_too_low()
 	elif bid <= party_obj.minimum_bid:
-		print("Bid is too low - bid")
 		event_info = bid_bid_too_low()
 	# If there are still slots available
 	# add user to joined list
@@ -373,10 +381,8 @@ def bid_add(user, party_obj, bid):
 	# if this results in there being no slots remaining
 	# get min bid on this party, and set as party's minimum bid
 	elif party_obj.joined.all().count()<party_obj.num_possible_winners:
-		print("Free spot - bid")
 		event_info = bid_add_user_when_open_spots(party_obj, bid, user)
 		if party_obj.joined.all().count()==party_obj.num_possible_winners:
-			print("Max spots reached - bid")
 			party_obj.minimum_bid = bid_get_min_bid_number(party_obj)		
 			party_obj.save2(update_fields=['minimum_bid'])
 	#if no slots available
@@ -403,7 +409,6 @@ def bid_add(user, party_obj, bid):
 	#to parties/api/views under JoinToggleAPIView
 	bid_accepted = event_info["added"]
 	error_message = event_info["error_message"]	
-	print("end of bid_add - bid")	
 	#This is done for formatting purposes on front end
 	# to display only two decimal places
 	f_min_bid = '%.2f' % party_obj.minimum_bid

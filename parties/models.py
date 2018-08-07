@@ -9,17 +9,16 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 from celery.task.schedules import crontab
 from celery.decorators import periodic_task
-
 import math
 import sys
-
+#from event_payment import partyTransactions
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
-
 import os
 from uuid import uuid4
 
@@ -218,11 +217,23 @@ def party_save_receiver(sender, instance, created, *args, **kwargs):
 		parsed_hashtags.send(sender=instance.__class__, hashtag_list=hashtags)
 		#send hashtag signal here
 
-post_save.connect(party_save_receiver, sender=Party)	
 
+post_save.connect(party_save_receiver, sender=Party)
 
-
-
-
-
-
+@receiver(pre_delete, sender=Party)
+def return_funds(sender, instance, **kwargs):
+	party_obj = instance
+	if party_obj.event_type==1:
+		user_list = party_obj.joined.all()
+		for user in user_list:
+			curr_balance = user.profile.account_balance + party_obj.cost
+			user.profile.account_balance = curr_balance
+			user.profile.save(update_fields=['account_balance'])
+	elif party_obj.event_type==2:
+		a=5
+	else:
+		user_list = party_obj.winners.all()
+		for user in user_list:
+			curr_balance = user.profile.account_balance + party_obj.cost
+			user.profile.account_balance = curr_balance
+			user.profile.save(update_fields=['account_balance'])

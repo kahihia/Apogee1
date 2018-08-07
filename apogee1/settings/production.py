@@ -31,7 +31,7 @@ SECRET_KEY = config('SECRET_KEY')
 #HEROKU 
 #DEBUG = True
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['.apogee.gg']
+ALLOWED_HOSTS = [config('DJANGO_ALLOWED_HOSTS')]
 
 #'apogee1.herokuapp.com',
 AWS_QUERYSTRING_AUTH = False
@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'bids',
     'notifications',
     'userstatistics',
+    'event_payment',
 
     # third party stuff
     'crispy_forms',
