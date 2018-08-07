@@ -60,7 +60,7 @@ class UserRegisterView(FormView):
             new_user.set_password(password)
             new_user.save()
             email_data = {'username': username}
-            emailer.email('Account Registration Success!', 'team@apogee.gg', [email], 'creation_email.html', email_data)
+            emailer.email('Account Registration Success', 'team@apogee.gg', [email], 'creation_email.html', email_data)
 
         else:
             return HttpResponseRedirect("/register")

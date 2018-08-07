@@ -3,6 +3,7 @@
 *__pycache__*
 myvenv
 venv
+static-serve
 *.env
 db.sqlite3
 /static

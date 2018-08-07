@@ -3,15 +3,81 @@
 from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from django.db.models import Q, Count
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 from datetime import timedelta
+from decimal import Decimal
+import json
+import logging
 
 from parties import partyHandling
 from bids.models import Bid
 from parties.models import Party
+from accounts.models import UserProfile
 from .pagination import StandardResultsPagination
 from .serializers import PartyModelSerializer
+from paypalrestsdk.notifications import WebhookEvent
+from decouple import config
+import paypalrestsdk
+
+logger = logging.getLogger(__name__)
+
+paypal_api = paypalrestsdk.Api({
+  'mode': config("PAYPAL_ENV", default="sandbox"),
+  'client_id': config("PAYPAL_CLIENT_ID"),
+  'client_secret': config("PAYPAL_CLIENT_SECRET") })
+
+
+class PaypalVerificationAPI(APIView):
+	"""
+		This function acts as an endpoint for the Paypal Webhook 
+		https://developer.paypal.com/docs/integration/direct/webhooks/
+		that handles the PAYMENT.SALE.COMPLETED event, the event that shows when a 
+		payment has completed.
+	"""
+	@csrf_exempt
+	def post(self, request, format=None):
+		# Webhook headers
+		transmission_id = request.META.get("HTTP_PAYPAL_TRANSMISSION_ID")
+		timestamp =  request.META.get("HTTP_PAYPAL_TRANSMISSION_TIME")
+		actual_signature = request.META.get("HTTP_PAYPAL_TRANSMISSION_SIG") 
+		cert_url = request.META.get("HTTP_PAYPAL_CERT_URL")
+
+		webhook_id = config("WEBHOOK_ID", default="9EC012240A567735B")
+		auth_algo = 'sha256'
+		fail = {'status': 'failure'}
+
+		json_paypal = json.loads(request.body)		
+		if json_paypal["event_type"] != "PAYMENT.SALE.COMPLETED":
+			logger.warning('Unauthorized event types in paypal webhook' + json_paypal['event_type'])
+			return Response(fail, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+		# Get payment and user id from webhook post
+		original_payment = paypalrestsdk.Payment.find(json_paypal['resource']['parent_payment'])
+		if 'custom' in original_payment['transactions'][0]:
+			user_id = original_payment['transactions'][0]['custom']
+		else:
+			return Response(fail, status=status.HTTP_424_FAILED_DEPENDENCY)
+			
+		u = UserProfile.objects.get(id=user_id)
+		
+		# Verifies the payment from the webhook via public private key and creates a response object to send back to paypal
+		try:
+			payment_verified = WebhookEvent.verify(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo)
+		except Exception as e:
+			logger.error('Could not verify paypal sale completion')
+
+		# Increment user's account
+		if payment_verified:
+			payment = Decimal(original_payment['transactions'][0]['amount']['total'])
+			if payment < 0:
+				logger.error('User account balance under 0 in paypal hook block.')
+				return Response(fail, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+			u.account_balance = u.account_balance + payment
+			u.save()
+
+		return Response(payment_verified, status=status.HTTP_200_OK)
 
 # star toggle is a method from the model that just adds the user to the 
 # list containing the people who have starred it

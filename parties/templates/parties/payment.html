@@ -1,3 +1,44 @@
-<h1>Show me the money!</h1>
+<div id="paypal-button"></div>
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+paypal.Button.render({
+	env: 'sandbox',
+	client: {
+		sandbox: 'AYVs-7u_YV5YGnV2c8q4L0i8Ke6iZjVwY6JoumipioAh-8do6ZHCC9sYP94PpS62ZTbdqVTCNV39h0uw'
+	},
+	payment: function (data, actions) {
+		return actions.payment.create({
+			transactions: [{
+				amount: {
+					total: '{{ object.cost }}',
+					currency: 'USD',
+				},
+				custom: '{{ request.user.id }}',
+				description: '{{ object.description }}',
+	      item_list: {
+	        items: [
+	          {
+	            name: '{{ object.title }}',
+	            description: '{{ object.description }}',
+	            quantity: '1',
+	            price: '{{ object.cost }}',
+	            tax: '0.01',
+	            sku: '1',
+	            currency: 'USD'
+	          }
+	        ],
+	      }
+			}]
+		});
+	},
+	onAuthorize: function (data, actions) {
+		return actions.payment.execute()
+			.then(function () {
+				window.alert('Thank you for your purchase!');
+			});
+	}
+}, '#paypal-button');
+</script>
+
+<div id="paypal-button"></div>
 <!-- writes out the form tag automatically -->
-{{ form.render }}

@@ -10,6 +10,7 @@ boto3
 boto
 paypal
 django-paypal
+paypalrestsdk
 
 amqp==2.2.2
 billiard==3.5.0.3
