@@ -17,7 +17,7 @@ class PayoutModelForm(forms.ModelForm):
 
 
 	class Meta:
-		model = Party
+		model = Payout
 		# fields determines what order the form fields appear in
 		fields = [
 			'payment_info',
