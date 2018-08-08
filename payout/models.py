@@ -11,4 +11,4 @@ class Payout(models.Model):
 	time_requested		= models.DateTimeField(auto_now_add=True)
 	description 		= models.CharField(max_length=280)
 	payment_info		= models.CharField(max_length=40)
-	is_paid 			= models.BooleanField(default=False)
+	#is_paid 			= models.BooleanField(default=False)
