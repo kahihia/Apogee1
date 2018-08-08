@@ -11,5 +11,5 @@ class PayoutCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	template_name = 'payout/create_view.html'
 	def form_valid(self, form):
 		form.instance.user = self.request.user
-		form.instance.payout_amount = self.request.user.account_balance
+		form.instance.payout_amount = self.request.user.profile.account_balance
 		return super(PayoutCreateView, self).form_valid(form)
