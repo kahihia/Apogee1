@@ -4,7 +4,7 @@ from django.views.generic import RedirectView
 # views
 from .views import (
 		PayoutCreateView,
-		PayoutDetailView,
+		PayoutListView,
 	)
 
 # app name specifies how we refer to these urls
@@ -13,5 +13,5 @@ app_name = 'payout'
 # /events routes to this 
 urlpatterns = [
     path('info/', PayoutCreateView.as_view(), name='info'),
-    path('success/', PayoutDetailView.as_view(), name='success'),
+    path('success/', PayoutListView.as_view(), name='success'),
 ]

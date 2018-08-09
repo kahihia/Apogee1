@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import FormUserNeededMixin
 from .forms import PayoutModelForm
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView,ListView
 from .models import Payout
 
 class PayoutCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
@@ -18,7 +18,7 @@ class PayoutCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 		self.request.user.profile.save(update_fields=['account_balance'])
 		return super(PayoutCreateView, self).form_valid(form)
 
-class PayoutDetailView(LoginRequiredMixin, DetailView):
+class PayoutListView(LoginRequiredMixin, ListView):
 	template_name = 'payout/detail_view.html'
 	def get_queryset(self, *args, **kwargs):
 		qs = Payout.objects.filter(payout_user=self.request.user)
