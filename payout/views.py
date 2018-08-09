@@ -6,6 +6,8 @@ from .forms import PayoutModelForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView,ListView
 from .models import Payout
+from django.http import HttpResponse, HttpResponseNotFound, Http404,  HttpResponseRedirect
+from django.shortcuts import render
 
 class PayoutCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	form_class = PayoutModelForm
