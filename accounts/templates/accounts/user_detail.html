@@ -97,7 +97,7 @@
 		</div>
 
 		<!-- payment stuff -->
-		if{{ object.profile.account_balance > 100 }}
+		if{% {{object.profile.account_balance}} > 100 %}
 		<div class='col-sm-2 my-3 text-right'>
 			<a class='button' href="{% url 'payout:info' %}">Payout ${{object.profile.account_balance}}</a>
 		</div>
