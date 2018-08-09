@@ -15,7 +15,7 @@ class PayoutCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	success_url = '/payout/success'
 	def form_valid(self, form):
 		if self.request.user.profile.account_balance < 100:
-			return HttpResponseRedirect("/payout/create_view.html", {'insufficient_funds': True})
+			return HttpResponseRedirect("/payout/info", {'insufficient_funds': True})
 		form.instance.payout_user = self.request.user
 		form.instance.payout_amount = self.request.user.profile.account_balance
 		self.request.user.profile.account_balance = self.request.user.profile.account_balance - form.instance.payout_amount
