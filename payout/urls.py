@@ -11,5 +11,6 @@ from .views import (
 app_name = 'payout'
 # /events routes to this 
 urlpatterns = [
-    path('info/', PayoutCreateView.as_view(), name='info'), # /create
+    path('info/', PayoutCreateView.as_view(), name='info'),
+    path('success/', PayoutDetailView.as_view(), name='success'),
 ]
