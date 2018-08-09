@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
 # views
-from .views import home, SearchView, set_timezone
+from .views import HomeView, SearchView, set_timezone
 from parties.views import PartyListView
 from hashtags.views import HashTagView
 from hashtags.api.views import TagPartyAPIView
@@ -37,7 +37,7 @@ from accounts.views import UserRegisterView
 # namespace is an instance namespace. the app_name attr is the application namespace
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('', PartyListView.as_view(), name='home'),
+	path('', HomeView.as_view(), name='home'),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path('register/', UserRegisterView.as_view(), name='register'),
 	path('search/', SearchView.as_view(), name='search'),

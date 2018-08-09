@@ -1,10 +1,4 @@
-{% extends "base.html" %}
 {% load static %}
-
-<!-- sets the tab info -->
-{% block title %}
-  Events | {{ block.super }}
-{% endblock title %}
 
 <!-- this is our custom js -->
 {% block script %}
@@ -14,7 +8,6 @@
 
 {% block content %}
   {% load staticfiles %}
-  <h1>{{ room.label }}</h1>
   <p class="quiet">
     Anyone with this URL can join the room and chat: 
     <code>{{ request.scheme }}://{{ request.get_host }}/{{ room.label }}</code> 
@@ -45,16 +38,3 @@
     </table>
   </form>
 {% endblock content %}
-
-<!-- chat/templates/chat/room.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
-</head>
-<body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br/>
-    <input id="chat-message-input" type="text" size="100"/><br/>
-    <input id="chat-message-submit" type="button" value="Send"/>
-</body>

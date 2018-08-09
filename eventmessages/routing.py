@@ -3,5 +3,5 @@ from django.conf.urls import url
 from . import consumers
 
 websocket_urlpatterns = [
-    url(r'^ws/messages/(?P<room_name>[^/]+)/$', consumers.ChatConsumer),
+    url(r'^ws/events/(?P<room_name>[^/]+)/$', consumers.ChatConsumer),
 ]

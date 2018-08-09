@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import logging
-from .models import Room
+from .models import Room, Message
 import json
 
 logger = logging.getLogger(__name__)

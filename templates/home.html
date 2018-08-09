@@ -1,10 +1,160 @@
 <!-- this is the initial home page from development. it's no longer used -->
 {% extends 'base.html' %}
+{% load tz %}
 
 {% block title %}
-    {{ block.super }} | Welcome
+	{{ block.super }} | Welcome
 {% endblock title %}
 
 {% block content %}
-    <h1>Connect with your favorite creators!</h1>
+<div class='row'>
+	<!-- left side column -->
+	<div class='col-sm-3 grey-background'>
+		<!-- separated so that the background wont follow the right columns len() -->
+		<div class='col-sm-12 mt-4'>
+			<!-- current logged user -->
+			<h3>rafael</h3><hr>
+		</div>
+		<!-- create event button linked to create page -->
+		<div class='col-sm-12 mt-3'>
+			<a href="/events/create/">
+				<button class='btn btn-outline-secondary'>Create an event</button>
+			</a>
+		</div>
+		<!-- holds recommended users -->
+		<div class='col-sm-12 mt-5'>
+			<h3 class='mb-3'>Following</h3>
+			
+				<p>Not following anyone</p>
+			
+		</div>
+	</div>
+	<div class='col-sm-9 mt-3'>
+		{# Following #}
+		{% if following %}
+		<h1>Following</h1>
+		<hr>
+		<div class='ml-1 row' id='following-container'>
+			{% for party in following %}
+				<div class="col-xs-12 col-sm-4">
+					<div class="card-deck mb-4">
+						<div class="card" style="max-width: 16rem;">
+							<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
+								<img class="card-img-top" src="{{party.thumbnail_url}}" alt="not here">
+							</a>
+							<div class="card-body">
+								<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
+									<h5 class="card-title">{{party.short_title}}</h5>
+									<p class="card-text"><span class="description">{{party.short_description}}</span></p>
+								</a>
+							</div>
+							<div class="card-footer">
+								<small class="text-muted">With 
+									<a class="text-dark" href="/profiles/{{party.user.username}}">{{party.user.username}}</a>
+									<span class="float-right">${{party.cost}} 
+									<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i> 
+									</span>
+									<br>
+									{{ party.party_time_display }}
+								</small>
+								<span class="float-right">
+									<a href="#" class="starBtn text-dark" data-id="31">
+										<i class="fa fa-star grey-color" aria-hidden="true"></i>
+									</a>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		{% else %}
+		{% endif %}
+
+		{# Trending #}
+		{% if trending %}
+		<h1 class='mt-5'>Trending</h1>
+		<div class='ml-1 row' id='trending-container'>
+			{% for party in trending %}
+				<div class="col-xs-12 col-sm-4">
+					<div class="card-deck mb-4">
+						<div class="card" style="max-width: 16rem;">
+							<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
+								<img class="card-img-top" src="{{party.thumbnail_url}}" alt="not here">
+							</a>
+							<div class="card-body">
+								<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
+									<h5 class="card-title">{{party.short_title}}</h5>
+									<p class="card-text"><span class="description">{{party.short_description}}</span></p>
+								</a>
+							</div>
+							<div class="card-footer">
+								<small class="text-muted">With 
+									<a class="text-dark" href="/profiles/{{party.user.username}}">{{party.user.username}}</a>
+									<span class="float-right">${{party.cost}} 
+									<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i> 
+									</span>
+									<br>
+									{{ party.party_time_display }}
+								</small>
+								<span class="float-right">
+									<a href="#" class="starBtn text-dark" data-id="31">
+										<i class="fa fa-star grey-color" aria-hidden="true"></i>
+									</a>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		{% else %}
+		{% endif %}
+
+		{# Closing Soon #}
+		{% if closing %}
+		<h1 class='mt-5'>Closing Soon</h1>
+		<div class='ml-1 row' id='closing-container'>
+			{% for party in closing %}
+				<div class="col-xs-12 col-sm-4">
+					<div class="card-deck mb-4">
+						<div class="card" style="max-width: 16rem;">
+							<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
+								<img class="card-img-top" src="{{party.thumbnail_url}}" alt="not here">
+							</a>
+							<div class="card-body">
+								<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
+									<h5 class="card-title">{{party.short_title}}</h5>
+									<p class="card-text"><span class="description">{{party.short_description}}</span></p>
+								</a>
+							</div>
+							<div class="card-footer">
+								<small class="text-muted">With 
+									<a class="text-dark" href="/profiles/{{party.user.username}}">{{party.user.username}}</a>
+									<span class="float-right">${{party.cost}} 
+									<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i> 
+									</span>
+									<br>
+									{{ party.party_time_display }}
+								</small>
+								<span class="float-right">
+									<a href="#" class="starBtn text-dark" data-id="31">
+										<i class="fa fa-star grey-color" aria-hidden="true"></i>
+									</a>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>		
+		{% else %}
+		{% endif %}
+
+		<!-- this is our load more button for the pagination -->
+		<!-- weve disabled this for now since we wanted to pu the trending piece in -->
+		<!-- <a href='#' id='loadmore'>Show More Events</a> -->
+
+	</div>
+</div>
 {% endblock content %}
