@@ -4,6 +4,7 @@ from django.views.generic import RedirectView
 # views
 from .views import (
 		PayoutCreateView,
+		PayoutDetailView,
 	)
 
 # app name specifies how we refer to these urls
