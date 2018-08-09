@@ -97,11 +97,9 @@
 		</div>
 
 		<!-- payment stuff -->
-		if{% {{object.profile.account_balance}} > 100 %}
 		<div class='col-sm-2 my-3 text-right'>
-			<a class='button' href="{% url 'payout:info' %}">Payout ${{object.profile.account_balance}}</a>
+			<a class='button' href="{% url 'payout:info' %} disabled">Payout ${{object.profile.account_balance}}</a>
 		</div>
-		{%endif%}
 
 		<!-- this is the block confirm modal -->
 		<div class="modal fade" id="blockModal" tabindex="-1" role="dialog" aria-labelledby="blockModalTitle" aria-hidden="true">
