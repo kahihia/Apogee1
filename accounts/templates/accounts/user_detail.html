@@ -98,8 +98,13 @@
 
 		<!-- payment stuff -->
 		<div class='col-sm-2 my-3 text-right'>
-			<a class='button' href="{% url 'payout:info' %} disabled">Payout ${{object.profile.account_balance}}</a>
+			<!-- <a class='button' href="{% url 'payout:info' %} disabled">Payout: ${{object.profile.account_balance}}</a> -->
+			<a href="{% url 'payout:info' %}">
+				<button>Payout: ${{object.profile.account_balance}}</button>
+			</a> 
 		</div>
+
+
 
 		<!-- this is the block confirm modal -->
 		<div class="modal fade" id="blockModal" tabindex="-1" role="dialog" aria-labelledby="blockModalTitle" aria-hidden="true">
