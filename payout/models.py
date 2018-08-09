@@ -11,6 +11,6 @@ class Payout(models.Model):
 	time_requested		= models.DateTimeField(auto_now_add=True)
 	description 		= models.CharField(max_length=280)
 	payment_info		= models.CharField(max_length=40)
-	#is_paid 			= models.BooleanField(default=False)
+	is_paid 			= models.BooleanField(default=False)
 	def __str__(self):
 		return "Payment of $"+ str(self.payout_amount)+" for "+ str(self.payout_user.username) 
