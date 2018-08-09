@@ -14,4 +14,6 @@ class PayoutCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	def form_valid(self, form):
 		form.instance.payout_user = self.request.user
 		form.instance.payout_amount = self.request.user.profile.account_balance
+		self.request.user.profile.account_balance = self.request.user.profile.account_balance - form.instance.payout_amount
+		self.request.user.profile.save(update_fields=['account_balance'])
 		return super(PayoutCreateView, self).form_valid(form)
