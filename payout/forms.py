@@ -34,8 +34,8 @@ class PayoutModelForm(forms.ModelForm):
                 'max_length': "This description is too long.",
             },
         }
-	def clean_account_balance(self):
-		print("AM I GETTING CHECKED OUT BABYYY")
-		user = self.cleaned_data.get('payment_user')
+	def clean_account_balance(self, request):
+		print("AM I GETTING CHECK, ED OUT BABYYY")
+		user = request.user
 		if user.profile.account_balance < 100:
-			raise forms.ValidationError("You must have $100 in your account to request a pay_out")
+			raise forms.ValidationError("You must have $100 in your account to request a payout")
