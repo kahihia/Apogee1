@@ -98,7 +98,7 @@
 
 		<!-- payment stuff -->
 		<div class='col-sm-2 my-3 text-right'>
-			<a class="dropdown-item" href="{% url 'payout:info' %}">Payout</a>
+			<a class='button' href="{% url 'payout:info' %}">Payout {{object.account_balance}}</a>
 		</div>
 
 
