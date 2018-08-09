@@ -1,6 +1,6 @@
 # forms determine what information is available in the create and update views
 from django import forms
-from django.core.exceptions import ValidationError
+#from django.core.exceptions import ValidationError
 from django.utils import timezone
 
 from .models import Payout
@@ -35,7 +35,6 @@ class PayoutModelForm(forms.ModelForm):
             },
         }
 	def clean_account_balance(self, request):
-		print("AM I GETTING CHECK, ED OUT BABYYY")
-		user = request.user
+		user = self.payout_user
 		if user.profile.account_balance < 100:
 			raise forms.ValidationError("You must have $100 in your account to request a payout")
