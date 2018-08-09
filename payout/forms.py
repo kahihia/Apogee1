@@ -35,6 +35,7 @@ class PayoutModelForm(forms.ModelForm):
             },
         }
 	def clean_account_balance(self):
-		user = self.payment_user
+		print("AM I GETTING CHECKED OUT BABYYY")
+		user = self.instance.payment_user
 		if user.profile.account_balance < 100:
 			raise forms.ValidationError("You must have $100 in your account to request a pay_out")
