@@ -9,6 +9,8 @@ from django.views.generic import CreateView
 class PayoutCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	form_class = PayoutModelForm
 	template_name = 'payout/create_view.html'
+	success_url = '/payout/info'
+
 	def form_valid(self, form):
 		form.instance.user = self.request.user
 		form.instance.payout_amount = self.request.user.profile.account_balance
