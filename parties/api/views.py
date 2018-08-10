@@ -79,6 +79,16 @@ class PaypalVerificationAPI(APIView):
 
 		return Response(payment_verified, status=status.HTTP_200_OK)
 
+
+
+
+class ReportAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	def get(self, request, pk, format=None):
+		if request.user.is_authenticated:
+			
+			return Response()
+
 # star toggle is a method from the model that just adds the user to the 
 # list containing the people who have starred it
 class StarToggleAPIView(APIView):
@@ -99,8 +109,6 @@ class StarToggleAPIView(APIView):
 class BidAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, bids, format=None):
-		print("The bid is: ")
-		print(bids)
 		party_qeryset = Party.objects.filter(pk=pk)
 		party_event_type = party_qeryset.first().event_type
 		#if party_event is bid	
