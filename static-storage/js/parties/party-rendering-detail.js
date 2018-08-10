@@ -269,7 +269,7 @@ function renderPartyDetail(partyContainerID, fetchOneId){
             '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + star_verb + '</a>' + 
           '</span>' + 
         
-            '<button type="button" class="report">Report</button>'+
+            '<button type="button" class="report"data-id="' + partyValue.id + '">Report</button>'+
 
         '</h1>' +
         '<small class="text-muted">With ' + 
