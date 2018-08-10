@@ -517,7 +517,8 @@ function addReportFunctionality(){
  $(document.body).on("click", '.report', function(e){
     e.preventDefault();
     let this_ = $(this)
-    console.log(this)
+    console.log($(this))
+    console.log(this_.results)
     let partyID = this_.attr('data-id')
     let reportUrl = '/api/events/' + partyID + '/report/'
     $.ajax({
