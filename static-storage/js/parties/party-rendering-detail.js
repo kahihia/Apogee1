@@ -514,9 +514,7 @@ function addJoinFunctionality(){
 }
 
 function addReportFunctionality(){
-  console.log("Who Am I");
-  console.log($('#report'));
-  $('#report').click(function(e){
+ $(document.body).on("click", '.report', function(e){
     e.preventDefault();
     let this_ = $(this)
     let partyID = this_.attr('data-id')
