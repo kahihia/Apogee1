@@ -176,6 +176,9 @@ function renderPartyList(partyContainerID){
         '<span class="float-right">' + 
           '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + verb + '</a>' + 
         '</span>' + 
+        '<span class="float-right">' + 
+          '<a href="#" class="report" data-id="' + partyValue.id + '">' + verb + '</a>' + 
+        '</span>' + 
       '</div>' + 
     '</div>'
     // just return it immediately
@@ -517,8 +520,6 @@ function addReportFunctionality(){
  $(document.body).on("click", '.report', function(e){
     e.preventDefault();
     let this_ = $(this)
-    console.log($(this))
-    console.log(this_.results)
     let partyID = this_.attr('data-id')
     let reportUrl = '/api/events/' + partyID + '/report/'
     $.ajax({
