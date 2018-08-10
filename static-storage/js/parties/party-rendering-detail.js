@@ -268,8 +268,6 @@ function renderPartyDetail(partyContainerID, fetchOneId){
           '<span class="float-right">' + 
             '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + star_verb + '</a>' + 
           '</span>' + 
-        
-            '<button type="button" class="report" data-id="' + partyValue.id + '">Report</button>'+
 
         '</h1>' +
         '<small class="text-muted">With ' + 
@@ -380,6 +378,7 @@ function renderPartyDetail(partyContainerID, fetchOneId){
       '<div class="col-sm-12">' + 
         possible_winners + 
       '</div>' +
+       '<button type="button" class="report" data-id="' + partyValue.id + '">Report</button>'+
     '</div>' +
     '<div class="row">' + join_verb + '</div>' + winner 
 
@@ -398,6 +397,7 @@ function renderPartyDetail(partyContainerID, fetchOneId){
       '<div class="col-sm-12">' + 
         possible_winners + 
       '</div>' +
+       '<button type="button" class="report" data-id="' + partyValue.id + '">Report</button>'+
     '</div>' +
     bid_input +
     '<div class="row">' + join_verb + '</div>' + winner 
@@ -421,6 +421,7 @@ function renderPartyDetail(partyContainerID, fetchOneId){
       '<div class="col-sm-12">' + 
         possible_winners + 
       '</div>' +
+       '<button type="button" class="report" data-id="' + partyValue.id + '">Report</button>'+
     '</div>' +
     '<div class="row">' + join_verb + '</div>' + winner 
 
@@ -520,9 +521,6 @@ function addReportFunctionality(){
  $(document.body).on("click", '.report', function(e){
     e.preventDefault();
     let this_ = $(this);
-    console.log("h");
-    console.log(this_.attr('data-id'));
-    console.log("i");
     let partyID = this_.attr('data-id');
     let reportUrl = '/api/events/' + partyID + '/report/';
     $.ajax({
