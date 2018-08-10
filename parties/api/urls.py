@@ -16,7 +16,7 @@ from .views import (
 		JoinedListAPIView,
 		BidAPIView,
 		PaypalVerificationAPI,
-		ReportAPIView,
+		#ReportAPIView,
 	)
 
 app_name = 'parties-api'
