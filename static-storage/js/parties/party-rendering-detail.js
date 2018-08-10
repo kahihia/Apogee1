@@ -269,7 +269,7 @@ function renderPartyDetail(partyContainerID, fetchOneId){
             '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + star_verb + '</a>' + 
           '</span>' + 
         
-            '<button type="button" class="report"data-id="' + partyValue.id + '">Report</button>'+
+            '<button type="button" class="report" data-id="' + partyValue.id + '">Report</button>'+
 
         '</h1>' +
         '<small class="text-muted">With ' + 
@@ -519,9 +519,12 @@ function addJoinFunctionality(){
 function addReportFunctionality(){
  $(document.body).on("click", '.report', function(e){
     e.preventDefault();
-    let this_ = $(this)
-    let partyID = this_.attr('data-id')
-    let reportUrl = '/api/events/' + partyID + '/report/'
+    let this_ = $(this);
+    console.log("h");
+    console.log($(this));
+    console.log("i");
+    let partyID = this_.attr('data-id');
+    let reportUrl = '/api/events/' + partyID + '/report/';
     $.ajax({
       method: 'GET',
       url: reportUrl,
