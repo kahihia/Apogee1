@@ -1,6 +1,7 @@
 function loadPartyDetailContainer(partyContainerID, fetchOneId){
   renderPartyDetail(partyContainerID, fetchOneId);
   addStarFunctionality();
+  console.log("HERE I AM")
   addReportFunctionality();
 }
 
@@ -513,6 +514,8 @@ function addJoinFunctionality(){
 }
 
 function addReportFunctionality(){
+  console.log("Who Am I");
+  console.log($('#report'));
   $('#report').click(function(e){
     e.preventDefault();
     let reportUrl = '/api/events/' + partyID + '/report/'
