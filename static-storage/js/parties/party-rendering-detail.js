@@ -1,6 +1,7 @@
 function loadPartyDetailContainer(partyContainerID, fetchOneId){
   renderPartyDetail(partyContainerID, fetchOneId);
   addStarFunctionality();
+  addReportFunctionality();
 }
 
 function loadPartyListContainer(partyContainerID){
@@ -512,8 +513,8 @@ function addJoinFunctionality(){
 }
 
 function addReportFunctionality(){
-  $(document.body).on("click", '.report', function(e){
-    e.preventDefault()
+  $('#report').click(function(e){
+    e.preventDefault();
     let reportUrl = '/api/events/' + partyID + '/report/'
     $.ajax({
       method: 'GET',
