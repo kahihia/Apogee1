@@ -176,9 +176,6 @@ function renderPartyList(partyContainerID){
         '<span class="float-right">' + 
           '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + verb + '</a>' + 
         '</span>' + 
-        '<span class="float-right">' + 
-          '<a href="#" class="report" data-id="' + partyValue.id + '">' + verb + '</a>' + 
-        '</span>' + 
       '</div>' + 
     '</div>'
     // just return it immediately
@@ -271,6 +268,9 @@ function renderPartyDetail(partyContainerID, fetchOneId){
           '<span class="float-right">' + 
             '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + star_verb + '</a>' + 
           '</span>' + 
+        '<div class="col-sm-8 offset-sm-2 border grey-background rounded mt-3">'+
+            '<button type="button" class="report">Report</button>'+
+        '</div>'
         '</h1>' +
         '<small class="text-muted">With ' + 
           '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a> On ' + partyValue.party_time_display + 
