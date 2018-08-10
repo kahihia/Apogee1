@@ -533,8 +533,7 @@ function addReportFunctionality(){
       method: 'GET',
       url: reportUrl,
       success: function(data){
-        // the api handles updating the database and the method below
-        // updates the color, so nothing happens on success
+        alert(data.error_message)
       }, 
       error: function(data){
         console.log('Report')
