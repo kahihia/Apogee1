@@ -197,8 +197,8 @@ def bid_bid_too_low():
 
 ########################## FUNCTIONS USED BY API ###############################
 
-# def report(user, party_obj):
-# 	return 0
+def report(user, party_obj):
+	return 0
 
 # this both adds or removes the user and tells us if they're on it
 def star_toggle(user, party_obj):

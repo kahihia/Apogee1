@@ -86,7 +86,8 @@ class ReportAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, format=None):
 		if request.user.is_authenticated:
-			
+			party_qs = Party.objects.filter(pk=pk)
+			partyHandling.report(request.user, party_qs.first())
 			return Response({'error_message':"Returning properly"})
 
 # star toggle is a method from the model that just adds the user to the 
