@@ -527,6 +527,7 @@ function addReportFunctionality(){
       }
     })
   })
+}
 
 // this is the favorite function. It wil be instrumental in enabling 
 // users to track events as they progress.
