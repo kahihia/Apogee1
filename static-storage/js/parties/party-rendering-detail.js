@@ -518,6 +518,8 @@ function addReportFunctionality(){
   console.log($('#report'));
   $('#report').click(function(e){
     e.preventDefault();
+    let this_ = $(this)
+    let partyID = this_.attr('data-id')
     let reportUrl = '/api/events/' + partyID + '/report/'
     $.ajax({
       method: 'GET',
