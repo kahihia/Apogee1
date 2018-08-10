@@ -82,12 +82,12 @@ class PaypalVerificationAPI(APIView):
 
 
 
-# class ReportAPIView(APIView):
-# 	permission_classes = [permissions.IsAuthenticated]
-# 	def get(self, request, pk, format=None):
-# 		if request.user.is_authenticated:
+class ReportAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	def get(self, request, pk, format=None):
+		if request.user.is_authenticated:
 			
-# 			return Response()
+			return Response()
 
 # star toggle is a method from the model that just adds the user to the 
 # list containing the people who have starred it
