@@ -198,7 +198,24 @@ def bid_bid_too_low():
 ########################## FUNCTIONS USED BY API ###############################
 
 def report(user, party_obj):
-	return 0
+	if not user in party_obj.reported.all():
+		party_obj.reported.add(user)
+		report_party = determine_report(party_obj)
+		if report_party:
+			party_obj.is_flagged = True
+			party_obj.save2(update_fields=['is_flagged'])
+			#EMAIL HERE send party info to our email
+
+def determine_report(party_obj):
+	if party_obj.is_flagged:
+		return False
+	interactions = party_obj.interaction_pts
+	num_reports = party_obj.reported.all().count()
+	ratio = interactions/num_reports
+	if ratio<=4:
+		return True
+	else:
+		return False
 
 # this both adds or removes the user and tells us if they're on it
 def star_toggle(user, party_obj):
