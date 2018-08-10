@@ -6,6 +6,17 @@
 	{{ block.super }} | Welcome
 {% endblock title %}
 
+{% load static %}
+
+{% block scripts %}
+<script src='{% static "js/parties/party.js"%}'></script>
+<script src='{% static "js/eventmessages/chat.js"%}'></script>
+<script type="text/javascript">
+	addStarFunctionality();
+	addJoinFunctionality();
+</script>
+{% endblock scripts %}
+
 {% block content %}
 <div class='row'>
 	<!-- left side column -->
@@ -13,7 +24,7 @@
 		<!-- separated so that the background wont follow the right columns len() -->
 		<div class='col-sm-12 mt-4'>
 			<!-- current logged user -->
-			<h3>rafael</h3><hr>
+			<h3>{{username}}</h3><hr>
 		</div>
 		<!-- create event button linked to create page -->
 		<div class='col-sm-12 mt-3'>
@@ -36,35 +47,8 @@
 		<hr>
 		<div class='ml-1 row' id='following-container'>
 			{% for party in following %}
-				<div class="col-xs-12 col-sm-4">
-					<div class="card-deck mb-4">
-						<div class="card" style="max-width: 16rem;">
-							<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
-								<img class="card-img-top" src="{{party.thumbnail_url}}" alt="not here">
-							</a>
-							<div class="card-body">
-								<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
-									<h5 class="card-title">{{party.short_title}}</h5>
-									<p class="card-text"><span class="description">{{party.short_description}}</span></p>
-								</a>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">With 
-									<a class="text-dark" href="/profiles/{{party.user.username}}">{{party.user.username}}</a>
-									<span class="float-right">${{party.cost}} 
-									<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i> 
-									</span>
-									<br>
-									{{ party.party_time_display }}
-								</small>
-								<span class="float-right">
-									<a href="#" class="starBtn text-dark" data-id="31">
-										<i class="fa fa-star grey-color" aria-hidden="true"></i>
-									</a>
-								</span>
-							</div>
-						</div>
-					</div>
+				<div class="col-xs-12 col-sm-3">
+					{% include "parties/party-card.html" %}
 				</div>
 			{% endfor %}
 		</div>
@@ -76,35 +60,8 @@
 		<h1 class='mt-5'>Trending</h1>
 		<div class='ml-1 row' id='trending-container'>
 			{% for party in trending %}
-				<div class="col-xs-12 col-sm-4">
-					<div class="card-deck mb-4">
-						<div class="card" style="max-width: 16rem;">
-							<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
-								<img class="card-img-top" src="{{party.thumbnail_url}}" alt="not here">
-							</a>
-							<div class="card-body">
-								<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
-									<h5 class="card-title">{{party.short_title}}</h5>
-									<p class="card-text"><span class="description">{{party.short_description}}</span></p>
-								</a>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">With 
-									<a class="text-dark" href="/profiles/{{party.user.username}}">{{party.user.username}}</a>
-									<span class="float-right">${{party.cost}} 
-									<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i> 
-									</span>
-									<br>
-									{{ party.party_time_display }}
-								</small>
-								<span class="float-right">
-									<a href="#" class="starBtn text-dark" data-id="31">
-										<i class="fa fa-star grey-color" aria-hidden="true"></i>
-									</a>
-								</span>
-							</div>
-						</div>
-					</div>
+				<div class="col-xs-12 col-sm-3">
+					{% include "parties/party-card.html" %}
 				</div>
 			{% endfor %}
 		</div>
@@ -116,35 +73,8 @@
 		<h1 class='mt-5'>Closing Soon</h1>
 		<div class='ml-1 row' id='closing-container'>
 			{% for party in closing %}
-				<div class="col-xs-12 col-sm-4">
-					<div class="card-deck mb-4">
-						<div class="card" style="max-width: 16rem;">
-							<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
-								<img class="card-img-top" src="{{party.thumbnail_url}}" alt="not here">
-							</a>
-							<div class="card-body">
-								<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
-									<h5 class="card-title">{{party.short_title}}</h5>
-									<p class="card-text"><span class="description">{{party.short_description}}</span></p>
-								</a>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">With 
-									<a class="text-dark" href="/profiles/{{party.user.username}}">{{party.user.username}}</a>
-									<span class="float-right">${{party.cost}} 
-									<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i> 
-									</span>
-									<br>
-									{{ party.party_time_display }}
-								</small>
-								<span class="float-right">
-									<a href="#" class="starBtn text-dark" data-id="31">
-										<i class="fa fa-star grey-color" aria-hidden="true"></i>
-									</a>
-								</span>
-							</div>
-						</div>
-					</div>
+				<div class="col-xs-12 col-sm-3">
+					{% include "parties/party-card.html" %}
 				</div>
 			{% endfor %}
 		</div>		

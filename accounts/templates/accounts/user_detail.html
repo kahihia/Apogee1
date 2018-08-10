@@ -8,14 +8,7 @@
 
 <!-- contains our custom JS -->
 {% block script %}
-<script src='{% static "js/parties/party-rendering-detail.js"%}'></script>
-<script>
-	// runs when page DOM is ready
-	$(document).ready(function(){
-		// tells us where the thumbnails go
-		loadPartyListContainer('party-container')
-	});
-</script>
+<script src='{% static "js/parties/party.js"%}'></script>
 {% endblock script %}
 
 
@@ -129,7 +122,15 @@
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
-		<div class='ml-1' id='party-container' data-url='/api/{{ user.username }}/events/'></div>
+		<div class='ml-1' id='party-container' data-url='/api/{{ user.username }}/events/'>
+			{% for party in events %}
+				<div class="col-xs-12 col-sm-4">
+					{% include "parties/party-card.html" %}
+				</div>
+			{% empty %}
+				<p>No users found.</p>
+			{% endfor %}
+		</div>
 
 		<!-- this is our load more button for the pagination. loadmore is a method specified in the JS from base.html -->
 		<button type="button" class="btn btn-outline-secondary btn-sm btn-block" id='loadmore'>Show More Events</button>

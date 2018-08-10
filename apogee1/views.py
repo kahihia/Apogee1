@@ -21,7 +21,7 @@ class HomeView(View):
 		blocking_list = self.request.user.profile.blocking.all()
 		# Trending
 		trending = Party.objects.filter(is_open=True).order_by('-popularity')[:6]
-		serialized_trending = PartyModelSerializer(trending, many=True).data
+		serialized_trending = PartyModelSerializer(trending, many=True, context={'request': request}).data
 
 		# Closing
 		soon_time = timezone.now() + timedelta(minutes=15)
@@ -30,7 +30,7 @@ class HomeView(View):
 							.exclude(user__profile__in=blocked_by_list) \
 							.exclude(user__in=blocking_list) \
 							.order_by('-popularity')[:6]
-		serialized_closing = PartyModelSerializer(closing, many=True).data
+		serialized_closing = PartyModelSerializer(closing, many=True, context={'request': request}).data
 		# Following
 		im_following = self.request.user.profile.get_following()
 		if im_following:
@@ -39,11 +39,11 @@ class HomeView(View):
 								.exclude(user__profile__in=blocked_by_list) \
 								.exclude(user__in=blocking_list) \
 								.order_by('-time_created')
-			serialized_following = PartyModelSerializer(following, many=True).data
+			serialized_following = PartyModelSerializer(following, many=True, context={'request': request}).data
 		else:
 			serialized_following = None
 
-		context = {'trending': serialized_trending, 'closing': serialized_closing, 'following': serialized_following}
+		context = {'trending': serialized_trending, 'closing': serialized_closing, 'following': serialized_following, 'username': self.request.user.username}
 		return render(request, 'home.html', context)
 
 # we need this user model to search users 
@@ -63,7 +63,11 @@ class SearchView(View):
 			qs = User.objects.filter(
 					Q(username__icontains=query) 
 				)
-		context = {'users': qs}
+			qse = Party.objects.filter(
+					Q(title__icontains=query)).order_by('-popularity')[:12]
+									
+			serialized_events = PartyModelSerializer(qse, many=True, context={'request': request}).data
+		context = {'users': qs, 'events': serialized_events}
 		return render(request, 'search.html', context)
 
 # from django example for timezone 

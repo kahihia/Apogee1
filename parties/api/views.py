@@ -89,7 +89,8 @@ class StarToggleAPIView(APIView):
 		if request.user.is_authenticated:
 			is_starred = partyHandling.star_toggle(request.user, party_qs.first())
 			return Response({'starred': is_starred})
-			return Response({'message': 'Not Allowed'})
+		else:
+			return Response({'status': 'Not authenicated'}, status=status.HTTP_405_INTERNAL_SERVER_ERROR)
 
 # join works much like star. its a method from the model. however, its
 # built not to toggle. it only adds at the moment

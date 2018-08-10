@@ -15,25 +15,6 @@ function updateHashLinks(){
   })
 }
 
-// this allows search along hashtags. its called upon creation
-// could be useful for categorization
-function updateHashLinks(){
-  // this is where the actual title and description are held
-  // the span allows up to properly id the hashtags in the description
-  // it will not highlight anf link a hashtag in the title
-  $('.description').each(function(data){
-    let hashtagRegex = /(^|\s)#([\w\d-]+)/g // pulls hashtags
-    let usernameRegex = /(^|\s)@([\w\d-]+)/g // pulls user mentions
-    let currentHtml = $(this).html()
-    let newText;
-    // the regex returns stuff before and after
-    // the replace puts the tag in and then makes a link for the text
-    newText = currentHtml.replace(hashtagRegex, '$1<a class="text-dark" href="/tags/$2/">#$2</a>')
-    newText = newText.replace(usernameRegex, '$1<a class="text-dark" href="/profiles/$2/">@$2</a>')
-    $(this).html(newText)
-  })
-}
-
 function addJoinFunctionality(){
   $(document.body).on("click", '.joinBtn', function(e){
     e.preventDefault()
@@ -74,7 +55,7 @@ function addJoinFunctionality(){
         }
         if(data.error_message == ''){
           this_.prop('disabled', true)
-          this_.text(joined)
+          this_.text('Joined')
         }
         console.log(this_)
         console.log(data.min_bid)
@@ -93,9 +74,9 @@ function addJoinFunctionality(){
 // users to track events as they progress.
 // its built to trigger on click for any button with the correct class
 function addStarFunctionality(){
-  $(document.body).on("click", '.starBtn', function(e){
-    e.preventDefault()
+  $('.starBtn').click(function(e){
     let this_ = $(this)
+    var that = this_
     // selector for the button. makes sure we're starring the correct button
     let partyID = this_.attr('data-id')
     // api endpoint
@@ -105,8 +86,9 @@ function addStarFunctionality(){
       method: 'GET',
       url: starredUrl,
       success: function(data){
-        // the api handles updating the database and the method below
-        // updates the color, so nothing happens on success
+        that.children('.fa-star').eq(0).toggleClass('grey-color')
+        that.children('.fa-star').toggleClass('yellow-color')
+        console.log(data)
       }, 
       error: function(data){
         console.log('error')
@@ -114,17 +96,7 @@ function addStarFunctionality(){
       }
     })
   })
-// this controls the display color of the favorite button
-// its linked to a different class to ensure nothing wierd happens 
-// with the click trigger
-  $(document.body).on("click", '.fa-star', function(e){
-    e.preventDefault()
-    let this_ = $(this)
-    // one of these classes is activated by the formatting below, 
-    // so the two toggles are never on at the same time
-    this_.toggleClass('grey-color')
-    this_.toggleClass('yellow-color')
-  })
+
 }
 
 function getParameterByName(name, url) {

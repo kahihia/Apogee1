@@ -2,39 +2,27 @@
 
 <!-- this is our custom js -->
 {% block script %}
-  <script type="text/javascript" src='{% static "js/eventmessages/chat.js" %}'></script>
   <script type="text/javascript" src='{% static "js/eventmessages/reconnecting-websocket.min.js" %}'></script>
+  <script type="text/javascript" src='{% static "js/eventmessages/chat.js" %}'></script>
 {% endblock script %}
 
 {% block content %}
   {% load staticfiles %}
-  <p class="quiet">
-    Anyone with this URL can join the room and chat: 
-    <code>{{ request.scheme }}://{{ request.get_host }}/{{ room.label }}</code> 
-  </p>
-  <p>
-    <label for="handle">Your name:</label>
-    <input id="handle" type="text" placeholder="handle">
-  </p>
-  <form id="chatform">
-    <table id="chat">
-      <tbody>
+  <form id="chatform" class="border">
+    <div id="chat" style="min-height:200px">
+      <div>
         {% for message in messages %}
-          <tr>
-            <td>{{ message.formatted_timestamp }}</td>
-            <td>{{ message.handle }}</td>
-            <td>{{ message.message }}</td>
-          </tr> 
+          <div>
+            <p>{{ message.formatted_timestamp }}</p>
+            <p>{{ message.handle }}</p>
+            <p>{{ message.message }}</p>
+          </div> 
         {% endfor %}
-      </tbody>
-      <tfoot>
-      <tr>
-        <td>Say something:</td>
-        <td colspan=2>
-          <input id="message" type="text" placeholder="message">
-          <button type="submit" id="go">Say it</button>
-        </td>
-      </tfoot>
-    </table>
+      </div>
+      <div>
+        <input style="position: absolute; bottom: 0" id="message" type="text" placeholder="message">
+        <button type="submit" id="go" class="hidden" style="display: none">Say it</button>
+      </div>
+    </div>
   </form>
 {% endblock content %}

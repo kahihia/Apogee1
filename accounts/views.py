@@ -17,6 +17,8 @@ from .models import UserProfile
 from .forms import UserRegisterForm, UserProfileModelForm
 from .mixins import ProfileOwnerMixin
 from apogee1.utils.email import emailer
+from parties.api.serializers import PartyModelSerializer
+from parties.models import Party
 
 # Create your views here.
 User = get_user_model()
@@ -88,12 +90,20 @@ class UserDetailView(DetailView):
         following = UserProfile.objects.is_following(self.request.user, self.get_object())
         blocking = UserProfile.objects.is_blocking(self.request.user, self.get_object())
         blocked = UserProfile.objects.is_blocked(self.request.user, self.get_object())
+
+        requested_user = self.kwargs.get('username')
+        if requested_user:
+            qs = Party.objects.filter(user__username=requested_user).order_by('-time_created')
+            serialized_parties = PartyModelSerializer(qs, many=True, context={'request': self.request}).data
+
+
         # in the html, we call both following and recommended. this is how those 
         # variables get passed through
         context['following'] = following
         context['blocking'] = blocking
         context['blocked'] = blocked
         context['recommended'] = UserProfile.objects.recommended(self.request.user)
+        context['events'] = serialized_parties
         return context
 
 # this is used to toggle following

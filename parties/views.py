@@ -81,7 +81,7 @@ class PartyDetailView(LoginRequiredMixin, DetailView):
 		context = super(DetailView, self).get_context_data(**kwargs)
 		party_id = self.kwargs['pk']
 		qs = Party.objects.get(pk=party_id)
-		serialized_context = PartyModelSerializer(qs).data
+		serialized_context = PartyModelSerializer(qs, context={'request': self.request}).data
 		context['serialized'] = serialized_context
 		return context
 
@@ -133,36 +133,42 @@ class PartyListView(LoginRequiredMixin, ListView):
 
 # following list requires the same info as the party list, plus a template name
 class FollowingListView(LoginRequiredMixin, ListView):
-	template_name = 'parties/following_list.html'
-	def get_queryset(self, *args, **kwargs):
-		qs = Party.objects.all()
-		return qs
+	def get(self, request, *args, **kwargs):
+		im_following = self.request.user.profile.get_following()
+		blocked_by_list = self.request.user.blocked_by.all()
+		blocking_list = self.request.user.profile.blocking.all()
+		following =  Party.objects.filter(user__in=im_following).order_by('-time_created') \
+									.exclude(user__profile__in=blocked_by_list) \
+									.exclude(user__in=blocking_list)
+		following_serialized = PartyModelSerializer(following, many=True, context={'request': request}).data
+		context = {'following' : following_serialized}
+		return render(request, 'parties/following_list.html', context)
 
-	def get_context_data(self, *args, **kwargs):
-		context = super(FollowingListView, self).get_context_data(*args, **kwargs)
-		return context
 
 # almost identical to party list. the query is handled by the API
 class StarredListView(LoginRequiredMixin, ListView):
-	template_name = 'parties/starred_list.html'
-	def get_queryset(self, *args, **kwargs):
-		qs = Party.objects.all()
-		return qs
+	def get(self, request, *args, **kwargs):
+		blocked_by_list = self.request.user.blocked_by.all()
+		blocking_list = self.request.user.profile.blocking.all()
+		starred = self.request.user.starred_by.all().order_by('-time_created') \
+									.exclude(user__profile__in=blocked_by_list) \
+									.exclude(user__in=blocking_list)
+		starred_serialized = PartyModelSerializer(starred, many=True, context={'request': request}).data
+		context = {'starred' : starred_serialized}
+		return render(request, 'parties/starred_list.html', context)
 
-	def get_context_data(self, *args, **kwargs):
-		context = super(StarredListView, self).get_context_data(*args, **kwargs)
-		return context
 
 # almost identical to party list. the query is handled by the API
 class JoinedListView(LoginRequiredMixin, ListView):
-	template_name = 'parties/joined_list.html'
-	def get_queryset(self, *args, **kwargs):
-		qs = Party.objects.all()
-		return qs
-
-	def get_context_data(self, *args, **kwargs):
-		context = super(JoinedListView, self).get_context_data(*args, **kwargs)
-		return context
+	def get(self, request, *args, **kwargs):
+		blocked_by_list = self.request.user.blocked_by.all()
+		blocking_list = self.request.user.profile.blocking.all()
+		joined = self.request.user.joined_by.all().order_by('-time_created') \
+												.exclude(user__profile__in=blocked_by_list) \
+												.exclude(user__in=blocking_list)
+		joined_serialized = PartyModelSerializer(joined, many=True, context={'request': request}).data
+		context = {'joined' : joined_serialized}
+		return render(request, 'parties/joined_list.html', context)
 
 		
 # these are the inner workings of how the class based views actually render

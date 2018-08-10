@@ -27,8 +27,13 @@
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
-		<div class='ml-1' id='joined-container' data-url='/api/events/joined/'></div>
-
+		<div class='ml-1 row' id='joined-container' data-url='/api/events/joined/'>
+			{% for party in joined %}
+				<div class="col-xs-12 col-sm-2">
+					{% include "parties/party-card.html" %}
+				</div>
+			{% endfor %}
+		</div>
 		<!-- this is our load more button for the pagination -->
 		<button type="button" class="btn btn-outline-secondary btn-sm btn-block" id='loadmore'>Show More Events</button>
 		<!-- this lists the load button off of the bottom -->
