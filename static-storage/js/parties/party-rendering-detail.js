@@ -511,22 +511,22 @@ function addJoinFunctionality(){
 
 }
 
-function addReportFunctionality(){
-  $(document.body).on("click", '.report', function(e){
-    e.preventDefault()
-    let reportUrl = '/api/events/' + partyID + '/report/'
-    $.ajax({
-      method: 'GET',
-      url: reportUrl,
-      success: function(data){
-        // the api handles updating the database and the method below
-        // updates the color, so nothing happens on success
-      }, 
-      error: function(data){
-        console.log('Report')
-      }
-    })
-  })
+// function addReportFunctionality(){
+//   $(document.body).on("click", '.report', function(e){
+//     e.preventDefault()
+//     let reportUrl = '/api/events/' + partyID + '/report/'
+//     $.ajax({
+//       method: 'GET',
+//       url: reportUrl,
+//       success: function(data){
+//         // the api handles updating the database and the method below
+//         // updates the color, so nothing happens on success
+//       }, 
+//       error: function(data){
+//         console.log('Report')
+//       }
+//     })
+//   })
 
 // this is the favorite function. It wil be instrumental in enabling 
 // users to track events as they progress.
