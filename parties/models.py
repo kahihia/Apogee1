@@ -81,10 +81,10 @@ class Party(models.Model):
 						related_name='won_by'
 					)
 	report_list 	= models.ManyToManyField(
-	# 					settings.AUTH_USER_MODEL, 
-	# 					blank=True, 
-	# 					related_name='starred_by'
-	# 				)
+						settings.AUTH_USER_MODEL, 
+						blank=True, 
+						related_name='starred_by'
+					)
 	is_flagged 		= models.BooleanField(default=True)
 	#Number of possible winners - sepcified by the creator on event creation
 	num_possible_winners = models.PositiveSmallIntegerField(default=1)
