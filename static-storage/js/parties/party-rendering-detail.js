@@ -521,7 +521,7 @@ function addReportFunctionality(){
     e.preventDefault();
     let this_ = $(this);
     console.log("h");
-    console.log($(this));
+    console.log(this_.attr('data-id'));
     console.log("i");
     let partyID = this_.attr('data-id');
     let reportUrl = '/api/events/' + partyID + '/report/';
