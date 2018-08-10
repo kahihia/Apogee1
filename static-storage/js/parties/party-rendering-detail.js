@@ -378,7 +378,9 @@ function renderPartyDetail(partyContainerID, fetchOneId){
       '<div class="col-sm-12">' + 
         possible_winners + 
       '</div>' +
+     '<span class="float-right">' + 
        '<button type="button" class="report" data-id="' + partyValue.id + '">Report</button>'+
+      '</span>'+
     '</div>' +
     '<div class="row">' + join_verb + '</div>' + winner 
 
@@ -397,7 +399,9 @@ function renderPartyDetail(partyContainerID, fetchOneId){
       '<div class="col-sm-12">' + 
         possible_winners + 
       '</div>' +
+     '<span class="float-right">' + 
        '<button type="button" class="report" data-id="' + partyValue.id + '">Report</button>'+
+      '</span>'+
     '</div>' +
     bid_input +
     '<div class="row">' + join_verb + '</div>' + winner 
@@ -421,7 +425,9 @@ function renderPartyDetail(partyContainerID, fetchOneId){
       '<div class="col-sm-12">' + 
         possible_winners + 
       '</div>' +
+     '<span class="float-right">' + 
        '<button type="button" class="report" data-id="' + partyValue.id + '">Report</button>'+
+      '</span>'+
     '</div>' +
     '<div class="row">' + join_verb + '</div>' + winner 
 
