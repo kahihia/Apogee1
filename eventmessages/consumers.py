@@ -15,9 +15,10 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         """
         self.room_id = dict(parse.parse_qs(self.scope['query_string'].decode('utf-8')))['room_id'][0]
         logger.debug("Connect: room_id = " + self.room_id)
+        print(self.room_id)
         self.room_group_name = 'chat_%s' % self.room_id
         self.room = Room.objects.get_or_create(pk=self.room_id)[0]
-        self.room_name = "chat_%s" % self.room.id
+        self.room_name = "chat_%s" % self.room_id
         await self.channel_layer.group_add(
             self.room_name,
             self.channel_name,
@@ -51,7 +52,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         """
         Called by receive_json when someone sends a message to a room.
         """
-        print('delta')
         await self.channel_layer.group_send(
             self.room_name,
             {
@@ -67,7 +67,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         Called when someone has messaged our chat.
         """
         # Send a message down to the client
-        print('echo')
         await self.send_json(
             {
                 "room": event["room_id"],
