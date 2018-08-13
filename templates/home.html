@@ -18,6 +18,7 @@
 {% endblock scripts %}
 
 {% block content %}
+{# <<<<<<< HEAD #}
 <div class='row'>
 	<!-- left side column -->
 	<div class='col-sm-3 grey-background'>
@@ -87,4 +88,76 @@
 
 	</div>
 </div>
+{# ======= #}
+<!--     <h1>Connect with your favorite creators!</h1> -->
+
+<header class="hero-section">
+    <div class="header-wrapper">
+        <h1 class="text-center">Featured Creator<span class="d-none d-md-inline">s</span></h1>
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 offset-lg-0 col-md-5 offset-md-1 col-sm-6 offset-sm-3 col-xs-12">
+                <div class="card card-profile text-center">
+                    <div class="card-block">
+                        <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+                        <h4 class="card-title">
+				      John Smith
+				      <small>Tagline Goes Here</small>
+				      
+				    </h4>
+				    	<a href="{{ request.user.profile.get_absolute_url }}">
+                        	<button class="btn btn-new btn-primary-new">View Profile</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-5 d-none d-md-block d-lg-block d-xl-block">
+                <div class="card card-profile text-center">
+                    <div class="card-block">
+                        <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+                        <h4 class="card-title">
+				      John Smith
+				      <small>Tagline Goes Here</small>
+				      
+				    </h4>
+				    	<a href="{{ request.user.profile.get_absolute_url }}">
+                        	<button class="btn btn-new btn-primary-new">View Profile</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 d-none d-lg-block d-xl-block">
+                <div class="card card-profile text-center">
+                    <div class="card-block">
+                        <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+                        <h4 class="card-title">
+				      John Smith
+				      <small>Tagline Goes Here</small>
+				      
+				    </h4>
+				    	<a href="{{ request.user.profile.get_absolute_url }}">
+                        	<button class="btn btn-new btn-primary-new">View Profile</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 d-none d-xl-block">
+                <div class="card card-profile text-center">
+                    <div class="card-block">
+                        <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+                        <h4 class="card-title">
+				      John Smith
+				      <small>Tagline Goes Here</small>
+				      
+				    </h4>
+				    	<a href="{{ request.user.profile.get_absolute_url }}">
+                        	<button class="btn btn-new btn-primary-new">View Profile</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+>>>>>>> 2da47d58b8c42ad1543628d7fb75e224ecb4ba41
 {% endblock content %}

@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-md sticky-top">
+  <div class='container-fluid'>
+    <a class="navbar-brand ml-3" href="{% url 'home' %}">Apogee</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      {% if request.user.is_authenticated %}
+      {% include 'parties/search_form.html' %}
+      <ul class="navbar-nav ml-auto">
+        {% if request.user.profile.new_notifications == True %}
+        <li class="nav-item mx-3" id="new-notification-ding">
+          <a class="nav-link" href="{% url 'notifications:list' %}">Notifications 
+            <span class="badge badge-pill badge-danger">!</span>
+          </a>
+        </li>
+        {% else %}
+        <li class="nav-item mx-3">
+          <a class="nav-link" href="{% url 'notifications:list' %}">Notifications</a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item mx-3">
+          <a class="nav-link" href="{% url 'parties:following-list' %}">Following</a>
+        </li>
+        <li class="nav-item mx-3">
+          <a class="nav-link" href="{% url 'parties:starred-list' %}">Starred</a>
+        </li>
+      
+        <li class="nav-item mx-3">
+          <a class="nav-link" href="{% url 'parties:joined-list' %}">Joined</a>
+        </li>
+        <li class="nav-item dropdown mx-3">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Account
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ request.user.profile.get_absolute_url }}">Profile</a>
+            <a class="dropdown-item" href="{% url 'statistics:list' %}">Stats</a>
+            <a class="dropdown-item" href="{% url 'set_timezone' %}">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+          </div>
+        </li>
+      </ul>
+      {% else %}
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}">Register</a>
+        </li>
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
