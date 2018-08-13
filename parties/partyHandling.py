@@ -212,7 +212,7 @@ def determine_report(party_obj):
 	interactions = party_obj.interaction_pts
 	num_reports = party_obj.report_list.all().count()
 	ratio = interactions/num_reports
-	if ratio<=4:
+	if ratio<=2:
 		return True
 	else:
 		return False
