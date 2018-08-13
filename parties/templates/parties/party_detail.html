@@ -22,7 +22,7 @@
 {% block content %}
 
 <div class='row mt-4'>
-	
+
 	<div class='col-sm-10 offset-sm-1 border grey-background rounded'>
 		
 		<div class='rounded mt-3'>
@@ -70,6 +70,9 @@
 										{{ serialized.timeuntil}} <small class="text-muted"> until close</small>
 									</p>
 									{% endif %}
+								</div>
+								<div class="col-sm-12"> 
+									 <button type=button class=report data-id= + partyValue.id + >Report</button>
 								</div>
 
 								<!-- # Joined -->
