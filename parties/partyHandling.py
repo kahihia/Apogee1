@@ -198,8 +198,8 @@ def bid_bid_too_low():
 ########################## FUNCTIONS USED BY API ###############################
 
 def report(user, party_obj):
-	if not user in party_obj.reported.all():
-		party_obj.reported.add(user)
+	if not user in party_obj.report_list.all():
+		party_obj.report_list.add(user)
 		report_party = determine_report(party_obj)
 		if report_party:
 			party_obj.is_flagged = True
@@ -210,7 +210,7 @@ def determine_report(party_obj):
 	if party_obj.is_flagged:
 		return False
 	interactions = party_obj.interaction_pts
-	num_reports = party_obj.reported.all().count()
+	num_reports = party_obj.report_list.all().count()
 	ratio = interactions/num_reports
 	if ratio<=4:
 		return True
