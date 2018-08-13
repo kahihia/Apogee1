@@ -50,15 +50,6 @@ EMAIL_USE_TLS = True
 
 ASGI_APPLICATION = "apogee1.routing.application"
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [config('REDIS_URL')],
-        },
-    },
-}
-
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_USER = 'ApogeeSendEmails@gmail.com'
 # EMAIL_HOST_PASSWORD = 'ApogeeEmail'
@@ -143,6 +134,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'apogee1.wsgi.application'
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [config('REDIS_URL')],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

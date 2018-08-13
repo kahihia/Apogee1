@@ -1,56 +1,77 @@
 from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
 import json
 import logging
 from urllib import parse
+from .models import Message, Room
 
 logger = logging.getLogger(__name__)
 
-def convert(data):
-    if isinstance(data, bytes):  return data.decode('utf-8')
-    if isinstance(data, dict):   return dict(map(convert, data.items()))
-    if isinstance(data, tuple):  return map(convert, data)
-    return data
+class ChatConsumer(AsyncJsonWebsocketConsumer):
 
-class ChatConsumer(WebsocketConsumer):
-    def connect(self):
+    async def connect(self):
+        """
+        Called when the websocket is handshaking as part of initial connection.
+        """
         self.room_id = dict(parse.parse_qs(self.scope['query_string'].decode('utf-8')))['room_id'][0]
         logger.debug("Connect: room_id = " + self.room_id)
         self.room_group_name = 'chat_%s' % self.room_id
-        # Join room group
-        async_to_sync(self.channel_layer.group_add)(
-            self.room_group_name,
-            self.room_id
+        self.room = Room.objects.get_or_create(pk=self.room_id)[0]
+        self.room_name = "chat_%s" % self.room.id
+        await self.channel_layer.group_add(
+            self.room_name,
+            self.channel_name,
         )
+        await self.accept()
 
-        self.accept()
 
-    def disconnect(self, close_code):
-        logger.debug("Left room: " + self.room_id)
-        async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name,
-            self.room_id
-        )
+    async def disconnect(self, code):
+        """
+        Called when the WebSocket closes for any reason.
+        """
+        await self.close()
 
-    def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        Message.objects.create(message=message, room=room_group_name)
-        logger.debug("Recieved: " + message)
-        # Send message to room group
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name,
+    async def receive_json(self, content):
+        """
+        Called when we get a text frame. Channels will JSON-decode the payload
+        for us and pass it as the first argument.
+        """
+        # Messages will have a "command" key we can switch on
+        command = content.get("command", None)
+        if command == "send":
+            m = content["message"]
+            Message.objects.create(message=m, room=self.room)
+            await self.send_room(self.room_id, m)
+        else:
+            await self.send_json({'error': True})
+
+    ##### Command helper methods called by receive_json
+
+    async def send_room(self, room_id, message):
+        """
+        Called by receive_json when someone sends a message to a room.
+        """
+        print('delta')
+        await self.channel_layer.group_send(
+            self.room_name,
             {
-                'type': 'chat_message',
-                'message': message
+                "type": "chat.message",
+                "room_id": room_id,
+                "username": self.scope["user"].username,
+                "message": message,
             }
         )
 
-    # Receive message from room group
-    def chat_message(self, event):
-        message = event['message']
-        logger.debug("Chat Recieved: " + message)
-        # Send message to WebSocket
-        self.send(text_data=json.dumps({
-            'message': message
-        }))
+    async def chat_message(self, event):
+        """
+        Called when someone has messaged our chat.
+        """
+        # Send a message down to the client
+        print('echo')
+        await self.send_json(
+            {
+                "room": event["room_id"],
+                "username": event["username"],
+                "message": event["message"],
+            },
+        )

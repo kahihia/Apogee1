@@ -1,11 +1,19 @@
 
-function setupChatRoom(handle){
+function setupChatRoom(room_id){
     // When we're using HTTPS, use WSS too.
     var room_id = Number($('#party-room-id').text())
     var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
     var chatsock = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/ws/events/?room_id=" + room_id );
 
+    chatsock.onopen = function () {
+        console.log("Connected to chat socket");
+    };
+    chatsock.onclose = function () {
+        console.log("Disconnected from chat socket");
+    }
+
     chatsock.onmessage = function(message) {
+        console.log(message)
         var data = JSON.parse(message.data);
         var chat = $("#chat")
         var ele = $('<div class="col-xs-12"></div>')
@@ -14,7 +22,7 @@ function setupChatRoom(handle){
             $("<p></p>").text(data.timestamp)
         )
         ele.append(
-            $("<p></p>").text(data.handle)
+            $("<p></p>").text(data.room_id)
         )
         ele.append(
             $("<p></p>").text(data.message)
@@ -25,10 +33,10 @@ function setupChatRoom(handle){
     $("#chatform").on("submit", function(event) {
         event.preventDefault()
         var message = {
-            handle: room_id,
+            command: 'send',
+            room_id: room_id,
             message: $('#message').val(),
         }
-        console.log(message)
         chatsock.send(JSON.stringify(message));
         $("#message").val('').focus();
         return false;

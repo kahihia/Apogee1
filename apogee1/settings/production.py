@@ -42,7 +42,14 @@ MEDIA_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 AWS_S3_REGION_NAME = config('REGION_NAME')
 
-
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [config('REDIS_URL')],
+        },
+    },
+}
 
 # Application definition
 
@@ -115,15 +122,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'apogee1.wsgi.application'
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [config('REDIS_URL')],
-        },
-    },
-}
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
