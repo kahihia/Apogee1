@@ -13,8 +13,10 @@
 <script type="text/javascript">
 	addStarFunctionality();
 	addJoinFunctionality();
+	// setupChatRoom();
 </script>
 {% endblock scripts %}
+
 
 <!-- contains our custom JS -->
 {% block content %}
@@ -24,6 +26,7 @@
 		
 		<div class='rounded mt-3'>
 			<div id='party-container'>
+				<div id="party-room-id" style="display:none">{{serialized.id}}</div>
 				<div class="row mt-3">
 					<div class="col-sm-4">  
 
