@@ -30,6 +30,10 @@
 				<div id="party-room-id" style="display:none">{{serialized.id}}</div>
 				<div class="row mt-3">
 					<div class="col-sm-4">  
+				<div class="col-sm-12"> 
+									 <button type="button" class=report data-id= + partyValue.id + >Report 
+									 </button>
+								</div>
 
 						<!-- Event Image -->
 							<img class="img-fluid rounded mx-auto" src="{{serialized.thumbnail_url}}" alt="not here"> 
@@ -70,10 +74,6 @@
 										{{ serialized.timeuntil}} <small class="text-muted"> until close</small>
 									</p>
 									{% endif %}
-								</div>
-								<div class="col-sm-12"> 
-									 <button type="button" class=report data-id= + partyValue.id + >Report 
-									 </button>
 								</div>
 
 								<!-- # Joined -->
