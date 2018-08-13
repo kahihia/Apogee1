@@ -426,7 +426,7 @@ function renderPartyDetail(partyContainerID, fetchOneId){
         possible_winners + 
       '</div>' +
      '<span class="float-right">' + 
-       '<button type="button" class="report" data-id="' + partyValue.id + '">Report</button>'+
+       '<button type="button" disabled class="report" data-id="' + partyValue.id + '">Report</button>'+
       '</span>'+
     '</div>' +
     '<div class="row">' + join_verb + '</div>' + winner 
