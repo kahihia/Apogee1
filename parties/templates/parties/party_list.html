@@ -1,17 +1,13 @@
 <!--this is the HTML for the main page. it has recommended users 
 a create event button, and the event thumbnails-->
 {% extends 'base.html' %}
-
 <!-- we would use this if we wanted to suggest users to follow -->
 <!-- {% load recommended %}
 <p class='lead'>Recommended users</p>
 <p>{% recommended request.user %}</p> -->
 <!-- {% load static %} -->
-
 <!-- sets the tab info -->
-{% block title %}
-	Events | {{ block.super }}
-{% endblock title %}
+{% block title %} Events | {{ block.super }} {% endblock title %}
 <!-- hello caldwell -->
 <!-- contains our custom JS -->
 {% block script %}
@@ -21,90 +17,65 @@ a create event button, and the event thumbnails-->
 
 <script src='{% static "js/parties/party-rendering-detail.js"%}'></script>
 <script>
-	// runs when page DOM is ready
-	$(document).ready(function(){
-		// tells us where the thumbnails go
-		loadPartyListContainer('party-container')
-		loadPartyListContainer('trending-container')
-		loadPartyListContainer('closing-container')
-	});
+// runs when page DOM is ready
+$(document).ready(function() {
+    // tells us where the thumbnails go
+    loadPartyListContainer('party-container')
+    loadPartyListContainer('trending-container')
+    loadPartyListContainer('closing-container')
+});
 </script>
 {% endblock script %}
-
-<!-- contains our custom html and django stuff -->
 {% block content %}
-<div class='row'>
-	<!-- left side column -->
-	<div class='col-sm-3 grey-background'>
-		<!-- separated so that the background wont follow the right columns length -->
-		<div class='col-sm-12 mt-4'>
-			<!-- current logged user -->
-			<h3>{{ request.user }}</h3><hr>
-		</div>
-		<!-- create event button linked to create page -->
-		<div class='col-sm-12 mt-3'>
-			<a href="{% url 'parties:create' %}">
-				<button class='btn btn-outline-secondary'>Create an event</button>
-			</a>
-		</div>
-		<!-- holds recommended users -->
-		<div class='col-sm-12 mt-5'>
-			<h3 class='mb-3'>Following</h3>
-			{% for user in request.user.profile.get_following %}
-			<p class='mb-3'>
-				<a class='text-dark' href='/profiles/{{ user.username }}'>
-					{% if user.profile.profile_picture %}
-					<img src='{{ user.profile.profile_picture.url }}' class="rounded-circle float-left" style='max-height: 30;'>
-					{% else %}
-					<!-- this is a blank profile pic, cause we at least need the circle to show. it only shows if the user doesnt have a profile-->
-					<img src='/media/profile_pics/blank_profile.png' class="rounded-circle float-left" style='max-height: 30;'>
-					{% endif %}
-					<span class='ml-1'>{{ user.username }}</span>
-				</a>
-			</p>
-			{% empty %}
-				<p>Not following anyone</p>
-			{% endfor %}
-		</div>
+
+<header class="hero-section">
+    <div class="header-wrapper">
+        <h1 class="text-left">Featured Event</h1>
+        <div class="placeholder-hero-img"></div>
+        <p>Details of the event will appear here. This section of text can extend to multiple lines.</p>
+    </div>
+</header>
+
+<div class="home-content">
+    <div class="row">
+	    <div class="pl-3">
+	        <div class="d-flex nav-active-border home-nav">
+	            <ul class="nav">
+	                <li class="nav-item">
+	                    <a class="nav-link pt-4 pb-4 mb-2 active show" href="#" data-toggle="tab" data-target="#tab_1">Closing Soon</a>
+	                </li>
+	                <li class="nav-item">
+	                    <a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_2">Trending</a>
+	                </li>
+	                <li class="nav-item">
+	                    <a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_3">Following</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
 	</div>
-	<div class='col-sm-9 mt-3'>
-		<!-- title for the following section -->
-		<h1>Following</h1><hr>
-		<!-- this holds all of our JS rendered stuff -->
-		<!-- the id and dataurl are set so that the base render function can 
-		get the appropriate info from them -->
-		<div class='ml-1' id='party-container' data-url='/api/events/'></div>
 
-		<h1 class='mt-5'>Trending</h1>
-		<div class='ml-1' id='trending-container' data-url='/api/events/trending/'></div>
-
-		<h1 class='mt-5'>Closing Soon</h1>
-		<div class='ml-1' id='closing-container' data-url='/api/events/closing/'></div>		
-
-		<!-- this is our load more button for the pagination -->
-		<!-- weve disabled this for now since we wanted to pu the trending piece in -->
-		<!-- <a href='#' id='loadmore'>Show More Events</a> -->
-
-	</div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tab-content pl-3">
+                <div class="tab-pane fade active show" id="tab_1">
+                	<div class="row">
+                    	<div id='closing-container' data-url='/api/events/closing'></div>
+                	</div>
+                </div>
+                <div class="tab-pane fade" id="tab_2">
+                    <div class="row">
+                	   <div id='trending-container' data-url='/api/events/trending'></div>	
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tab_3">
+                    <div class="row">
+                	   <div id='party-container' data-url='/api/events/'></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 {% endblock content %}
-
-<!-- this is the django method for the list view -->
-<!-- {% for object in object_list %}
-			<div class="media">
-				<div class="media-body">
-					<a href="{{ object.get_absolute_url }}" class='text-dark'>
-				    	<h5 class="mt-0">{{ object.title }}</h5>
-				    </a>
-					{{ object.description }}<br>
-					With {{ object.user }} | on {{ object.party_time }}
-				</div>
-			</div>
-			<hr>
-		{% empty %}
-			{% if request.GET.q %}
-			<p>No events match your search :(</p>
-			{% else %}
-			<p>No events at this time</p>
-			{% endif %}
-		{% endfor %}

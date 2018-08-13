@@ -78,7 +78,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'num_possible_winners',
 			'num_curr_winners',
 			'minimum_bid',
-			'max_entrants'
+			'max_entrants', 
 		]
 
 	# method if you want the human readable format of the event type

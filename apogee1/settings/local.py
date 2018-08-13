@@ -49,6 +49,17 @@ EMAIL_HOST_PASSWORD = 'f44c2ec0910495b35f830b5bc2aafd584fbaa3a6'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+ASGI_APPLICATION = "apogee1.routing.application"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [config('REDIS_URL')],
+        },
+    },
+}
+
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
 CSRF_COOKIE_SECURE = True
 # Application definition
@@ -60,6 +71,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     #add django captcha here
     # these are our custom apps
     'parties',
@@ -70,6 +82,7 @@ INSTALLED_APPS = [
     'userstatistics',
     'event_payment',
     'payout',
+    'eventmessages',
 
     # third party stuff
     'crispy_forms',

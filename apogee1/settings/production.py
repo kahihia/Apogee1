@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'userstatistics',
     'event_payment',
     'payout',
+    'eventmessages',
 
     # third party stuff
     'crispy_forms',
@@ -116,6 +117,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'apogee1.wsgi.application'
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [config('REDIS_URL')],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

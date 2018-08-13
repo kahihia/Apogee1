@@ -48,6 +48,17 @@ EMAIL_HOST_PASSWORD = 'f44c2ec0910495b35f830b5bc2aafd584fbaa3a6'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+ASGI_APPLICATION = "apogee1.routing.application"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [config('REDIS_URL')],
+        },
+    },
+}
+
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_USER = 'ApogeeSendEmails@gmail.com'
 # EMAIL_HOST_PASSWORD = 'ApogeeEmail'
@@ -66,6 +77,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     #add django captcha here
     # these are our custom apps
     'parties',
@@ -75,6 +87,8 @@ INSTALLED_APPS = [
     'notifications',
     'userstatistics',
     'event_payment',
+    'eventmessages',
+    'payout'
 
     # third party stuff
     'crispy_forms',

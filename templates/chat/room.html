@@ -1,0 +1,28 @@
+{% load static %}
+
+<!-- this is our custom js -->
+{% block script %}
+  <script type="text/javascript" src='{% static "js/eventmessages/reconnecting-websocket.min.js" %}'></script>
+  <script type="text/javascript" src='{% static "js/eventmessages/chat.js" %}'></script>
+{% endblock script %}
+
+{% block content %}
+  {% load staticfiles %}
+  <form id="chatform" class="border">
+    <div id="chat" style="min-height:200px">
+      <div>
+        {% for message in messages %}
+          <div>
+            <p>{{ message.formatted_timestamp }}</p>
+            <p>{{ message.handle }}</p>
+            <p>{{ message.message }}</p>
+          </div> 
+        {% endfor %}
+      </div>
+      <div>
+        <input style="position: absolute; bottom: 0" id="message" type="text" placeholder="message">
+        <button type="submit" id="go" class="hidden" style="display: none">Say it</button>
+      </div>
+    </div>
+  </form>
+{% endblock content %}

@@ -6,11 +6,45 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from parties.models import Party
+from parties.api.serializers import PartyModelSerializer
+from django.utils import timezone
+from datetime import timedelta
+
+
 
 # this is the default home page from when the app starts
-# its no longer routed in views and doesnt do anything
-def home(request):
-	return render(request, 'home.html', {})
+class HomeView(View):
+	def get(self, request, *args, **kwargs):
+		# Maybe put this in middleware later
+		blocked_by_list = self.request.user.blocked_by.all()
+		blocking_list = self.request.user.profile.blocking.all()
+		# Trending
+		trending = Party.objects.filter(is_open=True).order_by('-popularity')[:6]
+		serialized_trending = PartyModelSerializer(trending, many=True, context={'request': request}).data
+
+		# Closing
+		soon_time = timezone.now() + timedelta(minutes=15)
+		closing = Party.objects.filter(is_open=True) \
+							.filter(party_time__lte=soon_time) \
+							.exclude(user__profile__in=blocked_by_list) \
+							.exclude(user__in=blocking_list) \
+							.order_by('-popularity')[:6]
+		serialized_closing = PartyModelSerializer(closing, many=True, context={'request': request}).data
+		# Following
+		im_following = self.request.user.profile.get_following()
+		if im_following:
+			following = Party.objects.filter(user__in=im_following) \
+								.filter(is_open=True) \
+								.exclude(user__profile__in=blocked_by_list) \
+								.exclude(user__in=blocking_list) \
+								.order_by('-time_created')
+			serialized_following = PartyModelSerializer(following, many=True, context={'request': request}).data
+		else:
+			serialized_following = None
+
+		context = {'trending': serialized_trending, 'closing': serialized_closing, 'following': serialized_following, 'username': self.request.user.username}
+		return render(request, 'home.html', context)
 
 # we need this user model to search users 
 User = get_user_model()
@@ -29,7 +63,11 @@ class SearchView(View):
 			qs = User.objects.filter(
 					Q(username__icontains=query) 
 				)
-		context = {'users': qs}
+			qse = Party.objects.filter(
+					Q(title__icontains=query)).order_by('-popularity')[:12]
+									
+			serialized_events = PartyModelSerializer(qse, many=True, context={'request': request}).data
+		context = {'users': qs, 'events': serialized_events}
 		return render(request, 'search.html', context)
 
 # from django example for timezone 
