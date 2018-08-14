@@ -134,6 +134,7 @@
               // if there are more pages in the API, the loadmore appears
               if (data.next) {
                 nextNotifUrl = data.next
+                $('#loadmore').css('display', 'inline-block')
               } else {
                 $('#loadmore').css('display', 'none')
               }

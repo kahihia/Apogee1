@@ -29,23 +29,23 @@ than in the parties templates -->
 	</div>
 </div> -->
 <div class='row'>
-	<!-- left side column -->
-	<div class='col-sm-3 grey-background rounded'>
+<!-- 	<div class='col-sm-3 grey-background rounded'>
 		<div class='col-sm-12 mt-3'>
 			<h1>Users</h1><hr>
 		</div>
 		<div class='col-sm-12'>
-			<!-- users is context passed by the view. if there is no one listed, the empty line is rendered -->
 			{% for user in users %}
 				<a class='text-dark ' href='/profiles/{{ user.username }}/'>{{ user.username }}</a><br>
 			{% empty %}
 				<p>No users found.</p>
 			{% endfor %}
 		</div>
-	</div>
+	</div> -->
 
-	<div class='col-sm-9 mt-3'>
-		<h1>Events</h1><hr>
+	<div class="col-lg-12 mx-4 mt-3 pt-3 pl-3 search-view">
+		<h1>Showing Results for...</h1>
+		<br>
+		<h4>Events</h4><hr>
 
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
@@ -53,7 +53,7 @@ than in the parties templates -->
 		<div class='ml-1' id='party-container' data-url='/api/search/'></div>
 
 		<!-- this is our load more button for the pagination. its written into the JS-->
-		<button type="button" class="btn btn-outline-secondary btn-block" id='loadmore'>Show More Events</button>
+		<button type="button" class="btn btn-outline-secondary btn-block" id='loadmore' style="display:none">Show More Events</button>
 	</div>
 </div>
 {% endblock content %}
