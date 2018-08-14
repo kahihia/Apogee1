@@ -1,3 +1,4 @@
+# this is the settings file we're using for the 
 """
 Django settings for apogee1 project.
 
@@ -11,7 +12,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-
+from decouple import config
+import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # points us back to the root folder, where manage.py is
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -21,13 +23,25 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6fw*ujba!d-3^a8ez_9*da+2@bt2(-1*4@f7bjuvxas$puux_8'
-
+#HEROKU
+#SECRET_KEY = '6fw*ujba!d-3^a8ez_9*da+2@bt2(-1*4@f7bjuvxas$puux_8'
+SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # shows debug messages in the page 
-DEBUG = False
+#HEROKU 
+#DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
+ALLOWED_HOSTS = ['.apogee.gg']
 
-ALLOWED_HOSTS = []
+#'apogee1.herokuapp.com',
+AWS_QUERYSTRING_AUTH = False
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('S3_BUCKET_NAME')
+MEDIA_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
+AWS_S3_REGION_NAME = config('REGION_NAME')
+
 
 
 # Application definition
@@ -39,15 +53,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    #add django captcha here
     # these are our custom apps
     'parties',
     'accounts',
     'hashtags',
+    'bids',
+    'notifications',
+    'userstatistics',
 
     # third party stuff
     'crispy_forms',
     'rest_framework',
+    'storages',
+    # 'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +81,9 @@ MIDDLEWARE = [
     'parties.middleware.TimezoneMiddleware',
 ]
 
+# PAYPAL_TEST = True
+
+
 # root url sets the main routing file. those then refer to the other url docs
 ROOT_URLCONF = 'apogee1.urls'
 
@@ -71,7 +93,8 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 
 # Address of RabbitMQ instance, our Celery broker
-CELERY_BROKER_URL = 'amqp://localhost'
+#CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_BROKER_URL=config('REDIS_URL')
 CELERY_BROKER_POOL_LIMIT = 8
 
 TEMPLATES = [
@@ -98,13 +121,31 @@ WSGI_APPLICATION = 'apogee1.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+#HEROKU
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'apogeetestdb',
+#         'USER': 'caldwell',
+#         'PASSWORD': 'apogeedb',
+#         # 'NAME': 'mydb',
+#         # 'USER': 'me',
+#         # 'PASSWORD': 'pass',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL', default='postgres://localhost')
+    )
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -156,16 +197,17 @@ STATICFILES_DIRS = [
 # in production, this should be done by a cdn, not django
 # will be served
 STATIC_ROOT = os.path.join(BASE_DIR, "static-serve")
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 # this holds our media stuff like thumbnails and profile pics
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = '/media/'
+#MEDIA_URL = '/media/'
 
 # this just works with crispy form to render properly
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-
+#django_heroku.settings(locals())
 
 
 
