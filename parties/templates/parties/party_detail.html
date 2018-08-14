@@ -7,7 +7,7 @@
 	{{ serialized.title }} | {{ block.super }}
 {% endblock title %}
 
-{% block scripts %}
+{% block script %}
 <script src='{% static "js/parties/party.js"%}'></script>
 <script src='{% static "js/eventmessages/chat.js"%}'></script>
 <script type="text/javascript">
@@ -16,7 +16,7 @@
 	addReportFunctionality();
 	// setupChatRoom();
 </script>
-{% endblock scripts %}
+{% endblock script %}
 
 
 <!-- contains our custom JS -->
@@ -192,7 +192,6 @@
 									<a class="text-dark" href=" {{serialized.user.url}} "> {{serialized.user.username}} </a>
 									<i class="fas fa-check-circle"></i>
 									{%if serialized.user.profile.is_verified%}
-									I AM SO VERIFIED RIGHT NOW
 										
 									{%endif%} 
 									<span class="float-right"> {{serialized.price}} </span>
