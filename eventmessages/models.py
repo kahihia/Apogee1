@@ -7,6 +7,6 @@ class Room(models.Model):
 
 class Message(models.Model):
     room = models.ForeignKey(Room, related_name='messages', on_delete='cascade')
-    handle = models.TextField()
     message = models.TextField()
+    username = models.TextField()
     timestamp = models.DateTimeField(default=timezone.now, db_index=True)

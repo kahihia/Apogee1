@@ -41,7 +41,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         command = content.get("command", None)
         if command == "send":
             m = content["message"]
-            Message.objects.create(message=m, room=self.room)
+            print(self.scope['user'])
+            Message.objects.create(message=m, room=self.room, username=self.scope['user'])
             await self.send_room(self.room_id, m)
         else:
             await self.send_json({'error': True})
