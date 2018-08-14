@@ -79,6 +79,17 @@ class PaypalVerificationAPI(APIView):
 
 		return Response(payment_verified, status=status.HTTP_200_OK)
 
+
+
+
+class ReportAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	def get(self, request, pk, format=None):
+		if request.user.is_authenticated:
+			party_qs = Party.objects.filter(pk=pk)
+			partyHandling.report(request.user, party_qs.first())
+			return Response({'error_message':"Returning properly"})
+
 # star toggle is a method from the model that just adds the user to the 
 # list containing the people who have starred it
 class StarToggleAPIView(APIView):
@@ -100,8 +111,6 @@ class StarToggleAPIView(APIView):
 class BidAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, bids, format=None):
-		print("The bid is: ")
-		print(bids)
 		party_qeryset = Party.objects.filter(pk=pk)
 		party_event_type = party_qeryset.first().event_type
 		#if party_event is bid	
@@ -225,26 +234,30 @@ class PartyListAPIView(generics.ListAPIView):
 	# this interacts with the ajax call to this url
 	def get_queryset(self, *args, **kwargs):
 		# gets user for if we have a user detail view
+		qs = Party.objects.none()
 		requested_user = self.kwargs.get('username')
-		# these lists get the users you block and the users that block you
-		# blocked by returns profile objects and blocking returns users
-		blocked_by_list = self.request.user.blocked_by.all()
-		blocking_list = self.request.user.profile.blocking.all()
+		if self.request.user.is_authenticated:
+			# these lists get the users you block and the users that block you
+			# blocked by returns profile objects and blocking returns users
+			blocked_by_list = self.request.user.blocked_by.all()
+			blocking_list = self.request.user.profile.blocking.all()
 		if requested_user:
 			# includes only the requested users events in the feed
 			# sets the ordering. party_time would be soonest expiration at the top
 			qs = Party.objects.filter(user__username=requested_user).order_by('-time_created')
-			# this stops you from seeing blocked or blocking events
-			qs = qs.exclude(user__profile__in=blocked_by_list)
-			qs = qs.exclude(user__in=blocking_list)
+			if self.request.user.is_authenticated:
+				# this stops you from seeing blocked or blocking events
+				qs = qs.exclude(user__profile__in=blocked_by_list)
+				qs = qs.exclude(user__in=blocking_list)
 		else:
+			if self.request.user.is_authenticated:
 			# uses methods form the userprofile model
-			im_following = self.request.user.profile.get_following()
-			qs = Party.objects.filter(user__in=im_following)
-			qs = qs.filter(is_open=True).order_by('-time_created')
-			# this stops you from seeing blocked or blocking events
-			qs = qs.exclude(user__profile__in=blocked_by_list)
-			qs = qs.exclude(user__in=blocking_list)
+				im_following = self.request.user.profile.get_following()
+				qs = Party.objects.filter(user__in=im_following)
+				qs = qs.filter(is_open=True).order_by('-time_created')
+				# this stops you from seeing blocked or blocking events
+				qs = qs.exclude(user__profile__in=blocked_by_list)
+				qs = qs.exclude(user__in=blocking_list)
 			# includes our own events in our feed
 			# qs2 = Party.objects.filter(user=self.request.user)
 			# sets the ordering. party_time would be soonest expiration at the top
@@ -324,14 +337,16 @@ class TrendingListAPIView(generics.ListAPIView):
 
 	# this interacts with the ajax call to this url
 	def get_queryset(self, *args, **kwargs):
-		# these lists get the users you block and the users that block you
-		# blocked by returns profile objects and blocking returns users
-		blocked_by_list = self.request.user.blocked_by.all()
-		blocking_list = self.request.user.profile.blocking.all()
-		# trending is all the open events, ordered by their popularity, descending
 		qs = Party.objects.filter(is_open=True).order_by('-popularity')
-		qs = qs.exclude(user__profile__in=blocked_by_list)
-		qs = qs.exclude(user__in=blocking_list)
+		if self.request.user.is_authenticated:
+			# these lists get the users you block and the users that block you
+			# blocked by returns profile objects and blocking returns users
+			blocked_by_list = self.request.user.blocked_by.all()
+			blocking_list = self.request.user.profile.blocking.all()
+			# trending is all the open events, ordered by their popularity, descending
+			
+			qs = qs.exclude(user__profile__in=blocked_by_list)
+			qs = qs.exclude(user__in=blocking_list)
 		return qs
 
 # this creates the api view that the closing soon list of our home page pulls from
@@ -347,18 +362,19 @@ class ClosingSoonListAPIView(generics.ListAPIView):
 
 	# this interacts with the ajax call to this url
 	def get_queryset(self, *args, **kwargs):
-		# these lists get the users you block and the users that block you
-		# blocked by returns profile objects and blocking returns users
-		blocked_by_list = self.request.user.blocked_by.all()
-		blocking_list = self.request.user.profile.blocking.all()
-		# closing soon is events closing in 5 mins (delta is 10)
-		# that are open, ordered by popularity, descending
 		soon_time = timezone.now() + timedelta(minutes=15)
 		qs = Party.objects.filter(is_open=True)
 		qs = qs.filter(party_time__lte=soon_time)
-		qs = qs.exclude(user__profile__in=blocked_by_list)
-		qs = qs.exclude(user__in=blocking_list)
 		qs = qs.order_by('-popularity')
+		if self.request.user.is_authenticated:
+			# these lists get the users you block and the users that block you
+			# blocked by returns profile objects and blocking returns users
+			blocked_by_list = self.request.user.blocked_by.all()
+			blocking_list = self.request.user.profile.blocking.all()
+			# closing soon is events closing in 5 mins (delta is 10)
+			# that are open, ordered by popularity, descending
+			qs = qs.exclude(user__profile__in=blocked_by_list)
+			qs = qs.exclude(user__in=blocking_list)
 		return qs
 
 

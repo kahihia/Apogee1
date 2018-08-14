@@ -15,7 +15,8 @@ from .views import (
 		BuyoutLotteryAPIView, 
 		JoinedListAPIView,
 		BidAPIView,
-		PaypalVerificationAPI
+		PaypalVerificationAPI,
+		ReportAPIView,
 	)
 
 app_name = 'parties-api'
@@ -32,5 +33,6 @@ urlpatterns = [
     path('<int:pk>/star/', StarToggleAPIView.as_view(), name='star-toggle'),
     path('<int:pk>/join/<bids>', BidAPIView.as_view(), name='bid-toggle'),
     path('<int:pk>/join/', BuyoutLotteryAPIView.as_view(), name='join-toggle'),
+    path('<int:pk>/report/', ReportAPIView.as_view(), name='report'),
    # url(r"^<int:pk>/join/(?P<dollar>\d+\.\d+)$", BidAPIView.as_view(), name="bid-toggle"), 
  ]

@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'notifications',
     'userstatistics',
     'event_payment',
+    'payout',
     'eventmessages',
 
     # third party stuff

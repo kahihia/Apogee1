@@ -25,15 +25,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #HEROKU
-
-SECRET_KEY = '6fw*ujba!d-3^a8ez_9*da+2@bt2(-1*4@f7bjuvxas$puux_8'
+#SECRET_KEY = '6fw*ujba!d-3^a8ez_9*da+2@bt2(-1*4@f7bjuvxas$puux_8'
+SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # shows debug messages in the page 
 #HEROKU 
 #DEBUG = True
 DEBUG = config('DEBUG', default=False, cast=bool)
-#ALLOWED_HOSTS = [config('DJANGO_ALLOWED_HOSTS')]
-ALLOWED_HOSTS='*'
+ALLOWED_HOSTS = [config('DJANGO_ALLOWED_HOSTS')]
 
 AWS_QUERYSTRING_AUTH = False
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
@@ -69,12 +68,12 @@ INSTALLED_APPS = [
     'bids',
     'notifications',
     'userstatistics',
+    'event_payment',
 
     # third party stuff
     'crispy_forms',
     'rest_framework',
     'storages',
-    # 'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -90,8 +89,6 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
-# PAYPAL_TEST = True
-
 # root url sets the main routing file. those then refer to the other url docs
 ROOT_URLCONF = 'apogee1.urls'
 
@@ -102,7 +99,8 @@ LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 
 # Address of RabbitMQ instance, our Celery broker
 #CELERY_BROKER_URL = 'amqp://localhost'
-CELERY_BROKER_URL="redis://h:p1fbca0804368b748a05c5c6a27f88f31a6ce80f34b6d57f5fd78d92d2e8a418b@ec2-54-84-131-124.compute-1.amazonaws.com:54739"
+CELERY_BROKER_URL=config('REDIS_URL')
+print(config('REDIS_URL'))
 CELERY_BROKER_POOL_LIMIT = 8
 
 TEMPLATES = [
@@ -135,24 +133,24 @@ WSGI_APPLICATION = 'apogee1.wsgi.application'
 #     }
 # }
 #HEROKU
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'apogeetestdb',
-        'USER': 'caldwell',
-        'PASSWORD': 'apogeedb',
-        # 'NAME': 'mydb',
-        # 'USER': 'me',
-        # 'PASSWORD': 'pass',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
 # DATABASES = {
-#     'default': dj_database_url.config(
-#         default=config('DATABASE_URL', default='postgres://localhost')
-#     )
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'apogeetestdb',
+#         'USER': 'caldwell',
+#         'PASSWORD': 'apogeedb',
+#         # 'NAME': 'mydb',
+#         # 'USER': 'me',
+#         # 'PASSWORD': 'pass',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
 # }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL', default='postgres://localhost')
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

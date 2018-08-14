@@ -197,9 +197,38 @@ def bid_bid_too_low():
 
 ########################## FUNCTIONS USED BY API ###############################
 
+#Called when report button is clicked
+#Adds user to report list if they aren't in it
+# Determines if the new length of the report list
+#Is enough to cause a flag trigger
+def report(user, party_obj):
+	if not user in party_obj.report_list.all():
+		party_obj.report_list.add(user)
+		report_party = determine_report(party_obj)
+		if report_party:
+			party_obj.is_flagged = True
+			party_obj.save2(update_fields=['is_flagged'])
+			#EMAIL HERE send party info to our email
+
+#Takes a party_obj and counts its number of reports
+# If there are fewer than 5 reports, return false (not enough reports)
+#If the ratio of reports to interaction_pts is greater than .05, return true
+# else return false
+def determine_report(party_obj):
+	if party_obj.is_flagged:
+		return False
+	interactions = party_obj.interaction_pts
+	num_reports = party_obj.report_list.all().count()
+	if num_reports < 4:
+		return False
+	ratio = num_reports/interactions
+	if ratio>.03:
+		return True
+	else:
+		return False
+
 # this both adds or removes the user and tells us if they're on it
 def star_toggle(user, party_obj):
-	print("STAR TOGGLE TOGGLE TOGGLE TOGGLE STAR TOGGLE")
 	if party_obj.event_type==1:
 		statisticsfunctions.lottery_update_star_stats(party_obj)
 	if party_obj.event_type==2:

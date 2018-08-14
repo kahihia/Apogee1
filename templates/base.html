@@ -6,46 +6,17 @@ of the formatting in the head, so it must be imported into every file. -->
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <!-- Bootstrap CSS -->
     <!-- this is where the static files are served locally. for procudtion, we should use the CDN version -->
     <!-- <link href='{% static "css/bootstrap.min.css" %}' rel='stylesheet'> -->
+    <link href='{% static "css/max-custom.css" %}' rel='stylesheet'>
     <!-- CDN Version of Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- CDN for FontAwesome, which is where our little glyphicons come from -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
-
-    <!-- additional custom css for changing colors -->
-    <!-- build set of global variables in static rather than putting them here -->
-    <style>
-      .apogee-btn {
-        color: black;
-        background-color: orchid;
-      }
-      .grey-color {
-        color: #ccc;
-      }
-      .red-color {
-        color: red;
-      }
-      .yellow-color {
-        content: "\f005";
-        color: #e4c43a;
-      }
-      .media-focus {
-        background-color: #8080803b;
-      }
-      /*this allows form errors to show*/
-      .invalid-feedback {
-        display: block;
-      }
-      .grey-background {
-        background-color: #f1f1f1;
-      }
-    </style>
-
     <!-- block title allows us to push a new title from each page -->
     <!-- you can access the apogee text by calling block.super, so all other pages just call that in their block title section -->
     <title>{% block title %}Apogee{% endblock title %}</title>
@@ -73,9 +44,6 @@ of the formatting in the head, so it must be imported into every file. -->
     <!-- Botstrap comes with slim version of jQuery, but we've updated to full version so that we can use AJAX stuff -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" crossorigin="anonymous"></script>
-
-    {% block scripts %}
-    {% endblock scripts %}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <!-- Local version of Bootstrap JS, switch to CDN version for production -->
@@ -105,6 +73,23 @@ of the formatting in the head, so it must be imported into every file. -->
 
     </script>
     
+
+    <!-- this is our custom JS block where we'll anything from specific pages -->
+    {% block scripts %}
+    {% endblock scripts %}
+    <script>
+      $(document).ready(function(){
+        $(window).scroll(function(){
+          var y = $(window).scrollTop();
+            if( y > 0 ){
+              $(".navbar").addClass("navbar-shadow");
+            }
+            else {
+              $(".navbar").removeClass("navbar-shadow");
+            }
+          });
+        })
+    </script>
 
   </body>
 </html>

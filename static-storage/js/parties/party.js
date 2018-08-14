@@ -99,6 +99,28 @@ function addStarFunctionality(){
 
 }
 
+// Adds report API call to report button
+function addReportFunctionality(){
+  $(document.body).on("click", '.reportBtn', function(e){
+    e.preventDefault();
+    let this_ = $(this);
+    let partyID = this_.attr('data-id');
+    let reportUrl = '/api/events/' + partyID + '/report/';
+    $.ajax({
+      method: 'GET',
+      url: reportUrl,
+      success: function(data){
+        // alert(data.error_message)
+      }, 
+      error: function(data){
+        console.log('Report')
+      }
+    })
+  })
+}
+
+
+
 function getParameterByName(name, url) {
   if (!url) url = window.location.href;
   name = name.replace(/[\[\]]/g, "\\$&");

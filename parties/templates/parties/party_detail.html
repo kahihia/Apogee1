@@ -28,6 +28,7 @@
 {% block content %}
 
 <div class='row mt-4'>
+
 	<div class='col-sm-10 offset-sm-1 border grey-background rounded'>
 		
 		<div class='rounded mt-3'>
@@ -103,6 +104,14 @@
 										<p class="text-muted"> {{serialized.num_possible_winners}} <small class="text-muted">Winners possible</small></p>
 									{%endif%}
 								</div>
+
+								<div class="col-sm-12"> 
+									 <a href="#" class="reportBtn" id="detailReport" data-id="{{serialized.id}}"> 
+									 	Report
+									</a> 
+								</div>
+
+
 
 								<!-- Bid functionality -->
 								{% if not serialized.is_owner and serialized.event_type == 2 %}
@@ -185,7 +194,11 @@
 								</h1>
 								<!-- Details on event -->
 								<small class="text-muted">With  
-									<a class="text-dark" href=" {{serialized.user.url}} "> {{serialized.user.username}} </a> 
+									<a class="text-dark" href=" {{serialized.user.url}} "> {{serialized.user.username}} </a>
+									<i class="fas fa-check-circle"></i>
+									{%if serialized.user.profile.is_verified%}
+										
+									{%endif%} 
 									<span class="float-right"> {{serialized.price}} </span>
 									on  {{serialized.party_time_display}}
 								</small>
@@ -216,6 +229,7 @@
 
 	</div>
 	{% endif %}
+
 </div>
 
 {% endblock content %}
