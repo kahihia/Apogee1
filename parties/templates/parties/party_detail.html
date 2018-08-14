@@ -13,9 +13,7 @@
 <script type="text/javascript">
 	addStarFunctionality();
 	addJoinFunctionality();
-	alert("CALLING")
 	addReportFunctionality();
-	alert("CALLED")
 	// setupChatRoom();
 </script>
 {% endblock scripts %}
@@ -191,7 +189,10 @@
 								</h1>
 								<!-- Details on event -->
 								<small class="text-muted">With  
-									<a class="text-dark" href=" {{serialized.user.url}} "> {{serialized.user.username}} </a> 
+									<a class="text-dark" href=" {{serialized.user.url}} "> {{serialized.user.username}} </a>
+									{%if serialized.user.profile.is_verified%}
+										<i class="fas fa-check-circle"></i>
+									{%endif%} 
 									<span class="float-right"> {{serialized.price}} </span>
 									on  {{serialized.party_time_display}}
 								</small>
