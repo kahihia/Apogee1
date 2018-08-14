@@ -71,10 +71,6 @@
 									</p>
 									{% endif %}
 								</div>
-								<div class="col-sm-12"> 
-									 <button type="button" class=report data-id= + partyValue.id + >Report 
-									 </button>
-								</div>
 
 								<!-- # Joined -->
 								{% if serialized.event_type == 1 %}
@@ -102,6 +98,13 @@
 										<p class="text-muted"> {{serialized.num_possible_winners}} <small class="text-muted">Winners possible</small></p>
 									{%endif%}
 								</div>
+
+								<div class="col-sm-12"> 
+									 <button type="button" class=report data-id= + partyValue.id + >Report 
+									 </button>
+								</div>
+
+
 
 								<!-- Bid functionality -->
 								{% if not serialized.is_owner and serialized.event_type == 2 %}
