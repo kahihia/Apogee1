@@ -61,7 +61,7 @@ CHANNEL_LAYERS = {
 }
 
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
 # Application definition
 
 INSTALLED_APPS = [

@@ -58,7 +58,7 @@ ASGI_APPLICATION = "apogee1.routing.application"
 
 
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
 # Application definition
 
 INSTALLED_APPS = [
@@ -110,9 +110,26 @@ LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 # Address of RabbitMQ instance, our Celery broker
 # CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_BROKER_POOL_LIMIT = 8
-#CELERY_BROKER_URL=os.environ['REDIS_URL']
 CELERY_BROKER_URL=config('REDIS_URL')
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': config('LOG_LEVEL', default='DEBUG'),
+            'propagate': True,
+        },
+    },
+}
 
 TEMPLATES = [
     {
