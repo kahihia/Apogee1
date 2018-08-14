@@ -29,7 +29,7 @@ class SearchView(View):
 			qs = User.objects.filter(
 					Q(username__icontains=query) 
 				)
-		context = {'users': qs}
+		context = {'users': qs, 'query': query}
 		return render(request, 'search.html', context)
 
 # from django example for timezone 
