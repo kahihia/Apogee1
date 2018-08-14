@@ -101,7 +101,7 @@ function addStarFunctionality(){
 
 // Adds report API call to report button
 function addReportFunctionality(){
-  $('detailReport').click(function(e){
+  $(document.body).on("click", '.reportBtn', function(e){
     e.preventDefault();
     let this_ = $(this);
     let partyID = this_.attr('data-id');
