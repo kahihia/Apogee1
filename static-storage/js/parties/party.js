@@ -103,6 +103,7 @@ function addStarFunctionality(){
 function addReportFunctionality(){
   $(document.body).on("click", '.reportBtn', function(e){
     e.preventDefault();
+    alert("HERE");
     let this_ = $(this);
     let partyID = this_.attr('data-id');
     let reportUrl = '/api/events/' + partyID + '/report/';
