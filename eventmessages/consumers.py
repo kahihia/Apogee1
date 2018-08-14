@@ -4,6 +4,7 @@ import json
 import logging
 from urllib import parse
 from .models import Message, Room
+from django.utils.html import escape
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         """
         self.room_id = dict(parse.parse_qs(self.scope['query_string'].decode('utf-8')))['room_id'][0]
         logger.debug("Connect: room_id = " + self.room_id)
-        print(self.room_id)
         self.room_group_name = 'chat_%s' % self.room_id
         self.room = Room.objects.get_or_create(pk=self.room_id)[0]
         self.room_name = "chat_%s" % self.room_id
@@ -40,8 +40,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         # Messages will have a "command" key we can switch on
         command = content.get("command", None)
         if command == "send":
-            m = content["message"]
-            print(self.scope['user'])
+            m = escape(content["message"])
             Message.objects.create(message=m, room=self.room, username=self.scope['user'])
             await self.send_room(self.room_id, m)
         else:
@@ -71,7 +70,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         await self.send_json(
             {
                 "room": event["room_id"],
-                "username": event["username"],
-                "message": event["message"],
+                "username": escape(event["username"]),
+                "message": escape(event["message"]),
             },
         )
