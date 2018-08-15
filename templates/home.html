@@ -12,13 +12,17 @@
 <script src='{% static "js/parties/party.js"%}'></script>
 <script src='{% static "js/eventmessages/chat.js"%}'></script>
 <script type="text/javascript">
-	addStarFunctionality();
-	addJoinFunctionality();
+	$(document).ready(function() {
+	    // tells us where the thumbnails go
+	    loadPartyListContainer('party-container')
+		addStarFunctionality();
+		addJoinFunctionality();
+	});
 </script>
 {% endblock scripts %}
 
 {% block content %}
-{# <<<<<<< HEAD #}
+
 <div class='row'>
 	<!-- left side column -->
 	<div class='col-sm-3 grey-background'>

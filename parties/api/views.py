@@ -183,7 +183,6 @@ class PartyDetailAPIView(generics.ListAPIView):
 		qs = qs.exclude(user__profile__in=blocked_by_list)
 		return qs
 
-
 # this creates the api view that our search page pulls from
 # it differs from the list view in that it includes users we arent following
 class SearchPartyAPIView(generics.ListAPIView):
