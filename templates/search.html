@@ -8,9 +8,19 @@ than in the parties templates -->
 {% endblock title %}
 
 <!-- contains our custom JS -->
-{% block script %}
+{% block scripts %}
+<script src='{% static "js/parties/old.js"%}'></script>
 <script src='{% static "js/parties/party.js"%}'></script>
-{% endblock script %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		// tells us where the thumbnails go
+		loadPartyListContainer('party-container')
+		setTimeout(function(){
+			addStarFunctionality();
+		}, 1000)
+	});
+</script>
+{% endblock scripts %}
 
 <!-- contains our custom html and django stuff -->
 {% block content %}
@@ -35,26 +45,21 @@ than in the parties templates -->
 		</div>
 	</div> -->
 
-	<div class="col-lg-12 mx-4 mt-3 pt-3 pl-3 search-view">
-		<h1>Showing Results for...</h1>
+	<div class="col-lg-10 col-lg-offset-1 mx-4 mt-3 pt-3 pl-3 search-view">
+		<h1>Showing Results for... {{ query }}</h1>
 		<br>
 		<h4>Events</h4><hr>
 
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
-		<div class='ml-1 row' id='party-container'>
-			{% for party in events %}
-				<div class="col-xs-12 col-sm-3">
-					{% include "parties/party-card.html" %}
-				</div>
-			{% empty %}
-				<p>No users found.</p>
-			{% endfor %}
+
+		<div class='ml-1'>
+		   <div id='party-container' data-url='/api/search'></div>	
 		</div>
 
 		<!-- this is our load more button for the pagination. its written into the JS-->
-		<button type="button" class="btn btn-outline-secondary btn-block" id='loadmore' style="display:none">Show More Events</button>
+		<button type="button" class="btn btn-outline-secondary btn-block" id='loadmore'>Show More Events</button>
 	</div>
 </div>
 {% endblock content %}

@@ -8,4 +8,4 @@ class StandardResultsPagination(pagination.PageNumberPagination):
 	# this is the number of parties per API page
 	page_size = 6
 	page_size_query_param = 'page_size'
-	max_page_size = 1000
+	max_page_size = 36

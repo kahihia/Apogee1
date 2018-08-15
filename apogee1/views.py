@@ -63,11 +63,7 @@ class SearchView(View):
 			qs = User.objects.filter(
 					Q(username__icontains=query) 
 				)
-			qse = Party.objects.filter(
-					Q(title__icontains=query)).order_by('-popularity')[:12]
-									
-			serialized_events = PartyModelSerializer(qse, many=True, context={'request': request}).data
-		context = {'users': qs, 'events': serialized_events}
+		context = {'users': qs, 'query': query}
 		return render(request, 'search.html', context)
 
 # from django example for timezone 
