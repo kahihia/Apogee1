@@ -106,6 +106,7 @@
 									{%endif%}
 								</div>
 
+								{%if not serialized.is_owner%}
 								<div class="col-sm-12"> 
 									 <button type="button" class="reportBtn" id="detailReport" data-id="{{serialized.id}}"> 
 									 	Report
