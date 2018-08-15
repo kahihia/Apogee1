@@ -151,7 +151,7 @@ function renderPartyList(partyContainerID){
     // for the title and description, and a footer for name, time, 
     // event type, and star
     let container =  
-    '<div class="card home-card col-xs-12 col-md-4 col-lg-2 col-xl-2"' + 
+    '<div class="card home-card col-xs-12 col-md-3 col-lg-3 "' + 
       '<a class="text-light" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
         '<img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
       '</a>' +
@@ -172,8 +172,33 @@ function renderPartyList(partyContainerID){
         '</span>' + 
       '</div>' + 
     '</div>'
+
     // just return it immediately
-    return sanitizeHtml(container)
+    return sanitizeHtml(container, {
+                                      allowedClasses: { 'div': [ 'card','home-card','col-xs-12','col-md-4','col-lg-2','col-xl-2', 'col-xs-12', 'col-md-3', 'col-lg-3',
+                                                                  'text-light', 'card-img-top', 'card-body', 'card-title', 'card-text', 
+                                                                  'card-footer', 'text-muted', 'float-right', 'starBtn', 'text-dark'],
+                                                        'p': [ 'card','home-card','col-xs-12','col-md-4','col-lg-2','col-xl-2',
+                                                                  'text-light', 'card-img-top', 'card-body', 'card-title', 'card-text', 
+                                                                  'card-footer', 'text-muted', 'float-right', 'starBtn', 'text-dark'],
+                                                        'span': [ 'card','home-card','col-xs-12','col-md-4','col-lg-2','col-xl-2',
+                                                                  'text-light', 'card-img-top', 'card-body', 'card-title', 'card-text', 
+                                                                  'card-footer', 'text-muted', 'float-right', 'starBtn', 'text-dark'],
+                                                        'small': [ 'text-muted'],
+                                                        'img': [ 'card-img-top'],
+                                                        'i': [ 'fa', 'fa-sta', 'yellow-color', 'grey-color', 'fas', 'fa-ticket-alt', 
+                                                                'fa-gavel', 'fa-donate', 'fa-ban', 'fa-star'],
+                                                        'h5': [ 'card','home-card','col-xs-12','col-md-4','col-lg-2','col-xl-2',
+                                                                  'text-light', 'card-img-top', 'card-body', 'card-title', 'card-text', 
+                                                                  'card-footer', 'text-muted', 'float-right', 'starBtn', 'text-dark'],
+                                                        'a': [ 'card','home-card','col-xs-12','col-md-4','col-lg-2','col-xl-2',
+                                                                  'text-light', 'card-img-top', 'card-body', 'card-title', 'card-text', 
+                                                                  'card-footer', 'text-muted', 'float-right', 'starBtn', 'text-dark']},
+                                      allowedTags: [ 'p', 'em', 'strong', 'div', 'a', 'img', 'span', 'h5', 'small', 'i', 'br' ],
+                                      allowedAttributes: {
+                                                            '*': [ 'href', 'align', 'alt', 'center', 'bgcolor', 'data-*', 'src', 'style', 'aria-*', 'title']
+                                                        }
+                                    })
   }
 
   function updateHashLinks(){
