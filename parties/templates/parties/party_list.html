@@ -28,6 +28,7 @@ $(document).ready(function() {
 {% endblock script %}
 {% block content %}
 
+    {% if request.user.is_authenticated %}
 <header class="hero-section">
     <div class="header-wrapper">
         <h1 class="text-left">Featured Event</h1>
@@ -35,6 +36,78 @@ $(document).ready(function() {
         <p>Details of the event will appear here. This section of text can extend to multiple lines.</p>
     </div>
 </header>
+
+    {% else %}
+
+<header class="hero-section">
+    <div class="header-wrapper">
+        <h1 class="text-center">Featured Creator<span class="d-none d-md-inline">s</span></h1>
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 offset-lg-0 col-md-5 offset-md-1 col-sm-6 offset-sm-3 col-xs-12">
+                <div class="card card-profile text-center">
+                    <div class="card-block">
+                        <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+                        <h4 class="card-title">
+                      John Smith
+                      <small>Tagline Goes Here</small>
+                      
+                    </h4>
+                        <a href="{{ request.user.profile.get_absolute_url }}">
+                            <button class="btn btn-new btn-primary-new">View Profile</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-5 d-none d-md-block d-lg-block d-xl-block">
+                <div class="card card-profile text-center">
+                    <div class="card-block">
+                        <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+                        <h4 class="card-title">
+                      John Smith
+                      <small>Tagline Goes Here</small>
+                      
+                    </h4>
+                        <a href="{{ request.user.profile.get_absolute_url }}">
+                            <button class="btn btn-new btn-primary-new">View Profile</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 d-none d-lg-block d-xl-block">
+                <div class="card card-profile text-center">
+                    <div class="card-block">
+                        <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+                        <h4 class="card-title">
+                      John Smith
+                      <small>Tagline Goes Here</small>
+                      
+                    </h4>
+                        <a href="{{ request.user.profile.get_absolute_url }}">
+                            <button class="btn btn-new btn-primary-new">View Profile</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 d-none d-xl-block">
+                <div class="card card-profile text-center">
+                    <div class="card-block">
+                        <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+                        <h4 class="card-title">
+                      John Smith
+                      <small>Tagline Goes Here</small>
+                      
+                    </h4>
+                        <a href="{{ request.user.profile.get_absolute_url }}">
+                            <button class="btn btn-new btn-primary-new">View Profile</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+    {% endif %}
 
 <div class="home-content">
     <div class="row">

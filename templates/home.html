@@ -9,12 +9,15 @@
 {% load static %}
 
 {% block scripts %}
+<script src='{% static "js/parties/old.js"%}'></script>
 <script src='{% static "js/parties/party.js"%}'></script>
 <script src='{% static "js/eventmessages/chat.js"%}'></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 	    // tells us where the thumbnails go
-	    loadPartyListContainer('party-container')
+	    loadPartyListContainer('following-container')
+	    loadPartyListContainer('trending-container')
+	    loadPartyListContainer('closing-container')
 		addStarFunctionality();
 		addJoinFunctionality();
 	});
@@ -51,11 +54,6 @@
 		<h1>Following</h1>
 		<hr>
 		<div class='ml-1 row' id='following-container'>
-			{% for party in following %}
-				<div class="col-xs-12 col-sm-3">
-					{% include "parties/party-card.html" %}
-				</div>
-			{% endfor %}
 		</div>
 		{% else %}
 		{% endif %}
@@ -64,11 +62,6 @@
 		{% if trending %}
 		<h1 class='mt-5'>Trending</h1>
 		<div class='ml-1 row' id='trending-container'>
-			{% for party in trending %}
-				<div class="col-xs-12 col-sm-3">
-					{% include "parties/party-card.html" %}
-				</div>
-			{% endfor %}
 		</div>
 		{% else %}
 		{% endif %}
@@ -77,11 +70,6 @@
 		{% if closing %}
 		<h1 class='mt-5'>Closing Soon</h1>
 		<div class='ml-1 row' id='closing-container'>
-			{% for party in closing %}
-				<div class="col-xs-12 col-sm-3">
-					{% include "parties/party-card.html" %}
-				</div>
-			{% endfor %}
 		</div>		
 		{% else %}
 		{% endif %}
