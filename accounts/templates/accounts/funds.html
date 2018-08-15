@@ -1,0 +1,66 @@
+<!-- This is the HTML for editing the user profile -->
+{% extends 'base.html' %}
+
+<!-- these provide the tab titles on the browser -->
+{% block title %}
+	Update Profile | {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+{{ object.profile.get_absolute_url }}
+
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12" style="padding-top: 30px">
+			<h1 style="color: white">Add funds</h1>
+			<input type="number" id="paypal-input" min="5" max="1000" value="10">
+			<div id="paypal-button" class="mt-3"></div>
+		</div>
+	</div>
+</div>
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+(function(){
+	paypal.Button.render({
+		env: 'sandbox',
+		client: {
+			sandbox: 'AYVs-7u_YV5YGnV2c8q4L0i8Ke6iZjVwY6JoumipioAh-8do6ZHCC9sYP94PpS62ZTbdqVTCNV39h0uw'
+		},
+		payment: function (data, actions) {
+			var requestedAmount = document.getElementById('paypal-input').value
+			if (!requestedAmount || isNaN(requestedAmount) || requestedAmount < 5) {
+				alert('Invalid requestedAmount')
+			}
+			return actions.payment.create({
+				transactions: [{
+					amount: {
+						total: requestedAmount,
+						currency: 'USD',
+					},
+					custom: '{{ request.user.id }}',
+		            description:  'Adding to Apogee Account Balance: $' + requestedAmount + ' event {{object.id}}' ,
+		      item_list: {
+		        items: [
+		          {
+		            name: 'Add funds{{ object.title }}',
+		            description:  'Adding to Apogee Account Balance: $' + requestedAmount + ' event {{object.id}}' ,
+		            quantity: '1',
+		            price: requestedAmount,
+		            tax: '0.01',
+		            currency: 'USD'
+		          }
+		        ],
+		      }
+				}]
+			});
+		},
+		onAuthorize: function (data, actions) {
+			return actions.payment.execute()
+				.then(function () {
+					window.alert('Thank you for your purchase!');
+				});
+		}
+	}, '#paypal-button');
+})()
+</script>
+{% endblock content %}

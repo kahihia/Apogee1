@@ -4,6 +4,7 @@ from django.views.generic import RedirectView
 
 # views we link directly to
 from .views import (
+		FundsView, 
 		UserDetailView, 
 		UserFollowView, 
 		UserBlockView,
@@ -18,4 +19,5 @@ urlpatterns = [
     path('<username>/follow/', UserFollowView.as_view(), name='follow'),
     path('<username>/block/', UserBlockView.as_view(), name='block'),
     path('<username>/edit/', UserProfileUpdateView.as_view(), name='edit'), 
+    path('<username>/funds/', FundsView.as_view(), name='funds'), 
 ]
