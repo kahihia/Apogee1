@@ -14,6 +14,7 @@
 <script type="text/javascript">
 	addStarFunctionality();
 	addJoinFunctionality();
+	addReportFunctionality();
 	setupChatRoom();
 	getMessages(false, false, function(messages){
 		messages.forEach(function(m){
@@ -106,11 +107,11 @@
 								</div>
 
 								<div class="col-sm-12"> 
-									 <a href="#" class="reportBtn" id="detailReport" data-id="{{serialized.id}}"> 
+									 <button type="button" class="reportBtn" id="detailReport" data-id="{{serialized.id}}"> 
 									 	Report
-									</a> 
+									</button> 
 								</div>
-
+								{%endif%}
 
 
 								<!-- Bid functionality -->
