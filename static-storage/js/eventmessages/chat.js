@@ -1,3 +1,4 @@
+var globalMessageIds = []
 
 function setupChatRoom(){
     // When we're using HTTPS, use WSS too.
@@ -31,7 +32,7 @@ function setupChatRoom(){
 }
 
 function appendMessage(message) {
-        console.log(message)
+        globalMessageIds.push(message)
         var chat = $("#chat")
         var ele = $('<div class="col-xs-12"></div>')
 
@@ -46,6 +47,8 @@ function appendMessage(message) {
         )
         
         chat.append(ele)
+        var chatBox = document.getElementById("chat");
+        chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 function getMessages(num, skip, callback){

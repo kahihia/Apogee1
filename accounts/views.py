@@ -106,8 +106,14 @@ class UserDetailView(DetailView):
         context['events'] = serialized_parties
         return context
 
+class FundsView(LoginRequiredMixin, DetailView):
+    def get(self, request, *args, **kwargs):
+        context = {'user': self.request.user}
+        return render(request, 'accounts/funds.html', context)
+
+
 # this is used to toggle following
-class UserFollowView(View):
+class UserFollowView(LoginRequiredMixin, View):
     def get(self, request, username, *args, **kwargs):
         # this returns the object user we are trying to follow or nothing
         toggle_user = get_object_or_404(User, username__iexact=username)
@@ -118,7 +124,7 @@ class UserFollowView(View):
             return redirect('profiles:detail', username=username)
 
 # this is used to toggle blocking
-class UserBlockView(View):
+class UserBlockView(LoginRequiredMixin, View):
     def get(self, request, username, *args, **kwargs):
         # this returns the object user we are trying to follow or nothing
         toggle_user = get_object_or_404(User, username__iexact=username)
