@@ -15,7 +15,7 @@
 	addStarFunctionality();
 	addJoinFunctionality();
 	setupChatRoom();
-	getMessages(false, false, function(messages){
+	getMessages(false, function(messages){
 		messages.forEach(function(m){
 		  appendMessage(m)
 		});

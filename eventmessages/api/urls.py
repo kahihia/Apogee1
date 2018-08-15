@@ -8,9 +8,9 @@ from .views import (
 		EventMessageView
 	)
 
-app_name = 'parties-api'
+app_name = 'messages-api'
 # /api/messages/ routes to this 
 urlpatterns = [
-    path('', EventMessageView.as_view(), name='api-messages'),
+    path('<int:room_id>/', EventMessageView.as_view(), name='api-messages'),
    # url(r"^<int:pk>/join/(?P<dollar>\d+\.\d+)$", BidAPIView.as_view(), name="bid-toggle"), 
  ]

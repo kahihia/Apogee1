@@ -12,15 +12,18 @@ from rest_framework.response import Response
 import logging
 from ..models import Message
 from decouple import config
+from .pagination import StandardResultsPagination
+from .serializers import MessageModelSerializer
 
 logger = logging.getLogger(__name__)
 
 # star toggle is a method from the model that just adds the user to the 
-class EventMessageView(APIView):
+class EventMessageView(generics.ListAPIView):
 	authentication_classes = [SessionAuthentication]
 	permission_classes = [permissions.IsAuthenticated]
-	def post(self, request, format=None):
+	pagination_class = StandardResultsPagination
+	serializer_class = MessageModelSerializer
+	def get_queryset(self, *args, **kwargs):
 		# gets the object that is being starred
-
-		message_qs = Message.objects.filter(room__id=request.data['room_id']).order_by('timestamp')[:10].values()
-		return Response({'messages': message_qs})
+		message_qs = Message.objects.filter(room__id=self.kwargs.get('room_id'))
+		return message_qs

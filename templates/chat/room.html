@@ -9,20 +9,8 @@
 {% block content %}
   {% load staticfiles %}
   <form id="chatform" class="border">
-    <div id="chat" class="party-chat-box">
-      <div>
-        {% for message in messages %}
-          <div>
-            <p>{{ message.formatted_timestamp }}</p>
-            <p>{{ message.handle }}</p>
-            <p>{{ message.message }}</p>
-          </div> 
-        {% endfor %}
-      </div>
-      <div>
-        <input style="position: absolute; bottom: 0" id="message" type="text" placeholder="message">
-        <button type="submit" id="go" class="hidden" style="display: none">Say it</button>
-      </div>
-    </div>
+    <div id="histLoad" class='col-xs-12'><p class="text-center">Load More Messsages</p></div>
+    <div id="chat" class="party-chat-box"></div>
+      <input style="position: absolute; bottom: -13px" id="message" type="text" placeholder="message">
   </form>
 {% endblock content %}

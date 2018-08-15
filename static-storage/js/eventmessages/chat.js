@@ -31,45 +31,68 @@ function setupChatRoom(){
     });
 }
 
-function appendMessage(message) {
+function appendMessage(message, prepend) {
+        var username = sanitizeHtml(message.username)
+        var message = sanitizeHtml(message.message)
         globalMessageIds.push(message)
         var chat = $("#chat")
         var ele = $('<div class="col-xs-12"></div>')
 
-        ele.append(
-            $("<p class='message-timestamp'></p>").text(moment(message.timestamp).local().format('HH:mm:ss MM-DD-YY'))
-        )
-        ele.append(
-            $("<p class='message-username'></p>").text(message.username)
-        )
-        ele.append(
-            $("<p class='message-message'></p>").text(message.message)
-        )
+        var messageField = $("<div class='message-container'></div")
+
+        var messageText = $("<p class='message'></p>")
+        messageText.append($("<span class='message-username'></span>").text(username + ' : '))
+        messageText.append($("<span class='message-message'></span").text(message))
+
+        messageField.append($("<p class='message-timestamp'></p>").text(moment(message.timestamp).local().format('hh:mm a MM-DD')))
+        messageField.append(messageText)
+        ele.append(messageField)
         
-        chat.append(ele)
+        if (prepend) {
+            chat.prepend(ele)
+        } else {
+            chat.append(ele)
+        }
         var chatBox = document.getElementById("chat");
         chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-function getMessages(num, skip, callback){
+var messagePaginatorGlobal = null
+
+function checkSpawnGetMore(){
+    // Check if more messages
+    console.log(messagePaginatorGlobal)
+    if (messagePaginatorGlobal != null) {
+        $("#histLoad").css('display','block')
+        $("#histLoad").unbind('click')
+        $("#histLoad").click(function(){
+            getMessages(messagePaginatorGlobal, function(messages){
+                messages.reverse()
+                messages.forEach(function(m){
+                  appendMessage(m, true)
+                });
+            })
+        })
+    } else {
+        $("#histLoad").css('display','none')
+        return
+    }
+}
+
+function getMessages(url, callback){
     /*  Gets messages from the api, 
         * num is the number of messages you want
         * skip is the offset from a message
         - setting num to false gets latest */
     var room_id = Number($('#party-room-id').text())
-    var payload = {
-        "room_id": room_id,
-        "skip": skip,
-        "num": num
-    }
-
     $.ajax({
-        type: "POST",
-        url: "/api/messages/",
-        headers: {'X-CSRFToken': Cookies.get("csrftoken")},
-        data: payload
+        type: "GET",
+        url: url || "/api/messages/" + room_id,
+        headers: {'X-CSRFToken': Cookies.get("csrftoken")}
     })
     .done(function( data ) {
-        callback(data.messages)
+        messagePaginatorGlobal = data.next
+        checkSpawnGetMore()
+        callback(data.results.reverse(), true)
     });
 }
