@@ -5,7 +5,7 @@ function loadPartyDetailContainer(partyContainerID, fetchOneId){
 
 function loadPartyListContainer(partyContainerID){
   renderPartyList(partyContainerID);
-  addStarFunctionality();
+  // addStarFunctionality();
 }
 
 function renderPartyList(partyContainerID){

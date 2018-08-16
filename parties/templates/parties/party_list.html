@@ -23,6 +23,11 @@ $(document).ready(function() {
     loadPartyListContainer('party-container')
     loadPartyListContainer('trending-container')
     loadPartyListContainer('closing-container')
+
+    var authenticated = '{{ request.user.is_authenticated }}'
+    if (authenticated == true) {
+        addStarFunctionality()
+    }
 });
 </script>
 {% endblock script %}
