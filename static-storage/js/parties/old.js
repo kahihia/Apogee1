@@ -147,7 +147,7 @@ function renderPartyList(partyContainerID){
       closed_display = '<span class="float-right" data-toggle="tooltip" data-placement="top" title="Event Closed">' + closed_icon + '</span>'
     }
     let check_display=''
-    if(partValue.verified){
+    if(partyValue.verified){
       check_display = '<span class="float-right" data-toggle="tooltip" data-placement="top" title="verified">' + check_icon + '</span>'
     }
     // this is the thumbnail formatting. its built on the
