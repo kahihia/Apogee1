@@ -8,10 +8,10 @@
 {% endblock title %}
 
 <!-- contains our custom JS -->
-{% block script %}
+{% block scripts %}
 <!-- <script src='{% static "js/parties/party-create-helper.js"%}'></script> -->
 <script src='{% static "js/parties/party-create-helper.js"%}?q={% now "U" %}'></script>
-<script>
+<script type="text/javascript">
 	$(document).ready(function() {
 		alert("WHOAMI");
         // set things up so my function will be called when field_three changes
@@ -21,7 +21,7 @@
         });
     });
 </script>
-{% endblock script %}
+{% endblock scripts %}
 
 {% block content %}
 <div class='row'>
