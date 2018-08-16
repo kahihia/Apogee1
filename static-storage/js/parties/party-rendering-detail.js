@@ -163,7 +163,7 @@ function renderPartyList(partyContainerID){
       '<div class="card-body">' + 
         '<a class="text-light" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
           '<h5 class="card-title">' + partyValue.short_title + closed_display + '</h5>' + 
-          '<p class="card-text"><span class="description">' + partyValue.short_description + '</span></p>' + 
+          // '<p class="card-text"><span class="description">' + partyValue.short_description + '</span></p>' + 
         '</a>' +
       '</div>' + 
       '<div class="card-footer">' + 
