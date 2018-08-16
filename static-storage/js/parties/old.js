@@ -143,9 +143,6 @@ function renderPartyList(partyContainerID){
 
     // adds small closed icon if event is closed. the tooltip explains the icon
     let closed_display = ''
-    console.log("WHOAMI");
-    console.log(!partyValue.is_open);
-    console.log(partyValue.user.is_verified);
     if(partyValue.user.is_verified){
       check_icon = '<i class="fas fa-check-circle"></i>';
     }
