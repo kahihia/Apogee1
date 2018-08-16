@@ -23,14 +23,20 @@ $(document).ready(function() {
     loadPartyListContainer('party-container')
     loadPartyListContainer('trending-container')
     loadPartyListContainer('closing-container')
-    addStarFunctionality()
-
-    // var authenticated = '{{ request.user.is_authenticated }}'
-    // if (authenticated == true) {
-    //     addStarFunctionality()
-    // }
+    // addStarFunctionality()
 });
 </script>
+
+<!-- only adds the star function if the user is logged in -->
+{% if request.user.is_authenticated %}
+<script>
+// runs when page DOM is ready
+$(document).ready(function() {
+    addStarFunctionality()
+});
+</script>
+{% else %}
+{% endif %}
 {% endblock script %}
 {% block content %}
 
