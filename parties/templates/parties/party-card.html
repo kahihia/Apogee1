@@ -12,6 +12,9 @@
 		<div class="card-footer">
 			<small class="text-muted">With 
 				<a class="text-dark" href="/profiles/{{party.user.username}}">{{party.user.username}}</a>
+<!-- 				{%if party.user.is_verified%} -->
+					<i class="fas fa-check-circle"></i>
+<!-- 				{%endif%}  -->
 				<span class="float-right">${{party.cost}} 
 				<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i> 
 				</span>

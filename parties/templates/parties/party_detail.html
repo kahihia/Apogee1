@@ -14,6 +14,7 @@
 <script type="text/javascript">
 	addStarFunctionality();
 	addJoinFunctionality();
+	addReportFunctionality();
 	setupChatRoom();
 	getMessages(false, function(messages){
 		messages.forEach(function(m){
@@ -105,12 +106,13 @@
 									{%endif%}
 								</div>
 
+								{%if not serialized.is_owner%}
 								<div class="col-sm-12"> 
-									 <a href="#" class="reportBtn" id="detailReport" data-id="{{serialized.id}}"> 
+									 <button type="button" class="reportBtn" id="detailReport" data-id="{{serialized.id}}"> 
 									 	Report
-									</a> 
+									</button> 
 								</div>
-
+								{%endif%}
 
 
 								<!-- Bid functionality -->
@@ -195,9 +197,9 @@
 								<!-- Details on event -->
 								<small class="text-muted">With  
 									<a class="text-dark" href=" {{serialized.user.url}} "> {{serialized.user.username}} </a>
-									<i class="fas fa-check-circle"></i>
-									{%if serialized.user.profile.is_verified%}
-										
+
+									{%if serialized.user.is_verified%}
+										<i class="fas fa-check-circle"></i>
 									{%endif%} 
 									<span class="float-right"> {{serialized.price}} </span>
 									on  {{serialized.party_time_display}}

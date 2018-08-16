@@ -32,6 +32,7 @@ function renderPartyList(partyContainerID){
   let bid_icon = '<i class="fas fa-gavel grey-color" data-toggle="tooltip" data-placement="top" title="Auction"></i>';
   let buy_icon = '<i class="fa fa-donate grey-color" data-toggle="tooltip" data-placement="top" title="Buy Now"></i>';
   let closed_icon = '<i class="fas fa-ban grey-color"></i>';
+  let check_icon = '<i class="fas fa-check-circle"></i>';
 
   fetchParties();
   $('#loadmore').click(function(event){
@@ -142,10 +143,15 @@ function renderPartyList(partyContainerID){
 
     // adds small closed icon if event is closed. the tooltip explains the icon
     let closed_display = ''
+    if(partyValue.user.is_verified){
+      check_icon = '<i class="fas fa-check-circle"></i>';
+    }
+    else{
+      check_icon = '';
+    }
     if (!partyValue.is_open) {
       closed_display = '<span class="float-right" data-toggle="tooltip" data-placement="top" title="Event Closed">' + closed_icon + '</span>'
     }
-
     // this is the thumbnail formatting. its built on the
     // card model from bootstrap. it has a top image, a body section 
     // for the title and description, and a footer for name, time, 
@@ -163,7 +169,7 @@ function renderPartyList(partyContainerID){
       '</div>' + 
       '<div class="card-footer">' + 
         '<small class="text-muted">With ' + 
-          '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a>' + 
+          '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a>' + check_icon + 
           '<span class="float-right">' + price + ' ' + type_icon + '</span>' +
           '<br>' + partyValue.party_time_display + 
         '</small>' + 
@@ -187,7 +193,7 @@ function renderPartyList(partyContainerID){
                                                         'small': [ 'text-muted'],
                                                         'img': [ 'card-img-top'],
                                                         'i': [ 'fa', 'fa-sta', 'yellow-color', 'grey-color', 'fas', 'fa-ticket-alt', 
-                                                                'fa-gavel', 'fa-donate', 'fa-ban', 'fa-star'],
+                                                                'fa-gavel', 'fa-donate', 'fa-ban', 'fa-star', 'fa-check-circle'],
                                                         'h5': [ 'card','home-card','col-xs-12','col-md-4','col-lg-2','col-xl-2',
                                                                   'text-light', 'card-img-top', 'card-body', 'card-title', 'card-text', 
                                                                   'card-footer', 'text-muted', 'float-right', 'starBtn', 'text-dark'],
@@ -221,6 +227,7 @@ function renderPartyList(partyContainerID){
 
   function parseSingle(){
     let partyValue = partyList[0]
+
     let partyFormattedHtml = formatSingle(partyValue)
     partyContainer.append(partyFormattedHtml) 
   }
