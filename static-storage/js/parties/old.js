@@ -146,7 +146,7 @@ function renderPartyList(partyContainerID){
     if (!partyValue.is_open) {
       closed_display = '<span class="float-right" data-toggle="tooltip" data-placement="top" title="Event Closed">' + closed_icon + '</span>'
     }
-    if(!partyValue.verified){
+    if(!partyValue.user.profile.is_verified){
       check_icon = '';
     }
     // this is the thumbnail formatting. its built on the
