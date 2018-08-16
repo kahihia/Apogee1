@@ -197,9 +197,9 @@
 								<!-- Details on event -->
 								<small class="text-muted">With  
 									<a class="text-dark" href=" {{serialized.user.url}} "> {{serialized.user.username}} </a>
-									<i class="fas fa-check-circle"></i>
-									{%if serialized.user.profile.is_verified%}
-										
+
+									{%if serialized.verified%}
+										<i class="fas fa-check-circle"></i>
 									{%endif%} 
 									<span class="float-right"> {{serialized.price}} </span>
 									on  {{serialized.party_time_display}}
