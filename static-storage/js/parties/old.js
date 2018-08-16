@@ -146,7 +146,10 @@ function renderPartyList(partyContainerID){
     if (!partyValue.is_open) {
       closed_display = '<span class="float-right" data-toggle="tooltip" data-placement="top" title="Event Closed">' + closed_icon + '</span>'
     }
-
+    let check_display=''
+    if(partValue.verified){
+      check_display = '<span class="float-right" data-toggle="tooltip" data-placement="top" title="verified">' + check_icon + '</span>'
+    }
     // this is the thumbnail formatting. its built on the
     // card model from bootstrap. it has a top image, a body section 
     // for the title and description, and a footer for name, time, 
@@ -164,7 +167,7 @@ function renderPartyList(partyContainerID){
       '</div>' + 
       '<div class="card-footer">' + 
         '<small class="text-muted">With ' + 
-          '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a>' + check_icon + 
+          '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a>' + check_display + 
           '<span class="float-right">' + price + ' ' + type_icon + '</span>' +
           '<br>' + partyValue.party_time_display + 
         '</small>' + 
