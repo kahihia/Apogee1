@@ -56,6 +56,7 @@ class UserRegisterView(FormView):
             captcha_good = config('CAPTCHA_OFF')
            # captcha_good = True
         #Do captcha validation
+        print("HELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOO")
         print(self.request.POST.get('tos'))
         a=False
         if captcha_good and a:
