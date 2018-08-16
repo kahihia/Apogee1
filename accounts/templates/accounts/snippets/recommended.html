@@ -4,7 +4,12 @@ wherever we want -->
 of profiles that the current user doesnt follow. the HTML below iterates
 through the list provided by recommended and displays a link to the profile-->
 {% for profile in recommended %}
-	<a class='text-dark' href='/profiles/{{ profile.user.username }}'>{{ profile.user.username }}</a><br>
+	<a class='text-dark' href='/profiles/{{ profile.user.username }}'>{{ profile.user.username }}</a>
+	{%if user.is_verified%}
+		<i class="fas fa-check-circle"></i>
+	{%endif%} 
+
+	<br>
 {% empty %}
 	<p class='lead'>No recommendations</p>
 {% endfor %}
