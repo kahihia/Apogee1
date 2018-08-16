@@ -8,7 +8,7 @@
 {% endblock title %}
 
 <!-- contains our custom JS -->
-{% block scripts %}
+{% block script %}
 <!-- <script src='{% static "js/parties/party-create-helper.js"%}'></script> -->
 <script src='{% static "js/parties/party-create-helper.js"%}?q={% now "U" %}'></script>
 <script type="text/javascript">
@@ -21,7 +21,7 @@
         });
     });
 </script>
-{% endblock scripts %}
+{% endblock script %}
 
 {% block content %}
 <div class='row'>
