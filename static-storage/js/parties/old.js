@@ -144,7 +144,7 @@ function renderPartyList(partyContainerID){
     // adds small closed icon if event is closed. the tooltip explains the icon
     let closed_display = ''
     console.log("WHOAMI");
-    console.log(partyValue.is_verified);
+    console.log(!partyValue.is_open);
     console.log(partyValue.user.profile.is_verified);
     if (!partyValue.is_open) {
       closed_display = '<span class="float-right" data-toggle="tooltip" data-placement="top" title="Event Closed">' + closed_icon + '</span>'
