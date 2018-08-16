@@ -173,7 +173,7 @@ function renderPartyList(partyContainerID){
           '<br>' + partyValue.party_time_display + 
         '</small>' + 
         '<span class="float-right">' + 
-          '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + verb + '</a>' + 
+          '<a class="starBtn text-dark" data-id="' + partyValue.id + '">' + verb + '</a>' + 
         '</span>' + 
       '</div>' + 
     '</div>'
