@@ -110,7 +110,7 @@ function addReportFunctionality(){
       method: 'GET',
       url: reportUrl,
       success: function(data){
-        // alert(data.error_message)
+        alert(data.error_message)
       }, 
       error: function(data){
         console.log('Report')
@@ -118,6 +118,8 @@ function addReportFunctionality(){
     })
   })
 }
+
+
 
 
 
