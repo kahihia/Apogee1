@@ -190,7 +190,7 @@ function renderPartyList(partyContainerID){
                                                         'small': [ 'text-muted'],
                                                         'img': [ 'card-img-top'],
                                                         'i': [ 'fa', 'fa-sta', 'yellow-color', 'grey-color', 'fas', 'fa-ticket-alt', 
-                                                                'fa-gavel', 'fa-donate', 'fa-ban', 'fa-star', 'fas fa-check-circle'],
+                                                                'fa-gavel', 'fa-donate', 'fa-ban', 'fa-star', 'fa-check-circle'],
                                                         'h5': [ 'card','home-card','col-xs-12','col-md-4','col-lg-2','col-xl-2',
                                                                   'text-light', 'card-img-top', 'card-body', 'card-title', 'card-text', 
                                                                   'card-footer', 'text-muted', 'float-right', 'starBtn', 'text-dark'],
