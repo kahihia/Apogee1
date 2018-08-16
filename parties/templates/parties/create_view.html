@@ -9,7 +9,8 @@
 
 <!-- contains our custom JS -->
 {% block script %}
-<script src='{% static "js/parties/party-create-helper.js"%}'></script>
+<!-- <script src='{% static "js/parties/party-create-helper.js"%}'></script> -->
+<script src='{% static "js/parties/party-create-helper.js"%}?q={% now "U" %}'></script>
 <script>
 	$(document).ready(function() {
 		alert("WHOAMI");
