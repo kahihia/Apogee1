@@ -19,8 +19,6 @@ logger = logging.getLogger(__name__)
 
 # star toggle is a method from the model that just adds the user to the 
 class EventMessageView(generics.ListAPIView):
-	authentication_classes = [SessionAuthentication]
-	permission_classes = [permissions.IsAuthenticated]
 	pagination_class = StandardResultsPagination
 	serializer_class = MessageModelSerializer
 	def get_queryset(self, *args, **kwargs):

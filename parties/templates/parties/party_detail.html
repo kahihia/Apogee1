@@ -130,7 +130,7 @@
 
 							<!-- Button Bid/Buy/Join -->
 							<div class="row"> 
-								{% if not serialized.is_owner %}
+								{% if not serialized.is_owner and not serialized.did_join %}
 									{% with "Enter Lottery" as lottery_text %}  
 									{% with "Submit a Bid" as bid_text %}  
 									{% with "Buy Event" as buy_text %}  
@@ -148,10 +148,6 @@
 								{% endwith %}
 								{% endif %}
 							</div> 
-							<!-- Join -->
-							{% if not serialized.did_join %}
-									<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> Join </button>
-							{% endif %}
 							{% if serialized.did_join %}
 									<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" disabled> Joined </button>
 							{% endif %}
@@ -221,7 +217,9 @@
 
 	<!-- if the user is the owner, they get a second section that 
 	allows the owner to update and delete -->
-	{% if serialized.user == request.user %}
+	{{serialized.user.id}}
+	{{request.user.id}}
+	{% if serialized.user.id == request.user.id %}
 	<div class='col-sm-8 offset-sm-2 border grey-background rounded mt-3'>
 		<a href='{{serialized.id}}/delete/'>
 			<button type='button' class='btn btn-outline-danger btn-block my-3' id='delete'>Delete Event</button>

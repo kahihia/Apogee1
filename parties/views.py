@@ -69,7 +69,7 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 # the mixin requires you to be logged in to view events
 # because of the way the detail HTML is named, we don't need to 
 # specify it here. model_view (party_detail this time) is recognized automatically
-class PartyDetailView(LoginRequiredMixin, DetailView):
+class PartyDetailView(DetailView):
 	template_name = 'parties/party_detail.html'
 
 	def get_queryset(self, *args, **kwargs):
