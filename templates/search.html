@@ -8,7 +8,7 @@ than in the parties templates -->
 {% endblock title %}
 
 <!-- contains our custom JS -->
-{% block scripts %}
+{% block script %}
 <script src='{% static "js/parties/old.js"%}'></script>
 <script src='{% static "js/parties/party.js"%}'></script>
 <script type="text/javascript">
@@ -20,7 +20,7 @@ than in the parties templates -->
 		}, 1000)
 	});
 </script>
-{% endblock scripts %}
+{% endblock script %}
 
 <!-- contains our custom html and django stuff -->
 {% block content %}
