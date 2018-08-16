@@ -146,9 +146,6 @@ function renderPartyList(partyContainerID){
     if (!partyValue.is_open) {
       closed_display = '<span class="float-right" data-toggle="tooltip" data-placement="top" title="Event Closed">' + closed_icon + '</span>'
     }
-    if(!partyValue.user.profile.is_verified){
-      check_icon = '';
-    }
     // this is the thumbnail formatting. its built on the
     // card model from bootstrap. it has a top image, a body section 
     // for the title and description, and a footer for name, time, 
@@ -224,6 +221,12 @@ function renderPartyList(partyContainerID){
 
   function parseSingle(){
     let partyValue = partyList[0]
+    if(!partyValue.user.profile.is_verified){
+      check_icon = '';
+    }
+    else{
+      check_icon= '<i class="fas fa-check-circle"></i>';
+    }
     let partyFormattedHtml = formatSingle(partyValue)
     partyContainer.append(partyFormattedHtml) 
   }
