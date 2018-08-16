@@ -74,7 +74,7 @@ function renderPartyList(partyContainerID){
 
         // if there are more pages in the API, the loadmore appears
         if (data.next) {
-          nextPartyUrl = data.next
+          nextPartyUrl = data.next.replace('http', 'https')
           $('#loadmore').css('display', 'inline-block')
         } else {
           $('#loadmore').css('display', 'none')
