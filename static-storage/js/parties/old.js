@@ -146,6 +146,12 @@ function renderPartyList(partyContainerID){
     console.log("WHOAMI");
     console.log(!partyValue.is_open);
     console.log(partyValue.user.is_verified);
+    if(partyValue.user.is_verified){
+      check_icon = '<i class="fas fa-check-circle"></i>';
+    }
+    else{
+      check_icon = '';
+    }
     if (!partyValue.is_open) {
       closed_display = '<span class="float-right" data-toggle="tooltip" data-placement="top" title="Event Closed">' + closed_icon + '</span>'
     }
