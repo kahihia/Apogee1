@@ -146,8 +146,8 @@ function renderPartyList(partyContainerID){
     if (!partyValue.is_open) {
       closed_display = '<span class="float-right" data-toggle="tooltip" data-placement="top" title="Event Closed">' + closed_icon + '</span>'
     }
-    if(!partValue.verified){
-      check_display = ''
+    if(!partyValue.verified){
+      check_icon = '';
     }
     // this is the thumbnail formatting. its built on the
     // card model from bootstrap. it has a top image, a body section 
