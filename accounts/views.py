@@ -40,7 +40,6 @@ class UserRegisterView(FormView):
         captcha_good = True
 
         recaptcha_response = self.request.POST.get('g-recaptcha-response')
-        print(recaptcha_response)
         url = 'https://www.google.com/recaptcha/api/siteverify'
         values = {
         'secret': config('CAPTCHA_SECRET_KEY'),
@@ -57,7 +56,9 @@ class UserRegisterView(FormView):
             captcha_good = config('CAPTCHA_OFF')
            # captcha_good = True
         #Do captcha validation
-        if captcha_good:
+        print(self.request.POST.get('tos'))
+        a=False
+        if captcha_good and a:
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
             new_user.save()
