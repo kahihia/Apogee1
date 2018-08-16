@@ -56,10 +56,7 @@ class UserRegisterView(FormView):
             captcha_good = config('CAPTCHA_OFF')
            # captcha_good = True
         #Do captcha validation
-        print("HELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOO")
-        print(self.request.POST.get('tos'))
-        a=False
-        if captcha_good and a:
+        if captcha_good and self.request.POST.get('tos'):
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
             new_user.save()
