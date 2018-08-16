@@ -32,6 +32,7 @@ function renderPartyList(partyContainerID){
   let bid_icon = '<i class="fas fa-gavel grey-color" data-toggle="tooltip" data-placement="top" title="Auction"></i>';
   let buy_icon = '<i class="fa fa-donate grey-color" data-toggle="tooltip" data-placement="top" title="Buy Now"></i>';
   let closed_icon = '<i class="fas fa-ban grey-color"></i>';
+  let check_icon = '<i class="fas fa-check-circle"></i>';
 
   fetchParties();
   $('#loadmore').click(function(event){
@@ -163,7 +164,7 @@ function renderPartyList(partyContainerID){
       '</div>' + 
       '<div class="card-footer">' + 
         '<small class="text-muted">With ' + 
-          '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a>' + 
+          '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a>' + check_icon + 
           '<span class="float-right">' + price + ' ' + type_icon + '</span>' +
           '<br>' + partyValue.party_time_display + 
         '</small>' + 
