@@ -11,7 +11,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 	# MethodFields declare API fields that either aren't part of the model or 
 	# need to be reformatted for display
 	url = serializers.SerializerMethodField()
-	is_verified = SerializerMethodField()
+	is_verified = serializers.SerializerMethodField()
 	class Meta:
 		model = User
 		# Fields eplicitly states the data and names that are available
