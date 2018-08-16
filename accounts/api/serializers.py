@@ -33,4 +33,6 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 		return reverse_lazy('profiles:detail', kwargs={'username': obj.username})
 
 	def get_is_verified(self, obj):
+		print("WHO AM I!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print(obj.profile.is_verified)
 		return obj.profile.is_verified
