@@ -221,6 +221,9 @@ function renderPartyList(partyContainerID){
 
   function parseSingle(){
     let partyValue = partyList[0]
+    console.log("WHOAMI");
+    console.log(partyValue.is_verified);
+    console.log(partyValue.user.profile.is_verified);
     if(!partyValue.user.profile.is_verified){
       check_icon = '';
     }
