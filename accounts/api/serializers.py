@@ -11,6 +11,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 	# MethodFields declare API fields that either aren't part of the model or 
 	# need to be reformatted for display
 	url = serializers.SerializerMethodField()
+	is_verified = SerializerMethodField()
 	class Meta:
 		model = User
 		# Fields eplicitly states the data and names that are available
@@ -30,3 +31,6 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 		# reverse_lazy brings back a url to the named page "profiles:detail"
 		# the kwargs just provides the information required
 		return reverse_lazy('profiles:detail', kwargs={'username': obj.username})
+
+	def get_is_verified(self, obj):
+		return obj.profile.is_verified
