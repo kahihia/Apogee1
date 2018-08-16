@@ -24,13 +24,21 @@ of usernames and a lidt of events -->
 			{% for user in request.user.profile.get_following %}
 			<p class='mb-3'>
 				<a class='text-dark' href='/profiles/{{ user.username }}'>
+				{%if user.is_verified%}
+					<i class="fas fa-check-circle"></i>
+				{%endif%} 
+
 					{% if user.profile.profile_picture %}
 					<img src='{{ user.profile.profile_picture.url }}' class="rounded-circle float-left" style='max-height: 30;'>
 					{% else %}
 					<!-- this is a blank profile pic, cause we at least need the circle to show. it only shows if the user doesnt have a profile-->
 					<img src='/media/profile_pics/blank_profile.png' class="rounded-circle float-left" style='max-height: 30;'>
 					{% endif %}
-					<span class='ml-1'>{{ user.username }}</span>
+					<span class='ml-1'>{{ user.username }}
+					{%if user.is_verified%}
+						<i class="fas fa-check-circle"></i>
+					{%endif%} 
+					</span>
 				</a>
 			</p>
 			{% empty %}
