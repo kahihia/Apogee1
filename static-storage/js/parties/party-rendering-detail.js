@@ -102,7 +102,7 @@ function renderPartyList(partyContainerID){
       // then through the number of cards per hand, then formats the 
       // party and adds it to the HTML. each hand is its own div
       for (let deck = 0; deck < partyList.length; deck += handSize) {
-        let deckHTML = '<div class="card-deck mb-4">'
+        let deckHTML = '<div class="mb-4">'
         for (let card = 0; card < handSize; card++) {
           let cardIndex = deck + card
           if (cardIndex < partyList.length) {

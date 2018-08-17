@@ -210,6 +210,9 @@ body {
     transition: none;
     -webkit-transition: none;
     position: relative;
+    width: 240px;
+    margin-right: 30px !important;
+    float: left;
 }
 
 .home-card > .card-body {
@@ -217,13 +220,10 @@ body {
     padding: 0 !important;
 }
 
-.home-card {
-    margin: 0 !important;
-}
-
 .home-nav ul > li > a {
     text-transform: uppercase;
     font-weight: 300;
+    font-size: 14px;
 }
 
 .home-nav ul {

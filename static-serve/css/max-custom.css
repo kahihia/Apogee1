@@ -210,7 +210,7 @@ body {
     transition: none;
     -webkit-transition: none;
     position: relative;
-    width: 240px;
+    width: 240px !important;
 }
 
 .home-card > .card-body {
