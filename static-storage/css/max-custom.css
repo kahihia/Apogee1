@@ -510,8 +510,19 @@ badge
 Buttons 
 */
 
+.create-event-form-container {
+    padding: 30px;
+}
+
 .btn {
-    font-weight: 500;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+}
+
+.btn-secondary {
+    background: hsl(270,100%,50%) !important;
+    color: hsl(270,100%,100%) !important;
+    text-shadow: 0 2px 0 hsla(270,10%,10%,0.2) !important;
 }
 
 .btn>i.float-left,

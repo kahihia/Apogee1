@@ -10,10 +10,10 @@ class PartyModelForm(forms.ModelForm):
 	# the altered form fields are for formatting on the create page
 	# form-control allows bootstrap to format the form
 	title = forms.CharField(label='', max_length=140, widget=forms.Textarea(
-		attrs={'placeholder': 'Title', 'class': 'form-control', 'rows': 3}
+		attrs={'placeholder': 'Title', 'class': 'form-control', 'rows': 1}
 		))
 	description = forms.CharField(label='', max_length=280, widget=forms.Textarea(
-		attrs={'placeholder': 'Description', 'class': 'form-control', 'rows': 7}
+		attrs={'placeholder': 'Description', 'class': 'form-control', 'rows': 4}
 		))
 	# localize tells us that this is in localtime so it converts to UTC for storage
 	party_time = forms.SplitDateTimeField(label='', localize=True, widget=forms.SplitDateTimeWidget(
