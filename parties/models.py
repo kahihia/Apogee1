@@ -20,6 +20,22 @@ from .validators import validate_title
 from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
 
+import os
+from uuid import uuid4
+
+def path_and_rename(instance, filename):
+    upload_to = 'photos'
+    ext = filename.split('.')[-1]
+    # get filename
+    if instance.pk:
+        filename = '{}.{}'.format(instance.pk, ext)
+    else:
+        # set filename as random string
+        filename = '{}.{}'.format(uuid4().hex, ext)
+    # return the whole path to the file
+    return os.path.join(upload_to, filename)
+
+
 
 # this is the actual model that stores all the data
 class Party(models.Model):
@@ -85,8 +101,8 @@ class Party(models.Model):
 	is_open = models.BooleanField(default=True)
 
 	#highest_bid = models.PositiveSmallIntegerField(default = 0)
-
-	thumbnail 		= models.ImageField(upload_to='thumbnails/%Y/%m/%d/') 
+	thumbnail 		= models.ImageField(upload_to=path_and_rename, max_length=255, null=True, blank=True)
+	#thumbnail 		= models.ImageField(upload_to='thumbnails/%Y/%m/%d/') 
 	# task_id is the celery identifier, used to make sure that we don't 
 	# duplicate picking winners
 	task_id			= models.CharField(max_length=50, blank=True, editable=False)

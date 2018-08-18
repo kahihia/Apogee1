@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.conf import settings
 from .models import UserProfile
+from django.core.mail import send_mail
 
 # this is the base user model in django
 User = get_user_model()
@@ -27,12 +28,18 @@ class UserRegisterForm(forms.Form):
 		# validation errors block the submit and return back to the register form
 		password = self.cleaned_data.get('password')
 		password2 = self.cleaned_data.get('password2')
+		if len(password) < 7:
+			raise forms.ValidationError('Passwords must be at least 8 characters.')
+		# first_isalpha = password1[0].isalpha()
+  #       if all(c.isalpha() == first_isalpha for c in password1):
+  #           raise forms.ValidationError('Password must contain one letter and one number.')
 		if password != password2:
 			raise forms.ValidationError('Passwords must match.')
 		return password
 
 	# ensures the username doesnt already exist
 	def clean_username(self):
+
 		username = self.cleaned_data.get('username')
 		if User.objects.filter(username__icontains=username).exists():
 			raise forms.ValidationError('This username is taken :(')

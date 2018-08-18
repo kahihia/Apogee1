@@ -9,13 +9,19 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseNotFound, Http404,  HttpResponseRedirect
 import urllib
 import json
+from django.core.mail import send_mail
+
+from decouple import config
 
 from .models import UserProfile
 from .forms import UserRegisterForm, UserProfileModelForm
 from .mixins import ProfileOwnerMixin
+from apogee1.utils.email import emailer
 
 # Create your views here.
 User = get_user_model()
+
+welcome_message = "You have successfully registered your account with Apogee.\nWe are excited to have you join the Apogee community!"
 
 # this view is for signing up a new user
 class UserRegisterView(FormView):
@@ -35,7 +41,7 @@ class UserRegisterView(FormView):
         print(recaptcha_response)
         url = 'https://www.google.com/recaptcha/api/siteverify'
         values = {
-        'secret': '6Lf-zFcUAAAAAE1JPNccVx2u9bCQEJhES-czlNhE',
+        'secret': config('CAPTCHA_SECRET_KEY'),
         'response': recaptcha_response
         }
         data = urllib.parse.urlencode(values).encode()
@@ -43,14 +49,18 @@ class UserRegisterView(FormView):
         response = urllib.request.urlopen(req)
         result = json.loads(response.read().decode())
         if result['success']:
-            captcha_good = True
+            #Set this config variable to TRUE on heroku to enable account registration
+            captcha_good = config('ALLOW_REGISTRATION')
         else:
-            captcha_good = False
+            captcha_good = config('CAPTCHA_OFF')
+           # captcha_good = True
         #Do captcha validation
         if captcha_good:
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
             new_user.save()
+            email_data = {'username': username}
+            emailer.email('Account Registration Success!', 'team@apogee.gg', [email], 'creation_email.html', email_data)
 
         else:
             return HttpResponseRedirect("/register")
