@@ -105,17 +105,23 @@ function renderPartyList(partyContainerID){
       // this iterates through the number of hands in the party list, 
       // then through the number of cards per hand, then formats the 
       // party and adds it to the HTML. each hand is its own div
-      for (let deck = 0; deck < partyList.length; deck += handSize) {
-        let deckHTML = '<div class="mb-4">'
-        for (let card = 0; card < handSize; card++) {
-          let cardIndex = deck + card
-          if (cardIndex < partyList.length) {
-            let partyValue = partyList[cardIndex]
-            let partyFormattedHtml = formatParty(partyValue)
-            deckHTML = deckHTML + partyFormattedHtml
-          }
-        }
-        deckHTML = deckHTML + '</div>'
+      // for (let deck = 0; deck < partyList.length; deck += handSize) {
+      //   let deckHTML = '<div class="mb-4">'
+      //   for (let card = 0; card < handSize; card++) {
+      //     let cardIndex = deck + card
+      //     if (cardIndex < partyList.length) {
+      //       let partyValue = partyList[cardIndex]
+      //       let partyFormattedHtml = formatParty(partyValue)
+      //       deckHTML = deckHTML + partyFormattedHtml
+      //     }
+      //   }
+      //   deckHTML = deckHTML + '</div>'
+      //   partyContainer.append(deckHTML)
+      // }
+      for (let index=0; index<partylist.length; deck+=1) {
+        let partyValue = partyList[index]
+        let partyFormattedHtml = formatParty(partyValue)
+        deckHTML = deckHTML + partyFormattedHtml
         partyContainer.append(deckHTML)
       }
     }
