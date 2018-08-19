@@ -86,9 +86,9 @@
                 <span class="dropdown-item dropdown-name">{{ user.username }}</span>
 
                 <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'parties:following' %}">Following</a>
-                    <a class="dropdown-item" href="{% url 'parties:joined' %}">Joined</a>
-                    <a class="dropdown-item" href="{% url 'parties:starred' %}">Starred</a>
+                    <a class="dropdown-item" href="{% url 'parties:following-list' %}">Following</a>
+                    <a class="dropdown-item" href="{% url 'parties:joined-list' %}">Joined</a>
+                    <a class="dropdown-item" href="{% url 'parties:starred-list' %}">Starred</a>
 
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ request.user.profile.get_absolute_url }}">
