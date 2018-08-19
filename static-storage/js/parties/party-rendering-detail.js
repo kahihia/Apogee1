@@ -121,8 +121,7 @@ function renderPartyList(partyContainerID){
       for (let index=0; index<partyList.length; deck+=1) {
         let partyValue = partyList[index]
         let partyFormattedHtml = formatParty(partyValue)
-        deckHTML = deckHTML + partyFormattedHtml
-        partyContainer.append(deckHTML)
+        partyContainer.append(partyFormattedHtml)
       }
     }
   }
