@@ -106,7 +106,7 @@ function renderPartyList(partyContainerID){
       // then through the number of cards per hand, then formats the 
       // party and adds it to the HTML. each hand is its own div
       for (let deck = 0; deck < partyList.length; deck += handSize) {
-        let deckHTML = '<div class="card-deck mb-4">'
+        let deckHTML = '<div class="mb-4">'
         for (let card = 0; card < handSize; card++) {
           let cardIndex = deck + card
           if (cardIndex < partyList.length) {
@@ -160,7 +160,7 @@ function renderPartyList(partyContainerID){
     // for the title and description, and a footer for name, time, 
     // event type, and star
     let container =  
-    '<div class="card home-card col-xs-12 col-md-4 col-lg-2 col-xl-2"' + 
+    '<div class="card home-card"' + 
       '<a class="text-light" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
         '<img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
       '</a>' +
