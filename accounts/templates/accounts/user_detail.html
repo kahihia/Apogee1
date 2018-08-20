@@ -184,13 +184,6 @@
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
 		<div class='ml-1 row' id='party-container' data-url='/api/{{ user.username }}/events/'>
-			{% for party in events %}
-				<div class="col-xs-12 col-sm-4">
-					{% include "parties/party-card.html" %}
-				</div>
-			{% empty %}
-				<p>No users found.</p>
-			{% endfor %}
 		</div>
 
 		<!-- this is our load more button for the pagination. loadmore is a method specified in the JS from base.html -->

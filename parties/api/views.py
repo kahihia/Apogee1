@@ -177,7 +177,7 @@ class PartyDetailAPIView(generics.ListAPIView):
 	def get_queryset(self, *args, **kwargs):
 		# these lists get the users you block and the users that block you
 		# blocked by returns profile objects and blocking returns users
-		blocked_by_list, blocking_list = get_blocking_lists(request)
+		blocked_by_list, blocking_list = get_blocking_lists(self.request)
 		blocked_by_list = self.request.user.blocked_by.all()
 		party_id = self.kwargs.get('pk')
 		qs = Party.objects.filter(pk=party_id)
@@ -206,7 +206,7 @@ class SearchPartyAPIView(generics.ListAPIView):
 		if query is not None:
 			# these lists get the users you block and the users that block you
 			# blocked by returns profile objects and blocking returns users
-			blocked_by_list, blocking_list = get_blocking_lists(request)
+			blocked_by_list, blocking_list = get_blocking_lists(self.request)
 			# Q is a lookup function
 			qs = qs.filter(
 				Q(description__icontains=query) | 
@@ -239,7 +239,7 @@ class PartyListAPIView(generics.ListAPIView):
 		if self.request.user.is_authenticated:
 			# these lists get the users you block and the users that block you
 			# blocked by returns profile objects and blocking returns users
-			blocked_by_list, blocking_list = get_blocking_lists(request)
+			blocked_by_list, blocking_list = get_blocking_lists(self.request)
 		if requested_user:
 			# includes only the requested users events in the feed
 			# sets the ordering. party_time would be soonest expiration at the top
@@ -291,7 +291,7 @@ class StarredListAPIView(generics.ListAPIView):
 	def get_queryset(self, *args, **kwargs):
 		# these lists get the users you block and the users that block you
 		# blocked by returns profile objects and blocking returns users
-		blocked_by_list, blocking_list = get_blocking_lists(request)
+		blocked_by_list, blocking_list = get_blocking_lists(self.request)
 		qs = self.request.user.starred_by.all().order_by('-time_created')
 		# this stops you from seeing blocked or blocking events
 		qs = qs.exclude(user__profile__in=blocked_by_list)
@@ -313,7 +313,7 @@ class JoinedListAPIView(generics.ListAPIView):
 	def get_queryset(self, *args, **kwargs):
 		# these lists get the users you block and the users that block you
 		# blocked by returns profile objects and blocking returns users
-		blocked_by_list, blocking_list = get_blocking_lists(request)
+		blocked_by_list, blocking_list = get_blocking_lists(self.request)
 		qs = self.request.user.joined_by.all().order_by('-time_created')
 		# this stops you from seeing blocked or blocking events
 		qs = qs.exclude(user__profile__in=blocked_by_list)
@@ -338,7 +338,7 @@ class TrendingListAPIView(generics.ListAPIView):
 		if self.request.user.is_authenticated:
 			# these lists get the users you block and the users that block you
 			# blocked by returns profile objects and blocking returns users
-			blocked_by_list, blocking_list = get_blocking_lists(request)
+			blocked_by_list, blocking_list = get_blocking_lists(self.request)
 			# trending is all the open events, ordered by their popularity, descending
 			
 			qs = qs.exclude(user__profile__in=blocked_by_list)
@@ -365,7 +365,7 @@ class ClosingSoonListAPIView(generics.ListAPIView):
 		if self.request.user.is_authenticated:
 			# these lists get the users you block and the users that block you
 			# blocked by returns profile objects and blocking returns users
-			blocked_by_list, blocking_list = get_blocking_lists(request)
+			blocked_by_list, blocking_list = get_blocking_lists(self.request)
 			# closing soon is events closing in 5 mins (delta is 10)
 			# that are open, ordered by popularity, descending
 			qs = qs.exclude(user__profile__in=blocked_by_list)

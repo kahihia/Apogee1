@@ -29,11 +29,6 @@
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
 		<div class='ml-1 row' id='starred-container' data-url='/api/events/starred/'>
-			{% for party in starred %}
-				<div class="col-xs-12 col-sm-2">
-					{% include "parties/party-card.html" %}
-				</div>
-			{% endfor %}
 		</div>
 
 		<!-- this is our load more button for the pagination -->
