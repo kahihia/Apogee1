@@ -123,6 +123,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		# k.key = obj.id # for example, 'images/bob/resized_image1.png'
 		# k.get_contents_from_file()
 		#return "https://s3-us-west-1.amazonaws.com/apogee-assets/thumbnails/2018/07/17/HovaGolfWithFriends.jpg"
+		print(obj.thumbnail)
 		return obj.thumbnail.url
 
 	# requires try block because it may throw an error
