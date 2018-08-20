@@ -17,7 +17,11 @@ function setupChatRoom(){
     chatsock.onmessage = function(rawMessage) {
         var message = JSON.parse(rawMessage.data)
         if (!message.error) {
-            appendMessage(JSON.parse(message))
+            try{
+                appendMessage(JSON.parse(message))
+            } catch(e) {
+                appendMessage(message)
+            }
         } else {
             alert("Must be logged in to post a message")
         }
