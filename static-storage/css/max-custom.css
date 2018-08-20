@@ -354,6 +354,11 @@ body {
 
 .card {
     border: none;
+    height: 265px;
+}
+
+.card-img-top {
+    max-height: 170px;
 }
 
 /* Party Detail */
