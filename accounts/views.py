@@ -72,7 +72,7 @@ class UserRegisterView(FormView):
 
 
 # this is the view for an individual profile
-class UserDetailView(DetailView):
+class UserDetailView(DetailView, LoginRequiredMixin):
     # this tells us where the rendering is
     template_name = 'accounts/user_detail.html'
     # queryset is required for a django detail view. it tells us what data 
@@ -113,7 +113,7 @@ class FundsView(LoginRequiredMixin, DetailView):
 
 
 # this is used to toggle following
-class UserFollowView(LoginRequiredMixin, View):
+class UserFollowView(View, LoginRequiredMixin):
     def get(self, request, username, *args, **kwargs):
         # this returns the object user we are trying to follow or nothing
         toggle_user = get_object_or_404(User, username__iexact=username)

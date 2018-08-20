@@ -8,7 +8,15 @@
 
 <!-- contains our custom JS -->
 {% block script %}
-
+<script src='{% static "js/parties/party-rendering-detail.js"%}'></script>
+<script>
+	// runs when page DOM is ready
+	$(document).ready(function(){
+		// tells us where the thumbnails go
+		loadPartyListContainer('starred-container')
+		addStarFunctionality()
+	});
+</script>
 {% endblock script %}
 
 {% block content %}

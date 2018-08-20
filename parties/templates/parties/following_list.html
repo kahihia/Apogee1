@@ -10,8 +10,16 @@ of usernames and a lidt of events -->
 
 <!-- contains our custom JS -->
 {% block script %}
+<script src='{% static "js/parties/party-rendering-detail.js"%}'></script>
 <script src='{% static "js/parties/party.js"%}'></script>
-
+<script>
+	// runs when page DOM is ready
+	$(document).ready(function(){
+		// tells us where the thumbnails go
+		loadPartyListContainer('follow-container')
+		addStarFunctionality()
+	});
+</script>
 {% endblock script %}
 
 <!-- contains our custom html and django stuff -->
