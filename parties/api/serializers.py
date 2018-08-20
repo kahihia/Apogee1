@@ -123,9 +123,11 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		# k.key = obj.id # for example, 'images/bob/resized_image1.png'
 		# k.get_contents_from_file()
 		#return "https://s3-us-west-1.amazonaws.com/apogee-assets/thumbnails/2018/07/17/HovaGolfWithFriends.jpg"
-		print(obj)
-		return obj.thumbnail.url
-
+		if obj.thumbnail and hasattr(obj.thumbnail, 'url'):
+			return obj.thumbnail.url
+		else:
+			return None 
+			
 	# requires try block because it may throw an error
 	def get_did_star(self, obj):
 		request = self.context.get('request')
