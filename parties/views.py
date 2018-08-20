@@ -6,6 +6,8 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
+from apogee1.utils.auth.auth import get_blocking_lists
+
 # from django.core.urlresolvers import reverse
 # from django.shortcuts import render
 # from paypal.standard.forms import PayPalPaymentsForm
@@ -22,6 +24,7 @@ from .api.pagination import StandardResultsPagination
 from .api.serializers import PartyModelSerializer
 from .mixins import FormUserNeededMixin, UserOwnerMixin
 from .models import Party
+
 
 
 # Create your views here.
@@ -69,7 +72,7 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 # the mixin requires you to be logged in to view events
 # because of the way the detail HTML is named, we don't need to 
 # specify it here. model_view (party_detail this time) is recognized automatically
-class PartyDetailView(LoginRequiredMixin, DetailView):
+class PartyDetailView(DetailView):
 	template_name = 'parties/party_detail.html'
 
 	def get_queryset(self, *args, **kwargs):
@@ -135,8 +138,7 @@ class PartyListView(ListView):
 class FollowingListView(LoginRequiredMixin, ListView):
 	def get(self, request, *args, **kwargs):
 		im_following = self.request.user.profile.get_following()
-		blocked_by_list = self.request.user.blocked_by.all()
-		blocking_list = self.request.user.profile.blocking.all()
+		blocked_by_list, blocking_list = get_blocking_lists(request)
 		following =  Party.objects.filter(user__in=im_following).order_by('-time_created') \
 									.exclude(user__profile__in=blocked_by_list) \
 									.exclude(user__in=blocking_list)
@@ -148,8 +150,7 @@ class FollowingListView(LoginRequiredMixin, ListView):
 # almost identical to party list. the query is handled by the API
 class StarredListView(LoginRequiredMixin, ListView):
 	def get(self, request, *args, **kwargs):
-		blocked_by_list = self.request.user.blocked_by.all()
-		blocking_list = self.request.user.profile.blocking.all()
+		blocked_by_list, blocking_list = get_blocking_lists(request)
 		starred = self.request.user.starred_by.all().order_by('-time_created') \
 									.exclude(user__profile__in=blocked_by_list) \
 									.exclude(user__in=blocking_list)
@@ -161,8 +162,7 @@ class StarredListView(LoginRequiredMixin, ListView):
 # almost identical to party list. the query is handled by the API
 class JoinedListView(LoginRequiredMixin, ListView):
 	def get(self, request, *args, **kwargs):
-		blocked_by_list = self.request.user.blocked_by.all()
-		blocking_list = self.request.user.profile.blocking.all()
+		blocked_by_list, blocking_list = get_blocking_lists(request)
 		joined = self.request.user.joined_by.all().order_by('-time_created') \
 												.exclude(user__profile__in=blocked_by_list) \
 												.exclude(user__in=blocking_list)
