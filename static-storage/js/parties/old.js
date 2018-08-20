@@ -110,6 +110,7 @@ function renderPartyList(partyContainerID){
         deckHTML = deckHTML + '</div>'
         partyContainer.append(deckHTML)
       }
+      addStarFunctionality()
     }
   }
 
