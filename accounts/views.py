@@ -103,7 +103,7 @@ class UserDetailView(DetailView, LoginRequiredMixin):
 
         # in the html, we call both following and recommended. this is how those 
         # variables get passed through
-        context['recommended'] = UserProfile.objects.recommended(self.request.user)
+        context['recommended'] = UserProfile.objects.recommended(self.kwargs.get('username'))
         context['events'] = serialized_parties
         return context
 
