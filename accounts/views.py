@@ -87,9 +87,13 @@ class UserDetailView(DetailView, LoginRequiredMixin):
     # allows us to use this info in the js and html
     def get_context_data(self, *args, **kwargs):
         context = super(UserDetailView, self).get_context_data(*args, **kwargs)
-        following = UserProfile.objects.is_following(self.request.user, self.get_object())
-        blocking = UserProfile.objects.is_blocking(self.request.user, self.get_object())
-        blocked = UserProfile.objects.is_blocked(self.request.user, self.get_object())
+        if self.request.user.is_authenticated:
+            # in the html, we call both following and recommended. this is how those 
+            # variables get passed through
+            context['following'] = UserProfile.objects.is_following(self.request.user, self.get_object())
+            context['blocking'] = UserProfile.objects.is_blocking(self.request.user, self.get_object())
+            context['blocked'] = UserProfile.objects.is_blocked(self.request.user, self.get_object())
+            context['recommended'] = UserProfile.objects.recommended(self.request.user)
 
         requested_user = self.kwargs.get('username')
         if requested_user:
@@ -99,9 +103,6 @@ class UserDetailView(DetailView, LoginRequiredMixin):
 
         # in the html, we call both following and recommended. this is how those 
         # variables get passed through
-        context['following'] = following
-        context['blocking'] = blocking
-        context['blocked'] = blocked
         context['recommended'] = UserProfile.objects.recommended(self.request.user)
         context['events'] = serialized_parties
         return context
