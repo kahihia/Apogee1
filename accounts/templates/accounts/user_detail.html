@@ -82,7 +82,7 @@
 		{% elif blocked %}
 		<!-- theres no follow button if youre blocked -->
 		{% else %}
-			{% if request.user.is_authenticated %}
+			{% if request.user.is_authenticated and request.user.id is not object.user.id %}
 				<a class='btn btn-outline-secondary mr-auto' href='{{ object.profile.get_follow_url }}'>
 					<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
 					{% if following %}Unfollow{% else %}Follow{% endif %}
@@ -118,7 +118,7 @@
 
 		<!-- payment stuff -->
 		<div class='col-sm-2 my-3 text-right'>
-			{% if request.user.is_authenticated %}
+			{% if request.user.is_authenticated and request.user.id is object.user.id %}
 			<!-- <a class='button' href="{% url 'payout:info' %} disabled">Payout: ${{object.profile.account_balance}}</a> -->
 			<a href="{% url 'payout:info' %}">
 				<button>Payout: ${{object.profile.account_balance}}</button>
