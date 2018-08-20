@@ -12,7 +12,8 @@ from django.utils import timezone
 from datetime import timedelta
 
 
-
+class TOSView(View):
+	
 # this is the default home page from when the app starts
 class HomeView(View):
 	def get(self, request, *args, **kwargs):
