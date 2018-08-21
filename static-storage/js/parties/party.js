@@ -59,6 +59,7 @@ function addJoinFunctionality(){
         }
         console.log(this_)
         console.log(data.min_bid)
+        location.reload();
         // the api handles updating the database 
       }, 
       error: function(data){
