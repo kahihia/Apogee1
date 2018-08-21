@@ -37,7 +37,7 @@ from accounts.views import UserRegisterView
 # namespace is an instance namespace. the app_name attr is the application namespace
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('', HomeView.as_view(), name='home'),
+	path('', PartyListView.as_view(), name='home'),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path('register/', UserRegisterView.as_view(), name='register'),
 	path('search/', SearchView.as_view(), name='search'),
