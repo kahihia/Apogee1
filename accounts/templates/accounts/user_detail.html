@@ -73,37 +73,48 @@
 		{% elif blocked %}
 		<!-- theres no follow button if youre blocked -->
 		{% else %}
-		<a class='btn btn-outline-secondary mr-auto' href='{{ object.profile.get_follow_url }}'>
-			<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
-			{% if following %}Unfollow{% else %}Follow{% endif %}
-		</a>
+			{% if request.user.is_authenticated %}
+				<a class='btn btn-outline-secondary mr-auto' href='{{ object.profile.get_follow_url }}'>
+					<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
+					{% if following %}Unfollow{% else %}Follow{% endif %}
+				</a>
+			{% else %}
+				<a class='btn btn-outline-secondary mr-auto' href='/register'>
+					<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
+					Follow
+				</a>				
+			{% endif %}
 		{% endif %}
 		
 		<!-- this is the user settings menu -->
 		<div class="dropdown mt-2">
-			{% if object == request.user %}
-			<a href="{{ request.user.profile.get_edit_url }}">
-		    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
-			</a>
-			{% else %}
-				{% if blocking %}
-				<a data-toggle="modal" data-target="#unblockModal">
+			{% if request.user.is_authenticated %}
+				{% if object == request.user %}
+				<a href="{{ request.user.profile.get_edit_url }}">
 			    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
 				</a>
 				{% else %}
-				<a data-toggle="modal" data-target="#blockModal">
-			    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
-				</a>
+					{% if blocking %}
+					<a data-toggle="modal" data-target="#unblockModal">
+				    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
+					</a>
+					{% else %}
+					<a data-toggle="modal" data-target="#blockModal">
+				    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
+					</a>
+					{% endif %}
 				{% endif %}
 			{% endif %}
 		</div>
 
 		<!-- payment stuff -->
 		<div class='col-sm-2 my-3 text-right'>
+			{% if request.user.is_authenticated %}
 			<!-- <a class='button' href="{% url 'payout:info' %} disabled">Payout: ${{object.profile.account_balance}}</a> -->
 			<a href="{% url 'payout:info' %}">
 				<button>Payout: ${{object.profile.account_balance}}</button>
 			</a> 
+			{% endif %}
 		</div>
 
 

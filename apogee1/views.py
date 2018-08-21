@@ -10,6 +10,7 @@ from parties.models import Party
 from parties.api.serializers import PartyModelSerializer
 from django.utils import timezone
 from datetime import timedelta
+from apogee1.utils.auth.auth import get_blocking_lists
 
 
 class TOSView(View):
@@ -18,8 +19,12 @@ class TOSView(View):
 class HomeView(View):
 	def get(self, request, *args, **kwargs):
 		# Maybe put this in middleware later
-		blocked_by_list = self.request.user.blocked_by.all()
-		blocking_list = self.request.user.profile.blocking.all()
+		trending = None
+		closing = None
+		following = None
+		serialized_following = None
+		blocked_by_list, blocking_list = get_blocking_lists(request)
+
 		# Trending
 		trending = Party.objects.filter(is_open=True).order_by('-popularity')[:6]
 		serialized_trending = PartyModelSerializer(trending, many=True, context={'request': request}).data
@@ -33,26 +38,27 @@ class HomeView(View):
 							.order_by('-popularity')[:6]
 		serialized_closing = PartyModelSerializer(closing, many=True, context={'request': request}).data
 		# Following
-		im_following = self.request.user.profile.get_following()
-		if im_following:
-			following = Party.objects.filter(user__in=im_following) \
-								.filter(is_open=True) \
-								.exclude(user__profile__in=blocked_by_list) \
-								.exclude(user__in=blocking_list) \
-								.order_by('-time_created')
-			serialized_following = PartyModelSerializer(following, many=True, context={'request': request}).data
-		else:
-			serialized_following = None
+		if request.user.is_authenticated:
+			im_following = self.request.user.profile.get_following()
+			if im_following:
+				following = Party.objects.filter(user__in=im_following) \
+									.filter(is_open=True) \
+									.exclude(user__profile__in=blocked_by_list) \
+									.exclude(user__in=blocking_list) \
+									.order_by('-time_created')
+				serialized_following = PartyModelSerializer(following, many=True, context={'request': request}).data
+			else:
+				serialized_following = None
 
 		context = {'trending': serialized_trending, 'closing': serialized_closing, 'following': serialized_following, 'username': self.request.user.username}
 		return render(request, 'home.html', context)
 
 # we need this user model to search users 
-User = get_user_model()
 
 # this is the updated search view for the users and events
 # events are done through ajax currently, django handles users
 class SearchView(View):
+	User = get_user_model()
 	def get(self, request, *args, **kwargs):
 		# grabbing url search terms
 		# q refers to the key assigned into our search bar

@@ -39,7 +39,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         """
         # Messages will have a "command" key we can switch on
         command = content.get("command", None)
-        if command == "send":
+        if command == "send" and self.scope['user'].is_authenticated:
             m = escape(content["message"])
             Message.objects.create(message=m, room=self.room, username=self.scope['user'])
             await self.send_room(self.room_id, m)

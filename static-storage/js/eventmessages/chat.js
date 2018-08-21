@@ -10,12 +10,17 @@ function setupChatRoom(){
         console.log("Connected to chat socket");
     }
 
-    chatsock.onclose = function () {
-        console.log("Disconnected from chat socket");
+    chatsock.onclose = function (e) {
+        console.log("Disconnected from chat socket", e);
     }
 
-    chatsock.onmessage = function(message) {
-        appendMessage(JSON.parse(message.data))
+    chatsock.onmessage = function(rawMessage) {
+        var message = JSON.parse(rawMessage.data)
+        if (!message.error) {
+            appendMessage(JSON.parse(message))
+        } else {
+            alert("Must be logged in to post a message")
+        }
     }
 
     $("#chatform").on("submit", function(event) {
@@ -88,7 +93,6 @@ function getMessages(url, callback){
     $.ajax({
         type: "GET",
         url: url || "/api/messages/" + room_id,
-        headers: {'X-CSRFToken': Cookies.get("csrftoken")}
     })
     .done(function( data ) {
         messagePaginatorGlobal = data.next
