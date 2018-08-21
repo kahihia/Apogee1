@@ -127,13 +127,10 @@ function getMessages(url, callback){
           },
     })
     .done(function( data ) {
-        $("#message").css('display', 'block')
-        $(".blur").css('filter', 'none')
         messagePaginatorGlobal = data.next
         checkSpawnGetMore()
         callback(data.results.reverse(), true)
     }).fail(function(e){
         console.log(e)
-        writeLetter()        
     })
 }
