@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
 # views
-from .views import HomeView, SearchView, set_timezone
+from .views import HomeView, SearchView, set_timezone, TOSView
 from parties.views import PartyListView
 from hashtags.views import HashTagView
 from hashtags.api.views import TagPartyAPIView
