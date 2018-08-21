@@ -1,2 +1,12 @@
-<h1>You've won an event with {{creator}}!</h1>
-<p>You're event is on {{ date }} with {{creator}}!</p>
+{% extends 'base_email.html' %}
+
+{% block title %}
+    {{ block.super }} | Welcome
+{% endblock title %}
+
+{% block content %}
+	<h1>You've won an event with {{creator}}!</h1>
+	<p>You're event is on {{ date }} with {{creator}}!</p>
+{% endblock content %}
+
+{% include 'email_footer.html' %}

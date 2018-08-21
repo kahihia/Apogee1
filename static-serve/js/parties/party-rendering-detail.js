@@ -1,6 +1,8 @@
 function loadPartyDetailContainer(partyContainerID, fetchOneId){
   renderPartyDetail(partyContainerID, fetchOneId);
   addStarFunctionality();
+  console.log("HERE I AM")
+  addReportFunctionality();
 }
 
 function loadPartyListContainer(partyContainerID){
@@ -267,6 +269,7 @@ function renderPartyDetail(partyContainerID, fetchOneId){
           '<span class="float-right">' + 
             '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + star_verb + '</a>' + 
           '</span>' + 
+
         '</h1>' +
         '<small class="text-muted">With ' + 
           '<a class="text-dark" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a> On ' + partyValue.party_time_display + 
@@ -376,6 +379,9 @@ function renderPartyDetail(partyContainerID, fetchOneId){
       '<div class="col-sm-12">' + 
         possible_winners + 
       '</div>' +
+     '<span class="float-right">' + 
+       '<button type="button" class="report" data-id="' + partyValue.id + '">Report</button>'+
+      '</span>'+
     '</div>' +
     '<div class="row">' + join_verb + '</div>' + winner 
 
@@ -394,6 +400,9 @@ function renderPartyDetail(partyContainerID, fetchOneId){
       '<div class="col-sm-12">' + 
         possible_winners + 
       '</div>' +
+     '<span class="float-right">' + 
+       '<button type="button" class="report" data-id="' + partyValue.id + '">Report</button>'+
+      '</span>'+
     '</div>' +
     bid_input +
     '<div class="row">' + join_verb + '</div>' + winner 
@@ -417,6 +426,9 @@ function renderPartyDetail(partyContainerID, fetchOneId){
       '<div class="col-sm-12">' + 
         possible_winners + 
       '</div>' +
+     '<span class="float-right">' + 
+       '<button type="button" class="report" data-id="' + partyValue.id + '">Report</button>'+
+      '</span>'+
     '</div>' +
     '<div class="row">' + join_verb + '</div>' + winner 
 
@@ -512,8 +524,24 @@ function addJoinFunctionality(){
 
 }
 
-
-
+function addReportFunctionality(){
+ $(document.body).on("click", '.report', function(e){
+    e.preventDefault();
+    let this_ = $(this);
+    let partyID = this_.attr('data-id');
+    let reportUrl = '/api/events/' + partyID + '/report/';
+    $.ajax({
+      method: 'GET',
+      url: reportUrl,
+      success: function(data){
+        // alert(data.error_message)
+      }, 
+      error: function(data){
+        console.log('Report')
+      }
+    })
+  })
+}
 
 // this is the favorite function. It wil be instrumental in enabling 
 // users to track events as they progress.

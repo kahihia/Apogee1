@@ -16,8 +16,10 @@ class StatisticsInfo(models.Model):
 #To link back to user's account
 	user 				= models.ForeignKey(settings.AUTH_USER_MODEL,
 						on_delete=models.CASCADE)
+	#max_profit_event 	= models.ForeignKey(Party,
+	#					on_delete=models.CASCADE, null=True)
 	max_profit_event 	= models.ForeignKey(Party,
-						on_delete=models.CASCADE, null=True)
+						on_delete=models.SET_NULL, null=True)
 	max_profit 			= models.DecimalField(max_digits=12,\
 	 							decimal_places=2, default=0)
 	#LOTTERY STATISTICS

@@ -9,8 +9,11 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'apogee1.settings.local')
 
 # this just creates an instance for us to use. not what the name matters for
 app = Celery('apogee1')
+
+####### THIS LINE NEEDS TO BE COMMENTED OUT FOR LOCAL #########
 app.conf.update(BROKER_URL=os.environ['REDIS_URL'],
                 CELERY_RESULT_BACKEND=os.environ['REDIS_URL'])
+
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
 # - namespace='CELERY' means all celery-related configuration keys
@@ -24,3 +27,4 @@ app.autodiscover_tasks()
 # @app.task(bind=True)
 # def debug_task(self):
 #     print('Request: {0!r}'.format(self.request))
+

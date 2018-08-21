@@ -1,0 +1,16 @@
+{% load static %}
+
+<!-- this is our custom js -->
+{% block script %}
+  <script type="text/javascript" src='{% static "js/eventmessages/reconnecting-websocket.min.js" %}'></script>
+  <script type="text/javascript" src='{% static "js/eventmessages/chat.js" %}'></script>
+{% endblock script %}
+
+{% block content %}
+  {% load staticfiles %}
+  <form id="chatform" class="border">
+    <div id="histLoad" class='col-xs-12'><p class="text-center">Load More Messsages</p></div>
+    <div id="chat" class="party-chat-box"></div>
+      <input style="position: absolute; bottom: -13px" id="message" type="text" placeholder="message">
+  </form>
+{% endblock content %}

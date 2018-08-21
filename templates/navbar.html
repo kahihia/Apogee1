@@ -83,19 +83,19 @@
             </span>
           </a>
             <div class="dropdown-menu dropdown-menu-right w pt-2 mt-3 animate fadeIn">
-                <span class="dropdown-item dropdown-name">{{ user.username }}</span>
-
-                <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'parties:following-list' %}">Following</a>
-                    <a class="dropdown-item" href="{% url 'parties:joined-list' %}">Joined</a>
-                    <a class="dropdown-item" href="{% url 'parties:starred-list' %}">Starred</a>
-
-                <div class="dropdown-divider"></div>
+                <span class="dropdown-item dropdown-name">{{ user.username }}
+                {%if user.is_verified%}
+                    <i class="fas fa-check-circle"></i>
+                {%endif%} 
+                </span>
                 <a class="dropdown-item" href="{{ request.user.profile.get_absolute_url }}">
                     <span>Profile</span>
                 </a>
                 <a class="dropdown-item" href="{% url 'statistics:list' %}">
                     <span>Stats</span>
+                </a>
+                <a class="dropdown-item" href="/profiles/{{request.user.username}}/funds">
+                    <span>Add Funds</span>
                 </a>
                 <a class="dropdown-item" href="{% url 'set_timezone' %}">
               <span>Settings</span>

@@ -17,6 +17,8 @@ from .models import UserProfile
 from .forms import UserRegisterForm, UserProfileModelForm
 from .mixins import ProfileOwnerMixin
 from apogee1.utils.email import emailer
+from parties.api.serializers import PartyModelSerializer
+from parties.models import Party
 
 # Create your views here.
 User = get_user_model()
@@ -38,7 +40,6 @@ class UserRegisterView(FormView):
         captcha_good = True
 
         recaptcha_response = self.request.POST.get('g-recaptcha-response')
-        print(recaptcha_response)
         url = 'https://www.google.com/recaptcha/api/siteverify'
         values = {
         'secret': config('CAPTCHA_SECRET_KEY'),
@@ -55,12 +56,12 @@ class UserRegisterView(FormView):
             captcha_good = config('CAPTCHA_OFF')
            # captcha_good = True
         #Do captcha validation
-        if captcha_good:
+        if captcha_good and self.request.POST.get('tos'):
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
             new_user.save()
             email_data = {'username': username}
-            emailer.email('Account Registration Success!', 'team@apogee.gg', [email], 'creation_email.html', email_data)
+            emailer.email('Account Registration Success', 'team@apogee.gg', [email], 'creation_email.html', email_data)
 
         else:
             return HttpResponseRedirect("/register")
@@ -88,16 +89,30 @@ class UserDetailView(DetailView, LoginRequiredMixin):
         following = UserProfile.objects.is_following(self.request.user, self.get_object())
         blocking = UserProfile.objects.is_blocking(self.request.user, self.get_object())
         blocked = UserProfile.objects.is_blocked(self.request.user, self.get_object())
+
+        requested_user = self.kwargs.get('username')
+        if requested_user:
+            qs = Party.objects.filter(user__username=requested_user).order_by('-time_created')
+            serialized_parties = PartyModelSerializer(qs, many=True, context={'request': self.request}).data
+
+
         # in the html, we call both following and recommended. this is how those 
         # variables get passed through
         context['following'] = following
         context['blocking'] = blocking
         context['blocked'] = blocked
         context['recommended'] = UserProfile.objects.recommended(self.request.user)
+        context['events'] = serialized_parties
         return context
 
+class FundsView(LoginRequiredMixin, DetailView):
+    def get(self, request, *args, **kwargs):
+        context = {'user': self.request.user}
+        return render(request, 'accounts/funds.html', context)
+
+
 # this is used to toggle following
-class UserFollowView(View, LoginRequiredMixin):
+class UserFollowView(LoginRequiredMixin, View):
     def get(self, request, username, *args, **kwargs):
         # this returns the object user we are trying to follow or nothing
         toggle_user = get_object_or_404(User, username__iexact=username)
@@ -108,7 +123,7 @@ class UserFollowView(View, LoginRequiredMixin):
             return redirect('profiles:detail', username=username)
 
 # this is used to toggle blocking
-class UserBlockView(View, LoginRequiredMixin):
+class UserBlockView(LoginRequiredMixin, View):
     def get(self, request, username, *args, **kwargs):
         # this returns the object user we are trying to follow or nothing
         toggle_user = get_object_or_404(User, username__iexact=username)

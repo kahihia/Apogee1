@@ -1,6 +1,6 @@
 <!-- this handles the create form -->
 {% extends 'base.html' %}
-<!-- {% load static %} -->
+{% load static %}
 
 <!-- tab title -->
 {% block title %}
@@ -9,8 +9,9 @@
 
 <!-- contains our custom JS -->
 {% block script %}
-<script src='{% static "js/parties/party-create-helper.js"%}'></script>
-<script>
+<!-- <script src='{% static "js/parties/party-create-helper.js"%}'></script> -->
+<script src='{% static "js/parties/party-create-helper.js"%}?q={% now "U" %}'></script>
+<script type="text/javascript">
 	$(document).ready(function() {
         // set things up so my function will be called when field_three changes
         $('#id_event_type').change( function() {

@@ -10,15 +10,8 @@ of usernames and a lidt of events -->
 
 <!-- contains our custom JS -->
 {% block script %}
-<script src='{% static "js/parties/party-rendering-detail.js"%}'></script>
-<script>
-	// runs when page DOM is ready
-	$(document).ready(function(){
-		// tells us where the thumbnails go
-		loadPartyListContainer('follow-container')
-		addStarFunctionality()
-	});
-</script>
+<script src='{% static "js/parties/party.js"%}'></script>
+
 {% endblock script %}
 
 <!-- contains our custom html and django stuff -->
@@ -31,13 +24,21 @@ of usernames and a lidt of events -->
 			{% for user in request.user.profile.get_following %}
 			<p class='mb-3'>
 				<a class='text-dark' href='/profiles/{{ user.username }}'>
+				{%if user.is_verified%}
+					<i class="fas fa-check-circle"></i>
+				{%endif%} 
+
 					{% if user.profile.profile_picture %}
 					<img src='{{ user.profile.profile_picture.url }}' class="rounded-circle float-left" style='max-height: 30;'>
 					{% else %}
 					<!-- this is a blank profile pic, cause we at least need the circle to show. it only shows if the user doesnt have a profile-->
 					<img src='/media/profile_pics/blank_profile.png' class="rounded-circle float-left" style='max-height: 30;'>
 					{% endif %}
-					<span class='ml-1'>{{ user.username }}</span>
+					<span class='ml-1'>{{ user.username }}
+					{%if user.is_verified%}
+						<i class="fas fa-check-circle"></i>
+					{%endif%} 
+					</span>
 				</a>
 			</p>
 			{% empty %}
@@ -51,7 +52,13 @@ of usernames and a lidt of events -->
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
-		<div class='ml-1' id='follow-container' data-url='/api/events/'></div>
+		<div class='ml-1 row' id='following-container'>
+			{% for party in following %}
+				<div class="col-xs-12 col-sm-2">
+					{% include "parties/party-card.html" %}
+				</div>
+			{% endfor %}
+		</div>
 
 		<!-- this is our load more button for the pagination -->
 		<button type="button" class="btn btn-outline-secondary btn-block" id='loadmore' style="display:none">Show More Events</button>

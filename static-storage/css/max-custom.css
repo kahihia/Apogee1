@@ -1,7 +1,7 @@
 body {
     background: hsl(270, 5%, 10%) !important;
     font-family: "Proxima Nova", sans-serif;
-    color: hsl(100, 0%, 98%) !important;
+    /*color: hsl(100, 0%, 98%) !important;*/
     overflow-x: hidden;
     min-height: 400px;
 }
@@ -356,8 +356,51 @@ body {
     border: none;
 }
 
+/* Party Detail */
+.party-chat-box {
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: relative;
+    z-index: 1;
+}
 
+/* Messaging */
+.message{
+    margin: 3px;
+    font-size: 14px;
+    line-height: 1;
+}
+.message-container > .message-timestamp {
+    font-weight: lighter;
+    font-size: 9px;
+    visibility:hidden;
+    padding: 0;
+    margin:0;
+    line-height: 0;
+    color: #999999 !important;
+    text-align: right;
+}
+.message-container:hover > .message-timestamp{
+    visibility:visible;
+}
 
+.message-username{
+  font-weight: bold
+}
+
+#histLoad {
+    position: relative;
+    display: none; 
+    padding: 5px;
+    margin-bottom: -35px;
+    background: rgba(255,255,255,0.5);
+    z-index: 100;
+}
+
+#histLoad p {
+    margin: 0px;
+}
 
 /********************** Agile CSS *************************/
 

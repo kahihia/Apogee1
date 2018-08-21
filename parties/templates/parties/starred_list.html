@@ -8,15 +8,7 @@
 
 <!-- contains our custom JS -->
 {% block script %}
-<script src='{% static "js/parties/party-rendering-detail.js"%}'></script>
-<script>
-	// runs when page DOM is ready
-	$(document).ready(function(){
-		// tells us where the thumbnails go
-		loadPartyListContainer('starred-container')
-		addStarFunctionality()
-	});
-</script>
+
 {% endblock script %}
 
 {% block content %}
@@ -28,7 +20,13 @@
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
-		<div class='ml-1' id='starred-container' data-url='/api/events/starred/'></div>
+		<div class='ml-1 row' id='starred-container' data-url='/api/events/starred/'>
+			{% for party in starred %}
+				<div class="col-xs-12 col-sm-2">
+					{% include "parties/party-card.html" %}
+				</div>
+			{% endfor %}
+		</div>
 
 		<!-- this is our load more button for the pagination -->
 		<button type="button" class="btn btn-outline-secondary btn-sm btn-block" id='loadmore' style='display:none'>Show More Events</button>

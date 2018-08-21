@@ -48,6 +48,8 @@ EMAIL_HOST_PASSWORD = 'f44c2ec0910495b35f830b5bc2aafd584fbaa3a6'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+ASGI_APPLICATION = "apogee1.routing.application"
+
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_USER = 'ApogeeSendEmails@gmail.com'
 # EMAIL_HOST_PASSWORD = 'ApogeeEmail'
@@ -56,7 +58,7 @@ EMAIL_USE_TLS = True
 
 
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
 # Application definition
 
 INSTALLED_APPS = [
@@ -66,6 +68,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     #add django captcha here
     # these are our custom apps
     'parties',
@@ -74,12 +77,14 @@ INSTALLED_APPS = [
     'bids',
     'notifications',
     'userstatistics',
+    'event_payment',
+    'eventmessages',
+    'payout'
 
     # third party stuff
     'crispy_forms',
     'rest_framework',
     'storages',
-    # 'paypal.standard.ipn'
 ]
 
 MIDDLEWARE = [
@@ -95,9 +100,6 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
-# PAYPAL_TEST = True
-
-
 # root url sets the main routing file. those then refer to the other url docs
 ROOT_URLCONF = 'apogee1.urls'
 
@@ -109,9 +111,26 @@ LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 # Address of RabbitMQ instance, our Celery broker
 # CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_BROKER_POOL_LIMIT = 8
-#CELERY_BROKER_URL=os.environ['REDIS_URL']
 CELERY_BROKER_URL=config('REDIS_URL')
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': config('LOG_LEVEL', default='DEBUG'),
+            'propagate': True,
+        },
+    },
+}
 
 TEMPLATES = [
     {
@@ -133,6 +152,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'apogee1.wsgi.application'
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [config('REDIS_URL')],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

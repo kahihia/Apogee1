@@ -1,2 +1,12 @@
-<h1>Placeholder!</h1>
-<p>placeholder {{ username }}!</p>
+{% extends 'base_email.html' %}
+
+{% block title %}
+    {{ block.super }} | Welcome
+{% endblock title %}
+
+{% block content %}
+	<h1>Placeholder</h1>
+	<p>Placeholder</p>
+{% endblock content %}
+
+{% include 'email_footer.html' %}

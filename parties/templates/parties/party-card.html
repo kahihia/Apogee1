@@ -1,0 +1,35 @@
+<div class="card-deck mb-4">
+	<div class="card">
+		<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
+			<img class="card-img-top" src="{{party.thumbnail_url}}" alt="not here">
+		</a>
+		<div class="card-body">
+			<a class="text-dark" href="/events/{{party.id}}" style="text-decoration: none;">
+				<h5 class="card-title">{{party.short_title}}</h5>
+				<p class="card-text"><span class="description">{{party.short_description}}</span></p>
+			</a>
+		</div>
+		<div class="card-footer">
+			<small class="text-muted">With 
+				<a class="text-dark" href="/profiles/{{party.user.username}}">{{party.user.username}}</a>
+<!-- 				{%if party.user.is_verified%} -->
+					<i class="fas fa-check-circle"></i>
+<!-- 				{%endif%}  -->
+				<span class="float-right">${{party.cost}} 
+				<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i> 
+				</span>
+				<br>
+				{{ party.party_time_display }}
+			</small>
+			<span class="float-right">
+				<a href="#" class="starBtn text-dark" data-id="{{party.id}}">
+					{% if party.did_star %}
+						<i class="fa fa-star yellow-color" id="starColor"></i> 
+					{% else %}
+						<i class="fa fa-star grey-color" id="starColor"></i> 
+					{% endif %}
+				</a>
+			</span>
+		</div>
+	</div>
+</div>

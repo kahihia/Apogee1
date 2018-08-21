@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
 # views
-from .views import home, SearchView, set_timezone
+from .views import HomeView, SearchView, set_timezone, TOSView
 from parties.views import PartyListView
 from hashtags.views import HashTagView
 from hashtags.api.views import TagPartyAPIView
@@ -37,13 +37,15 @@ from accounts.views import UserRegisterView
 # namespace is an instance namespace. the app_name attr is the application namespace
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('', PartyListView.as_view(), name='home'),
+	path('', HomeView.as_view(), name='home'),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path('register/', UserRegisterView.as_view(), name='register'),
 	path('search/', SearchView.as_view(), name='search'),
 	path('api/search/', SearchPartyAPIView.as_view(), name='search-api'),
+	path('api/payment/', include('parties.api.urls', namespace='parties-payment-api')),
 	path('events/', include('parties.urls', namespace='parties')), 
 	path('api/events/', include('parties.api.urls', namespace='parties-api')),
+	path('api/messages/', include('eventmessages.api.urls', namespace='messages-api')),
 	path('api/', include('accounts.api.urls', namespace='profiles-api')),
 	path('api/statistics', include('userstatistics.api.urls', namespace='statistics-api')),
 	path('profiles/', include('accounts.urls', namespace='profiles')),
@@ -53,7 +55,9 @@ urlpatterns = [
 	path('api/tags/<slug:hashtag>/', TagPartyAPIView.as_view(), name='hashtag-api'),
 	# this should migrate into the settings page at some point soon
 	path('tz/', set_timezone, name='set_timezone'),
-	path('stats/', include('userstatistics.urls', namespace='statistics'))
+	path('stats/', include('userstatistics.urls', namespace='statistics')),
+	path('payout/', include('payout.urls', namespace='payout')),
+	path('tos', TOSView.as_view(), name='tos')
 	#url(r'^.*$', RedirectView.as_view(url='', permanent=False), name='index')
 	#Deprecated path to bids, bid views not available to users
 	#path('bids/', include('bids.urls', namespace='bids'))
