@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 class EventMessageView(generics.ListAPIView):
 	pagination_class = StandardResultsPagination
 	serializer_class = MessageModelSerializer
+	permission_classes = [permissions.IsAuthenticated]
 	def get_queryset(self, *args, **kwargs):
 		# gets the object that is being starred
 		message_qs = Message.objects.filter(room__id=self.kwargs.get('room_id'))

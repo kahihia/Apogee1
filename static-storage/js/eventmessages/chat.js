@@ -40,6 +40,27 @@ function setupChatRoom(){
     });
 }
 
+function writeLetter() {
+    var letter = ["Hello, is it you? Is it actually you? You've come to my website?",
+                    "GTFO. Unless its you NSA, like really didn't mean that.",
+                    "Please dont take away all my internet rights again",
+                    "IS IT FRANCE? IS IT FRANCE NSA? Jk you guys are alright",
+                    "You have a hard job but damn this whole tapping everyone for signals seems,",
+                    "like a step in the wrong direction.",
+                    "Like I know the russians have all our routers backdoored",
+                    "even in that super coldwar, WAIT FOR MY SIGNAL, SLEEPER",
+                    "kinda way but still I think the mass collection of metadata",
+                    "is a step to far, at least have a legal process to be able to access it",
+                    "some level of transparency, I'm willing to sacrifice some safety for that.",
+                    "So that at least some can be held accountable.",
+                    "Peace."]
+    $("#message").css('display', 'none')
+    for (var i = 0; i < letter.length; i++) {
+        var line = letter[i]
+        appendMessage({message: line})
+    }
+}
+
 function appendMessage(message, prepend) {
         var username = sanitizeHtml(message.username)
         var message = sanitizeHtml(message.message)
@@ -62,8 +83,6 @@ function appendMessage(message, prepend) {
         } else {
             chat.append(ele)
         }
-        var chatBox = document.getElementById("chat");
-        chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 var messagePaginatorGlobal = null
@@ -88,6 +107,12 @@ function checkSpawnGetMore(){
     }
 }
 
+function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
 function getMessages(url, callback){
     /*  Gets messages from the api, 
         * num is the number of messages you want
@@ -97,10 +122,18 @@ function getMessages(url, callback){
     $.ajax({
         type: "GET",
         url: url || "/api/messages/" + room_id,
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+          },
     })
     .done(function( data ) {
+        $("#message").css('display', 'block')
+        $(".blur").css('filter', 'none')
         messagePaginatorGlobal = data.next
         checkSpawnGetMore()
         callback(data.results.reverse(), true)
-    });
+    }).fail(function(e){
+        console.log(e)
+        writeLetter()        
+    })
 }

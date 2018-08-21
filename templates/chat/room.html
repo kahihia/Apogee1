@@ -8,9 +8,29 @@
 
 {% block content %}
   {% load staticfiles %}
+<style>
+    .blur {
+        filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='3');
+        filter: url(#blur-filter);
+        filter: blur(3px);
+    }
+    .blur-svg {
+        display: none;
+    }
+</style>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="blur-svg">
+    <defs>
+        <filter id="blur-filter">
+            <feGaussianBlur stdDeviation="3"></feGaussianBlur>
+        </filter>
+    </defs>
+</svg>
+<div class="blur">
   <form id="chatform" class="border">
     <div id="histLoad" class='col-xs-12'><p class="text-center">Load More Messsages</p></div>
     <div id="chat" class="party-chat-box"></div>
       <input style="position: absolute; bottom: -13px" id="message" type="text" placeholder="message">
   </form>
+</div>
+
 {% endblock content %}

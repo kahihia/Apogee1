@@ -20,6 +20,8 @@
 		messages.forEach(function(m){
 		  appendMessage(m)
 		});
+        var chatBox = document.getElementById("chat");
+        chatBox.scrollTop = chatBox.scrollHeight;
 	});
 </script>
 {% endblock script %}
@@ -175,7 +177,7 @@
 					{#  Event Details Panel #}
 					<div class="col-sm-8">
 						<div class="row">
-							<div class="col-sm-8">
+							<div class="col-sm-12">
 								<h1 style="word-wrap: break-word;"> {{serialized.title }} 
 
 									<!-- If event is closed -->
@@ -208,7 +210,7 @@
 								<br> 
 								<p class="lead mt-4" style="word-wrap: break-word;"> {{serialized.description}} </p> 
 							</div>
-							<div class='col-sm-4'>
+							<div class='col-sm-12'>
 								{% include 'chat/room.html' %}	
 							</div>
 						</div>
