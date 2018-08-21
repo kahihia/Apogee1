@@ -13,7 +13,7 @@ from datetime import timedelta
 
 
 class TOSView(View):
-	
+	template_name = 'bids/create_view.html'
 # this is the default home page from when the app starts
 class HomeView(View):
 	def get(self, request, *args, **kwargs):
