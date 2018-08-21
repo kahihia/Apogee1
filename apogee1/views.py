@@ -12,9 +12,11 @@ from django.utils import timezone
 from datetime import timedelta
 from apogee1.utils.auth.auth import get_blocking_lists
 
+User = get_user_model()
 
 class TOSView(View):
 	template_name = 'bids/create_view.html'
+
 # this is the default home page from when the app starts
 class HomeView(View):
 	def get(self, request, *args, **kwargs):
@@ -58,7 +60,6 @@ class HomeView(View):
 # this is the updated search view for the users and events
 # events are done through ajax currently, django handles users
 class SearchView(View):
-	User = get_user_model()
 	def get(self, request, *args, **kwargs):
 		# grabbing url search terms
 		# q refers to the key assigned into our search bar

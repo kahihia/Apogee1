@@ -11,18 +11,12 @@
 {% block script %}
 <script src='{% static "js/parties/old.js"%}'></script>
 <script src='{% static "js/parties/party.js"%}'></script>
-<script src='{% static "js/eventmessages/chat.js"%}'></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		// tells us where the thumbnails go
 		loadPartyListContainer('following-container')
 		loadPartyListContainer('trending-container')
 		loadPartyListContainer('closing-container')
-		// Hack to wait for ajax to load
-		// Change this in a later refactor
-		setTimeout(function(){
-			addStarFunctionality();
-		}, 1000)
 	});
 </script>
 {% endblock script %}

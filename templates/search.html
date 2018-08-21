@@ -15,9 +15,7 @@ than in the parties templates -->
 	$(document).ready(function() {
 		// tells us where the thumbnails go
 		loadPartyListContainer('party-container')
-		setTimeout(function(){
-			addStarFunctionality();
-		}, 1000)
+		addStarFunctionality()
 	});
 </script>
 {% endblock script %}
@@ -45,15 +43,13 @@ than in the parties templates -->
 		</div>
 	</div>
 
-<<<<<<< HEAD
-	<div class="col-lg-9 mx-4 mt-3 pt-3 pl-3 search-view">
-		<!-- <h1>Showing Results for... {{ query }}</h1>
-		<br> -->
-=======
 	<div class="col-lg-10 col-lg-offset-1 mx-4 mt-3 pt-3 pl-3 search-view">
 		<h1>Showing Results for... {{ query }}</h1>
 		<br>
->>>>>>> Log-in-re-direct-to-terms-and-services
+	</div>
+	<div class="col-lg-9 mx-4 mt-3 pt-3 pl-3 search-view">
+		<!-- <h1>Showing Results for... {{ query }}</h1>
+		<br> -->
 		<h4>Events</h4><hr>
 
 		<!-- this holds all of our JS rendered stuff -->

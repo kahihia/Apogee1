@@ -335,14 +335,13 @@ class TrendingListAPIView(generics.ListAPIView):
 	# this interacts with the ajax call to this url
 	def get_queryset(self, *args, **kwargs):
 		qs = Party.objects.filter(is_open=True).order_by('-popularity')
-		if self.request.user.is_authenticated:
-			# these lists get the users you block and the users that block you
-			# blocked by returns profile objects and blocking returns users
-			blocked_by_list, blocking_list = get_blocking_lists(self.request)
-			# trending is all the open events, ordered by their popularity, descending
-			
-			qs = qs.exclude(user__profile__in=blocked_by_list)
-			qs = qs.exclude(user__in=blocking_list)
+		# these lists get the users you block and the users that block you
+		# blocked by returns profile objects and blocking returns users
+		blocked_by_list, blocking_list = get_blocking_lists(self.request)
+		# trending is all the open events, ordered by their popularity, descending
+		
+		qs = qs.exclude(user__profile__in=blocked_by_list)
+		qs = qs.exclude(user__in=blocking_list)
 		return qs
 
 # this creates the api view that the closing soon list of our home page pulls from
@@ -362,14 +361,13 @@ class ClosingSoonListAPIView(generics.ListAPIView):
 		qs = Party.objects.filter(is_open=True)
 		qs = qs.filter(party_time__lte=soon_time)
 		qs = qs.order_by('-popularity')
-		if self.request.user.is_authenticated:
-			# these lists get the users you block and the users that block you
-			# blocked by returns profile objects and blocking returns users
-			blocked_by_list, blocking_list = get_blocking_lists(self.request)
-			# closing soon is events closing in 5 mins (delta is 10)
-			# that are open, ordered by popularity, descending
-			qs = qs.exclude(user__profile__in=blocked_by_list)
-			qs = qs.exclude(user__in=blocking_list)
+		# these lists get the users you block and the users that block you
+		# blocked by returns profile objects and blocking returns users
+		blocked_by_list, blocking_list = get_blocking_lists(self.request)
+		# closing soon is events closing in 5 mins (delta is 10)
+		# that are open, ordered by popularity, descending
+		qs = qs.exclude(user__profile__in=blocked_by_list)
+		qs = qs.exclude(user__in=blocking_list)
 		return qs
 
 

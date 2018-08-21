@@ -99,6 +99,9 @@ class UserDetailView(DetailView, LoginRequiredMixin):
             qs = Party.objects.filter(user__username=requested_user).order_by('-time_created')
             serialized_parties = PartyModelSerializer(qs, many=True, context={'request': self.request}).data
 
+
+        # in the html, we call both following and recommended. this is how those 
+        # variables get passed through
         context['events'] = serialized_parties
         return context
 
@@ -109,7 +112,7 @@ class FundsView(LoginRequiredMixin, DetailView):
 
 
 # this is used to toggle following
-class UserFollowView(LoginRequiredMixin, View):
+class UserFollowView(View, LoginRequiredMixin):
     def get(self, request, username, *args, **kwargs):
         # this returns the object user we are trying to follow or nothing
         toggle_user = get_object_or_404(User, username__iexact=username)

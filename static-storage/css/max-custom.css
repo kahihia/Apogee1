@@ -1,7 +1,7 @@
 body {
     background: hsl(270, 5%, 10%) !important;
     font-family: "Proxima Nova", sans-serif;
-    /*color: hsl(100, 0%, 98%) !important;*/
+    color: hsl(100, 0%, 98%) !important;
     overflow-x: hidden;
     min-height: 400px;
 }
@@ -354,11 +354,16 @@ body {
 
 .card {
     border: none;
+    height: 265px;
+}
+
+.card-img-top {
+    max-height: 170px;
 }
 
 /* Party Detail */
 .party-chat-box {
-    height: 500px;
+    height: 300px;
     overflow-x: hidden;
     overflow-y: scroll;
     position: relative;

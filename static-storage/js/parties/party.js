@@ -74,6 +74,7 @@ function addJoinFunctionality(){
 // users to track events as they progress.
 // its built to trigger on click for any button with the correct class
 function addStarFunctionality(){
+  $('.starBtn').unbind("click")
   $('.starBtn').click(function(e){
     let this_ = $(this)
     var that = this_
