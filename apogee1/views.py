@@ -15,7 +15,7 @@ from apogee1.utils.auth.auth import get_blocking_lists
 User = get_user_model()
 
 class TOSView(View):
-	template_name = 'bids/create_view.html'
+	template_name = 'apogee1/tos.html'
 
 # this is the default home page from when the app starts
 class HomeView(View):
