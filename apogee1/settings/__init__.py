@@ -5,15 +5,15 @@ from __future__ import unicode_literals, absolute_import
 # base is loaded first
 from .base import *
 
-# # production will override base
-# from .production import *
+# production will override base
+from .production import *
 
-# # local will override production and base
-# # not sure why it's in a try block
-# try:
-# 	from .local import *
-# except:
-# 	pass
+# local will override production and base
+# not sure why it's in a try block
+try:
+	from .local import *
+except:
+	pass
 
 # This will make sure the app is always imported when
 # Django starts so that shared_task will use this app.
