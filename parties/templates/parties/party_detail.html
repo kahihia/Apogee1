@@ -119,10 +119,10 @@
 
 
 								<!-- Bid functionality -->
-								{% if not serialized.is_owner and serialized.event_type == 2 %}
+								{% if not serialized.is_owner and serialized.event_type == 2 and not serialized.did_join %}
 									<form id= "bid-submit" method="GET">
 										<div class="col-sm-12" id="div_bid_amount">
-											<input type="number" step="0.01" id="bid_amount" name="bid_amount"  {{ serialized.bid_amount }} >
+											<input type="number" step="0.01" id="bid_amount" name="bid_amount" value="{{serialized.minimum_bid}}"  {{ serialized.bid_amount }} >
 										</div>
 									</form>
 									<div class="col-sm-20">
@@ -225,8 +225,6 @@
 
 	<!-- if the user is the owner, they get a second section that 
 	allows the owner to update and delete -->
-	{{serialized.user.id}}
-	{{request.user.id}}
 	{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
 	<div class='col-sm-8 offset-sm-2 border grey-background rounded mt-3'>
 		<a href='{{serialized.id}}/delete/'>
