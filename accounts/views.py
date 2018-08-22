@@ -54,7 +54,7 @@ class UserRegisterView(FormView):
             captcha_good = config('ALLOW_REGISTRATION')
         else:
             captcha_good = config('CAPTCHA_OFF')
-           # captcha_good = True
+        # captcha_good = True
         #Do captcha validation
         if captcha_good and self.request.POST.get('tos'):
             new_user = User.objects.create(username=username, email=email)
@@ -64,7 +64,9 @@ class UserRegisterView(FormView):
             emailer.email('Account Registration Success', 'team@apogee.gg', [email], 'creation_email.html', email_data)
 
         else:
-            return HttpResponseRedirect("/register")
+            context={'Error':"ERROR"}
+            return render(request, 'accounts/templates/account/user_register_form.html', context)
+           # return HttpResponseRedirect("/register")
         return super(UserRegisterView, self).form_valid(form)
         
 
