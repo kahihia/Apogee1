@@ -57,7 +57,7 @@ urlpatterns = [
 	path('tz/', set_timezone, name='set_timezone'),
 	path('stats/', include('userstatistics.urls', namespace='statistics')),
 	path('payout/', include('payout.urls', namespace='payout')),
-	path('tos', TOSView.as_view(), name='tos')
+	path('terms', TOSView.as_view(), name='terms')
 	#url(r'^.*$', RedirectView.as_view(url='', permanent=False), name='index')
 	#Deprecated path to bids, bid views not available to users
 	#path('bids/', include('bids.urls', namespace='bids'))
