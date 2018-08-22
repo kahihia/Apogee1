@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     # third party stuff
     'crispy_forms',
     'rest_framework',
-    'storages',
+    # 'storages',
     # 'paypal.standard.ipn',
 ]
 
