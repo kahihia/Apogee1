@@ -118,7 +118,7 @@
 
 		<!-- payment stuff -->
 		<div class='col-sm-2 my-3 text-right'>
-			{% if request.user.is_authenticated and request.user.id is object.user.id %}
+			{% if request.user.is_authenticated and request.user.id == object.id %}
 			<!-- <a class='button' href="{% url 'payout:info' %} disabled">Payout: ${{object.profile.account_balance}}</a> -->
 			<a href="{% url 'payout:info' %}">
 				<button>Payout: ${{object.profile.account_balance}}</button>
