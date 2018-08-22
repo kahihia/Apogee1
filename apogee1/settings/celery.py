@@ -9,6 +9,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'apogee1.settings.local')
 
 # this just creates an instance for us to use. not what the name matters for
 app = Celery('apogee1')
+
+############## This needs to be commented out for local ###############
 app.conf.update(BROKER_URL=os.environ['REDIS_URL'],
                 CELERY_RESULT_BACKEND=os.environ['REDIS_URL'])
 # Using a string here means the worker doesn't have to serialize
