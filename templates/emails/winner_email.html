@@ -1,4 +1,4 @@
-{% extends 'base_email.html' %}
+{% extends 'emails/base_email.html' %}
 
 {% block title %}
     {{ block.super }} | Welcome
@@ -9,4 +9,4 @@
 	<p>You're event is on {{ date }} with {{creator}}!</p>
 {% endblock content %}
 
-{% include 'email_footer.html' %}
+{% include 'emails/email_footer.html' %}
