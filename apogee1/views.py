@@ -15,8 +15,9 @@ from apogee1.utils.auth.auth import get_blocking_lists
 User = get_user_model()
 
 class TOSView(View):
-	template_name = 'apogee1/tos.html'
-
+	def get(self, request, *args, **kwargs):
+		print("HERE I AMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM")
+		return render(request, 'tos.html', context)
 # this is the default home page from when the app starts
 class HomeView(View):
 	def get(self, request, *args, **kwargs):
