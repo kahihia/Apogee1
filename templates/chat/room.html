@@ -4,26 +4,22 @@
 {% block script %}
   <script type="text/javascript" src='{% static "js/eventmessages/reconnecting-websocket.min.js" %}'></script>
   <script type="text/javascript" src='{% static "js/eventmessages/chat.js" %}'></script>
-  <script type="text/javascript">
-    $("#message").css('display', 'none')
-    $(".blur").css('filter', 'blur(3px)')
-  </script>
-{% endblock script %}
-
-{% block content %}
-{% load staticfiles %}
-
 
 {% if serialized.is_owner %}
   <script type="text/javascript">
-    $("#message").css('display', 'block')
-    $(".blur").css('filter', 'none')
+    document.addEventListener('DOMContentLoaded', function(){
+      $("#message").css('display', 'block')
+      $(".blur").css('filter', 'none')
+    });
   </script>
 
 {% elif not serialized.did_join%}
     <script type="text/javascript">
-      $("#message").css('display', 'none')
-      $(".blur").css('filter', 'blur(3px)')
+      document.addEventListener('DOMContentLoaded', function(){
+        $("#message").css('display', 'none')
+        $(".blur").css('filter', 'blur(3px)')
+      });
+
     </script>
     <style>
         .blur {
@@ -35,14 +31,21 @@
             display: none;
         }
     </style>
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="blur-svg">
-        <defs>
-            <filter id="blur-filter">
-                <feGaussianBlur stdDeviation="3"></feGaussianBlur>
-            </filter>
-        </defs>
-    </svg>
 {% endif %}
+
+
+{% endblock script %}
+
+{% block content %}
+{% load staticfiles %}
+
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="blur-svg">
+    <defs>
+        <filter id="blur-filter">
+            <feGaussianBlur stdDeviation="3"></feGaussianBlur>
+        </filter>
+    </defs>
+</svg>
 
 <div class="blur">
   <form id="chatform" class="border">
