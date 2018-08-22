@@ -39,15 +39,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    #add django captcha here
     # these are our custom apps
     'parties',
     'accounts',
     'hashtags',
+    'bids',
+    'notifications',
+    'userstatistics',
 
     # third party stuff
     'crispy_forms',
     'rest_framework',
+    'storages',
+    # 'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # from django docs for setting the current session timezone
     'parties.middleware.TimezoneMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 # root url sets the main routing file. those then refer to the other url docs
@@ -100,8 +106,15 @@ WSGI_APPLICATION = 'apogee1.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'apogeetestdb',
+        'USER': 'caldwell',
+        'PASSWORD': 'apogeedb',
+        # 'NAME': 'mydb',
+        # 'USER': 'me',
+        # 'PASSWORD': 'pass',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
