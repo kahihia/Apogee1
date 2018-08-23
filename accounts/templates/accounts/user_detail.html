@@ -1,19 +1,25 @@
 <!-- This is the profile page for an individual user -->
 {% extends 'base.html' %}
 {% load recommended %}
-<!-- {% load static %} -->
+{% load static %}
 {% block title %}
 	{{ object.username }} | {{ block.super }}
+	{%if object.is_verified%}
+		<i class="fas fa-check-circle"></i>
+	{%endif%} 
+
 {% endblock title%}
 
 <!-- contains our custom JS -->
 {% block script %}
-<script src='{% static "js/parties/party-rendering-detail.js"%}'></script>
+<script src='{% static "js/parties/old.js"%}'></script>
+<script src='{% static "js/parties/party.js"%}'></script>
 <script>
 	// runs when page DOM is ready
 	$(document).ready(function(){
 		// tells us where the thumbnails go
 		loadPartyListContainer('party-container')
+		addStarFunctionality()
 	});
 </script>
 {% endblock script %}
@@ -22,29 +28,31 @@
 {% block content %}
 <!-- this div contains only the banner photo -->
 <div class='row'>
-	<div class='col-sm-10 offset-sm-1'>
-		<!-- object refers to the user object passed into the view. profile is the model connected to the user model -->
-		{% if object.profile.banner %}
-		<!-- the image source refers to the url property of the banner image in the profile of the user object. the url property is automatically created for any django imageField -->
-		<img src='{{ object.profile.banner.url }}' class='img-fluid rounded mx-auto d-block' style='max-height: 350;'>
-		{% else %}
-		<!-- this is if we want a blank banner, but right now it just doesnt display if there isnt a banner -->
-		<!-- <img src='/media/banners/blank_banner.png' class='img-fluid rounded mx-auto d-block' style='max-height: 350;'> -->
-		{% endif %}
-	</div>
+	{% if object.profile.banner %}
+		<div style="border-bottom: 5px solid white; width: 100%; height: 300px; background-repeat: no-repeat; background-position: center; background-image: url('{{ object.profile.banner.url );"></div>
+	{% else %}
+		<div style="border-bottom: 5px solid white; width: 100%; height: 300px; background-position: center; background-image: url('/media/pacman_banner.png');"></div>
+	{% endif %}
+
 </div>
 <!-- this contains profile info, like picture, name, bio, etc -->
-<div class='row'>
+<div class='row pt-4 pb-4' style="background: rgba(255,255,255,0.1)">
 	<div class='col-sm-2 offset-sm-1 my-3'>
 		{% if object.profile.profile_picture %}
-		<img src='{{ object.profile.profile_picture.url }}' class="img-thumbnail rounded-circle float-left" style='max-height: 150;'>
+		<div class=" rounded-circle " style='height: 150px; width: 150px; overflow: hidden; border: 5px solid white'>
+			<img src='{{ object.profile.profile_picture.url }}' class="float-left" style='max-height: 150px;'>		
+		</div>
 		{% else %}
 		<!-- this is a blank profile pic, cause we at least need the circle to show. it only shows if the user doesnt have a profile-->
-		<img src='/media/profile_pics/blank_profile.png' class="img-thumbnail rounded-circle float-left" style='max-height: 150;'>
+		<img src='/media/profile_pics/blank_profile.png' class="rounded-circle float-left" style='height: 150px;'>
 		{% endif %}
 	</div>
 	<div class='col-sm-6 my-3'>
-		<h2>{{ object.username }}</h2>
+		<h2>{{ object.username }}
+		</h2>
+		{%if object.is_verified%}
+			<i class="fas fa-check-circle"></i>
+		{%endif%} 
 		<p>{{ object.profile.bio }}</p>
 		<div class='row'>
 			<div class='col-sm-4'>
@@ -61,38 +69,46 @@
 			</div>	
 		</div>
 	</div>
-	<!-- This controls the follow button appearance. the actual toggle is a method on the userprofile model -->
+	<!-- Follow button-->
 	<div class='col-sm-2 my-3 text-right'>
 		{% if object == request.user %}
-		<!-- no follow button if its your own profile -->
+
 		{% elif blocking %}
-		<!-- this is the follow button. if youre blocking
-		it says so. if youre blocked, it says so. otherwise, follow button -->
+		<!-- If blocked -->
 		<small class='text-muted'>User blocked</small>
 		{% elif blocked %}
-		<!-- theres no follow button if youre blocked -->
+
 		{% else %}
-		<a class='btn btn-outline-secondary mr-auto' href='{{ object.profile.get_follow_url }}'>
-			<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
-			{% if following %}Unfollow{% else %}Follow{% endif %}
-		</a>
+			{% if request.user.is_authenticated and request.user.id is not object.user.id %}
+				<a class='btn btn-outline-secondary mr-auto' href='{{ object.profile.get_follow_url }}'>
+					<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
+					{% if following %}Unfollow{% else %}Follow{% endif %}
+				</a>
+			{% else %}
+				<a class='btn btn-outline-secondary mr-auto' href='/register'>
+					<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
+					Follow
+				</a>				
+			{% endif %}
 		{% endif %}
 		
 		<!-- this is the user settings menu -->
 		<div class="dropdown mt-2">
-			{% if object == request.user %}
-			<a href="{{ request.user.profile.get_edit_url }}">
-		    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
-			</a>
-			{% else %}
-				{% if blocking %}
-				<a data-toggle="modal" data-target="#unblockModal">
+			{% if request.user.is_authenticated %}
+				{% if object == request.user %}
+				<a href="{{ request.user.profile.get_edit_url }}">
 			    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
 				</a>
 				{% else %}
-				<a data-toggle="modal" data-target="#blockModal">
-			    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
-				</a>
+					{% if blocking %}
+					<a data-toggle="modal" data-target="#unblockModal">
+				    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
+					</a>
+					{% else %}
+					<a data-toggle="modal" data-target="#blockModal">
+				    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
+					</a>
+					{% endif %}
 				{% endif %}
 			{% endif %}
 		</div>
@@ -152,7 +168,8 @@
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
-		<div class='ml-1' id='party-container' data-url='/api/{{ user.username }}/events/'></div>
+		<div class='ml-1 row' id='party-container' data-url='/api/{{ user.username }}/events/'>
+		</div>
 
 		<!-- this is our load more button for the pagination. loadmore is a method specified in the JS from base.html -->
 		<button type="button" class="btn btn-outline-secondary btn-sm btn-block" id='loadmore' style="display:none">Show More Events</button>

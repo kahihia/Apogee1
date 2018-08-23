@@ -13,6 +13,7 @@
 	<div class='col-sm-6 offset-sm-3 mt-3'>
 		<h1 class='text-center'>Sign Up</h1>
 		<!-- the id portion just allows us to call this with a particular id if we want. we arent currently using it -->
+
 		<form {% if form_id %} id='{{ form_id }}' {% endif %} class='form mt-3' method='POST' action=''>
 			<script src='https://www.google.com/recaptcha/api.js'></script>
 			{% csrf_token %}
@@ -20,6 +21,10 @@
 		    {{ form|crispy }}
 		    <!-- in django, the type submit enters the form into the view and then into the database -->
 		    <!-- captcha implementation -->
+		    <div> 
+		    	<input type="checkbox" name="tos" value="tos"> I have read Apogee's <a href="{% url 'terms' %}">Terms, Data Policy and Cookies Policy. </a> <br>
+		    	
+		    </div>
 		    <div class="g-recaptcha" data-sitekey="6LdvOGcUAAAAANZ6PU4WZ0fSwI0y0apDdHXC3Prq" name=
 		    "captcha"></div>
 		    <br/>

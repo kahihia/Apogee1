@@ -5,7 +5,7 @@ function loadPartyDetailContainer(partyContainerID, fetchOneId){
 
 function loadPartyListContainer(partyContainerID){
   renderPartyList(partyContainerID);
-  addStarFunctionality();
+  // addStarFunctionality();
 }
 
 function renderPartyList(partyContainerID){
@@ -74,7 +74,11 @@ function renderPartyList(partyContainerID){
 
         // if there are more pages in the API, the loadmore appears
         if (data.next) {
-          nextPartyUrl = data.next
+          if (data.next.includes('https:')) {
+            nextPartyUrl = data.next
+          } else {
+            nextPartyUrl = data.next.replace('http', 'https')
+          }
           $('#loadmore').css('display', 'inline-block')
         } else {
           $('#loadmore').css('display', 'none')
@@ -101,18 +105,23 @@ function renderPartyList(partyContainerID){
       // this iterates through the number of hands in the party list, 
       // then through the number of cards per hand, then formats the 
       // party and adds it to the HTML. each hand is its own div
-      for (let deck = 0; deck < partyList.length; deck += handSize) {
-        let deckHTML = '<div class="mb-4">'
-        for (let card = 0; card < handSize; card++) {
-          let cardIndex = deck + card
-          if (cardIndex < partyList.length) {
-            let partyValue = partyList[cardIndex]
-            let partyFormattedHtml = formatParty(partyValue)
-            deckHTML = deckHTML + partyFormattedHtml
-          }
-        }
-        deckHTML = deckHTML + '</div>'
-        partyContainer.append(deckHTML)
+      // for (let deck = 0; deck < partyList.length; deck += handSize) {
+      //   let deckHTML = '<div class="mb-4">'
+      //   for (let card = 0; card < handSize; card++) {
+      //     let cardIndex = deck + card
+      //     if (cardIndex < partyList.length) {
+      //       let partyValue = partyList[cardIndex]
+      //       let partyFormattedHtml = formatParty(partyValue)
+      //       deckHTML = deckHTML + partyFormattedHtml
+      //     }
+      //   }
+      //   deckHTML = deckHTML + '</div>'
+      //   partyContainer.append(deckHTML)
+      // }
+      for (let index=0; index<partyList.length; index+=1) {
+        let partyValue = partyList[index]
+        let partyFormattedHtml = formatParty(partyValue)
+        partyContainer.append(partyFormattedHtml)
       }
     }
   }
@@ -173,7 +182,7 @@ function renderPartyList(partyContainerID){
           '<br>' + partyValue.party_time_display + 
         '</small>' + 
         '<span class="float-right">' + 
-          '<a href="#" class="starBtn text-dark" data-id="' + partyValue.id + '">' + verb + '</a>' + 
+          '<a class="starBtn text-dark" data-id="' + partyValue.id + '">' + verb + '</a>' + 
         '</span>' + 
       '</div>' + 
     '</div>'

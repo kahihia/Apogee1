@@ -1,0 +1,89 @@
+<!-- This is the HTML for editing the user profile -->
+{% extends 'base.html' %}
+
+<!-- these provide the tab titles on the browser -->
+{% block title %}
+	Update Profile | {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+
+<div class="container" style="padding-top: 30px">
+	<div class="row">
+		<div class="col-md-4 offset-md-1">
+			<h1 style="color: white">Add funds</h1>
+			<hr style="color: white; border-color: white;background-color:white" />
+			<p class="white">Use the form to the right to add Apogee credits to your account. You can use these to get access with your</p>
+		</div>
+		<div class="col-md-4 offset-md-1">
+			<div class="form-group">
+		    <label for="paypal-input">Amount of credits to add to account</label>
+				<input class="form-control" type="number" id="paypal-input" min="5" max="1000" value="10">
+				<div id="paypal-button" class="mt-3"></div>
+		  </div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 40px">
+		<div class="col-md-4 offset-md-1">
+			<h1 style="color: white">Withdraw Funds</h1>
+			<hr style="color: white; border-color: white;background-color:white" />
+			<p class="white">Payout your account with the button to the right.</p>
+		</div>
+		<div class="col-md-4 offset-md-1">
+			<!-- payment stuff -->
+			{% if request.user.is_authenticated and request.user.id == user.id %}
+			<a href="{% url 'payout:info' %}">
+				<button class="btn btn-outline-secondary btn-block">Payout: ${{user.profile.account_balance}}</button>
+			</a> 
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+(function(){
+	paypal.Button.render({
+		env: 'sandbox',
+		client: {
+			sandbox: 'AYVs-7u_YV5YGnV2c8q4L0i8Ke6iZjVwY6JoumipioAh-8do6ZHCC9sYP94PpS62ZTbdqVTCNV39h0uw'
+		},
+		payment: function (data, actions) {
+			var requestedAmount = document.getElementById('paypal-input').value
+			if (!requestedAmount || isNaN(requestedAmount) || requestedAmount < 5) {
+				alert('Invalid requested amount.')
+			}
+			return actions.payment.create({
+				transactions: [{
+					amount: {
+						total: requestedAmount,
+						currency: 'USD',
+					},
+					custom: '{{ user.id }}',
+		            description:  'Adding to Apogee Account Balance: $' + requestedAmount + ' event {{user.id}}' ,
+		      item_list: {
+		        items: [
+		          {
+		            name: 'Add funds to {{ user.username }}',
+		            description:  'Adding to Apogee Account Balance: $' + requestedAmount + ' event {{user.id}}' ,
+		            quantity: '1',
+		            price: requestedAmount,
+		            tax: '0.01',
+		            currency: 'USD'
+		          }
+		        ],
+		      }
+				}]
+			});
+		},
+		onAuthorize: function (data, actions) {
+			return actions.payment.execute()
+				.then(function () {
+					window.alert('Thank you for your purchase!');
+				});
+		}
+	}, '#paypal-button');
+})()
+</script>
+{% endblock content %}

@@ -15,7 +15,8 @@ a create event button, and the event thumbnails-->
 
 
 
-<script src='{% static "js/parties/party-rendering-detail.js"%}'></script>
+<script src='{% static "js/parties/old.js"%}'></script>
+<script src='{% static "js/parties/party.js"%}'></script>
 <script>
 // runs when page DOM is ready
 $(document).ready(function() {
@@ -23,8 +24,20 @@ $(document).ready(function() {
     loadPartyListContainer('party-container')
     loadPartyListContainer('trending-container')
     loadPartyListContainer('closing-container')
+    // addStarFunctionality()
 });
 </script>
+
+<!-- only adds the star function if the user is logged in -->
+{% if request.user.is_authenticated %}
+<script>
+// runs when page DOM is ready
+$(document).ready(function() {
+    addStarFunctionality()
+});
+</script>
+{% else %}
+{% endif %}
 {% endblock script %}
 {% block content %}
 

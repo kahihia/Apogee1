@@ -1,0 +1,58 @@
+{% load static %}
+
+<!-- this is our custom js -->
+{% block script %}
+  <script type="text/javascript" src='{% static "js/eventmessages/reconnecting-websocket.min.js" %}'></script>
+  <script type="text/javascript" src='{% static "js/eventmessages/chat.js" %}'></script>
+
+{% if serialized.is_owner %}
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function(){
+      $("#message").css('display', 'block')
+      $(".blur").css('filter', 'none')
+    });
+  </script>
+
+{% elif not serialized.did_join%}
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function(){
+        $("#message").css('display', 'none')
+        $(".blur").css('filter', 'blur(3px)')
+      });
+
+    </script>
+    <style>
+        .blur {
+            filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='3');
+            filter: url(#blur-filter);
+            filter: blur(3px);
+        }
+        .blur-svg {
+            display: none;
+        }
+    </style>
+{% endif %}
+
+
+{% endblock script %}
+
+{% block content %}
+{% load staticfiles %}
+
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="blur-svg">
+    <defs>
+        <filter id="blur-filter">
+            <feGaussianBlur stdDeviation="3"></feGaussianBlur>
+        </filter>
+    </defs>
+</svg>
+
+<div class="blur">
+  <form id="chatform" class="border">
+    <div id="histLoad" class='col-xs-12'><p class="text-center">Load More Messsages</p></div>
+    <div id="chat" class="party-chat-box"></div>
+      <input style="position: absolute; bottom: -13px" id="message" type="text" placeholder="message">
+  </form>
+</div>
+
+{% endblock content %}

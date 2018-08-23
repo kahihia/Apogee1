@@ -18,38 +18,38 @@
 <div class="d-flex nav-active-border home-nav stats-nav">
     <ul class="nav">
         <li class="nav-item">
-            <a class="nav-link pt-4 pb-4 mb-2 active show" href="#" data-toggle="tab" data-target="#tab_1">General</a>
+            <a class="nav-link pt-4 pb-4 mb-2 active show" id ="general_btn" href="#" data-toggle="tab" data-target="#tab_1">General</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_2">Lottery</a>
+            <a class="nav-link pt-4 pb-4 mb-2" id ="lottery_btn" href="#" data-toggle="tab" data-target="#tab_2">Lottery</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_3">Bid</a>
+            <a class="nav-link pt-4 pb-4 mb-2" id ="bid_btn" href="#" data-toggle="tab" data-target="#tab_3">Bid</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_4">Buy</a>
+            <a class="nav-link pt-4 pb-4 mb-2" id ="buyout_btn" href="#" data-toggle="tab" data-target="#tab_4">Buy</a>
         </li>
     </ul>
 </div>
 
 <!-- all of the number based statistics -->
-<div id ="number_statistics">
+<div id ="number_statistics" class="row">
 	<!-- Number of events div -->
-	<div id='num_events'>
+	<div id='num_events' class="col-md-3">
 		<p> 
 			<div id="num_events_description"></div>
 			<div id="num_events_val"></div>
 		</p>
 	</div>
 	<!-- total earnings div -->
-	<div id='total_earnings'>
+	<div id='total_earnings'  class="col-md-3">
 		<p> 
 			<div id="total_earnings_description"></div>
 			<div id="total_earnings_val"></div>
 		</p> 
 	</div>
 	<!-- Average earnings div -->
-	<div id='average_earnings'>
+	<div id='average_earnings'  class="col-md-3">
 		<p> 
 			<div id="average_earnings_description"></div>
 			<div id="average_earnings_val"></div>
@@ -57,7 +57,7 @@
 	</div>
 	<!-- Misc div -->
 	<!-- for data that isn't constant across all events  -->
-	<div id='misc'>
+	<div id='misc' class="col-md-3">
 		<p> 
 			<div id="misc_description"></div>
 			<div id="misc_val"></div>
@@ -66,10 +66,12 @@
 </div>
 
 <!-- Graphs for join/star times div -->
-<div id= 'graphic_display'>
-	<div id= 'join_time'></div>
-	<div id= 'star_time'></div>
-	<div id= 'join_event_time'></div>
-	<div id= 'star_event_time'></div>
+<div id= 'graphic_display' class="row">
+	<div class="col-md-10 offset-md-1">
+		<div id= 'join_time'></div>
+		<div id= 'star_time'></div>
+		<div id= 'join_event_time'></div>
+		<div id= 'star_event_time'></div>		
+	</div>
 </div>
 

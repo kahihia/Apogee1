@@ -155,6 +155,12 @@ class UserProfile(models.Model):
 
 	new_notifications = models.BooleanField(default=False)
 
+	#To verify important users
+	is_verified 		= models.BooleanField(default=False)
+
+	account_balance = models.DecimalField(max_digits=12,\
+	 							decimal_places=2, default=0)
+
 	# this is the same as calling UserProfile.objects.all()
 	# it just connects to the manager
 	objects = UserProfileManager()

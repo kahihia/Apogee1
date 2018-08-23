@@ -67,10 +67,11 @@ function firstRender(){
 //Does reverse for button that was passed through
 //sets currently selected button (global) to the id of the new button
 function fillSelected(button, id){
-	$(currSelected).removeClass('btn btn-secondary');
-	$(currSelected).addClass('btn btn-outline-secondary');
-	$(button).removeClass('btn btn-outline-secondary');
-	$(button).addClass('btn btn-secondary');
+	// we dont need the formatting done here. it just tells us what's been clicked
+	// $(currSelected).removeClass('btn btn-secondary');
+	// $(currSelected).addClass('btn btn-outline-secondary');
+	// $(button).removeClass('btn btn-outline-secondary');
+	// $(button).addClass('btn btn-secondary');
 	currSelected = id;
 }
 //render chart loads in google tools
@@ -275,6 +276,7 @@ function drawJoinChart() {
         title: graphTitle,
         width: graphWidth,
         height: graphHeight,
+        backgroundColor: '#efefef',
         hAxis: {
           title: 'Time',
           format: 'h:mm a',
@@ -337,6 +339,7 @@ function drawJoinEventChart() {
         title: graphTitle,
         width:graphWidth,
         height:graphHeight,
+        backgroundColor: '#efefef',
         hAxis: {
           title: 'Time',
           format: 'h:mm a',
@@ -398,6 +401,7 @@ function drawStarChart() {
     title: graphTitle,
     width:graphWidth,
     height:graphHeight,
+    backgroundColor: '#efefef',
     hAxis: {
       title: 'Time',
       format: 'h:mm a',
@@ -463,6 +467,7 @@ function drawStarEventChart() {
         title: graphTitle,
         width:graphWidth,
         height:graphHeight,
+        backgroundColor: '#efefef',
         hAxis: {
           title: 'Time',
           format: 'h:mm a',

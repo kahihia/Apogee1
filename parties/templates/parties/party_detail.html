@@ -1,41 +1,239 @@
 <!-- this is for the single event page -->
 {% extends 'base.html' %}
-<!-- {% load static %} -->
+{% load tz %}
+{% load static %}
 <!-- tab title in browser -->
 {% block title %}
-	{{ object.title }} | {{ block.super }}
+	{{ serialized.title }} | {{ block.super }}
 {% endblock title %}
 
-<!-- contains our custom JS -->
 {% block script %}
-<script src='{% static "js/parties/party-rendering-detail.js"%}'></script>
-<script>
-
-	// runs when page DOM is ready
-	$(document).ready(function(){
-		// we pass a second id parameter so that our JS knows that
-		// we're working with a single event, rather than a list 
-		loadPartyDetailContainer('party-container', {{ object.id }});
-		$('#delete').css('display', 'inline-block')
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src='{% static "js/parties/party.js"%}?q={% now "U" %}'></script>
+<script src='{% static "js/eventmessages/chat.js"%}?q={% now "U" %}'></script>
+<script type="text/javascript">
+	addStarFunctionality();
+	addJoinFunctionality();
+	addReportFunctionality();
+	setupChatRoom();
+	updateHashLinks()
+	getMessages(false, function(messages){
+		messages.forEach(function(m){
+		  appendMessage(m)
+		});
+        var chatBox = document.getElementById("chat");
+        chatBox.scrollTop = chatBox.scrollHeight;
 	});
 </script>
 {% endblock script %}
+
+
+<!-- contains our custom JS -->
 {% block content %}
+
 <div class='row mt-4'>
-	<div class='col-sm-8 offset-sm-2'>
-		<div id='party-container'></div>
+
+	<div class='col-sm-10 offset-sm-1'>
+		
+		<div class='rounded mt-3'>
+			<div id='party-container'>
+				<div id="party-room-id" style="display:none">{{serialized.id}}</div>
+				<div class="row mt-3">
+					<div class="col-sm-4">  
+
+						<!-- Event Image -->
+							<img class="img-fluid rounded mx-auto" src="{{serialized.thumbnail_url}}" alt="not here"> 
+
+							<div class="row mt-3"> 
+								<!-- Cost/Bid -->
+								<div class="col-sm-12"> 
+									{% if serialized.cost == 0 %}
+										<p class="text-muted"> FREE </p> 
+									{% endif %}
+									{% if serialized.event_type == 1 %}
+										<p class="text-muted">
+											<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i>
+											${{serialized.cost}}
+										</p>
+									{% endif %}
+									{% if serialized.event_type == 2 %}
+											<p class="text-muted">
+												<i class="fas fa-gavel grey-color" data-toggle="tooltip" data-placement="top" title="Auction"></i> 
+												$<span name="min_bid">{{serialized.minimum_bid}}</span>
+												<small class="text-muted"> bid to beat</small>
+											</p>
+									{% endif %}
+									{% if serialized.event_type == 3 %}
+											<p class="text-muted"><span name="num_curr_winners"> {{serialized.num_curr_winners}} 
+											</span> <small class="text-muted">Spots taken</small></p>
+											<p class="text-muted">
+											<i class="fas fa-donate grey-color" data-toggle="tooltip" data-placement="top"></i>
+											${{serialized.cost}}
+										</p>
+									{% endif %}
+								</div>
+
+								<!-- Time Until Close -->
+								<div class="col-sm-12"> 
+									{% if serialized.is_open %}
+									<p class="text-muted"> 
+										{{ serialized.timeuntil}} <small class="text-muted"> until close</small>
+									</p>
+									{% endif %}
+								</div>
+
+								<!-- # Joined -->
+								{% if serialized.event_type == 1 %}
+								<div class="col-sm-12"> 
+									<p class="text-muted"><span name="num_joined"> {{serialized.joins}} </span> <small class="text-muted">Joined</small></p>
+								</div>
+								{% endif %}
+
+								<!-- Max Entrants -->
+								<div class="col-sm-12"> 
+									{% if serialized.maxentrants == null %}
+										<p class="text-muted">Unlimited<small class="text-muted"> entrants</small></p>
+									{% else %}
+										<p class="text-muted"> {{ partyValue.max_entrants }}  
+										<small class="text-muted">Max entrants</small></p>
+									{% endif %}
+								</div>
+
+								<!-- Possible Winners -->
+								<div class="col-sm-12"> 
+									{% if serialized.event_type == 3 %}
+										<p class="text-muted"> {{serialized.num_possible_winners}}
+										 <small class="text-muted">Spots total</small></p>
+									{% else %}
+										<p class="text-muted"> {{serialized.num_possible_winners}} <small class="text-muted">Winners possible</small></p>
+									{%endif%}
+								</div>
+
+								{%if not serialized.is_owner%}
+								<div class="col-sm-12"> 
+									 <button type="button" class="reportBtn" id="detailReport" data-id="{{serialized.id}}"> 
+									 	Report
+									</button> 
+								</div>
+								{%endif%}
+
+
+								<!-- Bid functionality -->
+								{% if not serialized.is_owner and serialized.event_type == 2 and not serialized.did_join %}
+									<form id= "bid-submit" method="GET">
+										<div class="col-sm-12" id="div_bid_amount">
+											<input type="number" step="0.01" id="bid_amount" name="bid_amount" value="{{serialized.minimum_bid}}"  {{ serialized.bid_amount }} >
+										</div>
+									</form>
+									<div class="col-sm-20">
+										<input type="hidden" name="party_id" value="{{partyValue.id}}">
+									</div>
+								{%endif%}
+							</div>
+
+							<!-- Button Bid/Buy/Join -->
+							<div class="row"> 
+								{% if not serialized.is_owner and not serialized.did_join and request.user.is_authenticated %}
+									{% with "Enter Lottery" as lottery_text %}  
+									{% with "Submit a Bid" as bid_text %}  
+									{% with "Buy Event" as buy_text %}  
+									<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> 
+										{% if serialized.event_type == 1 %}
+											{{ lottery_text }} 
+										{% elif serialized.event_type == 2 %}
+											{{ bid_text }} 
+										{% elif serialized.event_type == 3 %}
+											{{ buy_text }} 
+										{% endif %}
+									</button>
+								{% endwith %}
+								{% endwith %}
+								{% endwith %}
+								{% endif %}
+								{% if not request.user.is_authenticated %}
+									<a href="/register">
+										<button type="button" class="btn btn-outline-secondary btn-block m-3"> Sign up to join </button>										
+									</a>
+								{% endif %}
+							</div> 
+							{% if serialized.did_join %}
+									<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" disabled> Joined </button>
+							{% endif %}
+
+							{% if not serialized.is_open %}
+							<div class="row">
+								<p class="mx-auto lead text-center text-muted">This Event Has Ended</p>
+							</div>
+							{% endif %}
+							{% if serialized.winner_names.length > 0 %}
+								<div class="row mt-3">
+									<h1 class="mx-auto"> {{partyValue.winner_names}} is the winner!</h1>
+								</div>
+							{% else %}
+								{{serialized.winner}} 
+							{% endif %}
+
+					</div>
+
+					{#  Event Details Panel #}
+					<div class="col-sm-8">
+						<div class="row">
+							<div class="col-sm-12">
+								<h1 style="word-wrap: break-word;"> {{serialized.title }} 
+
+									<!-- If event is closed -->
+									{% if not serialized.is_open %}
+										<span class="float-right" data-toggle="tooltip" data-placement="top" title="Event Closed">
+											<i class="fas fa-ban grey-color"></i>
+										</span>
+									{% endif %}
+									<!-- Favorite Functionality -->
+									<span class="float-right"> 
+										<a href="#" class="starBtn text-dark" id="detailStar" data-id="{{serialized.id}}"> 
+											{% if serialized.did_star %}
+												<i class="fa fa-star yellow-color" id="starColor"></i> 
+											{% else %}
+												<i class="fa fa-star grey-color" id="starColor"></i> 
+											{% endif %}
+										</a> 
+									</span> 
+								</h1>
+								<!-- Details on event -->
+								<small class="text-muted">With  
+									<a class="text-dark" href=" {{serialized.user.url}} "> {{serialized.user.username}} </a>
+
+									{%if serialized.user.is_verified%}
+										<i class="fas fa-check-circle"></i>
+									{%endif%} 
+									<span class="float-right"> {{serialized.price}} </span>
+									on  {{serialized.party_time_display}}
+								</small>
+								<br> 
+								<p class="lead mt-4" style="word-wrap: break-word;"> {{serialized.description}} </p> 
+							</div>
+							<div class='col-sm-12'>
+								{% include 'chat/room.html' %}	
+							</div>
+						</div>
+					</div>
+
+				</div>	
+			</div>
+		</div>
+
 	</div>
 
 	<!-- if the user is the owner, they get a second section that 
 	allows the owner to update and delete -->
-	{% if object.user == request.user %}
-	<div class='col-lg-2 offset-lg-5 col-xs-2 offset-xs-5'>
-		<a href='delete/'>
-			<button type='button' class='btn btn-danger btn-block my-3' id='delete' style='display:none'>Delete Event</button>
-		</a>
-	</div>
+	{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
+	<div class='col-sm-8 offset-sm-2 border grey-background rounded mt-3'>
+		<a href='{{serialized.id}}/delete/'>
+			<button type='button' class='btn btn-outline-danger btn-block my-3' id='delete'>Delete Event</button>
+		</a>				
 
-	{% else %}
+	</div>
 	{% endif %}
+
 </div>
+
 {% endblock content %}

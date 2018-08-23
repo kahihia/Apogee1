@@ -31,7 +31,7 @@ SECRET_KEY = config('SECRET_KEY')
 #HEROKU 
 #DEBUG = True
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['.apogee.gg']
+ALLOWED_HOSTS = [config('DJANGO_ALLOWED_HOSTS')]
 
 #'apogee1.herokuapp.com',
 AWS_QUERYSTRING_AUTH = False
@@ -42,7 +42,14 @@ MEDIA_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 AWS_S3_REGION_NAME = config('REGION_NAME')
 
-
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [config('REDIS_URL')],
+        },
+    },
+}
 
 # Application definition
 
@@ -61,12 +68,14 @@ INSTALLED_APPS = [
     'bids',
     'notifications',
     'userstatistics',
+    'event_payment',
+    'payout',
+    'eventmessages',
 
     # third party stuff
     'crispy_forms',
     'rest_framework',
     'storages',
-    # 'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -80,8 +89,6 @@ MIDDLEWARE = [
     # from django docs for setting the current session timezone
     'parties.middleware.TimezoneMiddleware',
 ]
-
-# PAYPAL_TEST = True
 
 
 # root url sets the main routing file. those then refer to the other url docs
@@ -116,7 +123,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'apogee1.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

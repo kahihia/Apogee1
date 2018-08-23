@@ -47,6 +47,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	# tells us if requestuser was the one who created this event. 
 	is_owner = serializers.SerializerMethodField()
 	num_curr_winners = serializers.SerializerMethodField()
+	verified = serializers.SerializerMethodField()
 
 	class Meta:
 		# the API is built on the party model
@@ -78,7 +79,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'num_possible_winners',
 			'num_curr_winners',
 			'minimum_bid',
-			'max_entrants', 
+			'max_entrants',
+			'verified' 
 		]
 
 	# method if you want the human readable format of the event type
@@ -121,8 +123,11 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		# k.key = obj.id # for example, 'images/bob/resized_image1.png'
 		# k.get_contents_from_file()
 		#return "https://s3-us-west-1.amazonaws.com/apogee-assets/thumbnails/2018/07/17/HovaGolfWithFriends.jpg"
-		return obj.thumbnail.url
-
+		if obj.thumbnail and hasattr(obj.thumbnail, 'url'):
+			return obj.thumbnail.url
+		else:
+			return None 
+			
 	# requires try block because it may throw an error
 	def get_did_star(self, obj):
 		request = self.context.get('request')
@@ -134,6 +139,9 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		except:
 			pass
 		return False
+
+	def get_verified(self, obj):
+		return obj.user.profile.is_verified
 
 	def get_did_join(self, obj):
 		request = self.context.get('request')

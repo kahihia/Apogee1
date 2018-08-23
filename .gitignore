@@ -1,8 +1,11 @@
 *.pyc
 *\__pycache__\*
 *__pycache__*
+*/migrations/*
 myvenv
 venv
+static-serve
+*.env
 db.sqlite3
 /static
 .DS_Store
