@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     # third party stuff
     'crispy_forms',
     'rest_framework',
+    'datetimepicker',
     'storages',
 ]
 

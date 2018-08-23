@@ -6,32 +6,37 @@ function check_event_type(type) {
   if(type == 1) {
     // the id tells us where our change is supposed to occur
     // this unhides the max entrants field
-    $('#div_id_max_entrants').prop('hidden', false);
+    toggleField("#id_max_entrants", false)
     // this hides the minimum bid field
-    $('#div_id_minimum_bid').prop('hidden', true);
+    toggleField("#id_minimum_bid", true)
     // this sets the text for the num winners field
-    $("#div_id_num_possible_winners").children('label').text('Number of possible winners*');
+    $("label[for=id_num_possible_winners]").text('Number of possible winners*');
     // this sets the text for cost
-    $("#div_id_cost").children('label').text('Cost ($)*');
+    $("label[for=id_cost]").text('Cost ($)*');
   // if the event is an auction
   } else if (type == 2) {
     // this hides the max entrants field
-    $('#div_id_max_entrants').prop('hidden', true);
+    toggleField("#id_max_entrants", true)
     // this hides the minimum bid field
-    $('#div_id_minimum_bid').prop('hidden', false);
+    toggleField("#id_max_entrants", false)
     // this sets the text for the num winners field
-    $("#div_id_num_possible_winners").children('label').text('Number of possible winners*');
+    $("label[for=id_num_possible_winners]").text('Number of possible winners*');
      // this sets the text for cost
-    $("#div_id_cost").children('label').text('Starting Bid ($)*');
+    $("label[for=id_cost]").text('Starting Bid ($)*');
   // if the event is a buy
   } else {
     // this hides the max entrants field
-    $('#div_id_max_entrants').prop('hidden', true);
+    toggleField("#id_max_entrants", true)
     // this hides the minimum bid field
-    $('#div_id_minimum_bid').prop('hidden', true);
+    toggleField("#id_minimum_bid", true)
     // this sets the text for the num winners field
-    $("#div_id_num_possible_winners").children('label').text('Number of purchases available*');
+    $("label[for=id_num_possible_winners]").text('Number of purchases available*');
      // this sets the text for cost
-    $("#div_id_cost").children('label').text('Cost ($)*');
+    $("label[for=id_cost]").text('Cost ($)*');
   }
+}
+
+function toggleField(field, isShown){
+    $(field).prop('hidden', isShown);
+    $('label[for=' + field.replace('#', '') + ']').prop('hidden', isShown);
 }
