@@ -64,6 +64,8 @@ class UserRegisterView(FormView):
             emailer.email('Account Registration Success', 'team@apogee.gg', [email], 'creation_email.html', email_data)
 
         else:
+            from django.contrib import messages
+            messages.error(self.request, "Error!")
             context={'Error':"ERROR"}
             return render(self.request, 'accounts/user_register_form.html', context)
            # return HttpResponseRedirect("/register")
