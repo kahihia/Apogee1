@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     # third party stuff
     'crispy_forms',
     'rest_framework',
+    # 'storages',
+    # 'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +64,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # from django docs for setting the current session timezone
     'parties.middleware.TimezoneMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 # root url sets the main routing file. those then refer to the other url docs
