@@ -2,7 +2,7 @@ $(document).ready(function(){
 	addCheckboxFunctionality();
 });
 function addCheckboxFunctionality(){
-	$('#tos').click(function(e){
+	$('#tos').change(function(e){
   		e.preventDefault();
   		submit = document.getElementById("submit");
     	if (this.checked == true) submit.disabled = false;
