@@ -65,7 +65,7 @@ class UserRegisterView(FormView):
 
         else:
             context={'Error':"ERROR"}
-            return render(self.request, 'accounts/templates/account/user_register_form.html', context)
+            return render(self.request, 'accounts/user_register_form.html', context)
            # return HttpResponseRedirect("/register")
         return super(UserRegisterView, self).form_valid(form)
         
