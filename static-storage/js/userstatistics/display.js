@@ -276,6 +276,7 @@ function drawJoinChart() {
         title: graphTitle,
         width: graphWidth,
         height: graphHeight,
+        backgroundColor: '#efefef',
         hAxis: {
           title: 'Time',
           format: 'h:mm a',
@@ -338,6 +339,7 @@ function drawJoinEventChart() {
         title: graphTitle,
         width:graphWidth,
         height:graphHeight,
+        backgroundColor: '#efefef',
         hAxis: {
           title: 'Time',
           format: 'h:mm a',
@@ -399,6 +401,7 @@ function drawStarChart() {
     title: graphTitle,
     width:graphWidth,
     height:graphHeight,
+    backgroundColor: '#efefef',
     hAxis: {
       title: 'Time',
       format: 'h:mm a',
@@ -464,6 +467,7 @@ function drawStarEventChart() {
         title: graphTitle,
         width:graphWidth,
         height:graphHeight,
+        backgroundColor: '#efefef',
         hAxis: {
           title: 'Time',
           format: 'h:mm a',
