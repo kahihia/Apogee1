@@ -57,7 +57,7 @@ class UserRegisterForm(forms.Form):
 class UserProfileModelForm(forms.ModelForm):
 	# the altered form fields are for formatting on the create page
 	bio = forms.CharField(label='', required=False, widget=forms.Textarea(
-		attrs={'placeholder': 'Bio', 'class': 'form-control', 'rows': 3}
+		attrs={'placeholder': 'Bio', 'class': 'form-control col-md-6', 'rows': 3}
 		), help_text='Feel free to share as much or as little as you like. Personal history, games you like to play, etc.')
 	
 	# ImageFields have a url associated with them by default

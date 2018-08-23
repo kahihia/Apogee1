@@ -1,7 +1,7 @@
 <!-- This is the profile page for an individual user -->
 {% extends 'base.html' %}
 {% load recommended %}
-<!-- {% load static %} -->
+{% load static %}
 {% block title %}
 	{{ object.username }} | {{ block.super }}
 	{%if object.is_verified%}
@@ -28,25 +28,23 @@
 {% block content %}
 <!-- this div contains only the banner photo -->
 <div class='row'>
-	<div class='col-sm-10 offset-sm-1'>
-		<!-- object refers to the user object passed into the view. profile is the model connected to the user model -->
-		{% if object.profile.banner %}
-		<!-- the image source refers to the url property of the banner image in the profile of the user object. the url property is automatically created for any django imageField -->
-		<img src='{{ object.profile.banner.url }}' class='img-fluid rounded mx-auto d-block' style='max-height: 350;'>
-		{% else %}
-		<!-- this is if we want a blank banner, but right now it just doesnt display if there isnt a banner -->
-		<!-- <img src='/media/banners/blank_banner.png' class='img-fluid rounded mx-auto d-block' style='max-height: 350;'> -->
-		{% endif %}
-	</div>
+	{% if object.profile.banner %}
+		<div style="border-bottom: 5px solid white; width: 100%; height: 300px; background-repeat: no-repeat; background-position: center; background-image: url('{{ object.profile.banner.url );"></div>
+	{% else %}
+		<div style="border-bottom: 5px solid white; width: 100%; height: 300px; background-position: center; background-image: url('/media/pacman_banner.png');"></div>
+	{% endif %}
+
 </div>
 <!-- this contains profile info, like picture, name, bio, etc -->
-<div class='row'>
+<div class='row pt-4 pb-4' style="background: rgba(255,255,255,0.1)">
 	<div class='col-sm-2 offset-sm-1 my-3'>
 		{% if object.profile.profile_picture %}
-		<img src='{{ object.profile.profile_picture.url }}' class="img-thumbnail rounded-circle float-left" style='max-height: 150;'>
+		<div class=" rounded-circle " style='height: 150px; width: 150px; overflow: hidden; border: 5px solid white'>
+			<img src='{{ object.profile.profile_picture.url }}' class="float-left" style='max-height: 150px;'>		
+		</div>
 		{% else %}
 		<!-- this is a blank profile pic, cause we at least need the circle to show. it only shows if the user doesnt have a profile-->
-		<img src='/media/profile_pics/blank_profile.png' class="img-thumbnail rounded-circle float-left" style='max-height: 150;'>
+		<img src='/media/profile_pics/blank_profile.png' class="rounded-circle float-left" style='height: 150px;'>
 		{% endif %}
 	</div>
 	<div class='col-sm-6 my-3'>
@@ -71,16 +69,15 @@
 			</div>	
 		</div>
 	</div>
-	<!-- This controls the follow button appearance. the actual toggle is a method on the userprofile model -->
+	<!-- Follow button-->
 	<div class='col-sm-2 my-3 text-right'>
 		{% if object == request.user %}
-		<!-- no follow button if its your own profile -->
+
 		{% elif blocking %}
-		<!-- this is the follow button. if youre blocking
-		it says so. if youre blocked, it says so. otherwise, follow button -->
+		<!-- If blocked -->
 		<small class='text-muted'>User blocked</small>
 		{% elif blocked %}
-		<!-- theres no follow button if youre blocked -->
+
 		{% else %}
 			{% if request.user.is_authenticated and request.user.id is not object.user.id %}
 				<a class='btn btn-outline-secondary mr-auto' href='{{ object.profile.get_follow_url }}'>
@@ -115,18 +112,6 @@
 				{% endif %}
 			{% endif %}
 		</div>
-
-		<!-- payment stuff -->
-		<div class='col-sm-2 my-3 text-right'>
-			{% if request.user.is_authenticated and request.user.id == object.id %}
-			<!-- <a class='button' href="{% url 'payout:info' %} disabled">Payout: ${{object.profile.account_balance}}</a> -->
-			<a href="{% url 'payout:info' %}">
-				<button>Payout: ${{object.profile.account_balance}}</button>
-			</a> 
-			{% endif %}
-		</div>
-
-
 
 		<!-- this is the block confirm modal -->
 		<div class="modal fade" id="blockModal" tabindex="-1" role="dialog" aria-labelledby="blockModalTitle" aria-hidden="true">
