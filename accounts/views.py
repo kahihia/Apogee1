@@ -67,7 +67,7 @@ class UserRegisterView(FormView):
             from django.contrib import messages
             messages.error(self.request, "Error!")
             context={'Error':"ERROR"}
-            return render(self.request, 'accounts/user_register_form.html', context)
+            return render(self.request, 'accounts/user_register_form.html', {'form': form})
            # return HttpResponseRedirect("/register")
         return super(UserRegisterView, self).form_valid(form)
         
