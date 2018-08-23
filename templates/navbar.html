@@ -86,7 +86,7 @@
             </span>
           </a>
             <div class="dropdown-menu dropdown-menu-right w pt-2 mt-3 animate fadeIn">
-                <span class="dropdown-item dropdown-name">{{ user.username }}
+                <span class="dropdown-item dropdown-name">{{ request.user.username }}
                 {%if user.is_verified%}
                     <i class="fas fa-check-circle"></i>
                 {%endif%} 

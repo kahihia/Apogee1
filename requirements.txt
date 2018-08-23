@@ -15,6 +15,7 @@ twisted
 channels
 channels_redis
 service_identity
+django-datetimepicker
 
 amqp==2.2.2
 billiard==3.5.0.3
