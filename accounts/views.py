@@ -103,6 +103,7 @@ class UserDetailView(DetailView, LoginRequiredMixin):
         # in the html, we call both following and recommended. this is how those 
         # variables get passed through
         context['events'] = serialized_parties
+        context['request'] = self.request
         return context
 
 class FundsView(LoginRequiredMixin, DetailView):
