@@ -362,11 +362,12 @@ body {
 
 /* Party Detail */
 .party-chat-box {
-    height: 300px;
+    height: 400px;
     overflow-x: hidden;
     overflow-y: scroll;
     position: relative;
     z-index: 1;
+    padding: 10px 5px;
 }
 
 /* Messaging */
