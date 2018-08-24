@@ -49,7 +49,7 @@
 	</div>
 	<div class='col-sm-6 my-3'>
 		<h2>{{ object.username }}
-			{% if object.is_verified %}
+			{% if object.profile.is_verified %}
 				<span><i class="fas fa-check-circle"></i></span>
 			{% else %}
 			{% endif %} 

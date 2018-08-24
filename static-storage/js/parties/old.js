@@ -179,7 +179,7 @@ function renderPartyList(partyContainerID){
       '<div class="card-footer">' + 
         '<small class="text-muted">With ' + 
           '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + 
-          '<span>' + check_icon + '</span></a>' + 
+          '<span> ' + check_icon + '</span></a>' + 
           '<span class="float-right">' + price + ' ' + type_icon + '</span>' +
           '<br>' + partyValue.party_time_display + 
         '</small>' + 

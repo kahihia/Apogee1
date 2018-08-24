@@ -52,7 +52,7 @@ than in the parties templates -->
 					</div>
 					{% endif %}
 					<p class='ml-1' style="margin-bottom: 0px; height: 50px; padding-left: 75px; padding-top: 10px;"><span>{{ user.username }}</span><span><i class="fas fa-check-circle"></i></span><span>we're not in the verified piece</span>
-					{% if user.is_verified %}
+					{% if user.profile.is_verified %}
 					<span>we're in the verified piece</span>
 					<span><i class="fas fa-check-circle"></i></span>
 					{% else %}
