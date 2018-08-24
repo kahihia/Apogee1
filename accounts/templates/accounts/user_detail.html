@@ -50,9 +50,10 @@
 	<div class='col-sm-6 my-3'>
 		<h2>{{ object.username }}
 		</h2>
-		{%if object.is_verified%}
+		{% if object.is_verified %}
 			<span><i class="fas fa-check-circle"></i></span>
-		{%endif%} 
+		{% else %}
+		{% endif %} 
 		<p>{{ object.profile.bio }}</p>
 		<div class='row'>
 			<div class='col-sm-4'>
