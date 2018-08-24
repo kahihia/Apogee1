@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.views.generic import DetailView, FormView, UpdateView
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, login
 # views tell us what info is displayed, what methods we have acess to, 
 # and what our rendering files are
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -64,6 +64,8 @@ class UserRegisterView(FormView):
             new_user.save()
             email_data = {'username': username}
             emailer.email('Account Registration Success', 'team@apogee.gg', [email], 'creation_email.html', email_data)
+            login(self.request, new_user)
+            return HttpResponseRedirect("/")
 
         else:
             return HttpResponseRedirect("/register")
