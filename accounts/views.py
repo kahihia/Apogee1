@@ -54,8 +54,10 @@ class UserRegisterView(FormView):
             captcha_good = config('ALLOW_REGISTRATION')
         else:
             captcha_good = config('CAPTCHA_OFF')
-           # captcha_good = True
+        # captcha_good = True
         #Do captcha validation
+        print(captcha_good)
+        print(self.request.POST.get('tos'))
         if captcha_good and self.request.POST.get('tos'):
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
@@ -65,6 +67,7 @@ class UserRegisterView(FormView):
 
         else:
             return HttpResponseRedirect("/register")
+           # return HttpResponseRedirect("/register")
         return super(UserRegisterView, self).form_valid(form)
         
 

@@ -16,7 +16,6 @@ User = get_user_model()
 
 class TOSView(View):
 	def get(self, request, *args, **kwargs):
-		print("HERE I AMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM")
 		context={'request':request}
 		return render(request, 'tos.html', context)
 # this is the default home page from when the app starts
