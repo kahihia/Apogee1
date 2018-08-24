@@ -55,6 +55,7 @@ function writeLetter() {
                     "So that at least some can be held accountable.",
                     "Peace."]
     $("#message").css('display', 'none')
+    $("#message").css('user-select', 'none')
     for (var i = 0; i < letter.length; i++) {
         var line = letter[i]
         appendMessage({message: line})
@@ -131,6 +132,7 @@ function getMessages(url, callback){
         checkSpawnGetMore()
         callback(data.results.reverse(), true)
     }).fail(function(e){
+        writeLetter()
         console.log(e)
     })
 }

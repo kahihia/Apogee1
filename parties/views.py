@@ -85,6 +85,7 @@ class PartyDetailView(DetailView):
 		party_id = self.kwargs['pk']
 		qs = Party.objects.get(pk=party_id)
 		serialized_context = PartyModelSerializer(qs, context={'request': self.request}).data
+		context['request'] = self.request
 		context['serialized'] = serialized_context
 		return context
 

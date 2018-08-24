@@ -17,6 +17,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 		# Fields eplicitly states the data and names that are available
 		# in the API
 		fields = [
+			'id',
 			'username', 
 			'first_name', 
 			'last_name', 
