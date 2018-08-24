@@ -37,9 +37,9 @@ than in the parties templates -->
 			{% for user in users %}
 			<div class='mb-3'>
 				<a class='text-light' href='/profiles/{{ user.username }}'>
-				{%if user.is_verified%}
+				<!-- {%if user.is_verified%}
 					<i class="fas fa-check-circle"></i>
-				{%endif%} 
+				{%endif%}  -->
 
 					{% if user.profile.profile_picture %}
 					<div class=" rounded-circle " style='height: 50px; width: 50px; overflow: hidden; border: 1px solid white; float: left'>
@@ -52,9 +52,9 @@ than in the parties templates -->
 					</div>
 					{% endif %}
 					<p class='ml-1' style="margin-bottom: 0px; height: 50px; padding-left: 75px; padding-top: 10px;">{{ user.username }}
-					{%if user.is_verified%}
+					{% if user.is_verified %}
 						<i class="fas fa-check-circle"></i>
-					{%endif%} 
+					{% endif %} 
 					</p>
 				</a>
 			</div>
