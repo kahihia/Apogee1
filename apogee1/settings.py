@@ -150,7 +150,7 @@ TEMPLATES = [
         },
     },
 ]
-
+    
 WSGI_APPLICATION = 'apogee1.wsgi.application'
 
 CHANNEL_LAYERS = {
