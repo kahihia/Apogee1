@@ -99,6 +99,11 @@ body {
     padding: 0 30px;
 }
 
+.header-text {
+    display: flex;
+    align-items: center;
+}
+
 .header-wrapper h1 {
     letter-spacing: 0.05rem;
     font-family: "Museo Sans", sans-serif;
