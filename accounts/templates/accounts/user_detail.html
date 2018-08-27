@@ -29,9 +29,9 @@
 <!-- this div contains only the banner photo -->
 <div class='row'>
 	{% if object.profile.banner %}
-		<div style="border-bottom: 5px solid white; width: 100%; height: 300px; background-repeat: no-repeat; background-position: center; background-image: url('{{ object.profile.banner.url );"></div>
+		<div class="profile-banner" style="background-image: url('{{ object.profile.banner.url );"></div>
 	{% else %}
-		<div style="border-bottom: 5px solid white; width: 100%; height: 300px; background-position: center; background-image: url('/media/pacman_banner.png');"></div>
+		<div class="profile-banner" style="background-image: url('/media/pacman_banner.png');"></div>
 	{% endif %}
 
 </div>
