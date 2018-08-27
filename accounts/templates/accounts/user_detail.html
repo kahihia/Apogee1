@@ -48,11 +48,12 @@
 		{% endif %}
 	</div>
 	<div class='col-sm-6 my-3'>
-		<h2>{{ object.username }}
+		<h2>{{ object.username }} 
+			{% if object.profile.is_verified %}
+				<span><i class="fas fa-check-circle"></i></span>
+			{% else %}
+			{% endif %} 
 		</h2>
-		{%if object.is_verified%}
-			<i class="fas fa-check-circle"></i>
-		{%endif%} 
 		<p>{{ object.profile.bio }}</p>
 		<div class='row'>
 			<div class='col-sm-4'>
