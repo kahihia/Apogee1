@@ -89,18 +89,17 @@ body {
 }
 
 .header-wrapper {
-    max-width: 1440px;
+    max-width: 1110px;
     margin: 0 auto;
     padding: 0 30px;
-    vertical-align: middle;
 }
 
 .header-wrapper h1 {
     letter-spacing: 0.05rem;
     font-family: "Museo Sans", sans-serif;
     font-weight: 700;
-    font-size: 2.8rem;
-    margin: 0 0 80px;
+    font-size: 2.4rem;
+/*    margin: 0 0 80px;*/
     text-shadow: 2px 2px 0px hsla(270, 100%, 40%,.75);
     color: hsl(270, 100%, 100%);
 }
@@ -110,7 +109,7 @@ body {
     margin-top: 0;
     line-height: 1.5;
     font-weight: 700;
-    font-size: 1.45rem;
+    font-size: 1.25rem;
     text-shadow: none;
     padding: 0;
 }
@@ -134,7 +133,8 @@ body {
 /******************* User Profile Card CSS **************************/
 
 .card-profile {
-    width: 100% margin: 50px auto;
+    width: 100%;
+    margin: 50px auto;
     background: #fff;
     border-radius: 6px !important;
     border: none !important;
