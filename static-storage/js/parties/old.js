@@ -70,7 +70,11 @@ function renderPartyList(partyContainerID){
 
         // if there are more pages in the API, the loadmore appears
         if (data.next) {
-          nextPartyUrl = data.next
+          if (data.next.includes('https:')) {
+            nextPartyUrl = data.next
+          } else {
+            nextPartyUrl = data.next.replace('http', 'https')
+          }
           $('#loadmore').css('display', 'inline-block')
         } else {
           $('#loadmore').css('display', 'none')
@@ -174,7 +178,8 @@ function renderPartyList(partyContainerID){
       '</div>' + 
       '<div class="card-footer">' + 
         '<small class="text-muted">With ' + 
-          '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a>' + 
+          '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + 
+          '<span> ' + check_icon + '</span></a>' + 
           '<span class="float-right">' + price + ' ' + type_icon + '</span>' +
           '<br>' + partyValue.party_time_display + 
         '</small>' + 
