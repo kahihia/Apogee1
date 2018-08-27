@@ -42,6 +42,11 @@ body {
     padding: 0 !important;
 }
 
+.container-default {
+    max-width: 1110px;
+    margin: 0 auto;
+}
+
 .hero-section {
     background-color: hsl(270, 100%, 20%);
     background-attachment: fixed;
@@ -3214,7 +3219,7 @@ Layout
 
 @media (min-width: 992px) {
     .page-container {
-        max-width: 1140px;
+        max-width: 1110px;
         margin: 0 auto;
     }
     .page-sidenav {
