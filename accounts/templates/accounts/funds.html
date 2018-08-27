@@ -45,9 +45,10 @@
 <script>
 (function(){
 	paypal.Button.render({
-		env: 'sandbox',
+		env: '{{ paypal_env }}',
 		client: {
-			sandbox: 'AYVs-7u_YV5YGnV2c8q4L0i8Ke6iZjVwY6JoumipioAh-8do6ZHCC9sYP94PpS62ZTbdqVTCNV39h0uw'
+				sandbox: '{{ paypal_client_id }}',
+				production: '{{ paypal_client_id }}'
 		},
 		payment: function (data, actions) {
 			var requestedAmount = document.getElementById('paypal-input').value
