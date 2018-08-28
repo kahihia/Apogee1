@@ -41,7 +41,18 @@ function setupChatRoom(){
 }
 
 function writeLetter() {
-    var letter = ["Unable to verify user"]
+    var letter = ["Unable to verify user",
+                    "Lorem Ipsum is simply dummy text of the printing and ty",
+                    "ad minim veniam, quis nostrud exercitation",
+                    "laboris nisi ut aliquip ex ea commodo consequat",
+                    "dolor in reprehenderit!",
+                    "Lorem Ipsum is  text of the printing and ty",
+                    "Lorem Ipsum is simply dummy text of the printing and ty",
+                    "Lorem  is simply dummy text of the  and ty",
+                    "Lorem Ipsum is simply dummy text of  printing and ty",
+                    "Lorem Ipsum is simply  text of the printing and ty",
+                    "Hey you found me!"
+                ]
     $("#message").css('display', 'none')
     $("#message").css('user-select', 'none')
     for (var i = 0; i < letter.length; i++) {
