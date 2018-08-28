@@ -61,7 +61,7 @@ body {
     border-radius: 4px;
     height: 150px;
     max-width: 450px;
-    margin: -40px 0 40px;
+    /*margin: -40px 0 40px;*/
 }
 
 .btn-new {
@@ -234,6 +234,8 @@ body {
     -webkit-transition: none;
     position: relative;
     width: 240px !important;
+    float: left;
+    margin:  0 10px;
 }
 
 .home-card > .card-body {
