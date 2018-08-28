@@ -40,6 +40,13 @@ always added in to other form displays -->
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
+						{{ form.event_type.errors }}
+						{{ form.event_type.label_tag }}
+						{{ form.event_type }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
 						{{ form.num_possible_winners.errors }}
 						{{ form.num_possible_winners.label_tag }}
 						{{ form.num_possible_winners }}
@@ -54,13 +61,6 @@ always added in to other form displays -->
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						{{ form.minimum_bid.errors }}
-						{{ form.minimum_bid.label_tag }}
-						{{ form.minimum_bid }}
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
 						{{ form.cost.errors }}
 						{{ form.cost.label_tag }}
 						{{ form.cost }}
@@ -68,13 +68,13 @@ always added in to other form displays -->
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						{{ form.event_type.errors }}
-						{{ form.event_type.label_tag }}
-						{{ form.event_type }}
+						{{ form.minimum_bid.errors }}
+						{{ form.minimum_bid.label_tag }}
+						{{ form.minimum_bid }}
 					</div>
 				</div>
 				<div class="col-md-12">
-				    <button type="submit" style="float: right" class="btn btn-success btn-sm">Create Event</button>
+				    <button type="submit" style="float: right; width: 100%" class="btn btn-secondary">Create Event</button>
 				</div>
 			</div>
 		</div>
