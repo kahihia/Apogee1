@@ -342,14 +342,18 @@ body {
     color: hsl(100, 0%, 100%);
 }
 
-.dropdown-name {
+.dropdown-name, .dropdown-balance {
     color: hsl(100, 5%, 55%) !important;
-    font-weight: 100 !important;
     padding-bottom: .5rem !important;
+}
+
+.dropdown-name {
+    font-weight: 100 !important;
 }
 
 .dropdown-balance {
     padding-top: 0 !important;
+    font-weight: 500 !important;
 }
 
 .dropdown-name:hover, .dropdown-balance:hover {
