@@ -16,7 +16,7 @@ channels
 channels_redis
 service_identity
 django-datetimepicker
-git+git://github.com/Malekagr/django-profanity-filter#egg=django-profanity-filter
+-e git+git://github.com/Malekagr/django-profanity-filter#egg=django-profanity-filter
 amqp==2.2.2
 billiard==3.5.0.3
 celery==4.1.0
