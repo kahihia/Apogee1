@@ -119,24 +119,26 @@ function getMessages(url, callback){
         * num is the number of messages you want
         * skip is the offset from a message
         - setting num to false gets latest */
-    if (!is_owner || !did_join) {
+    if (is_owner || did_join) {
+        var room_id = Number($('#party-room-id').text())
+        $.ajax({
+            type: "GET",
+            url: url || "/api/messages/" + room_id,
+              headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+              },
+        })
+        .done(function( data ) {
+            messagePaginatorGlobal = data.next
+            checkSpawnGetMore()
+            callback(data.results.reverse(), true)
+        }).fail(function(e){
+            writeLetter()
+            console.log(e)
+        })
+    } else {
         writeLetter()
         return
     }
-    var room_id = Number($('#party-room-id').text())
-    $.ajax({
-        type: "GET",
-        url: url || "/api/messages/" + room_id,
-          headers: {
-            "X-CSRFToken": getCookie("csrftoken")
-          },
-    })
-    .done(function( data ) {
-        messagePaginatorGlobal = data.next
-        checkSpawnGetMore()
-        callback(data.results.reverse(), true)
-    }).fail(function(e){
-        writeLetter()
-        console.log(e)
-    })
+
 }
