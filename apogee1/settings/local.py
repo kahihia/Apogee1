@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
+    'profanity',
     #add django captcha here
     # these are our custom apps
     'parties',

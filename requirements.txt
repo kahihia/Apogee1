@@ -18,6 +18,7 @@ service_identity
 django-datetimepicker
 
 Twisted[tls,http2]==18.7.0
+django-profanity-filter
 amqp==2.2.2
 billiard==3.5.0.3
 celery==4.1.0
