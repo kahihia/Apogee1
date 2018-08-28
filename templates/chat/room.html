@@ -2,6 +2,10 @@
 
 <!-- this is our custom js -->
 {% block script %}
+  <script type="text/javascript">
+    var did_join = {{serialized.did_join }}
+    var is_owner = {{serialized.is_owner }}
+  </script>
   <script type="text/javascript" src='{% static "js/eventmessages/reconnecting-websocket.min.js" %}'></script>
   <script type="text/javascript" src='{% static "js/eventmessages/chat.js" %}'></script>
 
