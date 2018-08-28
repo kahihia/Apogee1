@@ -30,7 +30,7 @@ than in the parties templates -->
 	</div>
 </div> -->
 <div class='row'>
-	<div class="col-md-12 mt-3 pt-3 pl-3" >
+	<div class="col-md-12 mt-3 pt-3 ml-3" >
 		<h4>Users</h4><hr
 		{% for user in users %}
 			<a class='text-light' href='/profiles/{{ user.username }}'>
@@ -61,7 +61,7 @@ than in the parties templates -->
 	</div>
 </div>
 <div class="row">
-	<div class="col-md-12 mt-3 pt-3 pl-3">
+	<div class="col-md-12 mt-3 pt-3 ml-3">
 		<h4>Events</h4><hr>
 		   <div id='party-container' data-url='/api/search'></div>	
 		<!-- this is our load more button for the pagination. its written into the JS-->
