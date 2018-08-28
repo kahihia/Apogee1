@@ -41,19 +41,7 @@ function setupChatRoom(){
 }
 
 function writeLetter() {
-    var letter = ["Hello, is it you? Is it actually you? You've come to my website?",
-                    "GTFO. Unless its you NSA, like really didn't mean that.",
-                    "Please dont take away all my internet rights again",
-                    "IS IT FRANCE? IS IT FRANCE NSA? Jk you guys are alright",
-                    "You have a hard job but damn this whole tapping everyone for signals seems,",
-                    "like a step in the wrong direction.",
-                    "Like I know the russians have all our routers backdoored",
-                    "even in that super coldwar, WAIT FOR MY SIGNAL, SLEEPER",
-                    "kinda way but still I think the mass collection of metadata",
-                    "is a step to far, at least have a legal process to be able to access it",
-                    "some level of transparency, I'm willing to sacrifice some safety for that.",
-                    "So that at least some can be held accountable.",
-                    "Peace."]
+    var letter = ["Unable to verify user"]
     $("#message").css('display', 'none')
     $("#message").css('user-select', 'none')
     for (var i = 0; i < letter.length; i++) {
@@ -133,7 +121,6 @@ function getMessages(url, callback){
             checkSpawnGetMore()
             callback(data.results.reverse(), true)
         }).fail(function(e){
-            writeLetter()
             console.log(e)
         })
     } else {
