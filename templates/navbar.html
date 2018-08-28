@@ -83,11 +83,12 @@
             </span>
           </a>
             <div class="dropdown-menu dropdown-menu-right w pt-2 mt-3 animate fadeIn">
-                <span class="dropdown-item dropdown-name">{{ user.username }}
-                {%if user.is_verified%}
-                    <i class="fas fa-check-circle"></i>
-                {%endif%} 
-                </span>
+                <a class="dropdown-item dropdown-name" href="{{ request.user.profile.get_absolute_url }}">
+                    {{ user.username }}
+                        {%if user.is_verified%}
+                            <i class="fas fa-check-circle"></i>
+                        {%endif%} 
+                </a>
                 <span class="dropdown-item dropdown-name dropdown-balance">${{user.profile.account_balance}}</span>
 
                 <div class="dropdown-divider"></div>

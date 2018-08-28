@@ -28,11 +28,12 @@
 {% block content %}
 <!-- this div contains only the banner photo -->
 <div class='row'>
-	{% if object.profile.banner %}
+<!-- 	{% if object.profile.banner %}
 		<div class="profile-banner" style="background-image: url('{{ object.profile.banner.url );"></div>
-	{% else %}
-		<div class="profile-banner" style="background-image: url('/media/pacman_banner.png');"></div>
-	{% endif %}
+	{% else %} -->
+		<div class="profile-banner" style="background: linear-gradient(hsla(295, 100%, 50%,0.5), hsla(270, 100%, 50%,0.5)),url('/media/banner-bg.svg');;"></div>
+    
+<!-- 	{% endif %} -->
 
 </div>
 <!-- this contains profile info, like picture, name, bio, etc -->
