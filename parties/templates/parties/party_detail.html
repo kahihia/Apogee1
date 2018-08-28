@@ -240,7 +240,7 @@
 
 								{% if serialized.winner_names.length > 0 %}
 									<div class="row mt-3">
-										<h1 class="mx-auto"> {{partyValue.winner_names}} is the winner!</h1>
+										<h1 class="mx-auto"> {% for winner in winner_names %} {{winner}}, {% endfor %} is the winner!</h1>
 									</div>
 								{% else %}
 									{{serialized.winner}} 
