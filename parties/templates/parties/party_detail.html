@@ -76,7 +76,7 @@
 										{%endif%} 
 										</p>
 									</a>
-									{%if request.user.is_authorized%}
+									{% if request.user.is_authenticated %}
 										<div class="float-right">
 											<span> 
 												<a href="#" class="starBtn text-dark" id="detailStar" data-id="{{serialized.id}}"> 
