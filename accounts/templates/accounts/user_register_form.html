@@ -1,13 +1,16 @@
 <!-- this is the HTML for the registration page -->
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-
+{% load static %}
 <!-- this gives the tab title in the browser -->
 {% block title %}
 	Register | {{ block.super }}
 {% endblock title %}
 
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src='{%static "js/users/registration.js"%}'></script>
+
 <div class='row'>
 	<!-- centers the content -->
 	<div class='col-sm-6 offset-sm-3 mt-3'>
@@ -22,13 +25,13 @@
 		    <!-- in django, the type submit enters the form into the view and then into the database -->
 		    <!-- captcha implementation -->
 		    <div> 
-		    	<input type="checkbox" name="tos" value="tos"> I have read Apogee's <a href="{% url 'terms' %}">Terms, Data Policy and Cookies Policy. </a> <br>
+		    	<input type="checkbox" id="tos" class="tos" value="tos" name="tos"> I have read Apogee's <a href="{% url 'terms' %}">Terms, Data Policy and Cookies Policy. </a> <br>
 		    	
 		    </div>
 		    <div class="g-recaptcha" data-sitekey="6LdvOGcUAAAAANZ6PU4WZ0fSwI0y0apDdHXC3Prq" name=
 		    "captcha"></div>
 		    <br/>
-		    <input class='btn btn-outline-secondary' type="submit" value="Sign Up" />
+		    <input class='btn btn-outline-secondary' id="submit" type="submit" value="Sign Up" disabled="disabled" />
 		</form>
 	</div>
 </div>

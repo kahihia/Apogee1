@@ -31,6 +31,9 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = [config('DJANGO_ALLOWED_HOSTS')]
 
+SECURE_SSL_REDIRECT=config("SSL_EVERYWHERE", default=True)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 AWS_QUERYSTRING_AUTH = False
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
@@ -47,6 +50,8 @@ EMAIL_HOST_USER = 'SMTP_Injection'
 EMAIL_HOST_PASSWORD = 'f44c2ec0910495b35f830b5bc2aafd584fbaa3a6'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+SERVER_EMAIL = "Apogee <support@apogee.gg>"
+DEFAULT_FROM_EMAIL = "Apogee <support@apogee.gg>"
 
 ASGI_APPLICATION = "apogee1.routing.application"
 
@@ -69,6 +74,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
+    'profanity',
     #add django captcha here
     # these are our custom apps
     'parties',
@@ -84,6 +90,7 @@ INSTALLED_APPS = [
     # third party stuff
     'crispy_forms',
     'rest_framework',
+    'datetimepicker',
     'storages',
 ]
 
@@ -149,7 +156,7 @@ TEMPLATES = [
         },
     },
 ]
-
+    
 WSGI_APPLICATION = 'apogee1.wsgi.application'
 
 CHANNEL_LAYERS = {

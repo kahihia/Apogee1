@@ -1,6 +1,7 @@
 # urls determines the urls that link to which views. the views display the info
 from django.urls import path, include
 from django.views.generic import RedirectView
+from django.contrib.auth.views import PasswordResetView 
 
 # views we link directly to
 from .views import (

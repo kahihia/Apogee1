@@ -42,6 +42,12 @@ MEDIA_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 AWS_S3_REGION_NAME = config('REGION_NAME')
 
+SECURE_SSL_REDIRECT=config("SSL_EVERYWHERE", default=True)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+SERVER_EMAIL = "Apogee <support@apogee.gg>"
+DEFAULT_FROM_EMAIL = "Apogee <support@apogee.gg>"
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -71,6 +77,7 @@ INSTALLED_APPS = [
     'event_payment',
     'payout',
     'eventmessages',
+    'profanity',
 
     # third party stuff
     'crispy_forms',

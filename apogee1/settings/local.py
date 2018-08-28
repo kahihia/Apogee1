@@ -42,12 +42,17 @@ MEDIA_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 AWS_S3_REGION_NAME = config('REGION_NAME')
 
+SECURE_SSL_REDIRECT=config("SSL_EVERYWHERE", default=False)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sparkpostmail.com'
 EMAIL_HOST_USER = 'SMTP_Injection'
 EMAIL_HOST_PASSWORD = 'f44c2ec0910495b35f830b5bc2aafd584fbaa3a6'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+SERVER_EMAIL = "Apogee <support@apogee.gg>"
+DEFAULT_FROM_EMAIL = "Apogee <support@apogee.gg>"
 
 ASGI_APPLICATION = "apogee1.routing.application"
 
@@ -72,6 +77,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
+    'profanity',
     #add django captcha here
     # these are our custom apps
     'parties',
