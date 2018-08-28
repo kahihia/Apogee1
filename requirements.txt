@@ -17,6 +17,7 @@ channels_redis
 service_identity
 django-datetimepicker
 
+Twisted[tls,http2]==18.7.0
 amqp==2.2.2
 billiard==3.5.0.3
 celery==4.1.0
