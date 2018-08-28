@@ -3,8 +3,16 @@
 <!-- this is our custom js -->
 {% block script %}
   <script type="text/javascript">
-    var did_join = {{serialized.did_join }}
-    var is_owner = {{serialized.is_owner }}
+    var did_join = false
+    var is_owner = false
+    {% if serialized.did_join %}
+      did_join = true
+    {% endif %}
+
+    {% if serialized.is_owner %}
+      is_owner = false
+    {% endif %}
+
   </script>
   <script type="text/javascript" src='{% static "js/eventmessages/reconnecting-websocket.min.js" %}'></script>
   <script type="text/javascript" src='{% static "js/eventmessages/chat.js" %}'></script>
