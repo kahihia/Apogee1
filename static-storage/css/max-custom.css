@@ -426,6 +426,13 @@ body {
   background-color: darkgrey;
   outline: 1px solid slategrey;
 }
+
+/*Datetimepicker*/
+.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_default, .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_current, .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box >div >div.xdsoft_current{
+    background: hsl(270,100%,50%) !important;
+    box-shadow: : hsl(270,100%,50%) !important;
+}
+
 /********************** Agile CSS *************************/
 
 

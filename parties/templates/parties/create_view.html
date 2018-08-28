@@ -41,7 +41,7 @@
     });
 	// Bootstrap datepicker
 	$(document).ready(function() {
-		$("#id_datetime").datetimepicker();
+		$("#id_datetime").datetimepicker({minDate:0, minTime: 0});
 	});
 
 	// Update preview image on image browser upload

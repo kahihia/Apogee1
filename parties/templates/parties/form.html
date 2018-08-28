@@ -3,6 +3,16 @@ always added in to other form displays -->
 
 <!-- the id portion just allows us to call this with a particular id if we  want -->
 <!-- the multipart line allows us to handle the split form in event creation and update -->
+<style type="text/css">
+	select{
+		padding: 0.575rem .75rem !important;
+	}
+	.errorList {
+		list-style: none;
+		padding-left: 0px !important;
+		color: #dc3545;
+	}
+</style>
 <form {% if form_id %} id='{{ form_id }}' {% endif %} class='form mt-3' method='POST' action='' enctype="multipart/form-data">
 	{% csrf_token %}
 
