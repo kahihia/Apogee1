@@ -43,6 +43,7 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 AWS_S3_REGION_NAME = config('REGION_NAME')
 
 SECURE_SSL_REDIRECT=config("SSL_EVERYWHERE", default=False)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sparkpostmail.com'
