@@ -38,7 +38,7 @@ class PartyModelForm(forms.ModelForm):
 	cost = forms.DecimalField(label='Cost ($)', min_value=0, widget=forms.NumberInput(
 		attrs={'placeholder': 'For a FREE event, enter 0', 'class': 'form-control'}))
 
-	thumbnail = forms.ImageField(label='Thumbnail')
+	thumbnail = forms.ImageField(label='Upload Thumbnail')
 
 	# event_type has a default widget so we're not gonna mess with it
 	# event_type = forms.ChoiceField(label='Event Type')

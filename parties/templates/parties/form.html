@@ -12,6 +12,31 @@ always added in to other form displays -->
 		padding-left: 0px !important;
 		color: #dc3545;
 	}
+	/*Django styling hack*/
+	label[for=id_thumbnail] {
+		display: inline-block;
+		font-weight: 600;
+		width: 100%;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: middle;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		border: 1px solid transparent;
+		padding: .375rem .75rem;
+		font-size: 1rem;
+		line-height: 1.5;
+		border-radius: .25rem;
+		background: rgba(255,255,255,0.4) !important;
+		color: rgba(255,255,255,1) !important;
+		text-shadow: 0 2px 0 hsla(270,10%,10%,0.2) !important;
+		cursor: pointer;
+	}
+	input[type=file]{
+		display: none;
+	}
 </style>
 <form {% if form_id %} id='{{ form_id }}' {% endif %} class='form mt-3' method='POST' action='' enctype="multipart/form-data">
 	{% csrf_token %}
@@ -84,7 +109,7 @@ always added in to other form displays -->
 					</div>
 				</div>
 				<div class="col-md-12">
-				    <button type="submit" style="float: right; width: 100%" class="btn btn-secondary">Create Event</button>
+					<button type="submit" style="float: right; width: 100%" class="btn btn-secondary">Create Event</button>
 				</div>
 			</div>
 		</div>
