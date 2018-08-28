@@ -46,8 +46,7 @@ class Party(models.Model):
 					)
 	title 			= models.CharField(
 						max_length=140, 
-						validators=[validate_title], validators=[validate_is_profane]
-					)
+						validators=[validate_title, validate_is_profane])
 	description 	= models.CharField(max_length=280, validators=[validate_is_profane])
 	# auto_now_add automatically inputs the current time on creation
 	time_created	= models.DateTimeField(auto_now_add=True)
