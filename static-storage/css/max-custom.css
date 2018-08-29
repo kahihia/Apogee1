@@ -317,6 +317,10 @@ p, .about-apogee p {
     padding: 0 !important;
 }
 
+.home-card > .card-img-top {
+    height: 140px;
+}
+
 .home-nav ul > li > a {
     text-transform: uppercase;
     font-weight: 300;
