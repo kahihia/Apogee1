@@ -1,6 +1,6 @@
 body {
     background: hsl(270, 5%, 10%) !important;
-    font-family: "Proxima Nova", sans-serif;
+    font-family: "Myriad", sans-serif !important;
     color: hsl(100, 0%, 98%) !important;
     overflow-x: hidden;
     min-height: 400px;
@@ -64,10 +64,10 @@ h3, .about-apogee h3 {
 }
 
 h4, .header-wrapper h4 {
-    font-family: "Proxima Nova", sans-serif;
+    font-family: "Myriad", sans-serif;
     margin-top: 0;
     line-height: 1.25;
-    font-weight: 700;
+    font-weight: 400;
     font-size: 1.2rem;
     text-shadow: none;
     padding: 0;
