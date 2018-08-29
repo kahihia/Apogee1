@@ -74,7 +74,6 @@ INSTALLED_APPS = [
     'event_payment',
     'payout',
     'eventmessages',
-    'profanity',
 
     # third party stuff
     'crispy_forms',
