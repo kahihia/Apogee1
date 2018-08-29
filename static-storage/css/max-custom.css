@@ -86,6 +86,16 @@ p, .about-apogee p {
         float: none;
         width: 100%;
 }
+    h1, .header-wrapper h1 {
+        font-size: 2rem;
+    }
+
+    h2, .about-apogee h2, .faq-section h2 {
+        font-size: 1.4rem;
+    }
+    h4, .header-wrapper h4 {
+        font-size: 1.15rem;
+    }
 }
 
 /* END Typography */
