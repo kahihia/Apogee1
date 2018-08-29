@@ -145,6 +145,14 @@ body {
     height: 200px;
 }
 
+.home-illu-holder {
+    min-width: 180px;
+    height: 180px;
+    background: hsla(270,100%,100%,0.25);
+    float: left;
+    border-radius: 4px;
+}
+
 /******************* User Profile Card CSS **************************/
 
 .card-profile {
