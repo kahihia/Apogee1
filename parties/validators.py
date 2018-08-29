@@ -14,11 +14,10 @@ def validate_title(value):
 def validate_profanity(value):
 	content = value
 	if is_profane(content):
-		raise ValidationError('Remove offensive language')
+		raise ValidationError('Please remove offensive language')
 
 
 def is_profane(content):
-	print("_____________________________________________________________________________________")
 	with open('profanity.txt', 'r') as myfile:
 		words=myfile.read().replace('\n', '')
 	for word in words:
