@@ -167,7 +167,7 @@ function renderPartyList(partyContainerID){
     // for the title and description, and a footer for name, time, 
     // event type, and star
     let container =  
-    '<div class="card home-card"' + 
+    '<div class="card home-card mr-4"' + 
       '<a class="text-light" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
         '<img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
       '</a>' +
@@ -191,7 +191,7 @@ function renderPartyList(partyContainerID){
 
     // just return it immediately
     return sanitizeHtml(container, {
-                                      allowedClasses: { 'div': [ 'card','home-card','col-xs-12','col-md-4','col-lg-2','col-xl-2', 'col-xs-12', 'col-md-3', 'col-lg-3',
+                                      allowedClasses: { 'div': [ 'card','home-card', 'mr-4', 'col-xs-12','col-md-4','col-lg-2','col-xl-2', 'col-xs-12', 'col-md-3', 'col-lg-3',
                                                                   'text-light', 'card-img-top', 'card-body', 'card-title', 'card-text', 
                                                                   'card-footer', 'text-muted', 'float-right', 'starBtn', 'text-dark'],
                                                         'p': [ 'card','home-card','col-xs-12','col-md-4','col-lg-2','col-xl-2',
