@@ -11,6 +11,8 @@ db.sqlite3
 /static
 .DS_Store
 selenium/*.logs
+selenium/.pytest_cache/
+selenium/.pytest_cache
 parties/__pycache__/models.cpython-36.pyc
 parties/api/__pycache__/serializers.cpython-36.pyc
 parties/__pycache__/models.cpython-36.pyc
