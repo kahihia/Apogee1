@@ -180,8 +180,9 @@ p, .about-apogee p {
 }
 
 .apogee-accordion > .card > .card-header > h5 > a {
+    font-size: 1.1rem;
     color: hsl(270,100%,75%);
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 0.02rem;
     padding-bottom: 6px;
     text-decoration: none !important;
