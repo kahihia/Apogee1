@@ -18,9 +18,13 @@ def validate_profanity(value):
 
 
 def is_profane(content):
+	print("))))))))))))))))))))))))))))))))))))))))))(((((((((((((((((((((((((((((((((((((()()()()()()()()()()())()")
 	with open('profanity.txt', 'r') as myfile:
 		words=myfile.read().replace('\n', '')
+		print(content)
+		print(words)
 	for word in words:
+		print(word)
 		if word in content:
 			return True
 	return False
