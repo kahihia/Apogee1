@@ -242,6 +242,7 @@ body {
     -webkit-transition: none;
     position: relative;
     width: 240px !important;
+    float: left;
 }
 
 .home-card > .card-body {
