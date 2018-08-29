@@ -20,11 +20,11 @@ def validate_profanity(value):
 def is_profane(content):
 	print("_____________________________________________________________________________________")
 	with open('profanity.txt', 'r') as myfile:
-    	words=myfile.read().replace('\n', '')
-    for word in words:
-    	if word in content:
-    		return True
-    return False
+		words=myfile.read().replace('\n', '')
+	for word in words:
+		if word in content:
+			return True
+	return False
 
 
 # we need a validator to ensure that the events are not in the past
