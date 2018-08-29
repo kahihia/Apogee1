@@ -20,7 +20,8 @@ def validate_profanity(value):
 def is_profane(content):
 	print("))))))))))))))))))))))))))))))))))))))))))(((((((((((((((((((((((((((((((((((((()()()()()()()()()()())()")
 	with open('profanity.txt', 'r') as myfile:
-		words=myfile.read().replace('\n', '')
+		words=myfile.readlines()
+		words = [line.rstrip('\n') for line in words]
 		print(content)
 		print(words)
 	for word in words:
