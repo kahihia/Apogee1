@@ -22,7 +22,7 @@ def is_profane(content):
 		words=myfile.readlines()
 		words = [line.rstrip('\n') for line in words]
 	for word in words:
-		if word.lower() in content:
+		if word in content.lower():
 			return True
 	return False
 
