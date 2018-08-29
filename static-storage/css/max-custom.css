@@ -64,12 +64,12 @@ h3, .about-apogee h3 {
 }
 
 h4, .header-wrapper h4 {
-    font-family: "Myriad", sans-serif;
     margin-top: 0;
     line-height: 1.25;
-    font-weight: 400;
-    font-size: 1.2rem;
+font-weight: 400;
+    font-size: 1.25rem;
     text-shadow: none;
+    letter-spacing: 0.015rem;
     padding: 0;
 }
 
