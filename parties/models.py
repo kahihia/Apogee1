@@ -13,7 +13,6 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from celery.task.schedules import crontab
 from celery.decorators import periodic_task
-from profanity.validators import validate_is_profane
 import math
 import sys
 #from event_payment import partyTransactions
