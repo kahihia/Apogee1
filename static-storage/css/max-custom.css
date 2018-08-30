@@ -186,7 +186,7 @@ p, .about-apogee p {
     height: 200px;
 }
 
-.creators-about {
+.creators-about, .fans-about {
     align-items: center;
 }
 
@@ -194,13 +194,7 @@ p, .about-apogee p {
     text-align: center;
     float: none;
     max-width: 244px;
-    margin: 0 auto;
-}
-
-.fans-about {
-    display: none !important;
-    opacity: 0;
-    visibility: hidden;
+    margin: 0 auto !important;
 }
 
 .about-avatar-img > img {
