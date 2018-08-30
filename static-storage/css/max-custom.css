@@ -1453,7 +1453,7 @@ Nav
     flex-wrap: nowrap;
 }
 
-.nav-item {
+/*.nav-item {
     position: relative;
     border: inherit;
 }
@@ -1461,7 +1461,7 @@ Nav
 .nav-link {
     border: inherit;
     position: relative;
-}
+}*/
 
 .nav-md .nav-link {
     padding: 0.75rem 1.25rem;
