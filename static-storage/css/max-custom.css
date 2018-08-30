@@ -193,7 +193,7 @@ p, .about-apogee p {
 .about-centered-nav > ul {
     text-align: center;
     float: none;
-    max-width: 244px;
+    max-width: 290px;
     margin: 0 auto !important;
 }
 
@@ -490,13 +490,12 @@ p, .about-apogee p {
 
 .logged-out-nav-container {
     position: absolute;
-    right: 30px;
+    right: 10px;
 }
 
 .logged-out-nav-container > ul {
     list-style: none;
     position: relative;
-    right: 54px;
     top: 8px;
 }
 
@@ -1462,15 +1461,15 @@ Nav
     flex-wrap: nowrap;
 }
 
-/*.nav-item {
+.nav-item {
     position: relative;
     border: inherit;
-}*/
+}
 
-/*.nav-link {
+.nav-link {
     border: inherit;
     position: relative;
-}*/
+}
 
 .nav-md .nav-link {
     padding: 0.75rem 1.25rem;
