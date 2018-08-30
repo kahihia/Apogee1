@@ -202,6 +202,7 @@ p, .about-apogee p {
 
 .apogee-accordion > .card, .apogee-accordion > .card-harder {
     background: transparent !important;
+    border: 1px solid transparent !important;
 }
 
 .apogee-accordion > .card > .card-header > h5 > a {
