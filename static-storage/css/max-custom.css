@@ -207,8 +207,8 @@ p, .about-apogee p {
 
 .apogee-accordion > .card > .card-header > h5 > a {
     font-size: 1.1rem;
-    color: hsl(270,100%,65%);
-    font-weight: 500;
+    color: hsl(270,100%,80%);
+    font-weight: 300;
     letter-spacing: 0.02rem;
     padding-bottom: 1px;
     text-decoration: none !important;
@@ -222,9 +222,11 @@ p, .about-apogee p {
 }
 
 .apogee-accordion > .card > .card-header > h5 > a:active,
-.apogee-accordion > .card > .card-header > h5 > a:focus, {
+.apogee-accordion > .card > .card-header > h5 > a:focus, 
+.apogee-accordion > .card > .card-header > h5 > a[aria-expanded="true"]{
     text-decoration: none !important;
-    color: hsl(270,100%,95%);
+    color: hsl(270,100%,100%);
+    border-bottom: 2px solid hsl(295, 100%, 50%);
     font-weight: 700;
 }
 
