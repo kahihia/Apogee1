@@ -1,0 +1,4 @@
+[
+  "home.py::Home::test_basic",
+  "home.py::Login::test_login"
+]

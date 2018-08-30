@@ -13,11 +13,10 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from celery.task.schedules import crontab
 from celery.decorators import periodic_task
-from profanity.validators import validate_is_profane
 import math
 import sys
 #from event_payment import partyTransactions
-from .validators import validate_title
+from .validators import validate_title, validate_profanity
 from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
 import os
@@ -46,8 +45,8 @@ class Party(models.Model):
 					)
 	title 			= models.CharField(
 						max_length=140, 
-						validators=[validate_title, validate_is_profane])
-	description 	= models.CharField(max_length=280, validators=[validate_is_profane])
+						validators=[validate_title, validate_profanity])
+	description 	= models.CharField(max_length=280, validators=[validate_profanity])
 	# auto_now_add automatically inputs the current time on creation
 	time_created	= models.DateTimeField(auto_now_add=True)
 	# auto_now adds the time, but it can be overwritten if it adds again
