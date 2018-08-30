@@ -243,12 +243,12 @@
 								{% if serialized.winner_names %}
 									<div class="row mt-3">
 										<div class="col-sm-12"> 
-											<h5 class="mx-auto"> {% for winner in serialized.winner_names %} {{winner}}, {% endfor %} is the winner!</h5>
+											<p class="mx-auto"><small><b>Winners: {% for winner in serialized.winner_names %} {{winner}}, {% endfor %}</b></small></p>
 										</div>
 									</div>
 								{% else %}
 									<div class="col-sm-12"> 
-										<h5 class="mx-auto"> {{serialized.winner}} is the winner!</h5>
+										<p class="mx-auto"><small><b>Winners: {% for winner in serialized.winner %} {{winner}}, {% endfor %}</b></small></p>
 									</div>
 
 								{% endif %}
