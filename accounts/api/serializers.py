@@ -39,7 +39,6 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 		return obj.profile.is_verified	
 
 	def get_profile_picture(self, obj):
-		print(obj.profile.profile_picture)
 		if obj.profile.profile_picture and hasattr(obj.profile.profile_picture, 'url'):
 			return obj.profile.profile_picture.url
 		else:
