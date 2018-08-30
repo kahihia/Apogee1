@@ -340,6 +340,7 @@ p, .about-apogee p {
     width: 240px !important;
     float: left;
     margin:  0 10px;
+    margin-left: 0px;
 }
 
 .home-card > .card-body {
