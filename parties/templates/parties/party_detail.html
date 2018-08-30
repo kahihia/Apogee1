@@ -243,11 +243,14 @@
 								{% if serialized.winner_names %}
 									<div class="row mt-3">
 										<div class="col-sm-12"> 
-											<h5 class="mx-auto"> {% for winner in winner_names %} {{winner}}, {% endfor %} is the winner!</h5>
+											<h5 class="mx-auto"> {% for winner in serialized.winner_names %} {{winner}}, {% endfor %} is the winner!</h5>
 										</div>
 									</div>
 								{% else %}
-									{{serialized.winner}} 
+									<div class="col-sm-12"> 
+										<h5 class="mx-auto"> {{serialized.winner}} is the winner!</h5>
+									</div>
+
 								{% endif %}
 
 								<!-- if the user is the owner, they get a second section that 
