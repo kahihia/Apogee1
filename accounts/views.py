@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.views.generic import DetailView, FormView, UpdateView
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, login
+from django.utils.safestring import mark_safe
 # views tell us what info is displayed, what methods we have acess to, 
 # and what our rendering files are
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -54,17 +55,22 @@ class UserRegisterView(FormView):
             captcha_good = config('ALLOW_REGISTRATION')
         else:
             captcha_good = config('CAPTCHA_OFF')
-           # captcha_good = True
+        # captcha_good = True
         #Do captcha validation
+        print(captcha_good)
+        print(self.request.POST.get('tos'))
         if captcha_good and self.request.POST.get('tos'):
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
             new_user.save()
             email_data = {'username': username}
             emailer.email('Account Registration Success', 'team@apogee.gg', [email], 'creation_email.html', email_data)
+            login(self.request, new_user)
+            return HttpResponseRedirect("/")
 
         else:
             return HttpResponseRedirect("/register")
+           # return HttpResponseRedirect("/register")
         return super(UserRegisterView, self).form_valid(form)
         
 
@@ -103,11 +109,14 @@ class UserDetailView(DetailView, LoginRequiredMixin):
         # in the html, we call both following and recommended. this is how those 
         # variables get passed through
         context['events'] = serialized_parties
+        context['request'] = self.request
         return context
 
 class FundsView(LoginRequiredMixin, DetailView):
     def get(self, request, *args, **kwargs):
-        context = {'user': self.request.user}
+        paypal_client_id = config("PAYPAL_CLIENT_ID", default="test"),
+        paypal_env = config("PAYPAL_ENV", default="sandbox")
+        context = {'user': self.request.user, 'paypal_env': paypal_env, 'paypal_client_id': paypal_client_id[0] }
         return render(request, 'accounts/funds.html', context)
 
 

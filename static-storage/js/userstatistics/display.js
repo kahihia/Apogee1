@@ -10,7 +10,7 @@ let currSelected ="#general_btn";
 //var that holds all data from ajax call/StatisticsInfo serializer object
 let statistics="";
 //used in google charts
-let graphWidth=600;
+let graphWidth='100%';
 let graphHeight=300;
 //Function that is called once html page is accessed
 $(document).ready(function(){

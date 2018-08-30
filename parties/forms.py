@@ -2,6 +2,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from datetimepicker.widgets import DateTimePicker
 
 from .models import Party
 from boto.s3.connection import S3Connection
@@ -11,16 +12,13 @@ class PartyModelForm(forms.ModelForm):
 	# the altered form fields are for formatting on the create page
 	# form-control allows bootstrap to format the form
 	title = forms.CharField(label='', max_length=140, widget=forms.Textarea(
-		attrs={'placeholder': 'Title', 'class': 'form-control', 'rows': 1}
+		attrs={'placeholder': 'Title for your event', 'class': 'form-control', 'rows': 1}
 		))
 	description = forms.CharField(label='', max_length=280, widget=forms.Textarea(
-		attrs={'placeholder': 'Description', 'class': 'form-control', 'rows': 4}
+		attrs={'placeholder': 'Event description', 'class': 'form-control', 'rows': 4}
 		))
 	# localize tells us that this is in localtime so it converts to UTC for storage
-	party_time = forms.SplitDateTimeField(label='', localize=True, widget=forms.SplitDateTimeWidget(
-		date_attrs={'placeholder': 'Date: mm/dd/yy','type': 'date', 'class': 'form-control'}, 
-		time_attrs={'placeholder': 'Time: hh:mm AM/PM or hh:mm 24-hr','type': 'time', 'class': 'form-control'}
-		), input_time_formats=['%I:%M %p', '%H:%M', '%H:%M:%S'])
+	party_time = forms.DateTimeField( label='Event Time', widget=DateTimePicker(), localize=True, input_formats=["%Y/%m/%d %H:%M"])
 
 	# max_entrants = forms.ChoiceField(required=False, label='How many people can enter?',
 	# 	widget=forms.Select(attrs={'class': 'form-control'}), 
@@ -40,7 +38,7 @@ class PartyModelForm(forms.ModelForm):
 	cost = forms.DecimalField(label='Cost ($)', min_value=0, widget=forms.NumberInput(
 		attrs={'placeholder': 'For a FREE event, enter 0', 'class': 'form-control'}))
 
-	thumbnail = forms.ImageField(label='Thumbnail')
+	thumbnail = forms.ImageField(label='Upload Thumbnail')
 
 	# event_type has a default widget so we're not gonna mess with it
 	# event_type = forms.ChoiceField(label='Event Type')
@@ -62,13 +60,13 @@ class PartyModelForm(forms.ModelForm):
 		# dont think these will ever appear cause the fields have length limits on them 
 		# like it just doesnt accept any more input after it hits the limit. 
 		error_messages = {
-            'title': {
-                'max_length': "This title is too long.",
-            },
-            'description': {
-                'max_length': "This description is too long.",
-            },
-        }
+			'title': {
+				'max_length': "This title is too long.",
+			},
+			'description': {
+				'max_length': "This description is too long.",
+			},
+		}
 
 	# ensures that the event cannot be scheduled for the past. 
 	def clean_party_time(self, *args, **kwargs):

@@ -350,6 +350,7 @@ p, .about-apogee p {
     position: relative;
     width: 240px !important;
     float: left;
+    margin:  0 10px;
 }
 
 .home-card > .card-body {
@@ -515,6 +516,69 @@ p, .about-apogee p {
     border: none;
 }
 
+.card-img-top {
+    max-height: 170px;
+}
+
+/* Party Detail */
+.party-chat-box {
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: relative;
+    z-index: 1;
+    padding: 10px 5px;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+/* Messaging */
+.message{
+    margin: 3px;
+    font-size: 14px;
+    line-height: 1;
+}
+.message-container > .message-timestamp {
+    font-weight: lighter;
+    font-size: 9px;
+    visibility:hidden;
+    padding: 0;
+    margin:0;
+    line-height: 0;
+    color: #999999 !important;
+    text-align: right;
+}
+.message-container:hover > .message-timestamp{
+    visibility:visible;
+}
+
+.message-username{
+  font-weight: bold
+}
+
+/*Scrollbar*/
+.bar-scroll::-webkit-scrollbar {
+    background-color: black;
+    width: .8em;
+}
+ 
+.bar-scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+.bar-scroll::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+/*Datetimepicker*/
+.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_default, .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_current, .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box >div >div.xdsoft_current{
+    background: hsl(270,100%,50%) !important;
+    box-shadow: : hsl(270,100%,50%) !important;
+}
 
 /********************** Agile CSS *************************/
 

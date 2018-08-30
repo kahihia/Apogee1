@@ -41,20 +41,20 @@ function setupChatRoom(){
 }
 
 function writeLetter() {
-    var letter = ["Hello, is it you? Is it actually you? You've come to my website?",
-                    "GTFO. Unless its you NSA, like really didn't mean that.",
-                    "Please dont take away all my internet rights again",
-                    "IS IT FRANCE? IS IT FRANCE NSA? Jk you guys are alright",
-                    "You have a hard job but damn this whole tapping everyone for signals seems,",
-                    "like a step in the wrong direction.",
-                    "Like I know the russians have all our routers backdoored",
-                    "even in that super coldwar, WAIT FOR MY SIGNAL, SLEEPER",
-                    "kinda way but still I think the mass collection of metadata",
-                    "is a step to far, at least have a legal process to be able to access it",
-                    "some level of transparency, I'm willing to sacrifice some safety for that.",
-                    "So that at least some can be held accountable.",
-                    "Peace."]
+    var letter = ["Unable to verify user",
+                    "Lorem Ipsum is simply dummy text of the printing and ty",
+                    "ad minim veniam, quis nostrud exercitation",
+                    "laboris nisi ut aliquip ex ea commodo consequat",
+                    "dolor in reprehenderit!",
+                    "Lorem Ipsum is  text of the printing and ty",
+                    "Lorem Ipsum is simply dummy text of the printing and ty",
+                    "Lorem  is simply dummy text of the  and ty",
+                    "Lorem Ipsum is simply dummy text of  printing and ty",
+                    "Lorem Ipsum is simply  text of the printing and ty",
+                    "Hey you found me!"
+                ]
     $("#message").css('display', 'none')
+    $("#message").css('user-select', 'none')
     for (var i = 0; i < letter.length; i++) {
         var line = letter[i]
         appendMessage({message: line})
@@ -118,19 +118,25 @@ function getMessages(url, callback){
         * num is the number of messages you want
         * skip is the offset from a message
         - setting num to false gets latest */
-    var room_id = Number($('#party-room-id').text())
-    $.ajax({
-        type: "GET",
-        url: url || "/api/messages/" + room_id,
-          headers: {
-            "X-CSRFToken": getCookie("csrftoken")
-          },
-    })
-    .done(function( data ) {
-        messagePaginatorGlobal = data.next
-        checkSpawnGetMore()
-        callback(data.results.reverse(), true)
-    }).fail(function(e){
-        console.log(e)
-    })
+    if (is_owner || did_join) {
+        var room_id = Number($('#party-room-id').text())
+        $.ajax({
+            type: "GET",
+            url: url || "/api/messages/" + room_id,
+              headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+              },
+        })
+        .done(function( data ) {
+            messagePaginatorGlobal = data.next
+            checkSpawnGetMore()
+            callback(data.results.reverse(), true)
+        }).fail(function(e){
+            console.log(e)
+        })
+    } else {
+        writeLetter()
+        return
+    }
+
 }
