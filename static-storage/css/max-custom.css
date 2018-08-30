@@ -34,6 +34,10 @@ body {
     color: #fff;
 }
 
+img {
+    max-width: 100%;
+}
+
 /* Typography */
 
 h1, .header-wrapper h1 {
@@ -193,7 +197,7 @@ p, .about-apogee p {
 .about-centered-nav > ul {
     text-align: center;
     float: none;
-    max-width: 290px;
+    max-width: 271px;
     margin: 0 auto !important;
 }
 
@@ -357,7 +361,8 @@ p, .about-apogee p {
 }
 
 .home-card > .card-img-top {
-    height: 140px;
+    height: 150px;
+    overflow: hidden;
 }
 
 .home-nav ul > li > a {

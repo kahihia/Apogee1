@@ -169,7 +169,9 @@ function renderPartyList(partyContainerID){
     let container =  
     '<div class="card home-card mr-4"' + 
       '<a class="text-light" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
-        '<img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
+        '<div class="card-img-top">' + 
+          '<img src="' + partyValue.thumbnail_url + '" alt="not here">' + 
+        '</div>' + 
       '</a>' +
       '<div class="card-body">' + 
         '<a class="text-light" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
