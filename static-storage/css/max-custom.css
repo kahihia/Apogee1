@@ -81,7 +81,7 @@ p, .about-apogee p {
 }
 
 @media (max-width: 720px) {
-    h1, .header-wrapper h1, h2, .about-apogee h2, .faq-section h2, h4, .header-wrapper h4 {
+    h1, .header-wrapper h1, h2, .about-apogee h2, .faq-section h2, .header-wrapper h4 {
         text-align: center !important;
         float: none;
         width: 100%;
@@ -186,14 +186,22 @@ p, .about-apogee p {
     height: 200px;
 }
 
-.fans-about {
-    display: none !important;
-    opacity: 0;
-    visibility: hidden;
+.creators-about, .fans-about {
+    align-items: center;
 }
 
-.about-avatar-img {
+.about-centered-nav > ul {
+    text-align: center;
+    float: none;
+    max-width: 244px;
+    margin: 0 auto !important;
+}
+
+.about-avatar-img > img {
     height: 256px;
+    margin: 0 auto;
+    float: none;
+    width: 100%;
 }
 
 .about-icon-circle {
@@ -1457,9 +1465,9 @@ Nav
 /*.nav-item {
     position: relative;
     border: inherit;
-}
+}*/
 
-.nav-link {
+/*.nav-link {
     border: inherit;
     position: relative;
 }*/

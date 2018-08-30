@@ -81,78 +81,92 @@ $(document).ready(function() {
     </div>
 </div>
     
-<div class="home-content container about-apogee my-5">
-    <div class="row mt-4">
+<div class="home-content container about-apogee mt-5">
+    <div class="row">
         <div class="col-lg-12">
-            <h2 class="mt-3">What's Apogee?</h2>
-        </div>
-        <div class="col-lg-12">
-            <p class="mb-4">Well, it means different things to different people. We think of it as:</p>
+            <h2 class="text-center">What's Apogee?</h2>
         </div>
     </div>
-
-    <div class="row pl-3">
-        <div>
-            <div class="d-flex nav-active-border home-nav">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="d-flex nav-active-border home-nav about-centered-nav">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link pt-4 pb-4 mb-2 active show" href="#" data-toggle="tab" data-target="#tab_1">Creators</a>
+                        <a class="nav-link pt-4 pb-4 active show" href="#" data-toggle="tab" data-target="#creators_tab">For Creators</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pt-4 pb-4" href="#" data-toggle="tab" data-target="#tab_2">Fans</a>
+                        <a class="nav-link pt-4 pb-4" href="#" data-toggle="tab" data-target="#fans_tab">For Fans</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <div class="row creators-about">
+<div class="tab-content">
+    <div class="tab-pane fade active show" id="creators_tab">
+        <div class="row creators-about">
 
-        <div class="about-avatar-img col-lg-3 col-md-12 col-sm-12">
-            <img src="/media/creator.svg"/>
+            <div class="about-avatar-img col-lg-3 col-md-12 col-sm-12">
+                <img src="/media/creator.svg"/>
+            </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="about-icon-circle mb-3">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" width="24" height="24"><path fill="white" d="M23,1H1C0.448,1,0,1.448,0,2v17c0,0.552,0.448,1,1,1h7.198l3.034,3.64C11.422,23.868,11.703,24,12,24 s0.578-0.132,0.768-0.36L15.802,20H23c0.552,0,1-0.448,1-1V2C24,1.448,23.552,1,23,1z M12,5c1.381,0,2.5,1.119,2.5,2.5 c0,1.381-1.119,2.5-2.5,2.5S9.5,8.881,9.5,7.5C9.5,6.119,10.619,5,12,5z M16.5,16h-9v-1.621c0-0.891,0.585-1.67,1.44-1.922 C9.735,12.222,10.803,12,12,12s2.265,0.222,3.06,0.457c0.855,0.252,1.44,1.031,1.44,1.922V16z"/></svg>
+                    </div>
+                    <h4>Interactive</h4>
+                    <p>Apogee is a tool to set up fun interactions</p>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="about-icon-circle mb-3">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" width="24" height="24"><path fill="white" d="M23,8H1C0.448,8,0,8.448,0,9v14c0,0.552,0.448,1,1,1h22c0.552,0,1-0.448,1-1V9C24,8.448,23.552,8,23,8z M12,19c-1.657,0-3-1.343-3-3s1.343-3,3-3s3,1.343,3,3S13.657,19,12,19z"/> <rect fill="white" x="3" y="4" width="18" height="2"/> <rect fill="white" x="7" width="10" height="2"/></svg>
+                    </div>
+                    <h4>Economical</h4>
+                    <p>Apogee can serve as a secondary revenue stream</p>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="about-icon-circle mb-3">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" width="24" height="24"><path fill="white" d="M12,6L12,6c-1.657,0-3-1.343-3-3v0c0-1.657,1.343-3,3-3h0c1.657,0,3,1.343,3,3v0C15,4.657,13.657,6,12,6z"/> <path fill="white" d="M4,19v-8c0-1.13,0.391-2.162,1.026-3H2c-1.105,0-2,0.895-2,2v6h2v5c0,0.552,0.448,1,1,1h2 c0.552,0,1-0.448,1-1v-2H4z"/> <path fill="white" d="M14,24h-4c-0.552,0-1-0.448-1-1v-6H6v-6c0-1.657,1.343-3,3-3h6c1.657,0,3,1.343,3,3v6h-3v6 C15,23.552,14.552,24,14,24z"/> <path fill="white" d="M4,7L4,7C2.895,7,2,6.105,2,5v0c0-1.105,0.895-2,2-2h0c1.105,0,2,0.895,2,2v0 C6,6.105,5.105,7,4,7z"/> <path fill="white" d="M20,19v-8c0-1.13-0.391-2.162-1.026-3H22c1.105,0,2,0.895,2,2v6h-2v5c0,0.552-0.448,1-1,1h-2 c-0.552,0-1-0.448-1-1v-2H20z"/> <path fill="white" d="M20,7L20,7c1.105,0,2-0.895,2-2v0c0-1.105-0.895-2-2-2h0c-1.105,0-2,0.895-2,2v0 C18,6.105,18.895,7,20,7z"/></svg>
+                    </div>
+                    <h4>Supportive</h4>
+                    <p>Strengthens connection with community</p>
+                </div>
+                
         </div>
+    </div>  
+    <div class="tab-pane fade" id="fans_tab">
+        <div class="row fans-about">
 
-            <div class="col-lg-3 col-md-4 col-sm-12">
-                <div class="about-icon-circle mb-3">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" width="24" height="24"><path fill="white" d="M23,1H1C0.448,1,0,1.448,0,2v17c0,0.552,0.448,1,1,1h7.198l3.034,3.64C11.422,23.868,11.703,24,12,24 s0.578-0.132,0.768-0.36L15.802,20H23c0.552,0,1-0.448,1-1V2C24,1.448,23.552,1,23,1z M12,5c1.381,0,2.5,1.119,2.5,2.5 c0,1.381-1.119,2.5-2.5,2.5S9.5,8.881,9.5,7.5C9.5,6.119,10.619,5,12,5z M16.5,16h-9v-1.621c0-0.891,0.585-1.67,1.44-1.922 C9.735,12.222,10.803,12,12,12s2.265,0.222,3.06,0.457c0.855,0.252,1.44,1.031,1.44,1.922V16z"/></svg>
-                </div>
-                <h4>Interactive</h4>
-                <p>Apogee is a tool to set up fun interactions</p>
+            <div class="about-avatar-img col-lg-3 col-md-12 col-sm-12">
+                <img src="/media/fan.svg"/>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-12">
-                <div class="about-icon-circle mb-3">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" width="24" height="24"><path fill="white" d="M23,8H1C0.448,8,0,8.448,0,9v14c0,0.552,0.448,1,1,1h22c0.552,0,1-0.448,1-1V9C24,8.448,23.552,8,23,8z M12,19c-1.657,0-3-1.343-3-3s1.343-3,3-3s3,1.343,3,3S13.657,19,12,19z"/> <rect fill="white" x="3" y="4" width="18" height="2"/> <rect fill="white" x="7" width="10" height="2"/></svg>
-                </div>
-                <h4>Economical</h4>
-                <p>Apogee is another revenue stream</p>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-12">
-                <div class="about-icon-circle mb-3">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" width="24" height="24"><path fill="white" d="M12,6L12,6c-1.657,0-3-1.343-3-3v0c0-1.657,1.343-3,3-3h0c1.657,0,3,1.343,3,3v0C15,4.657,13.657,6,12,6z"/> <path fill="white" d="M4,19v-8c0-1.13,0.391-2.162,1.026-3H2c-1.105,0-2,0.895-2,2v6h2v5c0,0.552,0.448,1,1,1h2 c0.552,0,1-0.448,1-1v-2H4z"/> <path fill="white" d="M14,24h-4c-0.552,0-1-0.448-1-1v-6H6v-6c0-1.657,1.343-3,3-3h6c1.657,0,3,1.343,3,3v6h-3v6 C15,23.552,14.552,24,14,24z"/> <path fill="white" d="M4,7L4,7C2.895,7,2,6.105,2,5v0c0-1.105,0.895-2,2-2h0c1.105,0,2,0.895,2,2v0 C6,6.105,5.105,7,4,7z"/> <path fill="white" d="M20,19v-8c0-1.13-0.391-2.162-1.026-3H22c1.105,0,2,0.895,2,2v6h-2v5c0,0.552-0.448,1-1,1h-2 c-0.552,0-1-0.448-1-1v-2H20z"/> <path fill="white" d="M20,7L20,7c1.105,0,2-0.895,2-2v0c0-1.105-0.895-2-2-2h0c-1.105,0-2,0.895-2,2v0 C18,6.105,18.895,7,20,7z"/></svg>
-                </div>
-                <h4>Community</h4>
-                <p>Strengthens connection with community</p>
-            </div>
-            
-    </div>
 
-<!--         <div class="col-lg-12">
-            <div class="home-illu-holder mr-4 mb-4"></div>
-            <h3>Creators</h3>
-                <p>Apogee is a tool to set up fun interactions</p>
-                <p>Apogee is another revenue stream</p>
-                <p>Strengthens connection with community</p>
-        </div> -->
-
-    <div class="row fans-about">
-        <div class="col-lg-12">
-            <div class="home-illu-holder mr-4 mb-4"></div>
-            <h3>Fans</h3>
-                <p>You get to play, not just watch</p>
-                <p>You get to support your favorite creators</p>
-                <p>You get to know the creator more</p>
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="about-icon-circle mb-3">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" width="24" height="24"><path fill="white" d="M23,1H1C0.448,1,0,1.448,0,2v17c0,0.552,0.448,1,1,1h7.198l3.034,3.64C11.422,23.868,11.703,24,12,24 s0.578-0.132,0.768-0.36L15.802,20H23c0.552,0,1-0.448,1-1V2C24,1.448,23.552,1,23,1z M12,5c1.381,0,2.5,1.119,2.5,2.5 c0,1.381-1.119,2.5-2.5,2.5S9.5,8.881,9.5,7.5C9.5,6.119,10.619,5,12,5z M16.5,16h-9v-1.621c0-0.891,0.585-1.67,1.44-1.922 C9.735,12.222,10.803,12,12,12s2.265,0.222,3.06,0.457c0.855,0.252,1.44,1.031,1.44,1.922V16z"/></svg>
+                    </div>
+                    <h4>Interactive</h4>
+                    <p>You get to play, not just watch</p>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="about-icon-circle mb-3">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" width="24" height="24"><path fill="white" d="M23,8H1C0.448,8,0,8.448,0,9v14c0,0.552,0.448,1,1,1h22c0.552,0,1-0.448,1-1V9C24,8.448,23.552,8,23,8z M12,19c-1.657,0-3-1.343-3-3s1.343-3,3-3s3,1.343,3,3S13.657,19,12,19z"/> <rect fill="white" x="3" y="4" width="18" height="2"/> <rect fill="white" x="7" width="10" height="2"/></svg>
+                    </div>
+                    <h4>Economical</h4>
+                    <p>Support your favorite creators</p>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="about-icon-circle mb-3">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" width="24" height="24"><path fill="white" d="M12,6L12,6c-1.657,0-3-1.343-3-3v0c0-1.657,1.343-3,3-3h0c1.657,0,3,1.343,3,3v0C15,4.657,13.657,6,12,6z"/> <path fill="white" d="M4,19v-8c0-1.13,0.391-2.162,1.026-3H2c-1.105,0-2,0.895-2,2v6h2v5c0,0.552,0.448,1,1,1h2 c0.552,0,1-0.448,1-1v-2H4z"/> <path fill="white" d="M14,24h-4c-0.552,0-1-0.448-1-1v-6H6v-6c0-1.657,1.343-3,3-3h6c1.657,0,3,1.343,3,3v6h-3v6 C15,23.552,14.552,24,14,24z"/> <path fill="white" d="M4,7L4,7C2.895,7,2,6.105,2,5v0c0-1.105,0.895-2,2-2h0c1.105,0,2,0.895,2,2v0 C6,6.105,5.105,7,4,7z"/> <path fill="white" d="M20,19v-8c0-1.13-0.391-2.162-1.026-3H22c1.105,0,2,0.895,2,2v6h-2v5c0,0.552-0.448,1-1,1h-2 c-0.552,0-1-0.448-1-1v-2H20z"/> <path fill="white" d="M20,7L20,7c1.105,0,2-0.895,2-2v0c0-1.105-0.895-2-2-2h0c-1.105,0-2,0.895-2,2v0 C18,6.105,18.895,7,20,7z"/></svg>
+                    </div>
+                    <h4>Supportive</h4>
+                    <p>Get to know the creators more</p>
+                </div>
+                
         </div>
-    </div>
+    </div> 
+</div>
+
 </div>
 
     {% endif %}
