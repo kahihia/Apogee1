@@ -50,8 +50,8 @@ EMAIL_HOST_USER = 'SMTP_Injection'
 EMAIL_HOST_PASSWORD = 'f44c2ec0910495b35f830b5bc2aafd584fbaa3a6'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-SERVER_EMAIL = "Apogee <support@apogee.gg>"
-DEFAULT_FROM_EMAIL = "Apogee <support@apogee.gg>"
+SERVER_EMAIL = "Granite <support@granite.gg>"
+DEFAULT_FROM_EMAIL = "Granite <support@granite.gg>"
 
 ASGI_APPLICATION = "apogee1.routing.application"
 

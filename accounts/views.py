@@ -24,7 +24,7 @@ from parties.models import Party
 # Create your views here.
 User = get_user_model()
 
-welcome_message = "You have successfully registered your account with Apogee.\nWe are excited to have you join the Apogee community!"
+welcome_message = "You have successfully registered your account with Granite.\nWe are excited to have you join the Granite community!"
 
 # this view is for signing up a new user
 class UserRegisterView(FormView):
@@ -64,7 +64,7 @@ class UserRegisterView(FormView):
             new_user.set_password(password)
             new_user.save()
             email_data = {'username': username}
-            emailer.email('Account Registration Success', 'team@apogee.gg', [email], 'creation_email.html', email_data)
+            emailer.email('Account Registration Success', 'team@granite.gg', [email], 'creation_email.html', email_data)
             login(self.request, new_user)
             return HttpResponseRedirect("/")
 
