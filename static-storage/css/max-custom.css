@@ -186,13 +186,24 @@ p, .about-apogee p {
     height: 200px;
 }
 
+.creators-about {
+    align-items: center;
+}
+
+.about-centered-nav > ul {
+    text-align: center;
+    float: none;
+    max-width: 244px;
+    margin: 0 auto;
+}
+
 .fans-about {
     display: none !important;
     opacity: 0;
     visibility: hidden;
 }
 
-.about-avatar-img {
+.about-avatar-img > img {
     height: 256px;
 }
 
