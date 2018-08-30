@@ -12,6 +12,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 	# need to be reformatted for display
 	url = serializers.SerializerMethodField()
 	is_verified = serializers.SerializerMethodField()
+	profile_picture = serializers.SerializerMethodField()
 	class Meta:
 		model = User
 		# Fields eplicitly states the data and names that are available
@@ -22,7 +23,8 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 			'first_name', 
 			'last_name', 
 			'url',
-			'is_verified'
+			'is_verified',
+			'profile_picture',
 			# 'email'
 		]
 
@@ -34,4 +36,11 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 		return reverse_lazy('profiles:detail', kwargs={'username': obj.username})
 
 	def get_is_verified(self, obj):
-		return obj.profile.is_verified
+		return obj.profile.is_verified	
+
+	def get_profile_picture(self, obj):
+		print(obj.profile.profile_picture)
+		if obj.profile.profile_picture and hasattr(obj.profile.profile_picture, 'url'):
+			return obj.profile.profile_picture.url
+		else:
+			return None

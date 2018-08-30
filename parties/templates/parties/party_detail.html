@@ -60,9 +60,9 @@
 								<!-- Details on event -->
 								<div class="mb-3" style="height: 45px">
 									<a class='text-light float-left' href='/profiles/{{ serialized.user.username }}'>
-										{% if serialized.user.profile_picture %}
+										{% if serialized.profile_picture %}
 										<div class="rounded-circle " style='height: 40px; width: 40px; overflow: hidden; border: 3px solid white; float: left'>
-											<img src='{{ serialized.user.profile.profile_picture.url }}' class="float-left" style='max-height: 40px;'>		
+											<img src='{{ serialized.profile_picture }}' class="float-left" style='max-height: 40px;'>		
 										</div>
 										{% else %}
 										<!-- Default blank profile img-->

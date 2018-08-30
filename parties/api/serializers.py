@@ -48,6 +48,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	is_owner = serializers.SerializerMethodField()
 	num_curr_winners = serializers.SerializerMethodField()
 	verified = serializers.SerializerMethodField()
+	profile_picture = serializers.SerializerMethodField()
 
 	class Meta:
 		# the API is built on the party model
@@ -80,7 +81,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'num_curr_winners',
 			'minimum_bid',
 			'max_entrants',
-			'verified' 
+			'verified',
+			'profile_picture',
 		]
 
 	# method if you want the human readable format of the event type
@@ -125,6 +127,12 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		#return "https://s3-us-west-1.amazonaws.com/apogee-assets/thumbnails/2018/07/17/HovaGolfWithFriends.jpg"
 		if obj.thumbnail and hasattr(obj.thumbnail, 'url'):
 			return obj.thumbnail.url
+		else:
+			return None 
+
+	def get_profile_picture(self, obj):
+		if obj.user.profile.profile_picture and hasattr(obj.user.profile.profile_picture, 'url'):
+			return obj.user.profile.profile_picture.url
 		else:
 			return None 
 			

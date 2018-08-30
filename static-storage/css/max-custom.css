@@ -34,10 +34,6 @@ body {
     color: #fff;
 }
 
-img {
-    max-width: 100%;
-}
-
 /* Typography */
 
 h1, .header-wrapper h1 {
@@ -353,6 +349,10 @@ p, .about-apogee p {
     float: left;
     margin:  0 10px;
     margin-left: 0px;
+}
+
+.home-card img {
+    max-width: 100%
 }
 
 .home-card > .card-body {
