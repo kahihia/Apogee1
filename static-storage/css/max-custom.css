@@ -186,6 +186,12 @@ p, .about-apogee p {
     height: 200px;
 }
 
+.fans-about {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
 .home-illu-holder {
     min-width: 180px;
     height: 180px;
