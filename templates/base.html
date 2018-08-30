@@ -17,6 +17,19 @@ of the formatting in the head, so it must be imported into every file. -->
 
     <!-- CDN for FontAwesome, which is where our little glyphicons come from -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+
+    <!-- Typekit -->
+    <script>
+    (function(d) {
+      var config = {
+        kitId: 'qab4cmt',
+        scriptTimeout: 3000,
+        async: true
+      },
+      h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+    })(document);
+  </script>
+
     <!-- block title allows us to push a new title from each page -->
     <!-- you can access the apogee text by calling block.super, so all other pages just call that in their block title section -->
     {% block head %}{% endblock head %}

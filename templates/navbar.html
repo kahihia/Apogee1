@@ -115,15 +115,19 @@
         </li>
     </ul>
     {% else %}
-        <div class="nav w-100 order-3 text-right sm-w-50">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
+        <div class="nav order-lg-1 logged-out-nav-container">
+            <ul>
+                <li class="nav-item pr-2">
+                    <a class="nav-link" href="/accounts/login/">Log In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+                    <a class="nav-link" href="/register/">Sign Up</a>
                 </li>
             </ul>
         </div>
+    
+</nav>
+
+
     {% endif %}
 </nav>

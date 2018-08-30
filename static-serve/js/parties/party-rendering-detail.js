@@ -158,7 +158,7 @@ function renderPartyList(partyContainerID){
     // for the title and description, and a footer for name, time, 
     // event type, and star
     let container =  
-    '<div class="card home-card col-xs-12 col-md-4 col-lg-2 col-xl-2"' + 
+    '<div class="card home-card mr-4 col-xs-12 col-md-4 col-lg-2 col-xl-2"' + 
       '<a class="text-light" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
         '<img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
       '</a>' +
