@@ -192,6 +192,10 @@ p, .about-apogee p {
     visibility: hidden;
 }
 
+.about-avatar-img {
+    height: 256px;
+}
+
 .about-icon-circle {
     position: relative;
     width: 64px;
