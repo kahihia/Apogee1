@@ -81,7 +81,7 @@ p, .about-apogee p {
 }
 
 @media (max-width: 720px) {
-    h1, .header-wrapper h1, h2, .about-apogee h2, .faq-section h2, h4, .header-wrapper h4 {
+    h1, .header-wrapper h1, h2, .about-apogee h2, .faq-section h2, .header-wrapper h4 {
         text-align: center !important;
         float: none;
         width: 100%;
@@ -199,6 +199,9 @@ p, .about-apogee p {
 
 .about-avatar-img > img {
     height: 256px;
+    margin: 0 auto;
+    float: none;
+    width: 100%;
 }
 
 .about-icon-circle {
