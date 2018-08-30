@@ -105,7 +105,7 @@ p, .about-apogee p {
 }
 
 .container-default {
-    max-width: 1110px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
@@ -151,7 +151,7 @@ p, .about-apogee p {
 }
 
 .header-wrapper {
-    max-width: 1110px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 30px;
 }
@@ -3308,7 +3308,7 @@ Layout
 
 @media (min-width: 992px) {
     .page-container {
-        max-width: 1110px;
+        max-width: 1400px;
         margin: 0 auto;
     }
     .page-sidenav {
