@@ -45,7 +45,7 @@ $(document).ready(function() {
         <header class="hero-section">
             <div class="header-wrapper">
                 <h1 class="text-left">Featured Event</h1>
-                <div class="placeholder-hero-img"></div>
+                <div class="placeholder-hero-img my-4"></div>
                 <p>Details of the event will appear here. This section of text can extend to multiple lines.</p>
             </div>
         </header>
@@ -54,11 +54,11 @@ $(document).ready(function() {
         <header class="hero-section">
             <div class="header-wrapper">
                 <div class="row header-text">
-                    <div class="col-lg-4 offset-lg-1">
+                    <div class="col-lg-5 offset-lg-1 col-sm-8 offset-sm-2 text-center">
                         <h1 class="text-left">Don’t Just Watch.<br> Join and Play.</h1>
                         <h4 class="text-left">Connect with your favorite creators in a new way.</h4>
                     </div>
-                    <div class="col-lg-6 col-sm-12">
+                    <div class="col-lg-5 offset-lg-0 col-sm-8 offset-sm-2 col-xs-12">
                         <div class="card card-profile text-center">
                             <div class="card-block">
                                 <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
@@ -67,7 +67,7 @@ $(document).ready(function() {
                               <small>Tagline Goes Here</small>
                               
                             </h4>
-                                <a href="{{ request.user.profile.get_absolute_url }}">
+                                <a href="">
                                     <button class="btn btn-new btn-primary-new">View Profile</button>
                                 </a>
                             </div>
@@ -76,6 +76,80 @@ $(document).ready(function() {
                 </div>
             </div>
         </header>
+    </div>
+</div>
+    
+<div class="home-content container about-apogee my-5">
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <h2 class="mt-3">What's Apogee?</h2>
+        </div>
+        <div class="col-lg-12">
+            <p class="mb-4">Well, it means different things to different people. We think of it as:</p>
+        </div>
+    </div>
+
+    <div class="row pl-3">
+        <div>
+            <div class="d-flex nav-active-border home-nav">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link pt-4 pb-4 mb-2 active show" href="#" data-toggle="tab" data-target="#tab_1">Creators</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pt-4 pb-4" href="#" data-toggle="tab" data-target="#tab_2">Fans</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row creators-about">
+
+        <div class="about-avatar-img col-lg-3 col-md-12 col-sm-12">
+            <img src="/media/creator.svg"/>
+        </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="about-icon-circle mb-3">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" width="24" height="24"><path fill="white" d="M23,1H1C0.448,1,0,1.448,0,2v17c0,0.552,0.448,1,1,1h7.198l3.034,3.64C11.422,23.868,11.703,24,12,24 s0.578-0.132,0.768-0.36L15.802,20H23c0.552,0,1-0.448,1-1V2C24,1.448,23.552,1,23,1z M12,5c1.381,0,2.5,1.119,2.5,2.5 c0,1.381-1.119,2.5-2.5,2.5S9.5,8.881,9.5,7.5C9.5,6.119,10.619,5,12,5z M16.5,16h-9v-1.621c0-0.891,0.585-1.67,1.44-1.922 C9.735,12.222,10.803,12,12,12s2.265,0.222,3.06,0.457c0.855,0.252,1.44,1.031,1.44,1.922V16z"/></svg>
+                </div>
+                <h4>Interactive</h4>
+                <p>Apogee is a tool to set up fun interactions</p>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="about-icon-circle mb-3">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" width="24" height="24"><path fill="white" d="M23,8H1C0.448,8,0,8.448,0,9v14c0,0.552,0.448,1,1,1h22c0.552,0,1-0.448,1-1V9C24,8.448,23.552,8,23,8z M12,19c-1.657,0-3-1.343-3-3s1.343-3,3-3s3,1.343,3,3S13.657,19,12,19z"/> <rect fill="white" x="3" y="4" width="18" height="2"/> <rect fill="white" x="7" width="10" height="2"/></svg>
+                </div>
+                <h4>Economical</h4>
+                <p>Apogee is another revenue stream</p>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="about-icon-circle mb-3">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" width="24" height="24"><path fill="white" d="M12,6L12,6c-1.657,0-3-1.343-3-3v0c0-1.657,1.343-3,3-3h0c1.657,0,3,1.343,3,3v0C15,4.657,13.657,6,12,6z"/> <path fill="white" d="M4,19v-8c0-1.13,0.391-2.162,1.026-3H2c-1.105,0-2,0.895-2,2v6h2v5c0,0.552,0.448,1,1,1h2 c0.552,0,1-0.448,1-1v-2H4z"/> <path fill="white" d="M14,24h-4c-0.552,0-1-0.448-1-1v-6H6v-6c0-1.657,1.343-3,3-3h6c1.657,0,3,1.343,3,3v6h-3v6 C15,23.552,14.552,24,14,24z"/> <path fill="white" d="M4,7L4,7C2.895,7,2,6.105,2,5v0c0-1.105,0.895-2,2-2h0c1.105,0,2,0.895,2,2v0 C6,6.105,5.105,7,4,7z"/> <path fill="white" d="M20,19v-8c0-1.13-0.391-2.162-1.026-3H22c1.105,0,2,0.895,2,2v6h-2v5c0,0.552-0.448,1-1,1h-2 c-0.552,0-1-0.448-1-1v-2H20z"/> <path fill="white" d="M20,7L20,7c1.105,0,2-0.895,2-2v0c0-1.105-0.895-2-2-2h0c-1.105,0-2,0.895-2,2v0 C18,6.105,18.895,7,20,7z"/></svg>
+                </div>
+                <h4>Community</h4>
+                <p>Strengthens connection with community</p>
+            </div>
+            
+    </div>
+
+<!--         <div class="col-lg-12">
+            <div class="home-illu-holder mr-4 mb-4"></div>
+            <h3>Creators</h3>
+                <p>Apogee is a tool to set up fun interactions</p>
+                <p>Apogee is another revenue stream</p>
+                <p>Strengthens connection with community</p>
+        </div> -->
+
+    <div class="row fans-about">
+        <div class="col-lg-12">
+            <div class="home-illu-holder mr-4 mb-4"></div>
+            <h3>Fans</h3>
+                <p>You get to play, not just watch</p>
+                <p>You get to support your favorite creators</p>
+                <p>You get to know the creator more</p>
+        </div>
     </div>
 </div>
 
@@ -93,72 +167,155 @@ $(document).ready(function() {
             </div>
         </div>
 
-<div class="home-content container">
-
-        <div class="row pl-3">
-            <div class="pl-3">
-                <div class="d-flex nav-active-border home-nav">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link pt-4 pb-4 mb-2 active show" href="#" data-toggle="tab" data-target="#tab_1">Creators</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_2">Fans</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+<div class="home-content container faq-section mt-4">
+        <div class="row">
+            <h2 class="pl-3">Frequently Asked Questions<h2>
+        </div>
+        <div class="row pl-3 pt-3">
+            <h4>Creators</h4>
         </div>
 
 
     <div class="row">
 
-    <div id="accordion" role="tablist">
-      <div class="card">
-        <div class="card-header" role="tab" id="headingOne">
-          <h5 class="mb-0">
-            <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              How much of the event revenue do I get?
-            </a>
-          </h5>
-        </div>
+        <div id="accordion" role="tablist" class="apogee-accordion pl-3">
 
-        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-          <div class="card-body">
-            95%. Our goal is to support you and your community, so we want to stay out of your way. As a result, we take 5%, so that we can cover fees associated with online transactions.
-          </div>
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingOne">
+                    <h5 class="mb-0">
+                        <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        How much of the event revenue do I get?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        95%. Our goal is to support you and your community, so we want to stay out of your way. As a result, we take 5%, so that we can cover fees associated with online transactions.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingTwo">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        How am I protected from toxic fans?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        We have a block function that prevents someone from seeing any of your events. You may also remove a fan from any event for behavior you deem inappropriate or abusive in any way.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingThree">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        When does someone get a refund? Can I dispute it?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        Fans must file a complaint first. We’ll then contact you to review the situation. If you left or cancelled the event without reason or abused the fan in some way, we’ll have to issue a refund.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingFour">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        If someone gets a refund does everyone else get one too?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour" data-parent="#accordion">
+                    <div class="card-body">
+                        Yes. If only one refund was issued, it would open up opportunities to exploit events.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingFive">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        What if someone lies and says I didn’t show up?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseFive" class="collapse" role="tabpanel" aria-labelledby="headingFive" data-parent="#accordion">
+                    <div class="card-body">
+                        We’ll investigate first. Recording your session in some way provides clean proof of your actions.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row pl-3 pt-3">
+                <h4>Fans</h4>
+            </div>
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingSix">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                        How am I protected from toxic creators?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseSix" class="collapse" role="tabpanel" aria-labelledby="headingSix" data-parent="#accordion">
+                    <div class="card-body">
+                        We have a block function that prevents someone from seeing any of your events. You may also remove a fan from any event for behavior you deem inappropriate or abusive in any way.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingSeven">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                        How do I request a refund?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseSeven" class="collapse" role="tabpanel" aria-labelledby="headingSeven" data-parent="#accordion">
+                    <div class="card-body">
+                        Send us an email at customersupport@apogee.gg titled “Refund Request“ from the email associated with your account and we will investigate your claim.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingEight">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                        How do I connect with the creator once I’ve joined and event?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseEight" class="collapse" role="tabpanel" aria-labelledby="headingEight" data-parent="#accordion">
+                    <div class="card-body">
+                        We have set up an instant messaging service on the event itself. Once you’ve won the event, you and the creator can message back and forth to discuss how to connect.
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </div>
-      <div class="card">
-        <div class="card-header" role="tab" id="headingTwo">
-          <h5 class="mb-0">
-            <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              How am I protected from toxic fans?
-            </a>
-          </h5>
-        </div>
-        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-          <div class="card-body">
-            We have a block function that prevents someone from seeing any of your events. You may also remove a fan from any event for behavior you deem inappropriate or abusive in any way.
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header" role="tab" id="headingThree">
-          <h5 class="mb-0">
-            <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-              When does someone get a refund? Can I dispute it?
-            </a>
-          </h5>
-        </div>
-        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-          <div class="card-body">
-            Fans must file a complaint first. We’ll then contact you to review the situation. If you left or cancelled the event without reason or abused the fan in some way, we’ll have to issue a refund.
-          </div>
-        </div>
-      </div>
     </div>
 </div>
+
 
 </div>
 {% endblock content %}
