@@ -457,6 +457,22 @@ p, .about-apogee p {
     top: 32px !important;
 }
 
+.logged-out-nav-container {
+    position: absolute;
+    right: 30px;
+}
+
+.logged-out-nav-container > ul {
+    list-style: none;
+    position: relative;
+    right: 54px;
+    top: 8px;
+}
+
+.logged-out-nav-container > ul > li:first-child {
+    float: left;
+}
+
 @media (min-width: 567px) {
     .main-sidebar {
         height: 100%;
@@ -466,8 +482,6 @@ p, .about-apogee p {
 .card {
     border: none;
 }
-
-
 
 
 /********************** Agile CSS *************************/
@@ -490,17 +504,6 @@ p, .about-apogee p {
 /*
 Base 
 */
-
-html {
-    background: #f7f8fa;
-}
-
-body {
-    width: 100%;
-    min-height: 100vh;
-    color: #647787;
-    background: #f7f8fa;
-}
 
 *:focus {
     outline: 0 !important;
@@ -791,7 +794,7 @@ Card
 .card-footer {
     padding: 0 !important;
     margin-top: 15px;
-    border-bottom: 1px solid transparent;
+    border-bottom: 1px solid transparent !important;
 }
 
 .card-text {
