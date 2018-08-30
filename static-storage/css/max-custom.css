@@ -791,6 +791,7 @@ Card
 .card-footer {
     padding: 0 !important;
     margin-top: 15px;
+    border-bottom: 1px solid transparent;
 }
 
 .card-text {
