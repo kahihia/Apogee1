@@ -192,6 +192,21 @@ p, .about-apogee p {
     visibility: hidden;
 }
 
+.about-icon-circle {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid hsla(270,100%,100%,0.25);
+}
+
+.about-icon-circle svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
 .home-illu-holder {
     min-width: 180px;
     height: 180px;
