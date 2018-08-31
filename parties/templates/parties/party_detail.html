@@ -253,7 +253,7 @@
 								allows the owner to update and delete -->
 								{% if serialized.user.id == request.user.id and request.user.is_authenticated and serialized.is_open %}
 								<div class='mt-3'>
-									<a href='{{serialized.id}}/delete/'>
+									<a href='{{serialized.id}}/delete/' style="text-decoration: none">
 										<button type='button' class='btn btn-danger btn-block my-3' id='delete'>Delete Event</button>
 									</a>				
 
