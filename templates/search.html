@@ -52,12 +52,12 @@ than in the parties templates -->
 						<img src='/media/profile_pics/blank_profile.png' class="float-left" style='max-height: 50px;'>		
 					</div>
 					{% endif %}
-					<p class='ml-1' style="margin-bottom: 0px; height: 50px; padding-left: 75px; padding-top: 10px;">{{ user.username}} hello
+					<p class='ml-1' style="margin-bottom: 0px; height: 50px; padding-left: 75px; padding-top: 10px;">{{ user.username}}
 					</p>
-					{%if user.is_verified%}
-						<i class="fas fa-check-circle"></i>
-					{%endif%} 
 				</a>
+				{%if user.is_verified%}
+					<i class="fas fa-check-circle"></i>
+				{%endif%} 
 			</div>
 			{% empty %}
 				<p>Not following anyone</p>
