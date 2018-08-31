@@ -116,6 +116,8 @@ class FundsView(LoginRequiredMixin, DetailView):
     def get(self, request, *args, **kwargs):
         paypal_client_id = config("PAYPAL_CLIENT_ID", default="test"),
         paypal_env = config("PAYPAL_ENV", default="sandbox")
+        if paypal_env == "live":
+            paypal_env = "production"
         context = {'user': self.request.user, 'paypal_env': paypal_env, 'paypal_client_id': paypal_client_id[0] }
         return render(request, 'accounts/funds.html', context)
 
