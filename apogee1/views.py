@@ -18,7 +18,8 @@ class TOSView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}
 		return render(request, 'tos.html', context)
-class BlankView(view):
+
+class BlankView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}
 		return render(request, 'blank.html', context)
