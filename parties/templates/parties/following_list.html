@@ -35,16 +35,16 @@ of usernames and a list of events -->
 				{%endif%} 
 
 					{% if user.profile.profile_picture %}
-					<div class=" rounded-circle " style='height: 50px; width: 50px; overflow: hidden; float: left'>
-						<img src='{{ user.profile.profile_picture.url }}' class="float-left" style='max-height: 50px;'>		
+					<div class=" rounded-circle " style='height: 40px; width: 40px; overflow: hidden; float: left'>
+						<img src='{{ user.profile.profile_picture.url }}' class="float-left" style='max-height: 40px;'>		
 					</div>
 					{% else %}
 					<!-- Default blank profile img-->
-					<div class=" rounded-circle " style='height: 50px; width: 50px; overflow: hidden; float: left'>
-						<img src='/media/profile_pics/blank_profile.png' class="float-left" style='max-height: 50px;'>		
+					<div class=" rounded-circle " style='height: 40px; width: 40px; overflow: hidden; float: left'>
+						<img src='/media/profile_pics/blank_profile.png' class="float-left" style='max-height: 40px;'>		
 					</div>
 					{% endif %}
-					<p class='ml-1' style="margin-bottom: 0px; height: 50px; padding-left: 75px; padding-top: 10px;">{{ user.username }}
+					<p class='ml-1' style="margin-bottom: 0px; height: 40px; padding-left: 55px; padding-top: 10px;">{{ user.username }}
 					{%if user.is_verified%}
 						<i class="fas fa-check-circle"></i>
 					{%endif%} 
