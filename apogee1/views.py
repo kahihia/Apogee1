@@ -18,6 +18,10 @@ class TOSView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}
 		return render(request, 'tos.html', context)
+class BlankView(view):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'blank.html', context)
 # this is the default home page from when the app starts
 class HomeView(View):
 	def get(self, request, *args, **kwargs):
