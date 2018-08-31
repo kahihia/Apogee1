@@ -28,9 +28,13 @@
 {% block content %}
 <!-- this div contains only the banner photo -->
 <div class='row'>
+		{% if object.profile.banner %}
+			<div class="profile-banner" style="background-image: url('{{ object.profile.banner.url }}'); background-attachment: fixed;"></div>
+		{% else %}
 		<div class="profile-banner-bg">
 			<div class="profile-banner-pattern" style="background: url('/media/banner-bg.svg'); background-attachment: fixed;"></div>
 		</div>
+		{% endif %}
 </div>
 <!-- this contains profile info, like picture, name, bio, etc -->
 <div class='row pt-4 pb-4' style="background: rgba(255,255,255,0.1)">
