@@ -16,7 +16,7 @@ always added in to other form displays -->
 		font-size: 14px;
 	}
 	/*Django styling hack*/
-	label[for=id_thumbnail] {
+/*	label[for=id_thumbnail] {
 		display: inline-block;
 		font-weight: 600;
 		width: 250px;
@@ -36,16 +36,19 @@ always added in to other form displays -->
 		color: rgba(255,255,255,1) !important;
 		text-shadow: 0 2px 0 hsla(270,10%,10%,0.2) !important;
 		cursor: pointer;
+	}*/
+	label[for=id_thumbnail] {
+		display: none;
 	}
 	input[type=file]{
-		display: none;
+		display: block;
 	}
 </style>
 <form {% if form_id %} id='{{ form_id }}' {% endif %} class='form mt-3' method='POST' action='' enctype="multipart/form-data">
 	{% csrf_token %}
 
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-sm-12 col-md-4">
 			<div style="width: 100%; height: 150px; width: 250px; border: 2px solid white; overflow: hidden;">
 				<img id="imgPreview" src="/media/black-placeholder.png" style="width:100%" />
 			</div>
@@ -53,10 +56,11 @@ always added in to other form displays -->
 				{{ form.thumbnail.errors }}
 				{{ form.thumbnail.label_tag }}
 				{{ form.thumbnail }}
+				<br>
 				<p><small>Use an aspect ratio of 2.5x1.5 for best results</small></p>
 			</div>
 		</div>
-		<div class="col-md-8">
+		<div class="col-sm-12 col-md-8">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">

@@ -18,7 +18,6 @@ function check_event_type(type) {
     // this hides the max entrants field
     toggleField("#id_max_entrants", true)
     // this hides the minimum bid field
-    toggleField("#id_max_entrants", false)
     // this sets the text for the num winners field
     $("label[for=id_num_possible_winners]").text('Number of possible winners*');
      // this sets the text for cost
