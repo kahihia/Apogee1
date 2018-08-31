@@ -48,11 +48,14 @@ than in the parties templates -->
 						<img src='/media/profile_pics/blank_profile.png' class="float-left" style='max-height: 50px;'>		
 					</div>
 					{% endif %}
+					{% if user.is_verified %}
 					<p class='ml-1' style="margin-bottom: 0px; height: 50px; padding-left: 75px; padding-top: 10px;">{{ user.username}}
-						{% if user.is_verified %}
-							span><i class="fas fa-check-circle"></i></span>
-						{% endif %}
+							<span><i class="fas fa-check-circle"></i></span>
 					</p>
+					{%else%}
+					<p class='ml-1' style="margin-bottom: 0px; height: 50px; padding-left: 75px; padding-top: 10px;">{{ user.username}}
+					</p>
+					{% endif %}
 
 				</a>
 			</div>
