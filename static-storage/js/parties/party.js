@@ -112,8 +112,11 @@ function addReportFunctionality(){
       method: 'GET',
       url: reportUrl,
       success: function(data){
+        console.log("Successful Report");
       }, 
-      error: function(data){      }
+      error: function(data){
+        console.log("Unsuccessful Report");      
+      }
     })
   })
 }
