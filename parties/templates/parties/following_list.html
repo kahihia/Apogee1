@@ -9,13 +9,13 @@ of usernames and a list of events -->
 
 {% block script %}
 <script src='{% static "js/parties/old.js"%}'></script>
-<script src='{% static "js/parties/party-rendering-detail.js"%}'></script>
 <script src='{% static "js/parties/party.js"%}'></script>
 <script>
 	$(document).ready(function(){
 		loadPartyListContainer('following-container')
 		// loadPartyListContainer('joined-container')
 		// loadPartyListContainer('starred-container')
+		addStarFunctionality()
 		addStarFunctionality()
 	});
 </script>
@@ -58,18 +58,10 @@ of usernames and a list of events -->
 	</div>
 		<div class='col-md-8 mt-3'>
 			<div style="padding-left:40px">
-				<!-- <div class='col-md-12 mt-3'>
-					<p class=" mt-3"><b><u>Events Joined</u></b></p><hr>
-					<div class='ml-1 row' id='joined-container' data-url='/api/events/joined/'></div>
-				</div> -->
 				<div class='col-md-12 mt-3'>
 					<p class=" mt-3"><b><u>Events From Creators You Follow</u></b></p><hr>
-					<div class='ml-1 row' id='following-container' />
+					<div class='ml-1 row' id='following-container'></div>
 				</div>
-				<!-- <div class='col-md-12 mt-3'>
-					<p class=" mt-3"><b><u>Favorited Events</u></b></p><hr>
-					<div class='ml-1 row' id='starred-container' data-url='/api/events/starred/'></div>
-				</div> -->
 				<button type="button" class="btn btn-primary-new btn-block" id='loadmore' style="display:none">Show More Events</button>
 				<br><p></p>
 			</div>
