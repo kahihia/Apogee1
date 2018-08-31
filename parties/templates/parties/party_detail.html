@@ -70,8 +70,9 @@
 											<img src='/media/profile_pics/blank_profile.png' class="float-left" style='max-height: 40px;'>		
 										</div>
 										{% endif %}
+
 										<p class='ml-1' style="margin-bottom: 0px; height: 40px; padding-left: 50px; padding-top: 10px;">{{ serialized.user.username }}
-										{%if user.is_verified%}
+										{%if serialized.user.is_verified%}
 											<i class="fas fa-check-circle"></i>
 										{%endif%} 
 										</p>
