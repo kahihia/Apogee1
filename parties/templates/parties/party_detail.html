@@ -208,7 +208,7 @@
 										{% with "Enter Lottery" as lottery_text %}  
 										{% with "Submit a Bid" as bid_text %}  
 										{% with "Buy Event" as buy_text %}  
-										<button type="button" class="btn btn-outline-secondary btn-block joinBtn joinDisplay" style="color: black; border-color: black" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> 
+										<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay" style="color: black; border-color: black" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> 
 											{% if serialized.event_type == 1 %}
 												{{ lottery_text }} 
 											{% elif serialized.event_type == 2 %}
@@ -223,7 +223,7 @@
 									{% endif %}
 									{% if not request.user.is_authenticated %}
 										<a href="/register">
-											<button type="button" class="btn btn-outline-secondary btn-block" style="color: black; border-color: black"> Sign up to join </button>										
+											<button type="button" class="btn btn-primary-new btn-block" style="color: black; border-color: black"> Sign up to join </button>										
 										</a>
 									{% endif %}
 								</div> 

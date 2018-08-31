@@ -33,7 +33,7 @@
 			<!-- payment stuff -->
 			{% if request.user.is_authenticated and request.user.id == user.id %}
 			<a href="{% url 'payout:info' %}">
-				<button class="btn btn-outline-secondary btn-block">Payout: ${{user.profile.account_balance}}</button>
+				<button class="btn btn-primary-new btn-block">Payout: ${{user.profile.account_balance}}</button>
 			</a> 
 			{% endif %}
 		</div>

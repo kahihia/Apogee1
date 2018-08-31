@@ -337,10 +337,10 @@ function renderPartyDetail(partyContainerID, fetchOneId){
     // this sets the display of the join button
     let join_verb = ''
     if (!partyValue.is_owner){
-        join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay" data-id="' 
+        join_verb = '<button type="button" class="btn btn-primary-new btn-block m-3 joinBtn joinDisplay" data-id="' 
         + partyValue.id + '" event-id="'+partyValue.event_type+'">' + join + '</button>'
       if (partyValue.did_join) {
-        join_verb = '<button type="button" class="btn btn-outline-secondary btn-block m-3 joinBtn joinDisplay disabled" data-id="' 
+        join_verb = '<button type="button" class="btn btn-primary-new btn-block m-3 joinBtn joinDisplay disabled" data-id="' 
         + partyValue.id + '" disabled>' + joined + '</button>'
       }
     } 
