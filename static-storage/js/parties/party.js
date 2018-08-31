@@ -112,11 +112,8 @@ function addReportFunctionality(){
       method: 'GET',
       url: reportUrl,
       success: function(data){
-        alert(data.error_message)
       }, 
-      error: function(data){
-        console.log('Report')
-      }
+      error: function(data){      }
     })
   })
 }
