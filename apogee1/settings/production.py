@@ -43,7 +43,12 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 AWS_S3_REGION_NAME = config('REGION_NAME')
 
 SECURE_SSL_REDIRECT=config("SSL_EVERYWHERE", default=True)
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+if config("SSL_EVERYWHERE", default=True):
+    protcol = 'https'
+else:
+    protcol = 'http'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', protcol)
 
 SERVER_EMAIL = "Granite <support@granite.gg>"
 DEFAULT_FROM_EMAIL = "Granite <support@granite.gg>"

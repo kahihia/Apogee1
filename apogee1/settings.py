@@ -32,7 +32,13 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = [config('DJANGO_ALLOWED_HOSTS')]
 
 SECURE_SSL_REDIRECT=config("SSL_EVERYWHERE", default=True)
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+if config("SSL_EVERYWHERE", default=True):
+    protcol = 'https'
+else:
+    protcol = 'http'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', protcol)
 
 AWS_QUERYSTRING_AUTH = False
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
