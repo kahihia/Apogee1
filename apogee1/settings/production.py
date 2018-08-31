@@ -50,8 +50,8 @@ else:
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', protcol)
 
-SERVER_EMAIL = "Granite <support@granite.gg>"
-DEFAULT_FROM_EMAIL = "Granite <support@granite.gg>"
+SERVER_EMAIL = "Granite <support@mail.granite.gg>"
+DEFAULT_FROM_EMAIL = "Granite <support@mail.granite.gg>"
 
 CHANNEL_LAYERS = {
     'default': {
