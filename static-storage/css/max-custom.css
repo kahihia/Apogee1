@@ -811,6 +811,12 @@ Buttons
     justify-content: center;
 }
 
+.black-outline-button {
+    border: 1px solid black !important;
+    color: black;
+    background: transparent;
+}
+
 .btn-icon.btn-sm {
     width: 1.75rem;
     height: 1.75rem;
