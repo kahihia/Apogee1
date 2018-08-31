@@ -24,8 +24,8 @@ of usernames and a list of events -->
 {% block content %}
 	<div class='row'>
 	<div class="col-md-1 d-md-block"></div>
-	<div class='col-md-3 mt-3 pt-3 pl-3 search-view' >
-		<div style="padding: 12px 12px 20px  46px; background: rgba(255,255,255,0.4); box-shadow: 6px 6px 0px rgba(255,255,255,0.5); margin: 10px;">
+	<div class='col-sm-12 col-md-3 mt-3 pt-3 pl-3 search-view' >
+		<div style="padding: 12px 12px 20px 20px; background: rgba(255,255,255,0.4); box-shadow: 6px 6px 0px rgba(255,255,255,0.5); margin: 10px;">
 			<p class="mt-3"><b>You're Following</b><hr>
 			{% for user in request.user.profile.get_following %}
 			<div class='mb-3'>
