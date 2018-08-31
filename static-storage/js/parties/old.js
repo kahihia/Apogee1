@@ -94,7 +94,7 @@ function renderPartyList(partyContainerID){
   function parseParties(){
     // partylist should be filled with parties from the fetch call
     if (partyList == 0) {
-      partyContainer.text('No events :(')
+      partyContainer.append("<div class='text-center p5'> No results found ☹</div>")
     } else {
       // make global variable, make responsive
       handSize = 3
