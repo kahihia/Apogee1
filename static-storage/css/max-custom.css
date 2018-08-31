@@ -363,6 +363,8 @@ p, .about-apogee p {
 .home-card > .card-img-top {
     height: 150px;
     overflow: hidden;
+    background-size: cover;
+    background-position: center
 }
 
 .home-nav ul > li > a {
