@@ -55,10 +55,10 @@ than in the parties templates -->
 					<p class='ml-1' style="margin-bottom: 0px; height: 50px; padding-left: 75px; padding-top: 10px;">{{ user.username}}
 					</p>
 				</a>
-				{%if user.is_verified%}
-					<i class="fas fa-check-circle"></i>
-				{%endif%} 
 			</div>
+			{%if user.is_verified%}
+				<i class="fas fa-check-circle"></i>
+			{%endif%} 
 			{% empty %}
 				<p>Not following anyone</p>
 			{% endfor %}
