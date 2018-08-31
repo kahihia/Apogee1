@@ -42,11 +42,6 @@ than in the parties templates -->
 					<div class=" rounded-circle " style='height: 50px; width: 50px; overflow: hidden; border: 1px solid white; float: left'>
 						<img src='{{ user.profile.profile_picture.url }}' class="float-left" style='max-height: 50px;'>		
 					</div>
-					djdjdjdjdjjdjdjdjdjdjd
-				{%if user.is_verified%}
-				dsjkafhffdjgsdfgfgfafdfkfgfgfgfgffgfgf
-					<i class="fas fa-check-circle"></i>
-				{%endif%} 
 					{% else %}
 					<!-- Default blank profile img-->
 					<div class=" rounded-circle " style='height: 50px; width: 50px; overflow: hidden; border: 1px solid white; float: left'>
@@ -55,6 +50,7 @@ than in the parties templates -->
 					{% endif %}
 					<p class='ml-1' style="margin-bottom: 0px; height: 50px; padding-left: 75px; padding-top: 10px;">{{ user.username}}
 					</p>
+					<i class="fas fa-check-circle"></i>
 				</a>
 			</div>
 			{% empty %}
