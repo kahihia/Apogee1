@@ -69,8 +69,8 @@ function firstRender(){
 function fillSelected(button, id){
 	// we dont need the formatting done here. it just tells us what's been clicked
 	// $(currSelected).removeClass('btn btn-secondary');
-	// $(currSelected).addClass('btn btn-outline-secondary');
-	// $(button).removeClass('btn btn-outline-secondary');
+	// $(currSelected).addClass('btn btn-primary-new');
+	// $(button).removeClass('btn btn-primary-new');
 	// $(button).addClass('btn btn-secondary');
 	currSelected = id;
 }
