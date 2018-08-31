@@ -125,6 +125,10 @@ p, .about-apogee p {
     max-width: 450px;
 }
 
+.img-circle {
+    border-radius: 10000000000px
+}
+
 .btn-new {
     border-radius: 4px !important;
     border: 1px solid hsla(270,100%,10%,0.5) !important;
