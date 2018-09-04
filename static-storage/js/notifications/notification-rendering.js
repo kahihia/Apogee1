@@ -1,6 +1,7 @@
 // this is the notification rendering section. it operates similarly to 
       // the party container function
       function loadNotificationContainer(notifContainerID) {
+        alert("Loading");
         // VARIABLES
          // this is the set of notifications in the api
         let notifList = [];
