@@ -78,7 +78,7 @@ always added in to other form displays -->
 				</div>
 				<div class="col-md-6">
 					{{ form.party_time.errors }}
-					{{ form.party_time.label_tag }}
+					{{ form.party_time.label_tag }} <small class="text-muted">{{request.session.django_timezone }}</small>
 					<div  class=" date input-group" id="datetimepicker_id_datetime">
 						<input  class=" form-control" id="id_datetime" name="party_time" type="text" required/>
 					</div>

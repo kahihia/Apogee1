@@ -18,7 +18,7 @@ class PartyModelForm(forms.ModelForm):
 		attrs={'placeholder': 'Event description', 'class': 'form-control', 'rows': 4}
 		))
 	# localize tells us that this is in localtime so it converts to UTC for storage
-	party_time = forms.DateTimeField( label='Event Time US Eastern:', widget=DateTimePicker(), localize=True, input_formats=["%Y/%m/%d %H:%M"])
+	party_time = forms.DateTimeField( label='Event Time:', widget=DateTimePicker(), localize=True, input_formats=["%Y/%m/%d %H:%M"])
 
 	# max_entrants = forms.ChoiceField(required=False, label='How many people can enter?',
 	# 	widget=forms.Select(attrs={'class': 'form-control'}), 
