@@ -19,8 +19,8 @@ User = get_user_model()
 class PrivacyView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}
-		return render(request, 'privacy.html', context)
-		
+		return render(request, 'pp.html', context)
+
 class TOSView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}
