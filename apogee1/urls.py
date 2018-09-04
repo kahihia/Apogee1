@@ -62,6 +62,7 @@ urlpatterns = [
 	path('terms', TOSView.as_view(), name='terms'),
 	path('blank', BlankView.as_view(), name='blank'),
 	path('privacy', PrivacyView.as_view(), name='privacy'),
+	url(r'^tz_detect/', include('tz_detect.urls')),
 	#url(r'^.*$', RedirectView.as_view(url='', permanent=False), name='index')
 	#Deprecated path to bids, bid views not available to users
 	#path('bids/', include('bids.urls', namespace='bids'))

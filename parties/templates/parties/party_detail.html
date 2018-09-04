@@ -126,9 +126,9 @@
 										{% endif %}
 									</h1>	
 									<small>
-										{% timezone "America/New_York" %}
-									    {{ object.party_time|timezone:"America/New_York" }} EST
-									    {% endtimezone %}
+									    {{ object.party_time|localtime }}
+									    <!-- {{ object.party_time|timezone:"America/New_York" }} EST -->
+
 									</small>
 								</div>
 

@@ -94,6 +94,7 @@ INSTALLED_APPS = [
 
     # third party stuff
     'crispy_forms',
+    'tz_detect',
     'rest_framework',
     'datetimepicker',
     'storages',
@@ -108,9 +109,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # from django docs for setting the current session timezone
-    'parties.middleware.TimezoneMiddleware',
+    'tz_detect.middleware.TimezoneMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
+
+TZ_DETECT_COUNTRIES = ('US', 'CN', 'IN', 'JP', 'BR', 'RU', 'DE', 'FR', 'GB')
 
 # root url sets the main routing file. those then refer to the other url docs
 ROOT_URLCONF = 'apogee1.urls'

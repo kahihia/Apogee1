@@ -181,7 +181,7 @@ function renderPartyList(partyContainerID){
           '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + 
           '<span> ' + check_icon + '</span></a>' + 
           '<span class="float-right">' + price + ' ' + type_icon + '</span>' +
-          '<br>' + moment.utc(partyValue.party_time).utcOffset("-04:00").format("MMM DD [at] hh:mm a") + " EST " +  
+          '<br>' + moment.utc(partyValue.party_time).tz(window.django_timezone).format("MMM DD [at] hh:mm a") +  
         '</small>' + 
         '<span class="float-right">' + 
           '<a class="starBtn text-dark" data-id="' + partyValue.id + '">' + verb + '</a>' + 
