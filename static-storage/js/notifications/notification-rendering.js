@@ -22,15 +22,16 @@
         $(document.body).on('mouseover', '#notif-display', function(e){
           e.preventDefault()
           let this_ = $(this)
+
           // tells us if the notification has been seen
           let seen = this_.attr('seen-id')
           // gets the notification id for ajax
           let notif_id = this_.attr('data-id')
-          console.log(seen);
+          this_.addClass('grey-background');
           // only toggle the color and call to the api is it hasnt been seen yet
           if (seen == 'false'){
-            alert("DSKHJSDAKJSADSHDSKJASDHKSAHKDASSDAHKASDASDKHASKHDASHKSS");
             this_.removeClass('grey-background')
+
             // api endpoint
             let notifUrl = '/api/notifications/' + notif_id 
             // ajax is what actually accesses the API
