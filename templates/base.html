@@ -52,6 +52,10 @@ of the formatting in the head, so it must be imported into every file. -->
         {% block content %}
         {% endblock content %}
     </div>
+    <!-- this is how we include the footer into every page -->
+    <!-- footer goes outside container bc the container has margins. 
+    moving it out allows it to stretch the whole way across -->
+    {% include 'footer.html' %}
 
     <!-- Optional JavaScript through CDNs -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
