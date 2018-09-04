@@ -40,6 +40,7 @@ from accounts.views import UserRegisterView
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('', PartyListView.as_view(), name='home'),
+	path('set_timezone/', include('apogee1.api.urls')),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path('register/', UserRegisterView.as_view(), name='register'),
 	path('search/', SearchView.as_view(), name='search'),

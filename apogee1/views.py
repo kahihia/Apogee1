@@ -11,6 +11,7 @@ from parties.api.serializers import PartyModelSerializer
 from django.utils import timezone
 from datetime import timedelta
 from apogee1.utils.auth.auth import get_blocking_lists
+from django.shortcuts import redirect, render
 
 User = get_user_model()
 
@@ -30,6 +31,7 @@ class BlankView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}
 		return render(request, 'blank.html', context)
+
 # this is the default home page from when the app starts
 class HomeView(View):
 	def get(self, request, *args, **kwargs):

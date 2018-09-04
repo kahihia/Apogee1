@@ -94,7 +94,6 @@ INSTALLED_APPS = [
 
     # third party stuff
     'crispy_forms',
-    'tz_detect',
     'rest_framework',
     'datetimepicker',
     'storages',
@@ -109,7 +108,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # from django docs for setting the current session timezone
-    'tz_detect.middleware.TimezoneMiddleware',
+    'apogee1.timezone.TimezoneMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
