@@ -20,6 +20,7 @@
         // TRIGGER FUNCTIONS
         // this changes the seen boolean on each notification on a mouseover
         $(document.body).on('mouseover', '#notif-display', function(e){
+          alert("Get ur mouse outta here");
           e.preventDefault()
           let this_ = $(this)
           // tells us if the notification has been seen
@@ -28,6 +29,7 @@
           let notif_id = this_.attr('data-id')
           // only toggle the color and call to the api is it hasnt been seen yet
           if (seen == 'false'){
+            alert("DSKHJSDAKJSADSHDSKJASDHKSAHKDASSDAHKASDASDKHASKHDASHKSS");
             this_.removeClass('grey-background')
             // api endpoint
             let notifUrl = '/api/notifications/' + notif_id 
