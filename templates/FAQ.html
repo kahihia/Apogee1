@@ -1,0 +1,134 @@
+<!--this is the HTML for the main page. it has recommended users 
+a create event button, and the event thumbnails-->
+{% extends 'base.html' %}
+<!-- we would use this if we wanted to suggest users to follow -->
+<!-- {% load recommended %}
+<p class='lead'>Recommended users</p>
+<p>{% recommended request.user %}</p> -->
+<!-- {% load static %} -->
+<!-- sets the tab info -->
+{% block title %} Events | {{ block.super }} {% endblock title %}
+<!-- hello caldwell -->
+<!-- contains our custom JS -->
+{% block script %}
+{% endblock script %}
+
+{% block content %}
+<div class="home-content container faq-section mt-4">
+        <div class="row">
+            <h2 class="pl-3">Frequently Asked Questions<h2>
+        </div>
+        <div class="row pl-3 pt-3">
+            <h4>Creators</h4>
+        </div>
+
+
+    <div class="row">
+
+        <div id="accordion" role="tablist" class="apogee-accordion pl-3">
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingOne">
+                    <h5 class="mb-0">
+                        <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        How does this work?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        You’ll create an event that includes a description, time, number of fans that can participate, event type, and price. Once the event is created, fans can purchase, bid on, or enter a lottery for the opportunity to participate. Once they are confirmed as participants, either upon purchasing the event or winning a lottery or auction, they will have access to the on-event messenger. There, you can pass whatever information you need back and forth, like usernames or Discord links. Events close, meaning they no longer accept entrants and choose auction and lottery winners, 10 minutes before the specified event time. 
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingTwo">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        How do I ensure fans follow my rules?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        What you put in the description and what you reasonably request during the event is law. If a fan fails to heed any of the information put in your description, or any reasonable requests made of them in the event, you may remove them from the event without penalty. You may also remove a fan from any event for behavior you deem inappropriate or abusive in any way. For the most toxic users, we have a block function that prevents someone from seeing any of your events. 
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingThree">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        How much of the revenue is mine and how do I get paid?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        93%. Our goal is to support you and your community, so we want to stay out of your way. We take 7% to cover fees on our end. When you have over $100 in your account balance, you can go to “Funds” in the profile menu and request to be paid out. We’ll pay out the full balance of your account within two weeks. 
+                    </div>
+                </div>
+            </div>
+
+            <div class="row pl-3 pt-3">
+                <h4>Fans</h4>
+            </div>
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingSix">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                        How does this work?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseSix" class="collapse" role="tabpanel" aria-labelledby="headingSix" data-parent="#accordion">
+                    <div class="card-body">
+                        It's simple! Make an account, follow all your favorite creators, and join events you’re interested in. Events close, meaning you can no longer join them, when they are full or ten minutes before the event is set to happen. You and the creator can pass whatever information you need in the on-event messenger. At the set time, you then participate in the event!
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingSeven">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                        How do I join an event?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseSeven" class="collapse" role="tabpanel" aria-labelledby="headingSeven" data-parent="#accordion">
+                    <div class="card-body">
+                        Click on an event thumbnail to get to the event page. There are three kinds of events; buy, bid and lottery. For buy and lottery events, just click on the “Join” or “Buy” button. If you have enough money in your account, you’ll purchase the event or be entered into the lottery. For bid, enter the minimum bid or greater and submit your bid. If it is not high enough, you’ll need to enter the new minimum. Because bids come in extremely quickly, the minimum bid displayed may not be up to date. To win a bid event, you will have to have one of the high bids when it closes. Events close, meaning purchases and bids are no longer accepted and the winners are chosen for lotteries and auctions, 10 minutes before the event begins.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question/Answer Section -->
+            <div class="card">
+                <div class="card-header" role="tab" id="headingEight">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                        How do I support my favorite creators?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseEight" class="collapse" role="tabpanel" aria-labelledby="headingEight" data-parent="#accordion">
+                    <div class="card-body">
+                        Our goal is to help support creators, so 93% of the price you pay for an event goes to the creator. We take 7% to cover fees on our end. To add money to your account, click "Funds" in the profile menu. You can then add funds using PayPal or a credit card. We use PayPal to process all transactions and ensure they stay secure. However, some events are free, so you do not need money to participate in all events. 
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}
