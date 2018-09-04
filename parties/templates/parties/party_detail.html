@@ -88,11 +88,8 @@
 													{% endif %}
 												</a> 
 											</span> 
-<<<<<<< HEAD
 											 <button type="button" class="reportBtn btn btn-link fa-sm" style="color: #CCC" id="detailReport" data-id="{{serialized.id}}"> 
-=======
 											 <button type="button" class="btn btn-link fa-sm" style="color: red" id="detailReport" data-id="{{serialized.id}}" data-toggle="modal" data-target="#reportModal"> 
->>>>>>> fixing-stuff
 											 	<i class="fa fa-flag"></i>
 											</button>
 											<!-- Modal -->
@@ -129,7 +126,9 @@
 										{% endif %}
 									</h1>	
 									<small>
-										{{serialized.party_time_display}}
+										{% timezone "America/New_York" %}
+									    {{ object.party_time|timezone:"America/New_York" }} EST
+									    {% endtimezone %}
 									</small>
 								</div>
 
@@ -254,7 +253,7 @@
 								</div> 
 								<!-- Event Actions / Join -->
 								{% if serialized.did_join or serialized.is_owner %}
-										<button type="button" class="btn btn-primary-new ml-3 btn-block joinBtn joinDisplay disabled" disabled> Joined </button>
+										<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay disabled" disabled> Joined </button>
 								{% endif %}
 
 								{% if not serialized.is_open %}
