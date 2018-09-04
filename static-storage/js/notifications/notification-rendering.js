@@ -20,13 +20,13 @@
         // TRIGGER FUNCTIONS
         // this changes the seen boolean on each notification on a mouseover
         $(document.body).on('mouseover', '#notif-display', function(e){
-          alert("Get ur mouse outta here");
           e.preventDefault()
           let this_ = $(this)
           // tells us if the notification has been seen
           let seen = this_.attr('seen-id')
           // gets the notification id for ajax
           let notif_id = this_.attr('data-id')
+          console.log(seen);
           // only toggle the color and call to the api is it hasnt been seen yet
           if (seen == 'false'){
             alert("DSKHJSDAKJSADSHDSKJASDHKSAHKDASSDAHKASDASDKHASKHDASHKSS");
