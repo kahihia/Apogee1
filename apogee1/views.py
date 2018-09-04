@@ -14,6 +14,13 @@ from apogee1.utils.auth.auth import get_blocking_lists
 
 User = get_user_model()
 
+
+
+class PrivacyView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'pp.html', context)
+
 class TOSView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}

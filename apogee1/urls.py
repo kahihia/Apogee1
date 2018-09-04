@@ -23,7 +23,7 @@ from django.views.generic.base import RedirectView
 from django.contrib.auth import views as auth_views
 
 # views
-from .views import HomeView, SearchView, set_timezone, TOSView, BlankView
+from .views import HomeView, SearchView, set_timezone, TOSView, BlankView, PrivacyView
 from parties.views import PartyListView
 from hashtags.views import HashTagView
 from hashtags.api.views import TagPartyAPIView
@@ -60,7 +60,8 @@ urlpatterns = [
 	path('stats/', include('userstatistics.urls', namespace='statistics')),
 	path('payout/', include('payout.urls', namespace='payout')),
 	path('terms', TOSView.as_view(), name='terms'),
-	path('blank', BlankView.as_view(), name='blank')
+	path('blank', BlankView.as_view(), name='blank'),
+	path('privacy', PrivacyView.as_view(), name='privacy'),
 	#url(r'^.*$', RedirectView.as_view(url='', permanent=False), name='index')
 	#Deprecated path to bids, bid views not available to users
 	#path('bids/', include('bids.urls', namespace='bids'))
