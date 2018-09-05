@@ -57,11 +57,11 @@
         // this is the formatting for thumbnails
         function formatNotification(notifValue){
           // VARIABLES
-          let card_highlight = 'grey-background';
+          let card_highlight = 'bg-secondary text-white';
           let seen = 'true'
           // sets the seen vs unseen display parameters
           if (notifValue.seen == false){
-            card_highlight = 'bg-secondary text-white';
+            card_highlight = 'grey-background';
             seen = 'false'
           }
 
