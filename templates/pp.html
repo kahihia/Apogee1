@@ -1,39 +1,18 @@
-haha jk.
+<!--this is the HTML for the main page. it has recommended users 
+a create event button, and the event thumbnails-->
+{% extends 'base.html' %}
+<!-- we would use this if we wanted to suggest users to follow -->
+<!-- {% load recommended %}
+<p class='lead'>Recommended users</p>
+<p>{% recommended request.user %}</p> -->
+<!-- {% load static %} -->
+<!-- sets the tab info -->
+{% block title %} Events | {{ block.super }} {% endblock title %}
+<!-- hello caldwell -->
+<!-- contains our custom JS -->
+{% block script %}
+{% endblock script %}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Only your second born
+{% block content %}
+	<p>This is a Privacy Placeholder. The Privacy Policy will be completed and available before launch.</p>
+{% endblock content %}

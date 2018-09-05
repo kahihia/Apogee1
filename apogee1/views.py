@@ -17,6 +17,16 @@ User = get_user_model()
 
 
 
+class AboutView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'about.html', context)
+
+class FAQView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'FAQ.html', context)
+
 class PrivacyView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}

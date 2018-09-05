@@ -1,9 +1,15 @@
-{% include 'base.html' %}
-{% load static %}
+{% extends 'base.html' %}
+<!-- {% load static %} -->
+{% block title %}
+	Statistics | {{ block.super }}
+{% endblock title %}
+
+{% block script %}
 <link rel="stylesheet" href='{%static "css/userstatistics/style.css"%}'>
 <script src='{%static "js/userstatistics/display.js"%}'></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <br>
+{% endblock script %}
 
 <!-- OLD Group of buttons to switch between statistic displays -->
 <!-- <div class="mx-auto" style="width: 200px;">
@@ -15,6 +21,7 @@
 	</div>
 </div> -->
 
+{% block content %}
 <div class="d-flex nav-active-border home-nav stats-nav">
     <ul class="nav">
         <li class="nav-item">
@@ -70,8 +77,8 @@
 	<div class="col-md-10 offset-md-1 row">
 		<div class="col-12 col-md-6 mb-4" id= 'join_time'></div>
 		<div class="col-12 col-md-6 mb-4" id= 'star_time'></div>
-		<div class="col-12 col-md-6" id= 'join_event_time'></div>
-		<div class="col-12 col-md-6" id= 'star_event_time'></div>		
+		<div class="col-12 col-md-6 mb-4" id= 'join_event_time'></div>
+		<div class="col-12 col-md-6 mb-4" id= 'star_event_time'></div>		
 	</div>
 </div>
-
+{% endblock content %}
