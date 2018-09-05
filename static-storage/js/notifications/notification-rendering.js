@@ -30,7 +30,7 @@
           // only toggle the color and call to the api is it hasnt been seen yet
           this_.add
           if (seen == 'false'){
-            
+
             this_.removeClass('card mb-2 bg-secondary text-white');
             this_.addClass('card mb-2 grey-background');
 
@@ -57,7 +57,7 @@
         // this is the formatting for thumbnails
         function formatNotification(notifValue){
           // VARIABLES
-          let card_highlight = 'bg-secondary text-white';
+          let card_highlight = '';
           let seen = 'true'
           // sets the seen vs unseen display parameters
           if (notifValue.seen == false){
