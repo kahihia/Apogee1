@@ -38,5 +38,6 @@ class SeenAPIView(APIView):
 		# gets the notification that is being seen
 		notification_obj = Notification.objects.get(pk=pk)
 		if request.user.is_authenticated:
+			print("ejsfkdhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhd")
 			Notification.objects.make_seen(notification_obj)
 			return Response(True)
