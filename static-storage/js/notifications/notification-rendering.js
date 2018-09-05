@@ -30,10 +30,11 @@
           // only toggle the color and call to the api is it hasnt been seen yet
           this_.add
           if (seen == 'false'){
-            this_.addClass('grey-background')
+            console.log("Not seen");
+            this_.addClass('grey-background');
 
             // api endpoint
-            let notifUrl = '/api/notifications/' + notif_id 
+            let notifUrl = '/api/notifications/' + notif_id ;
             // ajax is what actually accesses the API
             $.ajax({
               method: 'GET',
