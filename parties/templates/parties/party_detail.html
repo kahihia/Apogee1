@@ -196,9 +196,7 @@
 
 									<!-- Max Entrants -->
 									<div class="col-sm-12"> 
-										{% if serialized.maxentrants == null %}
-											<p class="">Unlimited<small class=""> entrants</small></p>
-										{% else %}
+										{% if serialized.maxentrants %}
 											<p class=""> {{ partyValue.max_entrants }}  
 											<small class="">Max entrants</small></p>
 										{% endif %}
