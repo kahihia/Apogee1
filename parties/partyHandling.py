@@ -101,9 +101,9 @@ def lottery_end(party_obj):
 	# this creates the owner close notification, alerts the fans that they have won
 	Notification.objects.create(user=party_obj.user, party=party_obj,\
 	action="owner_event_close")
-	email_data = {'event': party_obj.title, 'event_time': party_obj.party_time}
-	emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', \
-	[party_obj.user.email], 'creator_event_close.html', email_data)
+	# email_data = {'event': party_obj.title, 'event_time': party_obj.party_time}
+	# emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', \
+	# [party_obj.user.email], 'creator_event_close.html', email_data)
 		
 	partyTransactions.create_payment(party_obj)
 	pool = party_obj.joined.all().order_by('?')
@@ -143,10 +143,7 @@ def buyout_end(user, party_obj):
 	statisticsfunctions.buyout_update_end_stats(party_obj)
 	Notification.objects.create(user=party_obj.user, party=party_obj,\
 	action="owner_event_close")
-	
-	# email_data = {'event': party_obj.title, 'event_time': party_obj.party_time}
-	# emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', \
-	# [party_obj.user.email], 'creator_event_close.html', email_data)
+
 		
 	partyTransactions.create_payment(party_obj)
 	party_obj.is_open = False
@@ -465,21 +462,21 @@ def win_toggle(user, party_obj):
 		if(party_obj.event_type==1):
 			Notification.objects.create(user=user, party=party_obj,\
 			action="fan_win")
-			email_data = {'event': party_obj.title, 'event_time': party_obj.party_time,\
-			 'creator': party_obj.user}
-			emailer.email(winner_text, 'team@mail.granite.gg', [user.email], 'winner_email.html', email_data)
+			# email_data = {'event': party_obj.title, 'event_time': party_obj.party_time,\
+			#  'creator': party_obj.user}
+			# emailer.email(winner_text, 'team@mail.granite.gg', [user.email], 'winner_email.html', email_data)
 		elif(party_obj.event_type==2):
 			Notification.objects.create(user=user, party=party_obj,\
 			action="fan_win")
-			email_data = {'event': party_obj.title, 'event_time': party_obj.party_time,\
-			 'creator': party_obj.user}
-			emailer.email(winner_text, 'team@mail.granite.gg', [user.email], 'winner_email.html', email_data)
+			# email_data = {'event': party_obj.title, 'event_time': party_obj.party_time,\
+			#  'creator': party_obj.user}
+			# emailer.email(winner_text, 'team@mail.granite.gg', [user.email], 'winner_email.html', email_data)
 		else:
 			Notification.objects.create(user=user, party=party_obj,\
 			action="fan_win")
-			email_data = {'event': party_obj.title, 'event_time': party_obj.party_time,\
-			 'creator': party_obj.user}
-			emailer.email(winner_text, 'team@mail.granite.gg', [user.email], 'winner_email.html', email_data)
+			# email_data = {'event': party_obj.title, 'event_time': party_obj.party_time,\
+			#  'creator': party_obj.user}
+			# emailer.email(winner_text, 'team@mail.granite.gg', [user.email], 'winner_email.html', email_data)
 		won = True
 		party_obj.winners.add(user)
 	return won
