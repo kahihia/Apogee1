@@ -28,9 +28,9 @@ def pick_winner(party_id):
 	if party.is_open:
 		Notification.objects.create(user=party.user, party=party,\
 		action="owner_event_close")
-		email_data = {'creator': party.user.username, 'event_time': party.party_time}
+		email_data = {'event': party.title, 'event_time': party.party_time}
 		emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', \
-		[party.user.email], 'event_reminder_email.html', email_data)
+		[party.user.email], 'creator_reminder_email.html', email_data)
 		
 		partyTransactions.create_payment(party)
 	# if there are people that joined the event
