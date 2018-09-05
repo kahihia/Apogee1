@@ -30,10 +30,10 @@
           // only toggle the color and call to the api is it hasnt been seen yet
           this_.add
           if (seen == 'false'){
-            console.log("Not seen");
             
-            this_.addClass('card mb-2 grey-background');
             this_.removeClass('card mb-2 bg-secondary text-white');
+            this_.addClass('card mb-2 grey-background');
+
 
             // api endpoint
             let notifUrl = '/api/notifications/' + notif_id ;
