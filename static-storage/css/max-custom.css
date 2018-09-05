@@ -126,7 +126,7 @@ p, .about-apogee p {
     }
 }
 
-.centering-container-md {
+.centering-container-all {
     display: flex;
     flex-wrap: wrap; 
     justify-content: space-evenly; 
