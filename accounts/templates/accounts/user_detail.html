@@ -38,7 +38,7 @@
 </div>
 <!-- this contains profile info, like picture, name, bio, etc -->
 <div class='row pt-4 pb-4' style="background: rgba(255,255,255,0.1)">
-	<div class='col-sm-2 offset-sm-1 my-3'>
+	<div class='col-sm-3 col-md-2 offset-sm-1 my-3'>
 		{% if object.profile.profile_picture %}
 		<div class=" rounded-circle " style='height: 150px; width: 150px; overflow: hidden;'>
 			<img src='{{ object.profile.profile_picture.url }}' class="float-left" style='max-height: 150px;'>		
@@ -48,7 +48,7 @@
 		<img src='/media/profile_pics/blank_profile.png' class="rounded-circle float-left" style='height: 150px;'>
 		{% endif %}
 	</div>
-	<div class='col-sm-6 my-3'>
+	<div class='col-md-6 offset-md-1 offset-lg-0 my-3'>
 		<h2>{{ object.username }} 
 			{% if object.profile.is_verified %}
 				<span><i class="fas fa-check-circle"></i></span>
