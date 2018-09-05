@@ -127,7 +127,7 @@
 									</h1>	
 									<small>
 										{% get_current_timezone as TIME_ZONE %}
-									    {{ object.party_time|localtime|date:"M d " }} at {{ object.party_time|localtime|date:"h:m a " }} <span class="text-muted">{{ TIME_ZONE }}</span>
+									    {{ object.party_time|date:"M d" }} at {{ object.party_time|date:"h:i a" }} <span class="text-muted">{{ TIME_ZONE }}</span>
 									    <!-- {{ object.party_time|timezone:"America/New_York" }} EST -->
 
 									</small>
