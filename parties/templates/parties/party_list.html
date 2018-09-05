@@ -39,15 +39,17 @@ $(document).ready(function() {
 
     {% if request.user.is_authenticated %}
         <header class="hero-section">
-            <div class="row">
-                    <div class="col-12 col-lg-3 offset-lg-3 -4 col-md-4 offset-md-2 col-sm-8 offset-sm-2 text-center">
-                        <h1 class="text-left" style="margin-top: 73px; line-height: 1.5">This Weeks <br  />Featured Creator</h1>
+            <div class="header-wrapper">
+                <div class="row header-text">
+                    <div class="col-lg-5 offset-lg-1 col-sm-8 offset-sm-2 text-center">
+                        <h1 class="text-left">This Week's<br> Featured Creator.</h1>
+                        <h4 class="text-left">See whos up to what on Granite.</h4>
                     </div>
-                    <div class="col-12 col-lg-3 col-md-4 offset-md-0 col-sm-8 offset-sm-2 col-xs-12">
+                    <div class="col-lg-5 offset-lg-0 col-sm-8 offset-sm-2 col-xs-12">
                         <div class="card card-profile text-center">
-                            <div class="card-block" style="padding:0 12px 24px 12px">
+                            <div class="card-block">
                                 <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
-                                <h4 class="card-title">
+                                <h4 class="card-title px-4">
                               John Smith
                               <small>John Smith is a detective with LA PD. Little does he know he is secretly a vampire.</small>
                               
@@ -58,6 +60,7 @@ $(document).ready(function() {
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </header>
 
@@ -73,7 +76,7 @@ $(document).ready(function() {
                         <div class="card card-profile text-center">
                             <div class="card-block" style="padding:0 12px 24px 12px">
                                 <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
-                                <h4 class="card-title">
+                                <h4 class="card-title px-4">
                               John Smith
                               <small>John Smith is a detective with LA PD. Little does he know he is secretly a vampire.</small>
                               
@@ -202,18 +205,18 @@ $(document).ready(function() {
                     <div class="col-lg-12">
                         <div class="tab-content pl-3">
                             <div class="tab-pane fade active" style="opacity: 1" id="tab_1">
-                                <div class="row">
-                                    <div id='party-container' role="tabpanel" data-url='/api/events/'></div> 
+                                <div class="">
+                                    <div class="px-3 centering-container" id='party-container' role="tabpanel" data-url='/api/events/'></div> 
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab_2">
-                                <div class="row">
-                                    <div id='trending-container' role="tabpanel" data-url='/api/events/trending'></div>
+                                <div class="">
+                                    <div class="px-3 centering-container"  id='trending-container' role="tabpanel" data-url='/api/events/trending'></div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab_3">
-                                <div class="row">
-                                    <div id='closing-container' role="tabpanel" data-url='/api/events/closing'></div>
+                                <div class="">
+                                    <div class="px-3 centering-container" id='closing-container' role="tabpanel" data-url='/api/events/closing'></div>
                                 </div>
                             </div>
                         </div>
@@ -236,13 +239,13 @@ $(document).ready(function() {
                     <div class="col-lg-12">
                         <div class="tab-content pl-3">
                             <div class="tab-pane fade active" style="opacity: 1" id="tab_1">
-                                <div class="row">
-                                    <div id='trending-container' role="tabpanel" data-url='/api/events/trending'></div> 
+                                <div class="">
+                                    <div id='trending-container' class="px-3 centering-container" role="tabpanel" data-url='/api/events/trending'></div> 
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab_2">
-                                <div class="row">
-                                    <div id='closing-container' role="tabpanel" data-url='/api/events/closing'></div>
+                                <div class="">
+                                    <div id='closing-container' class="px-3 centering-container" role="tabpanel" data-url='/api/events/closing'></div>
                                 </div>
                             </div>
                         </div>

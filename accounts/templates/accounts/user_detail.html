@@ -28,145 +28,154 @@
 {% block content %}
 <!-- this div contains only the banner photo -->
 <div class='row'>
-		{% if object.profile.banner %}
+<!-- 		{% if object.profile.banner %}
 			<div class="profile-banner" style="background-image: url('{{ object.profile.banner.url }}'); background-attachment: fixed;"></div>
 		{% else %}
 		<div class="profile-banner-bg">
 			<div class="profile-banner-pattern" style="background: url('/media/banner-bg.svg'); background-attachment: fixed;"></div>
 		</div>
-		{% endif %}
+		{% endif %} -->
+		<div class="profile-banner-bg">
+			<div class="profile-banner-pattern" style="background: url('/media/banner-bg.svg'); background-attachment: fixed;"></div>
+		</div>
 </div>
 <!-- this contains profile info, like picture, name, bio, etc -->
-<div class='row pt-4 pb-4' style="background: rgba(255,255,255,0.1)">
-	<div class='col-sm-2 offset-sm-1 my-3'>
-		{% if object.profile.profile_picture %}
-		<div class=" rounded-circle " style='height: 150px; width: 150px; overflow: hidden;'>
-			<img src='{{ object.profile.profile_picture.url }}' class="float-left" style='max-height: 150px;'>		
-		</div>
-		{% else %}
-		<!-- this is a blank profile pic, cause we at least need the circle to show. it only shows if the user doesnt have a profile-->
-		<img src='/media/profile_pics/blank_profile.png' class="rounded-circle float-left" style='height: 150px;'>
-		{% endif %}
-	</div>
-	<div class='col-sm-6 my-3'>
-		<h2>{{ object.username }} 
-			{% if object.profile.is_verified %}
-				<span><i class="fas fa-check-circle"></i></span>
-			{% else %}
-			{% endif %} 
-		</h2>
-		<p>{{ object.profile.bio }}</p>
-		<div class='row'>
-			<div class='col-sm-4'>
-				<!-- gives the number of followers OF a user. normally this would come from user.profile, but the profile has the followers attribute. its a many to many field with the user model, not other profiles. that means that followed by is the reverse call and is called on the user model, not the profile -->
-				<p>{{ object.followed_by.all.count }} <small>Followers</small></p>
+<div class='pt-4 pb-4' style="background: rgba(255,255,255,0.1)">
+	<div class="px-3 row">
+		<div class='col-sm-12 col-md-2 offset-md-1 my-3 text-center'>
+			{% if object.profile.profile_picture %}
+			<div class=" rounded-circle " style='height: 150px; width: 150px; overflow: hidden;'>
+				<img src='{{ object.profile.profile_picture.url }}' style='max-height: 150px;'>		
 			</div>
-			<div class='col-sm-4'>
-				<!-- this returns the number of followers the object user has. its a property on the profile object. Followed_by is the reverse -->
-				<p>{{ object.profile.get_following.count }} <small>Following</small></p>
-			</div>
-			<div class='col-sm-4'>
-				<!-- this just returns how many events the user has created -->
-				<p>{{ object.profile.event_count.count }} <small>Events</small></p>
-			</div>	
-		</div>
-	</div>
-	<!-- Follow button-->
-	<div class='col-sm-2 my-3 text-right'>
-
-		<div style="float: right">
-			{% if object == request.user %}
-
-			{% elif blocking %}
-			<!-- If blocked -->
-			<small class='text-muted'>User blocked</small>
-			{% elif blocked %}
-
 			{% else %}
-				{% if request.user.is_authenticated and request.user.id is not object.user.id %}
-					<a class='btn btn-primary-new ml-3' href='{{ object.profile.get_follow_url }}'>
-						<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
-						{% if following %}Unfollow{% else %}Follow{% endif %}
+			<!-- this is a blank profile pic, cause we at least need the circle to show. it only shows if the user doesnt have a profile-->
+			<img src='/media/profile_pics/blank_profile.png' class="rounded-circle" style='height: 150px;'>
+			{% endif %}
+		</div>
+		<div class='col-md-6 offset-md-1 offset-lg-0 my-3'>
+			<div class='row text-center-sm'>
+				<div class='col-sm-12'>
+					<h2>{{ object.username }} 
+						{% if object.profile.is_verified %}
+							<span><i class="fas fa-check-circle"></i></span>
+						{% else %}
+						{% endif %} 
+					</h2>
+					<p>{{ object.profile.bio }}</p>
+				</div>
+			</div>
+			<div class='row text-center-sm'>
+				<div class='col-sm-4'>
+					<!-- gives the number of followers OF a user. normally this would come from user.profile, but the profile has the followers attribute. its a many to many field with the user model, not other profiles. that means that followed by is the reverse call and is called on the user model, not the profile -->
+					<p>{{ object.followed_by.all.count }} <small>Followers</small></p>
+				</div>
+				<div class='col-sm-4'>
+					<!-- this returns the number of followers the object user has. its a property on the profile object. Followed_by is the reverse -->
+					<p>{{ object.profile.get_following.count }} <small>Following</small></p>
+				</div>
+				<div class='col-sm-4'>
+					<!-- this just returns how many events the user has created -->
+					<p>{{ object.profile.event_count.count }} <small>Events</small></p>
+				</div>	
+			</div>
+		</div>
+		<!-- Follow button-->
+		<div class='col-12 col-md-2 my-3 text-center'>
+
+			<div style="float: right">
+				{% if object == request.user %}
+
+				{% elif blocking %}
+				<!-- If blocked -->
+				<small class='text-muted'>User blocked</small>
+				{% elif blocked %}
+
+				{% else %}
+					{% if request.user.is_authenticated and request.user.id is not object.user.id %}
+						<a class='btn btn-primary-new ml-3' href='{{ object.profile.get_follow_url }}'>
+							<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
+							{% if following %}Unfollow{% else %}Follow{% endif %}
+						</a>
+					{% else %}
+						<a class='btn btn-primary-new ml-3' href='/register'>
+							<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
+							Follow
+						</a>				
+					{% endif %}
+				{% endif %}
+				
+			</div>
+
+			<!-- USER SETTINGS & BLOCKING -->
+			<div class="mt-1" style="float: right">
+			{% if request.user.is_authenticated %}
+				{% if object == request.user %}
+				<a href="{{ request.user.profile.get_edit_url }}">
+			    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
+				</a>
+				{% else %}
+					{% if blocking %}
+					<a data-toggle="modal" data-target="#unblockModal">
+				    	<i class="fas fa-times fa-2x mr-2 grey-color"></i>
 					</a>
-				{% else %}
-					<a class='btn btn-primary-new ml-3' href='/register'>
-						<!-- following is a "context" attribute from the detailview. that refers back to the is_following method in the userprofile model -->
-						Follow
-					</a>				
+					{% else %}
+					<a data-toggle="modal" data-target="#blockModal">
+				    	<i class="fas fa-times fa-2x mr-2 grey-color"></i>
+					</a>
+					{% endif %}
 				{% endif %}
-			{% endif %}
-			
-		</div>
+			{% endif %}			
+			</div>
 
-		<!-- USER SETTINGS & BLOCKING -->
-		<div class="mt-1" style="float: right">
-		{% if request.user.is_authenticated %}
-			{% if object == request.user %}
-			<a href="{{ request.user.profile.get_edit_url }}">
-		    	<i class="fas fa-cog fa-2x mr-2 grey-color"></i>
-			</a>
-			{% else %}
-				{% if blocking %}
-				<a data-toggle="modal" data-target="#unblockModal">
-			    	<i class="fas fa-times fa-2x mr-2 grey-color"></i>
-				</a>
-				{% else %}
-				<a data-toggle="modal" data-target="#blockModal">
-			    	<i class="fas fa-times fa-2x mr-2 grey-color"></i>
-				</a>
-				{% endif %}
-			{% endif %}
-		{% endif %}			
-		</div>
+			<!-- this is the block confirm modal -->
+			<div class="modal fade" id="blockModal" tabindex="-1" role="dialog" aria-labelledby="blockModalTitle" aria-hidden="true">
+			  <div class="modal-dialog modal-dialog-centered" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="blockModalTitle">Block {{ object.username }}?</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body text-left">
+			       Blocking <strong>{{ object.username }}</strong> will prevent them from seeing and participating in your events.
+			      </div>
+			      <div class="modal-footer">
+			        <a class="btn btn-outline-danger btn-block" href='{{ object.profile.get_block_url }}'>
+			        	Block
+			    	</a>
+			      </div>
+			    </div>
+			  </div>
+			</div>
 
-		<!-- this is the block confirm modal -->
-		<div class="modal fade" id="blockModal" tabindex="-1" role="dialog" aria-labelledby="blockModalTitle" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="blockModalTitle">Block {{ object.username }}?</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body text-left">
-		        <p>Blocking <strong>{{ object.username }}</strong> will prevent them from seeing and participating in your events.</p>
-		      </div>
-		      <div class="modal-footer">
-		        <a class="btn btn-outline-danger btn-block" href='{{ object.profile.get_block_url }}'>
-		        	Block
-		    	</a>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-
-		<!-- this is the unblock confirm modal -->
-		<div class="modal fade" id="unblockModal" tabindex="-1" role="dialog" aria-labelledby="unblockModalTitle" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="unblockModalTitle">Unblock {{ object.username }}?</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body text-left">
-		        <p>Unblocking <strong>{{ object.username }}</strong> will allow them to see and participate in your events.</p>
-		      </div>
-		      <div class="modal-footer">
-		        <a class="btn btn-outline-danger btn-block" href='{{ object.profile.get_block_url }}'>
-		        	Unblock
-		    	</a>
-		      </div>
-		    </div>
-		  </div>
+			<!-- this is the unblock confirm modal -->
+			<div class="modal fade" id="unblockModal" tabindex="-1" role="dialog" aria-labelledby="unblockModalTitle" aria-hidden="true">
+			  <div class="modal-dialog modal-dialog-centered" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="unblockModalTitle">Unblock {{ object.username }}?</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body text-left">
+			        <p>Unblocking <strong>{{ object.username }}</strong> will allow them to see and participate in your events.</p>
+			      </div>
+			      <div class="modal-footer">
+			        <a class="btn btn-outline-danger btn-block" href='{{ object.profile.get_block_url }}'>
+			        	Unblock
+			    	</a>
+			      </div>
+			    </div>
+			  </div>
+			</div>
 		</div>
 	</div>
 </div>
 
 <!-- this contains the actual events -->
-<div class='row mt-5'>
+<div class='row mt-5 px-3'>
 	<div class='col-sm-10 offset-sm-1'>
 		{% if blocked %}
 		<p class='text-muted text-center'>{{object.username}} has blocked you from viewing events.</p>
@@ -174,7 +183,7 @@
 		<!-- this holds all of our JS rendered stuff -->
 		<!-- the id and dataurl are set so that the base render function can 
 		get the appropriate info from them -->
-		<div class='ml-1 row' id='party-container' data-url='/api/{{ user.username }}/events/'>
+		<div class='px-3 centering-container' id='party-container' data-url='/api/{{ user.username }}/events/'>
 		</div>
 
 		<!-- this is our load more button for the pagination. loadmore is a method specified in the JS from base.html -->

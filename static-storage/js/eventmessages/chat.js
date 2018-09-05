@@ -118,7 +118,7 @@ function getMessages(url, callback){
         * num is the number of messages you want
         * skip is the offset from a message
         - setting num to false gets latest */
-    if (is_owner || did_join) {
+    if (is_owner || canAccessChat) {
         var room_id = Number($('#party-room-id').text())
         $.ajax({
             type: "GET",

@@ -49,6 +49,7 @@ from accounts.views import UserRegisterView
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('', PartyListView.as_view(), name='home'),
+	path('set_timezone/', include('apogee1.api.urls')),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path('register/', UserRegisterView.as_view(), name='register'),
 	path('search/', SearchView.as_view(), name='search'),
@@ -73,6 +74,7 @@ urlpatterns = [
 	path('privacy', PrivacyView.as_view(), name='privacy'),
 	path('about', AboutView.as_view(), name='about'),
 	path('FAQ', FAQView.as_view(), name='FAQ'),
+	url(r'^tz_detect/', include('tz_detect.urls')),
 	#url(r'^.*$', RedirectView.as_view(url='', permanent=False), name='index')
 	#Deprecated path to bids, bid views not available to users
 	#path('bids/', include('bids.urls', namespace='bids'))

@@ -18,6 +18,8 @@ of the formatting in the head, so it must be imported into every file. -->
 
     <!-- CDN for FontAwesome, which is where our little glyphicons come from -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.min.js" crossorigin="anonymous"></script>
 
     <!-- Typekit -->
     <script>
@@ -29,6 +31,16 @@ of the formatting in the head, so it must be imported into every file. -->
       },
       h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
     })(document);
+  </script>
+
+  <!-- Set user timezone -->
+  <script type="text/javascript">
+    window.django_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    console.log("Timezone: " + window.django_timezone)
+    function formatToLocal(timestamp) {
+      /*Returns a moment object set to timezone*/
+      return timestamp.tz(window.django_timezone)
+    }
   </script>
 
     <!-- block title allows us to push a new title from each page -->
@@ -62,7 +74,6 @@ of the formatting in the head, so it must be imported into every file. -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!-- Botstrap comes with slim version of jQuery, but we've updated to full version so that we can use AJAX stuff -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" crossorigin="anonymous"></script>
     <script src='{% static "js/sanitize-html.min.js" %}' crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -108,6 +119,29 @@ of the formatting in the head, so it must be imported into every file. -->
               $(".navbar").removeClass("navbar-shadow");
             }
           });
+        })
+    </script>
+    <script type="text/javascript">
+
+        function getCookie(name) {
+          var value = "; " + document.cookie;
+          var parts = value.split("; " + name + "=");
+          if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+        
+        $.ajax({
+          method: 'POST',
+          url: '/set_timezone/',
+          data: {"django_timezone" : window.django_timezone},
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+          },
+          success: function(data){
+            console.log("Timezone set : "  + data)
+          }, 
+          error: function(data){
+            console.log('error', data)
+          }
         })
     </script>
 

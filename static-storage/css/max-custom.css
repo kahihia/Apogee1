@@ -108,6 +108,30 @@ p, .about-apogee p {
     max-width: 1400px;
     margin: 0 auto;
 }
+@media (max-width: 991px) {
+    .centering-container {
+        display: flex;
+        flex-wrap: wrap; 
+        justify-content: center; 
+        flex-direction: row 
+    }
+    .flex-text-center {
+        text-align: center;
+    }
+}
+
+@media (max-width: 756px) {
+    .text-center-sm {
+        text-align: center !important;
+    }
+}
+
+.centering-container-all {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-evenly; 
+    flex-direction: row;
+}
 
 .hero-section {
     background-color: hsl(270, 100%, 20%);

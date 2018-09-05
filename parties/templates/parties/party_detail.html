@@ -38,7 +38,7 @@
 		<div class='rounded mt-3'>
 			<div id='party-container'>
 				<div id="party-room-id" style="display:none">{{serialized.id}}</div>
-				<div class="row mt-3">
+				<div class="row mt-3 px-3">
 					<!-- Left Sidebar -->
 					<div class="col-md-3">  
 
@@ -126,9 +126,10 @@
 										{% endif %}
 									</h1>	
 									<small>
-										{% timezone "America/New_York" %}
-									    {{ object.party_time|timezone:"America/New_York" }} EST
-									    {% endtimezone %}
+										{% get_current_timezone as TIME_ZONE %}
+									    {{ object.party_time|date:"M d" }} at {{ object.party_time|date:"h:i a" }} <span class="text-muted">{{ TIME_ZONE }}</span>
+									    <!-- {{ object.party_time|timezone:"America/New_York" }} EST -->
+
 									</small>
 								</div>
 
@@ -262,14 +263,6 @@
 										<p class="text-center"><small>This Event Has Ended</small></p>
 									</div>
 								</div>
-								{% endif %}
-
-								{% if serialized.winner_names %}
-<!-- 									<div class="row mt-3">
-										<div class="col-sm-12"> 
-											<p class="mx-auto"><small><b>Winners: {% for winner in serialized.winner_names %} {{winner}}, {% endfor %}</b></small></p>
-										</div>
-									</div> -->
 								{% endif %}
 
 								<!-- if the user is the owner, they get a second section that 

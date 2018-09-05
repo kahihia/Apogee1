@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     'storages',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -98,9 +99,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # from django docs for setting the current session timezone
-    'parties.middleware.TimezoneMiddleware',
+    'apogee1.timezone.TimezoneMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
-
 
 # root url sets the main routing file. those then refer to the other url docs
 ROOT_URLCONF = 'apogee1.urls'
