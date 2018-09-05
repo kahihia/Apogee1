@@ -144,9 +144,9 @@ def buyout_end(user, party_obj):
 	Notification.objects.create(user=party_obj.user, party=party_obj,\
 	action="owner_event_close")
 	
-	email_data = {'event': party_obj.title, 'event_time': party_obj.party_time}
-	emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', \
-	[party_obj.user.email], 'creator_event_close.html', email_data)
+	# email_data = {'event': party_obj.title, 'event_time': party_obj.party_time}
+	# emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', \
+	# [party_obj.user.email], 'creator_event_close.html', email_data)
 		
 	partyTransactions.create_payment(party_obj)
 	party_obj.is_open = False
