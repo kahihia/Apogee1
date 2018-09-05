@@ -28,9 +28,10 @@ def pick_winner(party_id):
 	if party.is_open:
 		Notification.objects.create(user=party.user, party=party,\
 		action="owner_event_close")
+		
 		email_data = {'event': party.title, 'event_time': party.party_time}
 		emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', \
-		[party.user.email], 'creator_reminder_email.html', email_data)
+		[party.user.email], 'creator_event_close.html', email_data)
 		
 		partyTransactions.create_payment(party)
 	# if there are people that joined the event
@@ -50,8 +51,6 @@ def pick_winner(party_id):
 		elif party.event_type==2 and party.is_open:
 			#Anyone in the joined list at the end of the event is a winner
 			winners = party.joined.all()
-			for w in winners:
-				print (w)
 			#add winners in
 			for i in winners:
 				partyHandling.win_toggle(i, party)
@@ -83,8 +82,10 @@ def pick_winner(party_id):
 			action="fan_reminder")
 			email_data = {'creator': n.username, 'event_time': party.party_time}
 			emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', [n.email], 'event_reminder_email.html', email_data)
+	
 	Notification.objects.create(user=party.user, party=party,\
 	action="owner_reminder")
-	email_data = {'creator': party.user.username, 'event_time': party.party_time}
-	emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', [party.user.email], 'event_reminder_email.html', email_data)
+	email_data = {'event': party.title, 'event_time': party.party_time}
+	emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', \
+	[party.user.email], 'creator_reminder_email.html', email_data)
 
