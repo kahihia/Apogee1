@@ -31,8 +31,9 @@
           this_.add
           if (seen == 'false'){
             console.log("Not seen");
-            this_.removeClass('card mb-2 grey-background');
-            //this_.addClass('grey-background');
+            this_.removeClass('card mb-2 bg-secondary text-white');
+            this_.addClass('card mb-2 grey-background');
+
 
             // api endpoint
             let notifUrl = '/api/notifications/' + notif_id ;
@@ -60,7 +61,7 @@
           let seen = 'true'
           // sets the seen vs unseen display parameters
           if (notifValue.seen == false){
-            card_highlight = 'grey-background'
+            card_highlight = 'bg-secondary text-white'
             seen = 'false'
           }
 
