@@ -12,4 +12,5 @@ app_name = 'timezone-api'
 # /api/events/ routes to this 
 urlpatterns = [
     path('', SetTimzoneEndpoint.as_view(), name='list'),
+    path('/email_test/', SetTimzoneEndpoint.as_view(), name='list'),
  ]
