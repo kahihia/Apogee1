@@ -10,6 +10,8 @@
 <!-- contains our custom JS -->
 {% block head %}
     <link href='https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css' rel='stylesheet'>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr" crossorigin="anonymous"></script>
     <style type="text/css">
     	select {
 				display: block;
@@ -29,7 +31,6 @@
 
 {% block script %}
 <!-- <script src='{% static "js/parties/party-create-helper.js"%}'></script> -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js'></script>
 <script src='{% static "js/parties/party-create-helper.js"%}?q={% now "U" %}'></script>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -41,8 +42,13 @@
     });
 	// Bootstrap datepicker
 	$(document).ready(function() {
-		$("#id_datetime").datetimepicker({minDate:0, minTime: 0});
-	});
+		flatpickr("#id_datetime", ({
+		    enableTime: true,
+		    dateFormat: "Y-m-d H:i",
+		    defaultDate: moment().add(2, 'hours').format('YYYY-MM-DD HH:mm'),
+		    minDate:  moment().add(10, 'minutes').format('YYYY-MM-DD HH:mm'),
+		}))
+	})
 
 	// Update preview image on image browser upload
 	function readURL(input) {
