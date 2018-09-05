@@ -27,10 +27,10 @@
           let seen = this_.attr('seen-id')
           // gets the notification id for ajax
           let notif_id = this_.attr('data-id')
-          this_.addClass('grey-background');
           // only toggle the color and call to the api is it hasnt been seen yet
+          this_.add
           if (seen == 'false'){
-            this_.removeClass('grey-background')
+            this_.addClass('grey-background')
 
             // api endpoint
             let notifUrl = '/api/notifications/' + notif_id 
