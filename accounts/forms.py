@@ -63,7 +63,7 @@ class UserProfileModelForm(forms.ModelForm):
 	# ImageFields have a url associated with them by default
 	profile_picture = forms.ImageField(label='Profile Picture', required=False)
 
-	banner = forms.ImageField(label='Banner/cover photo', required=False)
+	# banner = forms.ImageField(label='Banner/cover photo', required=False)
 
 	# this tells the form what fields to actually display
 	class Meta:
@@ -71,7 +71,7 @@ class UserProfileModelForm(forms.ModelForm):
 		fields = [
 			'bio',
 			'profile_picture',
-			'banner', 
+			# 'banner', 
 		]
 
 	
