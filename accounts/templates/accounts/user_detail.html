@@ -39,25 +39,29 @@
 <!-- this contains profile info, like picture, name, bio, etc -->
 <div class='pt-4 pb-4' style="background: rgba(255,255,255,0.1)">
 	<div class="px-3 row">
-		<div class='col-sm-3 col-md-2 offset-sm-1 my-3'>
+		<div class='col-sm-12 col-md-2 offset-md-1 my-3 text-center'>
 			{% if object.profile.profile_picture %}
 			<div class=" rounded-circle " style='height: 150px; width: 150px; overflow: hidden;'>
-				<img src='{{ object.profile.profile_picture.url }}' class="float-left" style='max-height: 150px;'>		
+				<img src='{{ object.profile.profile_picture.url }}' style='max-height: 150px;'>		
 			</div>
 			{% else %}
 			<!-- this is a blank profile pic, cause we at least need the circle to show. it only shows if the user doesnt have a profile-->
-			<img src='/media/profile_pics/blank_profile.png' class="rounded-circle float-left" style='height: 150px;'>
+			<img src='/media/profile_pics/blank_profile.png' class="rounded-circle" style='height: 150px;'>
 			{% endif %}
 		</div>
 		<div class='col-md-6 offset-md-1 offset-lg-0 my-3'>
-			<h2>{{ object.username }} 
-				{% if object.profile.is_verified %}
-					<span><i class="fas fa-check-circle"></i></span>
-				{% else %}
-				{% endif %} 
-			</h2>
-			<p>{{ object.profile.bio }}</p>
-			<div class='row'>
+			<div class='row text-center-sm'>
+				<div class='col-sm-12'>
+					<h2>{{ object.username }} 
+						{% if object.profile.is_verified %}
+							<span><i class="fas fa-check-circle"></i></span>
+						{% else %}
+						{% endif %} 
+					</h2>
+					<p>{{ object.profile.bio }}</p>
+				</div>
+			</div>
+			<div class='row text-center-sm'>
 				<div class='col-sm-4'>
 					<!-- gives the number of followers OF a user. normally this would come from user.profile, but the profile has the followers attribute. its a many to many field with the user model, not other profiles. that means that followed by is the reverse call and is called on the user model, not the profile -->
 					<p>{{ object.followed_by.all.count }} <small>Followers</small></p>
@@ -73,7 +77,7 @@
 			</div>
 		</div>
 		<!-- Follow button-->
-		<div class='col-sm-2 my-3 text-right'>
+		<div class='col-12 col-md-2 my-3 text-center'>
 
 			<div style="float: right">
 				{% if object == request.user %}

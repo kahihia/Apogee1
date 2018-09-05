@@ -120,6 +120,12 @@ p, .about-apogee p {
     }
 }
 
+@media (max-width: 756px) {
+    .text-center-sm {
+        text-align: center !important;
+    }
+}
+
 .centering-container-md {
     display: flex;
     flex-wrap: wrap; 
