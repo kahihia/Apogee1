@@ -32,8 +32,8 @@
           if (seen == 'false'){
             console.log("Not seen");
             
-            this_.removeClass('card mb-2 grey-background');
-            this_.addClass('card mb-2 bg-secondary text-white');
+            this_.addClass('card mb-2 grey-background');
+            this_.removeClass('card mb-2 bg-secondary text-white');
 
             // api endpoint
             let notifUrl = '/api/notifications/' + notif_id ;
@@ -57,11 +57,11 @@
         // this is the formatting for thumbnails
         function formatNotification(notifValue){
           // VARIABLES
-          let card_highlight = '';
+          let card_highlight = 'grey-background';
           let seen = 'true'
           // sets the seen vs unseen display parameters
           if (notifValue.seen == false){
-            card_highlight = 'grey-background';
+            card_highlight = 'bg-secondary text-white';
             seen = 'false'
           }
 
