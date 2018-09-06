@@ -227,7 +227,7 @@
 
 								<!-- Button Bid/Buy/Join -->
 								<div class=""> 
-									{% if not serialized.is_owner and not serialized.did_join and request.user.is_authenticated %}
+									{% if not serialized.is_owner and not serialized.did_join and request.user.is_authenticated and not serialized.is_open%}
 										{% with "Enter Lottery" as lottery_text %}  
 										{% with "Submit a Bid" as bid_text %}  
 										{% with "Buy Event" as buy_text %}  
