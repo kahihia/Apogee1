@@ -1657,7 +1657,7 @@ Navbar
 
 .navbar svg {
     vertical-align: middle;
-    fill: currentColor;
+    fill: white;
 }
 
 .navbar .nav-link {
@@ -1715,11 +1715,14 @@ Navbar
     font-weight: 600;
 }
 
-.navbar-brand img,
-.navbar-brand svg {
-    max-height: 2.5rem;
+.navbar svg {
     vertical-align: middle;
-    font-weight: 600;
+    fill: hsla(270,100%,100%,0.75);
+    cursor: pointer;
+}
+
+.navbar svg:hover {
+    fill: white;
 }
 
 .navbar-menu {
