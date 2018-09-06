@@ -48,6 +48,8 @@ if config("SSL_EVERYWHERE", default=True):
 else:
     protcol = 'http'
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', protcol)
 
 SERVER_EMAIL = "Granite <support@mail.granite.gg>"

@@ -61,6 +61,8 @@ DEFAULT_FROM_EMAIL = "Granite <support@mail.granite.gg>"
 
 ASGI_APPLICATION = "apogee1.routing.application"
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',

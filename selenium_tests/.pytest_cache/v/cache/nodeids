@@ -1,4 +1,5 @@
 [
-  "home.py::Home::test_basic",
-  "home.py::Login::test_login"
+  "profile.py::Profile::test_following_tab_on_login",
+  "profile.py::Profile::test_login",
+  "profile.py::Profile::test_user_exists"
 ]

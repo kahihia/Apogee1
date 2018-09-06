@@ -61,6 +61,8 @@ DEFAULT_FROM_EMAIL = "Granite <support@mail.granite.gg>"
 
 ASGI_APPLICATION = "apogee1.routing.application"
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_USER = 'ApogeeSendEmails@gmail.com'
 # EMAIL_HOST_PASSWORD = 'ApogeeEmail'
