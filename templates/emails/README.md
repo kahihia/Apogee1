@@ -2,15 +2,16 @@
 The email function is kept in the apogee1 folder under utils, this small function has a few key differences
 between the default sendmail function. Primarily it allows for HTML rendered emails that are references in templates/emails/\*.html
 
-## python implmentation 
+python implementation 
 ```python
 from apogee1.utils.email import emailer
-# email.email (Email_Subject,             From_Email,                Array or To_Emails,    email templates to render,   email data context for template to render)
-emailer.email('Test Email - Apogee Dev', 'devteam@mail.granite.gg', ['rafael@granite.gg'], 'event_reminder_email.html', {"creator" : "rafael"})
+# email.email (subject, from_email, to_email_array, email_template, context)
+emailer.email('Test Email - Apogee Dev', 'devteam@mail.granite.gg', ['rafael@granite.gg'], 'event_reminder_email.html', {"username" : "rafael"})
 
 ```
 
-## html implementation in templates/emails
+html implementation in templates/emails
+
 All emails are draw from this folder, just reference the email you would like to render and pass it the proper context to render
 ```html
 {% extends 'emails/base_email.html' %}
