@@ -6,7 +6,7 @@ python implementation
 ```python
 from apogee1.utils.email import emailer
 # email.email (subject, from_email, to_email_array, email_template, context)
-emailer.email('Test Email - Apogee Dev', 'devteam@mail.granite.gg', ['rafael@granite.gg'], 'event_reminder_email.html', {"creator" : "rafael"})
+emailer.email('Test Email - Apogee Dev', 'devteam@mail.granite.gg', ['rafael@granite.gg'], 'event_reminder_email.html', {"username" : "rafael"})
 
 ```
 
