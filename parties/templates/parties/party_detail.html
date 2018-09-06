@@ -251,8 +251,10 @@
 									{% endif %}
 								</div> 
 								<!-- Event Actions / Join -->
-								{% if serialized.did_join or serialized.is_owner %}
+								{% if serialized.did_join %}
 										<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay disabled" disabled> Joined </button>
+
+
 								{% endif %}
 
 								{% if not serialized.is_open %}
