@@ -1710,6 +1710,14 @@ Navbar
     line-height: 1;
 }
 
+.navbar-brand svg {
+    width: 72px;
+}
+
+.navbar .search-icon {
+    width: 32px;
+}
+
 .navbar-brand>span {
     margin: 0 0.25rem;
     font-weight: 600;
