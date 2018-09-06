@@ -1,7 +1,6 @@
 *.pyc
 *\__pycache__\*
 *__pycache__*
-*/migrations/*
 myvenv
 venv
 static-serve
