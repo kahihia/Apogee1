@@ -37,61 +37,60 @@ $(document).ready(function() {
 {% endblock script %}
 {% block content %}
 
-    {% if request.user.is_authenticated %}
-        <header class="hero-section">
-            <div class="header-wrapper">
-                <div class="row header-text">
-                    <div class="col-lg-5 offset-lg-1 col-sm-8 offset-sm-2 text-center">
-                        <h1 class="text-left">This Week's<br> Featured Creator.</h1>
-                        <h4 class="text-left">See whos up to what on Granite.</h4>
-                    </div>
-                    <div class="col-lg-5 offset-lg-0 col-sm-8 offset-sm-2 col-xs-12">
-                        <div class="card card-profile text-center">
-                            <div class="card-block">
-                                <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
-                                <h4 class="card-title px-4">
-                              John Smith
-                              <small>John Smith is a detective with LA PD. Little does he know he is secretly a vampire.</small>
-                              
-                            </h4>
-                                <a href="">
-                                    <button class="btn btn-new btn-primary-new">View Profile</button>
-                                </a>
-                            </div>
+{% if request.user.is_authenticated %}
+    <header class="hero-section">
+        <div class="header-wrapper">
+            <div class="row header-text">
+                <div class="col-lg-5 offset-lg-1 col-sm-8 offset-sm-2 text-center">
+                    <h1 class="text-left">This Week's<br> Featured Creator.</h1>
+                    <h4 class="text-left">See whos up to what on Granite.</h4>
+                </div>
+                <div class="col-lg-5 offset-lg-0 col-sm-8 offset-sm-2 col-xs-12">
+                    <div class="card card-profile text-center">
+                        <div class="card-block">
+                            <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+                            <h4 class="card-title px-4">
+                          John Smith
+                          <small>John Smith is a detective with LA PD. Little does he know he is secretly a vampire.</small>
+                          
+                        </h4>
+                            <a href="">
+                                <button class="btn btn-new btn-primary-new">View Profile</button>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-    {% else %}
-        <header class="hero-section">
-            <div class="header-wrapper">
-                <div class="row header-text">
-                    <div class="col-lg-5 offset-lg-1 col-sm-8 offset-sm-2 text-center">
-                        <h1 class="text-left">Don’t Just Watch.<br> Join and Play.</h1>
-                        <h4 class="text-left">Connect with your favorite creators in a new way.</h4>
-                    </div>
-                    <div class="col-lg-5 offset-lg-0 col-sm-8 offset-sm-2 col-xs-12">
-                        <div class="card card-profile text-center">
-                            <div class="card-block" style="padding:0 12px 24px 12px">
-                                <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
-                                <h4 class="card-title px-4">
-                              John Smith
-                              <small>John Smith is a detective with LA PD. Little does he know he is secretly a vampire.</small>
-                              
-                            </h4>
-                                <a href="">
-                                    <button class="btn btn-new btn-primary-new">View Profile</button>
-                                </a>
-                            </div>
+{% else %}
+    <header class="hero-section">
+        <div class="header-wrapper">
+            <div class="row header-text">
+                <div class="col-lg-5 offset-lg-1 col-sm-8 offset-sm-2 text-center">
+                    <h1 class="text-left">Don’t Just Watch.<br> Join and Play.</h1>
+                    <h4 class="text-left">Connect with your favorite creators in a new way.</h4>
+                </div>
+                <div class="col-lg-5 offset-lg-0 col-sm-8 offset-sm-2 col-xs-12">
+                    <div class="card card-profile text-center">
+                        <div class="card-block" style="padding:0 12px 24px 12px">
+                            <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+                            <h4 class="card-title px-4">
+                          John Smith
+                          <small>John Smith is a detective with LA PD. Little does he know he is secretly a vampire.</small>
+                          
+                        </h4>
+                            <a href="">
+                                <button class="btn btn-new btn-primary-new">View Profile</button>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </header>
-    </div>
-</div>
+        </div>
+    </header>
+
     
 <div class="home-content container about-apogee mt-5">
     <div class="row">
@@ -372,8 +371,5 @@ $(document).ready(function() {
 
         </div>
     </div>
-</div>
-
-
 </div>
 {% endblock content %}
