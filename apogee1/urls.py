@@ -32,6 +32,7 @@ from .views import (
 		PrivacyView, 
 		AboutView, 
 		FAQView,
+		ContactView,
 	)
 from .api.views import TestEmailEndpoint, SetTimzoneEndpoint 
 from parties.views import PartyListView
@@ -76,6 +77,7 @@ urlpatterns = [
 	path('privacy', PrivacyView.as_view(), name='privacy'),
 	path('about', AboutView.as_view(), name='about'),
 	path('FAQ', FAQView.as_view(), name='FAQ'),
+	path('contact', ContactView.as_view(), name='contact'),
 	url(r'^tz_detect/', include('tz_detect.urls')),
 	#url(r'^.*$', RedirectView.as_view(url='', permanent=False), name='index')
 	#Deprecated path to bids, bid views not available to users
