@@ -560,7 +560,7 @@ p, .about-apogee p {
 
 .card-img-top {
     height: 118px;
-    width: 218px;
+    width: 218px !important;
     overflow: hidden;
     background-size: cover;
     background-position: center
