@@ -8,6 +8,19 @@
 
 {% block content %}
 
+{% if hide_funding %}
+<div class="container" style="padding-top: 30px">
+	<div class="row">
+		<div class="col-md-6 offset-md-3">
+			<h1 style="color: white">Funding currently disabled</h1>
+			<hr style="color: white; border-color: white;background-color:white" />
+			<p class="white">Funding is either currently unavailable or in test mode for this enviorment.</p>
+		</div>
+	</div>
+</div>
+
+{% else %}
+
 <div class="container" style="padding-top: 30px">
 	<div class="row">
 		<div class="col-md-4 offset-md-1">
@@ -91,4 +104,8 @@
 	}, '#paypal-button');
 })()
 </script>
+
+{% endif %}
+
+
 {% endblock content %}
