@@ -17,6 +17,11 @@ User = get_user_model()
 
 
 
+class ContactView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'contact.html', context)
+
 class AboutView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}
