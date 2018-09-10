@@ -149,6 +149,15 @@ p, .about-apogee p {
     max-width: 450px;
 }
 
+.small-profile-pic {
+    height: 40px; 
+    width: 40px; 
+    overflow: hidden; 
+    float: left; 
+    background-size: cover; 
+    background-position: center;
+}
+
 .img-circle {
     border-radius: 10000000000px
 }

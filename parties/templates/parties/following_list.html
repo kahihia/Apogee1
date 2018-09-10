@@ -34,9 +34,7 @@ of usernames and a list of events -->
 				{%endif%} 
 
 					{% if user.profile.profile_picture %}
-					<div class=" rounded-circle " style='height: 40px; width: 40px; overflow: hidden; float: left'>
-						<img src='{{ user.profile.profile_picture.url }}' class="float-left" style='max-height: 40px;'>		
-					</div>
+	                <div class="rounded-circle small-profile-pic" style='background-image: url("https://apogee-assets.s3.amazonaws.com:443/{{ user.profile.profile_picture }}")'></div>
 					{% else %}
 					<!-- Default blank profile img-->
 					<div class=" rounded-circle " style='height: 40px; width: 40px; overflow: hidden; float: left'>

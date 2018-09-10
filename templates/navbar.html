@@ -4,7 +4,7 @@
         <span class="hidden-folded d-sm-inline l-s-n-1x"></span>
     </a>
     {% if request.user.is_authenticated %}
-    <div class="order-lg-1" id="navbarToggler">
+    <div class="order-lg-1 col-md-4 col-1" id="navbarToggler">
 <!--     <a href="/" class="navbar-brand">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 400"><path d="M59,74V0L200,87.41v74.34Zm60.64,82.75v65l30.57,19v54.08L59,238.25v74L200,400V206.54ZM0,110.75V274.87l59-36.62V74Zm334.79,71.6v58.07c0,18,9.26,26.53,24.28,26.53,12.77,0,24.78-7,24.78-26.53v-3H359.32V207.13H418.4V300H383.86v-4.75A64.12,64.12,0,0,1,359.07,300C324.28,300,300,275.22,300,239.17V178.85c0-36,24.28-61.08,59.07-61.08,34.54,0,58.57,24.53,59.33,59.57H383.86c0-18.77-9.76-26.53-24.28-26.53C344.06,150.81,334.79,158.82,334.79,182.35Zm145.68-4v-19H449.68V300h32.79V222.65c0-22.53,10-34.54,35.29-32.54V157.82C501.75,155.82,484.48,162.83,480.47,178.35Zm131.41-21.28h31V297.75h-31V282.23c-2,4.76-12.77,17.77-33.54,17.77-25.28,0-42.05-16-42.05-52.07v-40.8c0-36.3,17.27-51.81,42.05-51.81,20.78,0,31.54,13,33.54,17.52Zm-2,52.07c0-17-8.51-24.53-20-24.53-12.27,0-20.28,7.76-20.28,25v35.79c0,17.52,8,25.28,20.28,25.28,12,0,20-8,20-25.28Zm130.91-51.31c-20.52,0-31.54,13-33.54,17.52v-16H676.46V300h32.79V212.39c0-18,6.76-25.28,20.27-25.28,12.77,0,20.28,7.51,20.28,24.78V300h33.29V209.39C783.09,173.59,766.32,157.82,740.79,157.82ZM814.63,300h32.79V159.32H814.63Zm36.54-177.47a20,20,0,0,1-40.05,0,20,20,0,1,1,40.05,0Zm70.34,124.15V186.36h26V157.57h-26V128.79h-22c0,23.28-6.26,31-24.78,31,0,9,.25,17.52.25,26.53h13.77v59.58c0,34.29,9.26,54.07,47.56,54.07a98.86,98.86,0,0,0,11.77-.75V270a47.17,47.17,0,0,1-8,.5C924,270.46,921.51,262.7,921.51,246.68Zm84.89-9.76v15.27a20.72,20.72,0,0,0,20.53,21c11,0,20-6.26,20-17.77v-3h33v1c0,25.78-19.78,46.56-53.07,46.56-34,0-53.57-21.28-53.57-55.07V210.64c0-34.29,19.52-55.57,53.57-55.57,33.29,0,53.07,19.77,53.07,54.32v27.53Zm0-23H1047v-6.76c0-18.77-7.76-25-20-25-11.77,0-20.53,6.51-20.53,21.53Z"></path></svg>
         <span class="hidden-folded d-sm-inline l-s-n-1x"></span>
@@ -81,11 +81,16 @@
         </li>
         <li class="nav-item dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link d-flex align-items-center px-2 text-color">
-            <span class="avatar w-36">
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32 32" xml:space="preserve" width="32" height="32"><title>circle 08</title><path fill="hsl(270, 100%, 50%)" d="M16,0C7.178,0,0,7.178,0,16s7.178,16,16,16s16-7.178,16-16S24.822,0,16,0z M10,14c0-3.309,2.691-6,6-6 s6,2.691,6,6v2c0,3.309-2.691,6-6,6s-6-2.691-6-6V14z M16,30c-2.913,0-5.62-0.896-7.863-2.425C9.6,25.996,11.683,25,14,25h4 c2.317,0,4.4,0.996,5.863,2.575C21.62,29.104,18.913,30,16,30z"/></svg>
-              <a href="{{ request.user.profile.get_absolute_url }}">
-            </span>
-          </a>
+                {% if request.user.profile.profile_picture %}
+                <div class="rounded-circle small-profile-pic" style='background-image: url("https://apogee-assets.s3.amazonaws.com:443/{{ request.user.profile.profile_picture }}")'></div>
+                {% else %}
+                <!-- Default blank profile img-->
+                <span class="avatar w-36">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32 32" xml:space="preserve" width="32" height="32"><title>circle 08</title><path fill="hsl(270, 100%, 50%)" d="M16,0C7.178,0,0,7.178,0,16s7.178,16,16,16s16-7.178,16-16S24.822,0,16,0z M10,14c0-3.309,2.691-6,6-6 s6,2.691,6,6v2c0,3.309-2.691,6-6,6s-6-2.691-6-6V14z M16,30c-2.913,0-5.62-0.896-7.863-2.425C9.6,25.996,11.683,25,14,25h4 c2.317,0,4.4,0.996,5.863,2.575C21.62,29.104,18.913,30,16,30z"/></svg>
+                  <a href="{{ request.user.profile.get_absolute_url }}">
+                </span>
+                {% endif %}
+            </a>
             <div class="dropdown-menu dropdown-menu-right w pt-2 mt-3 animate fadeIn">
                 <a class="dropdown-item dropdown-name" href="{{ request.user.profile.get_absolute_url }}">
                     {{ request.user.username }}
@@ -118,7 +123,7 @@
         </li>
     </ul>
     {% else %}
-            <div class="order-lg-1" id="navbarToggler">
+            <div class="order-lg-1 col-md-4 col-1" id="navbarToggler">
                 <svg version="1.1" class="d-sm-none mt-3 search-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" xml:space="preserve" width="16" height="16"><path fill="#fff" d="M12.7,11.3c0.9-1.2,1.4-2.6,1.4-4.2C14.1,3.2,11,0,7.1,0S0,3.2,0,7.1c0,3.9,3.2,7.1,7.1,7.1 c1.6,0,3.1-0.5,4.2-1.4l3,3c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L12.7,11.3z M7.1,12.1 C4.3,12.1,2,9.9,2,7.1S4.3,2,7.1,2s5.1,2.3,5.1,5.1S9.9,12.1,7.1,12.1z"/></svg>
 
                 <form id='navbar-search-form' class="input-group m-2 my-lg-0 col-lg-12 mr-xs-2 nav-search-field" method='GET' action='{% url "search" %}'>
