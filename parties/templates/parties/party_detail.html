@@ -207,8 +207,8 @@
 										{% if serialized.event_type == 3 %}
 											<p class=""> {{serialized.num_possible_winners}}
 											 <small class="">Spots total</small></p>
-										{% else %}
-											<p class="> {{serialized.num_possible_winners}} <small class=">Winners possible</p>
+										{% elif serialized.num_possible_winners %}
+											<p> {{serialized.num_possible_winners}}<small> Winners possible</small></p>
 										{%endif%}
 									</div>
 
