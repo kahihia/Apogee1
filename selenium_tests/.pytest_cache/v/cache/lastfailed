@@ -1,4 +1,3 @@
 {
-  "registration.py::Register::test_teardown": true,
-  "registration.py::Register::test_user_exists": true
+  "registration.py::Register::test_teardown": true
 }

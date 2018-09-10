@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.views.generic import DetailView, FormView, UpdateView
-from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.utils.safestring import mark_safe
 # views tell us what info is displayed, what methods we have acess to, 
 # and what our rendering files are
@@ -144,6 +144,36 @@ class UserBlockView(LoginRequiredMixin, View):
             # it redirects you to the same page you were on and updates the text on the button
             return redirect('profiles:detail', username=username)
 
+class UserDeleteView(LoginRequiredMixin, View):
+    def get(self, request, username, *args, **kwargs):
+        if request.user.is_authenticated:
+            u = User.objects.get(username = username)
+            if u.profile.account_balance != 0:
+                return render(request, 'accounts/delete_user.html', {'account_balance_clear': False, 'user': u})
+            return render(request, 'accounts/delete_user.html', {'account_balance_clear': True, 'user': u})
+        else:
+            return redirect('/', username=username)
+    def post(self, request, username, *args, **kwargs):
+        if request.user.is_authenticated and username == request.user.username:
+
+            u = User.objects.get(username = username)
+            if u.profile.account_balance != 0:
+                return render(request, 'accounts/delete_user.html', {'account_balance_clear': False, 'user': u})
+            else:
+                try:
+                    u.delete()
+                except User.DoesNotExist:
+                    print("Does not exist")
+                    return render(request, '/')
+
+                except Exception as e: 
+                    print(e)
+                    return render(request, '/',{'err':e.message})
+
+                logout(request)
+                return render(request, 'accounts/delete_user.html', {'account_balance_clear': True, 'user': u, 'confirmed': True})
+        else:
+            return redirect('/', username=username)
 
 # this is the profile settings page
 # the mixins ensure that you are both authenticated and the owner of the profile

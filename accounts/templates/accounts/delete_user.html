@@ -1,0 +1,33 @@
+<!-- when you delete an event, the site takes you to a confim page -->
+{% extends 'base.html' %}
+
+<!-- tab title -->
+{% block title %}
+	Unregister | {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+<!-- this is a second line of defense against a non owner editing things -->
+<div class="row text-center" style="margin-top: 50px">
+	<div class="col-md-6 offset-md-3">
+		{% if request.user == user and user.profile.account_balance == 0 %}
+			<h1>Unregister</h1>
+			<form action="" method="post">{% csrf_token %}
+				<!-- there is a single warning and a single submit button -->
+			    <p>Sorry to see you go {{ user.username }}, are you sure you want to leave granite.gg?</p>
+			    <input type="submit" class="btn btn-danger btn-block my-3" style="max-width: 50%; margin: 0 auto;" value="Delete Account" />
+			</form>
+		{% elif confirmed %}
+			<h1>Account Deleted</h1>
+			<p>Account Successfully deleted</p>
+			<a href="/"><button class="btn btn-primary-new">Return Home</button></a>
+		{% else %}
+		<!-- if the person isnt the owner, they get blocked again -->
+			<h3><strong>Not authorized</strong></h3>
+			<p>Please try to login again to delete this account, <br  /> or if you have an outstanding balance withdraw it first</p>
+			<a href="{% url 'profiles:funds' user.username %}"><button class="btn btn-primary-new">Withdraw Funds</button></a>
+			<a href="{% url 'logout' %}"><button class="btn btn-primary-new">Logout</button></a>
+		{% endif %}
+	</div>
+</div>
+{% endblock content %}		

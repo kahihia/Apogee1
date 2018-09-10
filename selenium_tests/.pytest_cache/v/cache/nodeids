@@ -1,5 +1,4 @@
 [
-  "profile.py::Profile::test_following_tab_on_login",
-  "profile.py::Profile::test_login",
-  "profile.py::Profile::test_user_exists"
+  "registration.py::Register::test_register",
+  "registration.py::Register::test_user_exists"
 ]
