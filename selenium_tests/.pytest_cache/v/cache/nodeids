@@ -1,5 +1,4 @@
 [
-  "create_party.py::create_party::test_create_buy",
-  "create_party.py::create_party::test_delete_user",
-  "create_party.py::create_party::test_lottery"
+  "profile.py::profile_edit::test_delete_user",
+  "profile.py::profile_edit::test_profile_bio"
 ]

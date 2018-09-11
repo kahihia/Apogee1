@@ -1,4 +1,6 @@
 {
+  "login.py::Login::test_following_tab_on_login": true,
+  "login.py::Login::test_login": true,
   "registration.py::Login::test_following_tab_on_login": true,
   "registration.py::Login::test_login": true,
   "registration.py::Login::test_user_exists": true,
