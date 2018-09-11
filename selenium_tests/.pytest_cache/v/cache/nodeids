@@ -1,4 +1,5 @@
 [
+  "registration.py::Register::test_delete_user",
   "registration.py::Register::test_register",
   "registration.py::Register::test_user_exists"
 ]

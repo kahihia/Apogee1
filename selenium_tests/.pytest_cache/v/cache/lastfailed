@@ -1,3 +1,10 @@
 {
+  "registration.py::Login::test_following_tab_on_login": true,
+  "registration.py::Login::test_login": true,
+  "registration.py::Login::test_user_exists": true,
+  "registration.py::Register::test_1register": true,
+  "registration.py::Register::test_2user_exists": true,
+  "registration.py::Register::test_3delete_user": true,
+  "registration.py::Register::test_delete_user": true,
   "registration.py::Register::test_teardown": true
 }

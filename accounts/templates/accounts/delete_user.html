@@ -23,7 +23,7 @@
 			<a href="/"><button class="btn btn-primary-new">Return Home</button></a>
 		{% else %}
 		<!-- if the person isnt the owner, they get blocked again -->
-			<h3><strong>Not authorized</strong></h3>
+			<h1>Not authorized</h1>
 			<p>Please try to login again to delete this account, <br  /> or if you have an outstanding balance withdraw it first</p>
 			<a href="{% url 'profiles:funds' user.username %}"><button class="btn btn-primary-new">Withdraw Funds</button></a>
 			<a href="{% url 'logout' %}"><button class="btn btn-primary-new">Logout</button></a>
