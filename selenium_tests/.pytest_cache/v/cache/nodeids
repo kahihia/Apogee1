@@ -1,5 +1,4 @@
 [
-  "registration.py::Register::test_delete_user",
-  "registration.py::Register::test_register",
-  "registration.py::Register::test_user_exists"
+  "create_party.py::create_party::test_create_buy",
+  "create_party.py::create_party::test_delete_user"
 ]

@@ -5,6 +5,5 @@
   "registration.py::Register::test_1register": true,
   "registration.py::Register::test_2user_exists": true,
   "registration.py::Register::test_3delete_user": true,
-  "registration.py::Register::test_delete_user": true,
   "registration.py::Register::test_teardown": true
 }

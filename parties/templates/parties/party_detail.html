@@ -167,7 +167,7 @@
 												</p>
 										{% endif %}
 										{% if serialized.event_type == 3 %}
-												<p class=""><span name="num_curr_winners"> {{serialized.num_curr_winners}} 
+												<p class=""><span name="num_curr_winners" id="num_curr_winners"> {{serialized.num_curr_winners}} 
 												</span> <small class="">Spots taken</small></p>
 												<p class="">
 												<i class="fas fa-donate grey-color" data-toggle="tooltip" data-placement="top"></i>
@@ -203,7 +203,7 @@
 									<!-- Possible Winners -->
 									<div class="col-sm-12"> 
 										{% if serialized.event_type == 3 %}
-											<p class=""> {{serialized.num_possible_winners}}
+											<p class=""> <span id="num_possible_winners" name="num_possible_winners">{{serialized.num_possible_winners}}</span> 
 											 <small class="">Spots total</small></p>
 										{% elif serialized.num_possible_winners %}
 											<p> {{serialized.num_possible_winners}}<small> Winners possible</small></p>
