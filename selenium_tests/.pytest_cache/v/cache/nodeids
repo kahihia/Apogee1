@@ -1,4 +1,5 @@
 [
   "create_party.py::create_party::test_create_buy",
-  "create_party.py::create_party::test_delete_user"
+  "create_party.py::create_party::test_delete_user",
+  "create_party.py::create_party::test_lottery"
 ]

@@ -151,18 +151,18 @@
 									<!-- Cost/Bid -->
 									<div class="col-sm-12"> 
 										{% if serialized.cost == 0 %}
-											<p class=""> FREE </p> 
+											<p class="" id="cost"> FREE </p> 
 										{% endif %}
 										{% if serialized.event_type == 1 %}
 											<p class="">
 												<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i>
-												${{serialized.cost}}
+												$<span id="cost">{{serialized.cost}}</span>
 											</p>
 										{% endif %}
 										{% if serialized.event_type == 2 %}
 												<p class="">
 													<i class="fas fa-gavel grey-color" data-toggle="tooltip" data-placement="top" title="Auction"></i> 
-													$<span name="min_bid">{{serialized.minimum_bid}}</span>
+													$<span name="min_bid" id="cost">{{serialized.minimum_bid}}</span>
 													<small class=""> bid to beat</small>
 												</p>
 										{% endif %}
@@ -171,7 +171,7 @@
 												</span> <small class="">Spots taken</small></p>
 												<p class="">
 												<i class="fas fa-donate grey-color" data-toggle="tooltip" data-placement="top"></i>
-												${{serialized.cost}}
+												$<span id="cost">{{serialized.cost}}</span>
 											</p>
 										{% endif %}
 									</div>
@@ -188,14 +188,14 @@
 									<!-- # Joined -->
 									{% if serialized.event_type == 1 %}
 									<div class="col-sm-12"> 
-										<p class=""><span name="num_joined"> {{serialized.joins}} </span> <small class="">Joined</small></p>
+										<p class=""><span id="num_joined" name="num_joined"> {{serialized.joins}} </span> <small class="">Joined</small></p>
 									</div>
 									{% endif %}
 
 									<!-- Max Entrants -->
 									<div class="col-sm-12"> 
-										{% if serialized.maxentrants %}
-											<p class=""> {{ partyValue.max_entrants }}  
+										{% if serialized.max_entrants %}
+											<p class=""> <span id="max_entrants">{{ serialized.max_entrants }}</span>  
 											<small class="">Max entrants</small></p>
 										{% endif %}
 									</div>
@@ -206,7 +206,7 @@
 											<p class=""> <span id="num_possible_winners" name="num_possible_winners">{{serialized.num_possible_winners}}</span> 
 											 <small class="">Spots total</small></p>
 										{% elif serialized.num_possible_winners %}
-											<p> {{serialized.num_possible_winners}}<small> Winners possible</small></p>
+											<p> <span id="num_possible_winners" name="num_possible_winners">{{serialized.num_possible_winners}}</span><small> Winners possible</small></p>
 										{%endif%}
 									</div>
 
@@ -218,7 +218,7 @@
 											</div>
 										</form>
 										<div class="col-sm-20">
-											<input type="hidden" name="party_id" value="{{partyValue.id}}">
+											<input type="hidden" name="party_id" value="{{serialized.id}}">
 										</div>
 									{%endif%}
 								</div>
