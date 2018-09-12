@@ -1,4 +1,6 @@
 {
+  "fanside_events.py::create_fparty::test_delete_user": true,
+  "fanside_events.py::create_fparty::test_join": true,
   "login.py::Login::test_following_tab_on_login": true,
   "login.py::Login::test_login": true,
   "registration.py::Login::test_following_tab_on_login": true,

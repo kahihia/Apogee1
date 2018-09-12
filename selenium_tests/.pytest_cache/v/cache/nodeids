@@ -1,4 +1,4 @@
 [
-  "profile.py::profile_edit::test_delete_user",
-  "profile.py::profile_edit::test_profile_bio"
+  "fanside_events.py::create_fparty::test_create_buy",
+  "fanside_events.py::create_fparty::test_delete_creator"
 ]

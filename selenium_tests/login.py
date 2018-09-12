@@ -15,6 +15,14 @@ def login(self):
     self.click('.btn-primary-new')
     self.wait_for_element_present("h1.text-left", timeout=2)
 
+def fan_login(self):
+    # Test that you can login 
+    self.open(host + '/accounts/login')
+    self.update_text('#id_username', self.fan_username)
+    self.update_text('#id_password', self.fan_password)
+    self.click('.btn-primary-new')
+    self.wait_for_element_present("h1.text-left", timeout=2)
+
 class Login(BaseCase):
 
     username = 'test_user3'
