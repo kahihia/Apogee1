@@ -1,5 +1,6 @@
 [
-  "profile.py::Profile::test_following_tab_on_login",
-  "profile.py::Profile::test_login",
-  "profile.py::Profile::test_user_exists"
+  "fanside_events.py::create_fparty::test_create_bid",
+  "fanside_events.py::create_fparty::test_create_buy",
+  "fanside_events.py::create_fparty::test_create_lottery",
+  "fanside_events.py::create_fparty::test_delete_creator"
 ]
