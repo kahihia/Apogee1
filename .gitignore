@@ -4,6 +4,7 @@
 myvenv
 venv
 static-serve
+settings.ini
 *.env
 env
 db.sqlite3
