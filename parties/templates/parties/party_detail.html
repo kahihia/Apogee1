@@ -31,6 +31,14 @@
 <!-- contains our custom JS -->
 {% block content %}
 
+{% if blocked %}
+<div class='row mt-4 text-center'>
+	<div class='col-sm-10 offset-sm-1  mt-4'>
+		<h1>You have been blocked from seeing this event</h1>
+		<a href="/"><button type="button" class="btn btn-primary-new">Return Home</button></a> 
+	</div>
+</div>
+{% else %}
 <div class='row mt-4'>
 
 	<div class='col-sm-10 offset-sm-1'>
@@ -284,5 +292,5 @@
 	</div>
 
 </div>
-
+{% endif %}
 {% endblock content %}

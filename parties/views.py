@@ -4,6 +4,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.views import View
 from apogee1.utils.auth.auth import get_blocking_lists
@@ -24,6 +25,7 @@ from .api.pagination import StandardResultsPagination
 from .api.serializers import PartyModelSerializer
 from .mixins import FormUserNeededMixin, UserOwnerMixin
 from .models import Party
+from accounts.models import UserProfile
 
 
 
@@ -85,6 +87,7 @@ class PartyDetailView(DetailView):
 		party_id = self.kwargs['pk']
 		qs = Party.objects.get(pk=party_id)
 		serialized_context = PartyModelSerializer(qs, context={'request': self.request}).data
+		context['blocked'] = UserProfile.objects.is_blocked(self.request.user, qs.user)
 		context['request'] = self.request
 		context['serialized'] = serialized_context
 		return context
