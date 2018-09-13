@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Not Found | {{ block.super }} {% endblock title %}
+
+{% block content %}
+<div class="home-content container about-apogee mt-5">
+    <div class="row text-center">
+        <div class="col-lg-12 mb-3">
+            <h1 class="text-center mb-3">Forbidden Page - 403</h1>
+            <p>Sorry! You've been blocked from this page by the event owner.</p>
+            <img src='{% static "media/site_assets/leeroy_jenkins.gif" %}'>
+            <br  />
+            <a href="/"><button class="btn btn-primary-new mt-4">Return Home</button></a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

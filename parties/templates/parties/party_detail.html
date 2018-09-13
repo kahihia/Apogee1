@@ -31,14 +31,7 @@
 <!-- contains our custom JS -->
 {% block content %}
 
-{% if blocked %}
-<div class='row mt-4 text-center'>
-	<div class='col-sm-10 offset-sm-1  mt-4'>
-		<h1>You have been blocked from seeing this event</h1>
-		<a href="/"><button type="button" class="btn btn-primary-new">Return Home</button></a> 
-	</div>
-</div>
-{% else %}
+
 <div class='row mt-4'>
 
 	<div class='col-sm-10 offset-sm-1'>
@@ -219,7 +212,7 @@
 									</div>
 
 									<!-- Bid functionality -->
-									{% if not serialized.is_owner and serialized.event_type == 2 and not serialized.did_join %}
+									{% if not serialized.is_owner and serialized.event_type == 2 and not serialized.did_join and not blocked %}
 										<form id= "bid-submit" method="GET">
 											<div class="col-sm-12 form-group mb-1" id="div_bid_amount">
 												<input type="number" class="form-control" step="0.01" id="bid_amount" name="bid_amount" value="{{serialized.minimum_bid}}"  {{ serialized.bid_amount }} >
@@ -233,7 +226,7 @@
 
 								<!-- Button Bid/Buy/Join -->
 								<div class=""> 
-									{% if not serialized.is_owner and not serialized.did_join and request.user.is_authenticated and serialized.is_open%}
+									{% if not serialized.is_owner and not serialized.did_join and request.user.is_authenticated and serialized.is_open and not blocked %}
 										{% with "Enter Lottery" as lottery_text %}  
 										{% with "Submit a Bid" as bid_text %}  
 										{% with "Buy Event" as buy_text %}  
@@ -259,8 +252,14 @@
 								<!-- Event Actions / Join -->
 								{% if serialized.did_join %}
 										<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay disabled" disabled> Joined </button>
+								{% endif %}
 
-
+								{% if blocked %}
+								<div class='row mt-4 text-center'>
+									<div class='col-sm-12  mt-4'>
+										<p><small>You have been blocked from joining</small></p>
+									</div>
+								</div>
 								{% endif %}
 
 								{% if not serialized.is_open %}
@@ -292,5 +291,4 @@
 	</div>
 
 </div>
-{% endif %}
 {% endblock content %}

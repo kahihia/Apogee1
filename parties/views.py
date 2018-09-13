@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.views import View
+from django.core.exceptions import PermissionDenied
 from apogee1.utils.auth.auth import get_blocking_lists
 
 # from django.core.urlresolvers import reverse
@@ -87,7 +88,10 @@ class PartyDetailView(DetailView):
 		party_id = self.kwargs['pk']
 		qs = Party.objects.get(pk=party_id)
 		serialized_context = PartyModelSerializer(qs, context={'request': self.request}).data
-		context['blocked'] = UserProfile.objects.is_blocked(self.request.user, qs.user)
+		if not self.request.user.is_anonymous:
+			context['blocked'] = UserProfile.objects.is_blocked(self.request.user, qs.user)
+			if context['blocked']:
+				raise PermissionDenied
 		context['request'] = self.request
 		context['serialized'] = serialized_context
 		return context

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Not Found | {{ block.super }} {% endblock title %}
+
+{% block content %}
+<div class="home-content container about-apogee mt-5">
+    <div class="row text-center">
+        <div class="col-lg-12 mb-3">
+            <h1 class="text-center mb-3">Page can't be found! - 404</h1>
+            <img src='{% static "media/site_assets/nyan_cat.gif" %}'>
+            <br  />
+            <a href="/"><button class="btn btn-primary-new mt-4">Return Home</button></a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

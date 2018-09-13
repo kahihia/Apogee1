@@ -1,6 +1,6 @@
 body {
     background: hsl(270, 5%, 10%) !important;
-    font-family: "Proxima Nova", sans-serif;
+    font-family: "Myriad", sans-serif !important;
     color: hsl(100, 0%, 98%) !important;
     overflow-x: hidden;
     min-height: 400px;
@@ -19,41 +19,123 @@ body {
 }
 
 ::-webkit-input-placeholder {
-    /* Chrome/Opera/Safari */
     color: #fff;
 }
 
 ::-moz-placeholder {
-    /* Firefox 19+ */
     color: #fff;
 }
 
 :-ms-input-placeholder {
-    /* IE 10+ */
     color: #fff;
 }
 
 :-moz-placeholder {
-    /* Firefox 18- */
     color: #fff;
 }
+
+/* Typography */
+
+h1, .header-wrapper h1 {
+    letter-spacing: 0.05rem;
+    line-height: 1.25;
+    font-family: "Museo Sans", sans-serif !important;
+    font-weight: 900;
+    font-size: 2.5rem;
+    text-shadow: 3px 3px 0px hsla(270, 100%, 35%,.5);
+    color: hsl(270, 100%, 100%);
+}
+
+h2, .about-apogee h2, .faq-section h2 {
+    font-weight: 300 !important;
+    color: hsla(200,100%,100%,0.5) !important;
+    font-size: 1.65rem;
+}
+
+h3, .about-apogee h3 {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    color: hsla(270,75%,75%,0.75);
+    letter-spacing: 0.075rem;
+}
+
+h4, .header-wrapper h4 {
+    margin-top: 0;
+    line-height: 1.25;
+    font-weight: 400;
+    font-size: 1.25rem;
+    text-shadow: none;
+    letter-spacing: 0.015rem;
+    padding: 0;
+}
+
+.card-profile > .card-block > h4 {
+    font-weight: 700;
+}
+
+p, .about-apogee p {
+    font-weight: 500;
+    letter-spacing: 0.01rem;
+    color: hsla(200,100%,100%,0.85);
+}
+
+@media (max-width: 720px) {
+    h1, .header-wrapper h1, h2, .about-apogee h2, .faq-section h2, .header-wrapper h4 {
+        text-align: center !important;
+        float: none;
+        width: 100%;
+}
+    h1, .header-wrapper h1 {
+        font-size: 2rem;
+    }
+
+    h2, .about-apogee h2, .faq-section h2 {
+        font-size: 1.4rem;
+    }
+    h4, .header-wrapper h4 {
+        font-size: 1.15rem;
+    }
+}
+
+/* END Typography */
 
 .container-fluid {
     padding: 0 !important;
 }
 
 .container-default {
-    max-width: 1110px;
+    max-width: 1400px;
     margin: 0 auto;
+}
+@media (max-width: 991px) {
+    .centering-container {
+        display: flex;
+        flex-wrap: wrap; 
+        justify-content: center; 
+        flex-direction: row 
+    }
+    .flex-text-center {
+        text-align: center;
+    }
+}
+
+@media (max-width: 756px) {
+    .text-center-sm {
+        text-align: center !important;
+    }
+}
+
+.centering-container-all {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-evenly; 
+    flex-direction: row;
 }
 
 .hero-section {
     background-color: hsl(270, 100%, 20%);
     background-attachment: fixed;
-    background-image: -webkit-linear-gradient(90deg, hsl(295, 100%, 50%) 0%, hsl(270, 100%, 50%) 100%);
-    background-image: -moz-linear-gradient(90deg, hsl(295, 100%, 50%) 0%, hsl(270, 100%, 50%) 100%);
-    background-image: -o-linear-gradient(90deg, hsl(295, 100%, 50%) 0%, hsl(270, 100%, 50%) 100%);
-    background-image: linear-gradient(90deg, hsl(295, 100%, 50%) 0%, hsl(270, 100%, 50%) 100%);
     color: white;
     width: 100%;
     margin: 0;
@@ -65,12 +147,24 @@ body {
     border-radius: 4px;
     height: 150px;
     max-width: 450px;
-    margin: -40px 0 40px;
+}
+
+.small-profile-pic {
+    height: 40px; 
+    width: 40px; 
+    overflow: hidden; 
+    float: left; 
+    background-size: cover; 
+    background-position: center;
+}
+
+.img-circle {
+    border-radius: 10000000000px
 }
 
 .btn-new {
     border-radius: 4px !important;
-	border: 1px solid hsla(270,100%,10%,0.5) !important;
+    border: 1px solid hsla(270,100%,10%,0.5) !important;
     font-weight: 700 !important;
     font-size: .9rem !important;
     letter-spacing: 0.05rem;
@@ -84,6 +178,8 @@ body {
     background-color: hsl(270, 100%, 50%);
     color: #fff;
     text-shadow: 1px 1px 0 hsla(270, 20%, 20%, 0.75);
+    text-decoration: none;
+    white-space: inherit !important;
 }
 
 .btn-primary-new:hover {
@@ -91,10 +187,11 @@ body {
     color: #fff;
     text-shadow: 0 1px 0 hsla(270, 20%, 20%, 0.5);
     box-shadow: 0 2px 12px hsla(270, 5%, 5%, 0.25);
+    text-decoration: none;
 }
 
 .header-wrapper {
-    max-width: 1110px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 30px;
 }
@@ -104,26 +201,6 @@ body {
     align-items: center;
 }
 
-.header-wrapper h1 {
-    letter-spacing: 0.05rem;
-    font-family: "Museo Sans", sans-serif;
-    font-weight: 700;
-    font-size: 2.4rem;
-/*    margin: 0 0 80px;*/
-    text-shadow: 2px 2px 0px hsla(270, 100%, 40%,.75);
-    color: hsl(270, 100%, 100%);
-}
-
-.header-wrapper h4 {
-    font-family: "Proxima Nova", sans-serif;
-    margin-top: 0;
-    line-height: 1.5;
-    font-weight: 700;
-    font-size: 1.25rem;
-    text-shadow: none;
-    padding: 0;
-}
-
 .hero-card {
     background: #fff;
     min-height: 200px;
@@ -131,14 +208,104 @@ body {
     color: #222;
 }
 
+
 .profile-banner {
     border-bottom: 1px solid hsla(270,100%,100%,0.5);
     width: 100%;
     height: 200px;
     background-repeat: no-repeat;
-    background-position: top left; 
+    background-position: top center; 
 }
 
+
+.profile-banner-bg {
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid hsla(270,100%,100%,0.15);
+}
+
+.profile-banner-pattern {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+}
+
+.profile-banner-bg, .profile-banner-pattern {
+    width: 100%;
+    height: 200px;
+}
+
+.creators-about, .fans-about {
+    align-items: center;
+}
+
+.about-centered-nav > ul {
+    text-align: center;
+    float: none;
+    max-width: 271px;
+    margin: 0 auto !important;
+}
+
+.about-avatar-img > img {
+    height: 256px;
+    margin: 0 auto;
+    float: none;
+    width: 100%;
+}
+
+.about-icon-circle {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid hsla(270,100%,100%,0.25);
+}
+
+.about-icon-circle svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.home-illu-holder {
+    min-width: 180px;
+    height: 180px;
+    background: hsla(270,100%,100%,0.25);
+    float: left;
+    border-radius: 4px;
+}
+
+.apogee-accordion > .card, .apogee-accordion > .card-harder {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+}
+
+.apogee-accordion > .card > .card-header > h5 > a {
+    font-size: 1.1rem;
+    color: hsl(270,100%,80%);
+    font-weight: 300;
+    letter-spacing: 0.02rem;
+    padding-bottom: 1px;
+    text-decoration: none !important;
+    line-height: 1.5;
+}
+
+.apogee-accordion > .card > .card-header > h5 > a:hover {
+    color: hsl(270,100%,50%);
+    border-bottom: 2px solid hsl(270,100%,75%);
+    text-decoration: none !important;
+}
+
+.apogee-accordion > .card > .card-header > h5 > a:active,
+.apogee-accordion > .card > .card-header > h5 > a:focus, 
+.apogee-accordion > .card > .card-header > h5 > a[aria-expanded="true"]{
+    text-decoration: none !important;
+    color: hsl(270,100%,100%);
+    border-bottom: 2px solid hsl(295, 100%, 50%);
+    font-weight: 700;
+}
 
 /******************* User Profile Card CSS **************************/
 
@@ -155,7 +322,7 @@ body {
 }
 
 .card-block {
-	padding-bottom: 40px;
+    padding-bottom: 40px;
 }
 
 .card-profile > .card-img-top {
@@ -171,7 +338,7 @@ body {
 .card-profile .card-img-profile {
     max-width: 100%;
     border-radius: 50%;
-	position: absolute;
+    position: absolute;
     left: 50%;
     transform: translateX(-50%);
     top: -40px;
@@ -186,7 +353,7 @@ body {
 }
 
 .card-profile > button {
-	width: 100%;
+    width: 100%;
 }
 
 .card-profile > .card-block > .card-title small {
@@ -218,7 +385,7 @@ body {
 }
 
 .nav-link:hover {
-	color: #fff;
+    color: #fff;
 }
 
 .home-card {
@@ -229,11 +396,22 @@ body {
     -webkit-transition: none;
     position: relative;
     width: 240px !important;
+    float: left;
+    margin:  0 10px;
+    margin-left: 0px;
+}
+
+.home-card img {
+    max-width: 100%
 }
 
 .home-card > .card-body {
-	text-align: left !important;
+    text-align: left !important;
     padding: 0 !important;
+}
+
+.home-card > .card-img-top {
+    height: 170px;
 }
 
 .home-nav ul > li > a {
@@ -247,13 +425,13 @@ body {
 }
 
 .home-nav ul > li > a.active {
-	cursor: auto;
-	font-weight: 700;
-	color: #fff;
+    cursor: auto;
+    font-weight: 700;
+    color: #fff;
 }
 
 .stats-nav {
-    max-width: 320px;
+    max-width: 350px;
     float: none;
     margin: 0 auto;
     text-align: center;
@@ -297,19 +475,14 @@ body {
     display: none;
 }
 
-.navbar {
-    /*    background: transparent !important;*/
-    background-image: -webkit-linear-gradient(90deg, hsl(295, 100%, 50%) 0%, hsl(270, 100%, 50%) 100%);
-    background-image: -moz-linear-gradient(90deg, hsl(295, 100%, 50%) 0%, hsl(270, 100%, 50%) 100%);
-    background-image: -o-linear-gradient(90deg, hsl(295, 100%, 50%) 0%, hsl(270, 100%, 50%) 100%);
-    background-image: linear-gradient(90deg, hsl(295, 100%, 50%) 0%, hsl(270, 100%, 50%) 100%);
-    color: hsl(100, 0%, 95%);
+.navbar, .profile-banner-bg, .hero-section {
+    background-image: linear-gradient(to right, hsl(290, 100%, 45%) 0%, hsl(270, 100%, 45%) 100%);
 }
 
 .navbar-shadow {
     -webkit-box-shadow: 0 2px 18px hsla(270, 100%, 10%, 0.25);
     -moz-box-shadow: 0 2px 18px hsla(270, 100%, 10%, 0.25);
-	box-shadow: 0 2px 18px hsla(270, 100%, 10%, 0.25);
+    box-shadow: 0 2px 18px hsla(270, 100%, 10%, 0.25);
 }
 
 .nav-search-field > input::-webkit-input-placeholder {
@@ -328,13 +501,13 @@ body {
 }
 
 .nav-search-field input {
-	margin-left: -15px;
-	color: hsl(270,100%,100%);
+    margin-left: -15px;
+    color: hsl(270,100%,100%);
 }
 
 .nav-search-field input:focus {
-	color: hsl(270,100%,100%);
-	font-weight: 700;
+    color: hsl(270,100%,100%);
+    font-weight: 700;
 }
 
 .nav-name,
@@ -342,14 +515,18 @@ body {
     color: hsl(100, 0%, 100%);
 }
 
-.dropdown-name {
+.dropdown-name, .dropdown-balance {
     color: hsl(100, 5%, 55%) !important;
-    font-weight: 100 !important;
     padding-bottom: .5rem !important;
+}
+
+.dropdown-name {
+    font-weight: 100 !important;
 }
 
 .dropdown-balance {
     padding-top: 0 !important;
+    font-weight: 500 !important;
 }
 
 .dropdown-name:hover, .dropdown-balance:hover {
@@ -365,6 +542,21 @@ body {
     top: 32px !important;
 }
 
+.logged-out-nav-container {
+    position: absolute;
+    right: 10px;
+}
+
+.logged-out-nav-container > ul {
+    list-style: none;
+    position: relative;
+    top: 8px;
+}
+
+.logged-out-nav-container > ul > li:first-child {
+    float: left;
+}
+
 @media (min-width: 567px) {
     .main-sidebar {
         height: 100%;
@@ -375,8 +567,73 @@ body {
     border: none;
 }
 
+.card-img-top {
+    height: 118px;
+    width: 218px !important;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center
+}
 
+/* Party Detail */
+.party-chat-box {
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: relative;
+    z-index: 1;
+    padding: 10px 5px;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
 
+/* Messaging */
+.message{
+    margin: 3px;
+    font-size: 14px;
+    line-height: 1;
+}
+.message-container > .message-timestamp {
+    font-weight: lighter;
+    font-size: 9px;
+    visibility:hidden;
+    padding: 0;
+    margin:0;
+    line-height: 0;
+    color: #999999 !important;
+    text-align: right;
+}
+.message-container:hover > .message-timestamp{
+    visibility:visible;
+}
+
+.message-username{
+  font-weight: bold
+}
+
+/*Scrollbar*/
+.bar-scroll::-webkit-scrollbar {
+    background-color: black;
+    width: .8em;
+}
+ 
+.bar-scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+.bar-scroll::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+/*Datetimepicker*/
+.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_default, .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_current, .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box >div >div.xdsoft_current{
+    background: hsl(270,100%,50%) !important;
+    box-shadow: : hsl(270,100%,50%) !important;
+}
 
 /********************** Agile CSS *************************/
 
@@ -398,17 +655,6 @@ body {
 /*
 Base 
 */
-
-html {
-    background: #f7f8fa;
-}
-
-body {
-    width: 100%;
-    min-height: 100vh;
-    color: #647787;
-    background: #f7f8fa;
-}
 
 *:focus {
     outline: 0 !important;
@@ -598,6 +844,12 @@ Buttons
     justify-content: center;
 }
 
+.black-outline-button {
+    border: 1px solid black !important;
+    color: black;
+    background: transparent;
+}
+
 .btn-icon.btn-sm {
     width: 1.75rem;
     height: 1.75rem;
@@ -688,7 +940,7 @@ Card
 
 .card,
 .block {
-    background: #fff;
+    background: transparent;
     border-width: 0;
     border-radius: 0.25rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 -1px 0px rgba(0, 0, 0, 0.015);
@@ -699,6 +951,7 @@ Card
 .card-footer {
     padding: 0 !important;
     margin-top: 15px;
+    border-bottom: 1px solid transparent !important;
 }
 
 .card-text {
@@ -1379,7 +1632,7 @@ Nav
 .nav-active-border .nav-link.active:before {
     left: 0;
     right: 0;
-	border-bottom: 4px solid hsl(295, 100%, 50%);
+    border-bottom: 4px solid hsl(295, 100%, 50%);
 }
 
 .nav-active-border li.active>a:before {
@@ -1413,7 +1666,7 @@ Navbar
 
 .navbar svg {
     vertical-align: middle;
-    fill: currentColor;
+    fill: white;
 }
 
 .navbar .nav-link {
@@ -1466,16 +1719,27 @@ Navbar
     line-height: 1;
 }
 
+.navbar-brand svg {
+    width: 72px;
+}
+
+.navbar .search-icon {
+    width: 32px;
+}
+
 .navbar-brand>span {
     margin: 0 0.25rem;
     font-weight: 600;
 }
 
-.navbar-brand img,
-.navbar-brand svg {
-    max-height: 2.5rem;
+.navbar svg {
     vertical-align: middle;
-    font-weight: 600;
+    fill: hsla(270,100%,100%,0.75);
+    cursor: pointer;
+}
+
+.navbar svg:hover {
+    fill: white;
 }
 
 .navbar-menu {
@@ -3224,7 +3488,7 @@ Layout
 
 @media (min-width: 992px) {
     .page-container {
-        max-width: 1110px;
+        max-width: 1400px;
         margin: 0 auto;
     }
     .page-sidenav {

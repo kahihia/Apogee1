@@ -22,15 +22,22 @@
         $(document.body).on('mouseover', '#notif-display', function(e){
           e.preventDefault()
           let this_ = $(this)
+
           // tells us if the notification has been seen
           let seen = this_.attr('seen-id')
           // gets the notification id for ajax
           let notif_id = this_.attr('data-id')
           // only toggle the color and call to the api is it hasnt been seen yet
+          this_.add
           if (seen == 'false'){
-            this_.removeClass('grey-background')
+            
+            this_.removeClass('card mb-2 grey-background');
+            this_.addClass('card mb-2 bg-secondary text-white');
+
+
+
             // api endpoint
-            let notifUrl = '/api/notifications/' + notif_id 
+            let notifUrl = '/api/notifications/' + notif_id ;
             // ajax is what actually accesses the API
             $.ajax({
               method: 'GET',
@@ -51,11 +58,11 @@
         // this is the formatting for thumbnails
         function formatNotification(notifValue){
           // VARIABLES
-          let card_highlight = '';
+          let card_highlight = 'bg-secondary text-white';
           let seen = 'true'
           // sets the seen vs unseen display parameters
           if (notifValue.seen == false){
-            card_highlight = 'grey-background'
+            card_highlight = 'grey-background';
             seen = 'false'
           }
 
