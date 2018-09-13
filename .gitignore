@@ -6,6 +6,7 @@
 myvenv
 venv
 static-serve
+static-serve/*
 *.env
 env
 db.sqlite3
