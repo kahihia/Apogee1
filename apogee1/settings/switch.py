@@ -136,8 +136,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'apogee1.wsgi.application'
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -163,8 +161,15 @@ WSGI_APPLICATION = 'apogee1.wsgi.application'
 # }
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL', default='postgres://localhost')
+        default=config('DATABASE_URL', default='postgres://localhost'), 
+        engine='django_postgrespool'
     )
+}
+
+DATABASE_POOL_ARGS = {
+    'max_overflow': 10,
+    'pool_size': 10,
+    'recycle': 300
 }
 
 # Password validation
