@@ -48,7 +48,7 @@ class Party(models.Model):
 						validators=[validate_title, validate_profanity])
 	description 	= models.CharField(max_length=280, validators=[validate_profanity])
 	# auto_now_add automatically inputs the current time on creation
-	time_created	= models.DateTimeField(auto_now_add=True)
+	time_created	= models.DateTimeField(db_index=True, auto_now_add=True)
 	# auto_now adds the time, but it can be overwritten if it adds again
 	updated 		= models.DateTimeField(auto_now=True)
 	party_time		= models.DateTimeField()
@@ -56,7 +56,7 @@ class Party(models.Model):
 	minimum_bid		= models.DecimalField(max_digits=7, decimal_places=2, default=0)
 	interaction_pts	= models.IntegerField(default=0)
 	time_pts		= models.DecimalField(default=0, max_digits=10, decimal_places=4)
-	popularity		= models.DecimalField(default=0, max_digits=10, decimal_places=4)
+	popularity		= models.DecimalField(db_index=True, default=0, max_digits=10, decimal_places=4)
 
 	# starred contains the users that have starred the event. that means that
 	# starred_by should include all the events that a user has starred
