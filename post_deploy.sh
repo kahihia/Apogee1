@@ -1,4 +1,3 @@
-bash ./delete_migrations.sh
 yes | python manage.py makemigrations parties
 yes | python manage.py makemigrations event_payment
 yes | python manage.py makemigrations
