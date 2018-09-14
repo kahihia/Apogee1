@@ -6,4 +6,4 @@ yes | python manage.py migrate parties
 yes | python manage.py migrate event_payment
 yes | python manage.py migrate auth
 yes | python manage.py migrate
-yes | python manage.py collectstatic
+python manage.py collectstatic --noinput
