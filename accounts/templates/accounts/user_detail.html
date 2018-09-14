@@ -115,11 +115,11 @@
 				</a>
 				{% else %}
 					{% if blocking %}
-					<a data-toggle="modal" data-target="#unblockModal">
+					<a data-toggle="modal" id="unblockButton" data-target="#unblockModal">
 				    	<i class="fas fa-times fa-2x mr-2 grey-color"></i>
 					</a>
 					{% else %}
-					<a data-toggle="modal" data-target="#blockModal">
+					<a data-toggle="modal" id="blockButton" data-target="#blockModal">
 				    	<i class="fas fa-times fa-2x mr-2 grey-color"></i>
 					</a>
 					{% endif %}
@@ -141,7 +141,7 @@
 			       Blocking <strong>{{ object.username }}</strong> will prevent them from seeing and participating in your events.
 			      </div>
 			      <div class="modal-footer">
-			        <a class="btn btn-outline-danger btn-block" href='{{ object.profile.get_block_url }}'>
+			        <a class="btn btn-outline-danger btn-block" id="modalBlockButton" href='{{ object.profile.get_block_url }}'>
 			        	Block
 			    	</a>
 			      </div>
@@ -163,7 +163,7 @@
 			        <p>Unblocking <strong>{{ object.username }}</strong> will allow them to see and participate in your events.</p>
 			      </div>
 			      <div class="modal-footer">
-			        <a class="btn btn-outline-danger btn-block" href='{{ object.profile.get_block_url }}'>
+			        <a class="btn btn-outline-danger btn-block" id="modalUnblockButton" href='{{ object.profile.get_block_url }}'>
 			        	Unblock
 			    	</a>
 			      </div>
