@@ -8,6 +8,7 @@ static-serve/*
 static-serve
 settings.ini
 *.env
+*.ini
 env
 db.sqlite3
 /static
