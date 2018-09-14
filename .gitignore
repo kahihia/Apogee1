@@ -2,12 +2,11 @@
 *\__pycache__\*
 *__pycache__*
 *pytest_cache*
-*/migrations/*
-settings.ini
 myvenv
 venv
-static-serve
 static-serve/*
+static-serve
+settings.ini
 *.env
 env
 db.sqlite3
@@ -21,8 +20,6 @@ parties/__pycache__/models.cpython-36.pyc
 parties/api/__pycache__/serializers.cpython-36.pyc
 parties/__pycache__/models.cpython-36.pyc
 parties/__pycache__/forms.cpython-36.pyc
-parties/migrations/__pycache__/0003_auto_20180111_1610.cpython-36.pyc
-parties/migrations/__pycache__/0022_party_num_winners.cpython-36.pyc
 apogee1/settings/__pycache__/local.cpython-36.pyc
 parties/__pycache__/models.cpython-36.pyc
 parties/__pycache__/models.cpython-36.pyc
@@ -35,9 +32,6 @@ parties/__pycache__/models.cpython-36.pyc
 parties/api/__pycache__/urls.cpython-36.pyc
 parties/api/__pycache__/views.cpython-36.pyc
 db.sqlite3
-accounts/migrations/__pycache__/0001_initial.cpython-36.pyc
 bids/__pycache__/models.cpython-36.pyc
-bids/migrations/__pycache__/0001_initial.cpython-36.pyc
 parties/__pycache__/models.cpython-36.pyc
 parties/api/__pycache__/views.cpython-36.pyc
-parties/migrations/__pycache__/0001_initial.cpython-36.pyc
