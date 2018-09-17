@@ -17,6 +17,7 @@ channels_redis
 service_identity
 pytest-dependency
 django-postgrespool
+uvicorn
 
 Twisted[tls,http2]
 django-profanity-filter

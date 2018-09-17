@@ -111,8 +111,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # from django docs for setting the current session timezone
-    'apogee1.timezone.TimezoneMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    'apogee1.timezone.TimezoneMiddleware'
 ]
 
 TZ_DETECT_COUNTRIES = ('US', 'CN', 'IN', 'JP', 'BR', 'RU', 'DE', 'FR', 'GB')
@@ -268,7 +267,6 @@ STATICFILES_DIRS = [
 # in production, this should be done by a cdn, not django
 # will be served
 STATIC_ROOT = os.path.join(BASE_DIR, "static-serve")
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # this holds our media stuff like thumbnails and profile pics

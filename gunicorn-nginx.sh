@@ -1,0 +1,1 @@
+gunicorn apogee1.asgi -p $PORT -w 4 -k uvicorn.workers.UvicornWorker
