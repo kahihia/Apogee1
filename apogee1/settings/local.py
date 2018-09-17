@@ -60,6 +60,7 @@ SERVER_EMAIL = "Granite <support@mail.granite.gg>"
 DEFAULT_FROM_EMAIL = "Granite <support@mail.granite.gg>"
 
 ASGI_APPLICATION = "apogee1.routing.application"
+WSGI_APPLICATION = 'apogee1.wsgi.application'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

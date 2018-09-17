@@ -52,6 +52,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', protcol)
 ASGI_APPLICATION = "apogee1.routing.application"
+WSGI_APPLICATION = 'apogee1.wsgi.application'
 
 SERVER_EMAIL = "Granite <support@mail.granite.gg>"
 DEFAULT_FROM_EMAIL = "Granite <support@mail.granite.gg>"
