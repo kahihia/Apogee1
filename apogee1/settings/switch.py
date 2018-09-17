@@ -60,6 +60,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 SERVER_EMAIL = "Granite <support@mail.granite.gg>"
 DEFAULT_FROM_EMAIL = "Granite <support@mail.granite.gg>"
+ASGI_APPLICATION = "apogee1.routing.application"
 
 
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
