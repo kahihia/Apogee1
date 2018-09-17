@@ -1,4 +1,3 @@
 release: bash ./post_deploy.sh
-
-web: bin/start-nginx gunicorn -c gunicorn.conf apogee1.wsgi:application daphne -p $PORT -b unix:/tmp/nginx_daphne.socket apogee1.asgi:application
+web: bin/start-nginx gunicorn apogee1.asgi -c gunicorn.conf -k uvicorn.workers.UvicornWorker
 celeryworker: celery -A apogee1.settings worker -l info
