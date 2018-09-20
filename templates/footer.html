@@ -2,22 +2,28 @@
 	<div class='container'>
 		<div class='row'>
 			<div class='col-lg-2 col-sm-12 footer-col text-center'>
-				<i class="text-link fab fa-twitter-square fa-2x mx-3"></i>
-				<i class="text-link fab fa-facebook-square fa-2x mx-3"></i>
+				<i class="text-link fab fa-twitter-square fa-2x mx-3" href='https://twitter.com/Granite_gg'></i>
+				<i class="text-link fas fa-envelope-square fa-2x mx-3" href="{% url 'contact' %}"=></i>
+				<!-- <i class="text-link fab fa-facebook-square fa-2x mx-3"></i> -->
 			</div>
 			<div class='col-lg-2 offset-lg-0 col-sm-2 offset-sm-1 col-xs-12 footer-col text-center'>
 				<a class="text-link" href="{% url 'about' %}">
 					About
 				</a>
 			</div>
-			<div class='col-lg-2 col-sm-2 col-xs-12 footer-col text-center'>
+			<div class='col-lg-1 col-sm-1 col-xs-12 footer-col text-center'>
 				<a class="text-link" href="{% url 'FAQ' %}">
 					FAQ
 				</a>
 			</div>
+			<div class='col-lg-1 col-sm-1 col-xs-12 footer-col text-center'>
+				<a class="text-link" href="{% url 'fees' %}">
+					Fees
+				</a>
+			</div>
 			<div class='col-lg-2 col-sm-2 col-xs-12 footer-col text-center'>
-				<a class="text-link" href="{% url 'contact' %}">
-					Contact
+				<a class="text-link" href="{% url 'conduct' %}">
+					Conduct
 				</a>
 			</div>
 			<div class='col-lg-2 col-sm-2 col-xs-12 footer-col text-center'>
