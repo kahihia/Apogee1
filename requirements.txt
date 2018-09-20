@@ -1,4 +1,4 @@
-psycopg2
+psycopg2==2.7.5
 python-decouple
 dj-database-url
 django-heroku
