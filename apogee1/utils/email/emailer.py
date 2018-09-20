@@ -8,7 +8,7 @@ def email(subject, from_email, to_emails, template, email_data):
 		* template: takes a the file name of a email template in the templates directory, email dir is appended already
 		* kwargs: takes a object with keys appropriate to the message
 	"""
-	if config('EMAIL_ON'):
+	if not config('EMAIL_ON'):
 		template = get_template('emails/' + template)
 		email_data['email'] = ''.join(to_emails)
 		html_content = template.render(email_data)
