@@ -16,6 +16,15 @@ from django.shortcuts import redirect, render
 User = get_user_model()
 
 
+class FeesView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'fees.html', context)
+
+class ConductView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'conduct.html', context)
 
 class ContactView(View):
 	def get(self, request, *args, **kwargs):
