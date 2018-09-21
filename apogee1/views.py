@@ -21,6 +21,11 @@ class FeesView(View):
 		context={'request':request}
 		return render(request, 'fees.html', context)
 
+class PrivacyView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'privacy.html', context)
+
 class ConductView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}
@@ -40,11 +45,6 @@ class FAQView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}
 		return render(request, 'FAQ.html', context)
-
-class PrivacyView(View):
-	def get(self, request, *args, **kwargs):
-		context={'request':request}
-		return render(request, 'privacy.html', context)
 
 class TOSView(View):
 	def get(self, request, *args, **kwargs):
