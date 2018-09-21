@@ -44,7 +44,7 @@ class FAQView(View):
 class PrivacyView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}
-		return render(request, 'pp.html', context)
+		return render(request, 'privacy.html', context)
 
 class TOSView(View):
 	def get(self, request, *args, **kwargs):
