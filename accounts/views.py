@@ -52,13 +52,11 @@ class UserRegisterView(FormView):
         result = json.loads(response.read().decode())
         if result['success']:
             #Set this config variable to TRUE on heroku to enable account registration
-            captcha_good = config('ALLOW_REGISTRATION')
+            captcha_good = config('ALLOW_REGISTRATION', cast=bool)
         else:
-            captcha_good = config('CAPTCHA_OFF')
+            captcha_good = config('CAPTCHA_OFF', cast=bool)
         # captcha_good = True
         #Do captcha validation
-        print(captcha_good)
-        print(self.request.POST.get('tos'))
         if captcha_good and self.request.POST.get('tos'):
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
