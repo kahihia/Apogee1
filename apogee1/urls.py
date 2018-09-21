@@ -29,7 +29,7 @@ from .views import (
 		set_timezone, 
 		TOSView, 
 		BlankView, 
-		PrivacyView, 
+		PrivacyPolicyView, 
 		AboutView, 
 		FAQView,
 		ContactView,
