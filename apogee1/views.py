@@ -16,7 +16,7 @@ from django.shortcuts import redirect, render
 User = get_user_model()
 
 
-class PrivacyPolicyView(View):
+class PPView(View):
 	def get(self, request, *args, **kwargs):
 		context={'request':request}
 		return render(request, 'privacypolicy.html', context)
