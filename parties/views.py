@@ -75,6 +75,7 @@ class PartyDuplicateView(LoginRequiredMixin, FormUserNeededMixin, SingleObjectMi
 				'cost': dup.cost, 
 				'thumbnail': dup.thumbnail,
 				}
+		return dupinfo
 
 
 
