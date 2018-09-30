@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.core.exceptions import PermissionDenied
 from apogee1.utils.auth.auth import get_blocking_lists
+from django.views.generic.detail import SingleObjectMixin
 
 # from django.core.urlresolvers import reverse
 # from django.shortcuts import render
@@ -49,6 +50,32 @@ class PartyDeleteView(UserOwnerMixin, LoginRequiredMixin, DeleteView):
 # 	queryset = Party.objects.all()
 # 	form_class = PartyModelForm
 # 	template_name = 'parties/update_view.html'
+
+
+# the two mixins both ensure that the user is logged so that no event can be created 
+# without a user attached 
+class PartyDuplicateView(LoginRequiredMixin, FormUserNeededMixin, SingleObjectMixin, CreateView):
+	# as of right now, the form does not have an easy way to input 
+	# the date, it just has to be formatted properly.
+
+	# for using a hybrid create/form view
+	model = Party
+	form_class = PartyModelForm
+	template_name = 'parties/create_view.html'
+	initial = dupinfo
+
+	def set_initials(self, request, *args, **kwargs):
+		dup = self.get_object()
+		dupinfo = { 
+				'title': dup.title,
+				'description': dup.description, 
+				'party_time': dup.party_time, 
+				'num_possible_winners': dup.num_possible_winners, 
+				'max_entrants': dup.max_entrants, 
+				'cost': dup.cost, 
+				'thumbnail': dup.thumbnail,
+				}
+
 
 
 # the two mixins both ensure that the user is logged so that no event can be created 
