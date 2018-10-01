@@ -54,7 +54,7 @@ class PartyDeleteView(UserOwnerMixin, LoginRequiredMixin, DeleteView):
 
 # the two mixins both ensure that the user is logged so that no event can be created 
 # without a user attached 
-class PartyDuplicateView(LoginRequiredMixin, FormUserNeededMixin, SingleObjectMixin, CreateView):
+class PartyDuplicateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	# as of right now, the form does not have an easy way to input 
 	# the date, it just has to be formatted properly.
 
