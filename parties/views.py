@@ -59,12 +59,10 @@ class PartyDuplicateView(LoginRequiredMixin, FormUserNeededMixin, SingleObjectMi
 	# the date, it just has to be formatted properly.
 
 	# for using a hybrid create/form view
-	model = Party
 	form_class = PartyModelForm
 	template_name = 'parties/create_view.html'
-	initial = dupinfo
 
-	def set_initials(self, request, *args, **kwargs):
+	def get_initial(self, request, *args, **kwargs):
 		dup = self.get_object()
 		dupinfo = { 
 				'title': dup.title,
