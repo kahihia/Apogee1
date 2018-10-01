@@ -62,6 +62,11 @@ class PartyDuplicateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	form_class = PartyModelForm
 	template_name = 'parties/create_view.html'
 
+	def get_queryset(self, *args, **kwargs):
+		party_id = self.kwargs.get('pk')
+		qs = Party.objects.filter(pk=party_id)
+		return qs
+
 	def get_initial(self, *args, **kwargs):
 		dup = self.get_object()
 		dupinfo = { 
