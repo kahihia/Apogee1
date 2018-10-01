@@ -18,7 +18,7 @@ service_identity
 pytest-dependency
 django-postgrespool
 uvicorn
-pip install git+git://github.com/mailin-api/mailin-api-python.git
+git+git://github.com/mailin-api/mailin-api-python.git
 Twisted[tls,http2]
 django-profanity-filter
 amqp==2.2.2
