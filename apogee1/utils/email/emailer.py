@@ -5,7 +5,7 @@ from decouple import config
 from mailin import Mailin
 import json
 import requests
-
+from ast import literal_eval
 
 def email(subject, from_email, to_emails, template, email_data):
 	""" Utility email function
@@ -27,7 +27,7 @@ def email(subject, from_email, to_emails, template, email_data):
 			}
 			result = json.loads(m.send_email(data))
 
-			print(result[code])
+			print(result['code'])
 		except:
 			print("Email error")
 
