@@ -18,8 +18,7 @@ service_identity
 pytest-dependency
 django-postgrespool
 uvicorn
-mailin
-
+mailin-api-python
 
 
 Twisted[tls,http2]
