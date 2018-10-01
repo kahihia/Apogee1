@@ -3,6 +3,7 @@ from django.template.loader import get_template
 from random import randint
 from decouple import config
 from mailin import Mailin
+import requests
 
 
 def email(subject, from_email, to_emails, template, email_data):
@@ -11,6 +12,9 @@ def email(subject, from_email, to_emails, template, email_data):
 		* kwargs: takes a object with keys appropriate to the message
 	"""
 	if config('EMAIL_ON', default=False, cast=bool):
+		url = "https://api.sendinblue.com/v3/emailCampaigns"
+		response = requests.request("GET", url)
+		print(response.text)
 		try:
 			print("___________________________________________________________________________________________________________________________")
 			from mailin import Mailin
