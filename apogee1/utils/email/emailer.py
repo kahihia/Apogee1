@@ -3,6 +3,7 @@ from django.template.loader import get_template
 from random import randint
 from decouple import config
 from mailin import Mailin
+import json
 import requests
 
 
@@ -24,8 +25,9 @@ def email(subject, from_email, to_emails, template, email_data):
 				"subject" : "My subject",
 				"html" : "This is the <h1>HTML</h1>"
 			}
-			result = m.send_email(data)
-			print(result)
+			result = json.loads(m.send_email(data))
+
+			print(result[code])
 		except:
 			print("Email error")
 
