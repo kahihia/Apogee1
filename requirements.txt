@@ -18,6 +18,9 @@ service_identity
 pytest-dependency
 django-postgrespool
 uvicorn
+mailin
+
+
 
 Twisted[tls,http2]
 django-profanity-filter
