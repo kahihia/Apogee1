@@ -2,7 +2,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import get_template
 from random import randint
 from decouple import config
-from mailin import Mailin
+from mailin-api-python.v2 import Mailin
 
 
 def email(subject, from_email, to_emails, template, email_data):
