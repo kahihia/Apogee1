@@ -15,7 +15,7 @@ def email(subject, from_email, to_emails, template, email_data):
 		from mailin import Mailin
 		m = Mailin("https://api.sendinblue.com/v2.0", config('SENDINBLUE_V2_KEY'))
 		data = { "to" : {"malek@granite.gg":"to whom!"},
-			"from" : ["developers@granite.gg", "from email!"],
+			"from" : ["developers@apogee.gg", "from email!"],
 			"subject" : "My subject",
 			"html" : "This is the <h1>HTML</h1>"
 		}
