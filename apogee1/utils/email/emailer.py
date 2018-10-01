@@ -20,7 +20,7 @@ def email(subject, from_email, to_emails, template, email_data):
 			"html" : "This is the <h1>HTML</h1>"
 		}
 		result = m.send_email(data)
-	    print(result)
+		print(result)
 
 
 	# if not config('EMAIL_ON'):
