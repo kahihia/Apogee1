@@ -25,9 +25,9 @@ def email(subject, from_email, to_emails, template, email_data):
 				"subject" : "My subject",
 				"html" : "This is the <h1>HTML</h1>"
 			}
-			result = json.loads(m.send_email(data))
+			result = m.send_email(data)
 
-			print(result['code'])
+			print(result)
 		except:
 			print("Email error")
 
