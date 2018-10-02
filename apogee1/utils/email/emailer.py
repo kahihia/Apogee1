@@ -14,17 +14,13 @@ def email(subject, from_email, to_emails, template, email_data):
 	"""
 	if config('EMAIL_ON', default=False, cast=bool):
 		try:
-			print("___________________________________________________________________________________________________________________________")
 			from mailin import Mailin
 			m = Mailin("https://api.sendinblue.com/v2.0", config('SENDINBLUE_V2_KEY'))
-			data = { "to" : {"test@test.com":"to whom!"},
-				"from" : ["developers@apogee.gg", "from email!"],
-				"subject" : "My subject",
-				"html" : "This is the <h1>HTML</h1>",
-				"start_date" : "2013-02-12",
-				"end_date" : "2013-02-23",
-				"email" : "test@test.com"
-			}
+			data = { "to" : {"malek@granite.gg":"to whom!"},
+				"from" : ["developers@apogee.gg", "Welcome to Granite!"],
+				"subject" : "Account Registration",
+				"html" : "<h1>Welcome to Granite!</h1>\nYour account has been successfully registered!"
+				}
 			result = m.send_email(data)
 
 			print(result)
