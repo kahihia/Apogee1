@@ -13,14 +13,11 @@ def email(subject, from_email, to_emails, template, email_data):
 		* kwargs: takes a object with keys appropriate to the message
 	"""
 	if config('EMAIL_ON', default=False, cast=bool):
-		url = "https://api.sendinblue.com/v3/emailCampaigns"
-		response = requests.request("GET", url)
-		print(response.text)
 		try:
 			print("___________________________________________________________________________________________________________________________")
 			from mailin import Mailin
 			m = Mailin("https://api.sendinblue.com/v2.0", config('SENDINBLUE_V2_KEY'))
-			data = { "to" : {"malek@granite.gg":"to whom!"},
+			data = { "to" : {"notreal@granit.gg":"to whom!"},
 				"from" : ["developers@apogee.gg", "from email!"],
 				"subject" : "My subject",
 				"html" : "This is the <h1>HTML</h1>"
@@ -28,6 +25,10 @@ def email(subject, from_email, to_emails, template, email_data):
 			result = m.send_email(data)
 
 			print(result)
+			if "success" not in result:
+				print("unsuccessful")
+				result = m.delete_bounces(data)
+				print(result)
 		except:
 			print("Email error")
 
