@@ -40,73 +40,43 @@ class PaypalVerificationAPI(APIView):
 	"""
 	@csrf_exempt
 	def post(self, request, format=None):
-		print("paypal:1")
 		# Webhook headers
 		transmission_id = request.META.get("HTTP_PAYPAL_TRANSMISSION_ID")
-		print("paypal:2")
 		print(transmission_id)
 		timestamp =  request.META.get("HTTP_PAYPAL_TRANSMISSION_TIME")
-		print("paypal:3")
-		print(timestamp)
 		actual_signature = request.META.get("HTTP_PAYPAL_TRANSMISSION_SIG")
-		print("paypal:4") 
-		print(actual_signature)
 		cert_url = request.META.get("HTTP_PAYPAL_CERT_URL")
-		print("paypal:5")
-		print(cert_url)
 		# 9EC012240A567735B
 		webhook_id = config("WEBHOOK_ID", default="")
-		print("paypal:6")
-		print(webhook_id)
-		auth_algo = 'sha256'
-		print(request.META.get("HTTP_PAYPAL_AUTH_ALGO"))
-		print("paypal:7")
+		# auth_algo = 'sha256'
+		auth_algo = request.META.get("HTTP_PAYPAL_AUTH_ALGO")
 		fail = {'status': 'failure'}
-		print("paypal:8")
 		json_paypal = json.loads(request.body)
-		print("paypal:9")		
-		print(json_paypal)
 		if json_paypal["event_type"] != "PAYMENT.SALE.COMPLETED":
-			print("paypal:10")
 			logger.warning('Unauthorized event types in paypal webhook' + json_paypal['event_type'])
-			print("paypal:11")
 			return Response(fail, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 		# Get payment and user id from webhook post
 		original_payment = paypalrestsdk.Payment.find(json_paypal['resource']['parent_payment'], api=paypal_api)
-		print("paypal:12")
-		print(str(original_payment))
 		if 'custom' in original_payment['transactions'][0]:
-			print("paypal:13")
 			user_id = original_payment['transactions'][0]['custom']
-			print("paypal:14")
-			print(user_id)
 		else:
 			return Response(fail, status=status.HTTP_424_FAILED_DEPENDENCY)
-		print("paypal:15")	
 		u = UserProfile.objects.get(id=user_id)
-		print("paypal:16")
 		
 		# Verifies the payment from the webhook via public private key and creates a response object to send back to paypal
 		try:
-			print("paypal:17")
 			# print(WebhookEvent._verify_certificate(cert_url))
 			# print(WebhookEvent._verify_signature(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo))
 			payment_verified = WebhookEvent.verify(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo)
-			print("paypal:18")
-			print(payment_verified)
 		except Exception as e:
-			print("paypal:19")
 			logger.error('Could not verify paypal sale completion')
 
 		# Increment user's account
 		if payment_verified:
-			print("paypal:20")
 			payment = Decimal(original_payment['transactions'][0]['amount']['total'])
-			print("paypal:21")
 			if payment < 0:
 				logger.error('User account balance under 0 in paypal hook block.')
 				return Response(fail, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-			print("paypal:22")
 			u.account_balance = u.account_balance + payment
 			u.save()
 
