@@ -18,7 +18,7 @@ service_identity
 pytest-dependency
 django-postgrespool
 uvicorn
-
+Sendinblue
 Twisted[tls,http2]
 django-profanity-filter
 amqp==2.2.2
