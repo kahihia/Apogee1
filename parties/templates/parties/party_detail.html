@@ -146,142 +146,146 @@
 
 					<!--  Event Details Panel -->					
 					<div class="col-md-3">
-							<div style="padding: 12px; background: rgba(255,255,255,0.4); box-shadow: 6px 6px 0px rgba(255,255,255,0.5);">
+						<div style="padding: 12px; background: rgba(255,255,255,0.4); box-shadow: 6px 6px 0px rgba(255,255,255,0.5);">
 
-								<div class="row mt-3"> 
-									<!-- Cost/Bid -->
-									<div class="col-sm-12"> 
-										{% if serialized.cost == 0 %}
-											<p class="" id="cost"> FREE </p> 
-										{% endif %}
-										{% if serialized.event_type == 1 %}
-											<p class="">
-												<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i>
-												$<span id="cost">{{serialized.cost}}</span>
-											</p>
-										{% endif %}
-										{% if serialized.event_type == 2 %}
-												<p class="">
-													<i class="fas fa-gavel grey-color" data-toggle="tooltip" data-placement="top" title="Auction"></i> 
-													$<span name="min_bid" id="cost">{{serialized.minimum_bid}}</span>
-													<small class=""> bid to beat</small>
-												</p>
-										{% endif %}
-										{% if serialized.event_type == 3 %}
-												<p class=""><span name="num_curr_winners" id="num_curr_winners"> {{serialized.num_curr_winners}} 
-												</span> <small class="">Spots taken</small></p>
-												<p class="">
-												<i class="fas fa-donate grey-color" data-toggle="tooltip" data-placement="top"></i>
-												$<span id="cost">{{serialized.cost}}</span>
-											</p>
-										{% endif %}
-									</div>
-
-									<!-- Time Until Close -->
-									<div class="col-sm-12"> 
-										{% if serialized.is_open %}
-										<p class=""> 
-											{{ serialized.timeuntil}} <small class=""> until close</small>
-										</p>
-										{% endif %}
-									</div>
-
-									<!-- # Joined -->
-									{% if serialized.event_type == 1 %}
-									<div class="col-sm-12"> 
-										<p class=""><span id="num_joined" name="num_joined"> {{serialized.joins}} </span> <small class="">Joined</small></p>
-									</div>
+							<div class="row mt-3"> 
+								<!-- Cost/Bid -->
+								<div class="col-sm-12"> 
+									{% if serialized.cost == 0 %}
+										<p class="" id="cost"> FREE </p> 
 									{% endif %}
+									{% if serialized.event_type == 1 %}
+										<p class="">
+											<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i>
+											$<span id="cost">{{serialized.cost}}</span>
+										</p>
+									{% endif %}
+									{% if serialized.event_type == 2 %}
+											<p class="">
+												<i class="fas fa-gavel grey-color" data-toggle="tooltip" data-placement="top" title="Auction"></i> 
+												$<span name="min_bid" id="cost">{{serialized.minimum_bid}}</span>
+												<small class=""> bid to beat</small>
+											</p>
+									{% endif %}
+									{% if serialized.event_type == 3 %}
+											<p class=""><span name="num_curr_winners" id="num_curr_winners"> {{serialized.num_curr_winners}} 
+											</span> <small class="">Spots taken</small></p>
+											<p class="">
+											<i class="fas fa-donate grey-color" data-toggle="tooltip" data-placement="top"></i>
+											$<span id="cost">{{serialized.cost}}</span>
+										</p>
+									{% endif %}
+								</div>
 
-									<!-- Max Entrants -->
-									<div class="col-sm-12"> 
-										{% if serialized.max_entrants %}
-											<p class=""> <span id="max_entrants">{{ serialized.max_entrants }}</span>  
-											<small class="">Max entrants</small></p>
-										{% endif %}
-									</div>
+								<!-- Time Until Close -->
+								<div class="col-sm-12"> 
+									{% if serialized.is_open %}
+									<p class=""> 
+										{{ serialized.timeuntil}} <small class=""> until close</small>
+									</p>
+									{% endif %}
+								</div>
 
-									<!-- Possible Winners -->
-									<div class="col-sm-12"> 
-										{% if serialized.event_type == 3 %}
-											<p class=""> <span id="num_possible_winners" name="num_possible_winners">{{serialized.num_possible_winners}}</span> 
-											 <small class="">Spots total</small></p>
-										{% elif serialized.num_possible_winners %}
-											<p> <span id="num_possible_winners" name="num_possible_winners">{{serialized.num_possible_winners}}</span><small> Winners possible</small></p>
-										{%endif%}
-									</div>
+								<!-- # Joined -->
+								{% if serialized.event_type == 1 %}
+								<div class="col-sm-12"> 
+									<p class=""><span id="num_joined" name="num_joined"> {{serialized.joins}} </span> <small class="">Joined</small></p>
+								</div>
+								{% endif %}
 
-									<!-- Bid functionality -->
-									{% if not serialized.is_owner and serialized.event_type == 2 and not serialized.did_join and not blocked %}
-										<form id= "bid-submit" method="GET">
-											<div class="col-sm-12 form-group mb-1" id="div_bid_amount">
-												<input type="number" class="form-control" step="0.01" id="bid_amount" name="bid_amount" value="{{serialized.minimum_bid}}"  {{ serialized.bid_amount }} >
-											</div>
-										</form>
-										<div class="col-sm-20">
-											<input type="hidden" name="party_id" value="{{serialized.id}}">
-										</div>
+								<!-- Max Entrants -->
+								<div class="col-sm-12"> 
+									{% if serialized.max_entrants %}
+										<p class=""> <span id="max_entrants">{{ serialized.max_entrants }}</span>  
+										<small class="">Max entrants</small></p>
+									{% endif %}
+								</div>
+
+								<!-- Possible Winners -->
+								<div class="col-sm-12"> 
+									{% if serialized.event_type == 3 %}
+										<p class=""> <span id="num_possible_winners" name="num_possible_winners">{{serialized.num_possible_winners}}</span> 
+										 <small class="">Spots total</small></p>
+									{% elif serialized.num_possible_winners %}
+										<p> <span id="num_possible_winners" name="num_possible_winners">{{serialized.num_possible_winners}}</span><small> Winners possible</small></p>
 									{%endif%}
 								</div>
 
-								<!-- Button Bid/Buy/Join -->
-								<div class=""> 
-									{% if not serialized.is_owner and not serialized.did_join and request.user.is_authenticated and serialized.is_open and not blocked %}
-										{% with "Enter Lottery" as lottery_text %}  
-										{% with "Submit a Bid" as bid_text %}  
-										{% with "Buy Event" as buy_text %}  
-										<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> 
-											{% if serialized.event_type == 1 %}
-												{{ lottery_text }} 
-											{% elif serialized.event_type == 2 %}
-												{{ bid_text }} 
-											{% elif serialized.event_type == 3 %}
-												{{ buy_text }} 
-											{% endif %}
-										</button>
-									{% endwith %}
-									{% endwith %}
-									{% endwith %}
-									{% endif %}
-									{% if not request.user.is_authenticated %}
-										<a href="/register">
-											<button type="button" class="btn btn-primary-new btn-block">Sign up to join</button>										
-										</a>
-									{% endif %}
-								</div> 
-								<!-- Event Actions / Join -->
-								{% if serialized.did_join %}
-										<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay disabled" disabled> Joined </button>
-								{% endif %}
-
-								{% if blocked %}
-								<div class='row mt-4 text-center'>
-									<div class='col-sm-12  mt-4'>
-										<p><small>You have been blocked from joining</small></p>
+								<!-- Bid functionality -->
+								{% if not serialized.is_owner and serialized.event_type == 2 and not serialized.did_join and not blocked %}
+									<form id= "bid-submit" method="GET">
+										<div class="col-sm-12 form-group mb-1" id="div_bid_amount">
+											<input type="number" class="form-control" step="0.01" id="bid_amount" name="bid_amount" value="{{serialized.minimum_bid}}"  {{ serialized.bid_amount }} >
+										</div>
+									</form>
+									<div class="col-sm-20">
+										<input type="hidden" name="party_id" value="{{serialized.id}}">
 									</div>
-								</div>
-								{% endif %}
+								{%endif%}
+							</div>
 
-								{% if not serialized.is_open %}
-								<div class="row mt-3">
-									<div class="col-sm-12"> 
-										<p class="text-center"><small>This Event Has Ended</small></p>
-									</div>
-								</div>
+							<!-- Button Bid/Buy/Join -->
+							<div class=""> 
+								{% if not serialized.is_owner and not serialized.did_join and request.user.is_authenticated and serialized.is_open and not blocked %}
+									{% with "Enter Lottery" as lottery_text %}  
+									{% with "Submit a Bid" as bid_text %}  
+									{% with "Buy Event" as buy_text %}  
+									<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> 
+										{% if serialized.event_type == 1 %}
+											{{ lottery_text }} 
+										{% elif serialized.event_type == 2 %}
+											{{ bid_text }} 
+										{% elif serialized.event_type == 3 %}
+											{{ buy_text }} 
+										{% endif %}
+									</button>
+								{% endwith %}
+								{% endwith %}
+								{% endwith %}
 								{% endif %}
+								{% if not request.user.is_authenticated %}
+									<a href="/register">
+										<button type="button" class="btn btn-primary-new btn-block">Sign up to join</button>										
+									</a>
+								{% endif %}
+							</div> 
+							<!-- Event Actions / Join -->
+							{% if serialized.did_join %}
+									<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay disabled" disabled> Joined </button>
+							{% endif %}
 
-								<!-- if the user is the owner, they get a second section that 
-								allows the owner to update and delete -->
-								{% if serialized.user.id == request.user.id and request.user.is_authenticated and serialized.is_open %}
-								<div class='mt-3'>
+							{% if blocked %}
+							<div class='row mt-4 text-center'>
+								<div class='col-sm-12  mt-4'>
+									<p><small>You have been blocked from joining</small></p>
+								</div>
+							</div>
+							{% endif %}
+
+							{% if not serialized.is_open %}
+							<div class="row mt-3">
+								<div class="col-sm-12"> 
+									<p class="text-center"><small>This Event Has Ended</small></p>
+								</div>
+							</div>
+							{% endif %}
+
+							<!-- if the user is the owner, they get a second section that 
+							allows the owner to update and delete -->
+							{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
+							<div class='mt-3'>
+								<a href='{{serialized.id}}/duplicate/' style="text-decoration: none">
+									<button type='button' class='btn btn-primary-new btn-block my-3' id='duplicate'>Duplicate Event</button>
+								</a>	
+								{% if serialized.is_open %}
 									<a href='{{serialized.id}}/delete/' style="text-decoration: none">
 										<button type='button' class='btn btn-danger btn-block my-3' id='delete'>Delete Event</button>
-									</a>				
-
-								</div>
+									</a>	
 								{% endif %}
-
 							</div>
+							{% endif %}
+
+						</div>
 					</div>
 
 				</div>	

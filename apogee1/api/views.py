@@ -47,6 +47,6 @@ class TestEmailEndpoint(APIView):
 		if not email_to_send or not to_address or not email_data:
 			return Response({'status' : '400 BAD REQUEST'}, status=status.HTTP_400_BAD_REQUEST)
 
-		emailer.email('Test Email - Apogee Dev', 'devteam@mail.granite.gg', [to_address], email_to_send, email_data)
-		return Response({ 'status': '200 OK'}, status=status.HTTP_200_OK)
+		# emailer.email('Test Email - Apogee Dev', 'devteam@mail.granite.gg', [to_address], email_to_send, email_data)
+		# return Response({ 'status': '200 OK'}, status=status.HTTP_200_OK)
 
