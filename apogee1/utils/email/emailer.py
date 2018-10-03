@@ -2,7 +2,6 @@ from django.core.mail import EmailMessage
 from django.template.loader import get_template
 from random import randint
 from decouple import config
-from mailin import Mailin
 import json
 import requests
 from ast import literal_eval
@@ -19,6 +18,7 @@ def email(user_obj, email_type):
 
 	if config('EMAIL_ON', default=False, cast=bool):
 		try:
+			from mailin import Mailin
 			print("_________________________________________________________________________--")
 			m = Mailin("https://api.sendinblue.com/v2.0", config('SENDINBLUE_V2_KEY'))
 			data = { "to" : {user_email:"to whom!"},
@@ -26,7 +26,7 @@ def email(user_obj, email_type):
 				"subject" : "Account Registration",
 				"html" : "<h1>Welcome to Granite!</h1>\nYour account has been successfully registered!"
 				}
-			result = m.send_eail(data)
+			result = m.send_email(data)
 			print(result)
 		except:
 			print("Email error")
