@@ -89,8 +89,8 @@ class PaypalVerificationAPI(APIView):
 		# Verifies the payment from the webhook via public private key and creates a response object to send back to paypal
 		try:
 			print("paypal:17")
-			print(WebhookEvent._verify_certificate(cert_url))
-			print(WebhookEvent._verify_signature(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo))
+			# print(WebhookEvent._verify_certificate(cert_url))
+			# print(WebhookEvent._verify_signature(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo))
 			payment_verified = WebhookEvent.verify(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo)
 			print("paypal:18")
 			print(payment_verified)
