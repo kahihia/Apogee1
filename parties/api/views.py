@@ -45,8 +45,8 @@ class PaypalVerificationAPI(APIView):
 		timestamp =  request.META.get("HTTP_PAYPAL_TRANSMISSION_TIME")
 		actual_signature = request.META.get("HTTP_PAYPAL_TRANSMISSION_SIG") 
 		cert_url = request.META.get("HTTP_PAYPAL_CERT_URL")
-
-		webhook_id = config("WEBHOOK_ID", default="9EC012240A567735B")
+		# 9EC012240A567735B
+		webhook_id = config("WEBHOOK_ID", default="")
 		auth_algo = 'sha256'
 		fail = {'status': 'failure'}
 
