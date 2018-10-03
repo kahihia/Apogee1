@@ -272,14 +272,16 @@
 
 							<!-- if the user is the owner, they get a second section that 
 							allows the owner to update and delete -->
-							{% if serialized.user.id == request.user.id and request.user.is_authenticated and serialized.is_open %}
+							{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
 							<div class='mt-3'>
-								<a href='{{serialized.id}}/delete/' style="text-decoration: none">
-									<button type='button' class='btn btn-danger btn-block my-3' id='delete'>Delete Event</button>
-								</a>	
 								<a href='{{serialized.id}}/duplicate/' style="text-decoration: none">
 									<button type='button' class='btn btn-primary-new btn-block my-3' id='duplicate'>Duplicate Event</button>
-								</a>			
+								</a>	
+								{% if serialized.is_open %}
+									<a href='{{serialized.id}}/delete/' style="text-decoration: none">
+										<button type='button' class='btn btn-danger btn-block my-3' id='delete'>Delete Event</button>
+									</a>	
+								{% endif %}
 							</div>
 							{% endif %}
 
