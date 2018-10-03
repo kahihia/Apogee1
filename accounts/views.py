@@ -61,8 +61,9 @@ class UserRegisterView(FormView):
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
             new_user.save()
-            email_data = {'username': username}
-            emailer.email('Account Registration Success', 'team@mail.granite.gg', [email], 'creation_email.html', email_data)
+            # email_data = {'username': username}
+            # emailer.email('Account Registration Success', 'team@mail.granite.gg', [email], 'creation_email.html', email_data)
+            emailer.email(new_user, "welcome")
             login(self.request, new_user)
             return HttpResponseRedirect("/")
 
