@@ -5,6 +5,7 @@ from decouple import config
 import json
 import requests
 from ast import literal_eval
+from mailin import Mailin
 
 # def email(subject, from_email, to_emails, template, email_data):
 def email(user_obj, email_type):
@@ -18,7 +19,6 @@ def email(user_obj, email_type):
 
 	if config('EMAIL_ON', default=False, cast=bool):
 		try:
-			from mailin import Mailin
 			print("_________________________________________________________________________--")
 			m = Mailin("https://api.sendinblue.com/v2.0", config('SENDINBLUE_V2_KEY'))
 			print("1")
