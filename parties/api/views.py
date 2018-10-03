@@ -71,7 +71,8 @@ class PaypalVerificationAPI(APIView):
 			print("paypal:11")
 			return Response(fail, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 		# Get payment and user id from webhook post
-		original_payment = paypalrestsdk.Payment.find(json_paypal['resource']['parent_payment'])
+		# original_payment = paypalrestsdk.Payment.find(json_paypal['resource']['parent_payment'])
+		original_payment = paypal_api.Payment.find(json_paypal['resource']['parent_payment'])
 		print("paypal:12")
 		print(str(original_payment))
 		if 'custom' in original_payment['transactions'][0]:
