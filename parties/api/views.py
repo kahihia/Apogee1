@@ -25,7 +25,7 @@ import paypalrestsdk
 
 logger = logging.getLogger(__name__)
 
-paypal_api = paypalrestsdk.Api({
+paypal_api = paypalrestsdk.configure({
   'mode': config("PAYPAL_ENV", default="sandbox"),
   'client_id': config("PAYPAL_CLIENT_ID"),
   'client_secret': config("PAYPAL_CLIENT_SECRET") })
@@ -71,8 +71,7 @@ class PaypalVerificationAPI(APIView):
 			print("paypal:11")
 			return Response(fail, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 		# Get payment and user id from webhook post
-		# original_payment = paypalrestsdk.Payment.find(json_paypal['resource']['parent_payment'])
-		original_payment = paypal_api.Payment.find(json_paypal['resource']['parent_payment'])
+		original_payment = paypalrestsdk.Payment.find(json_paypal['resource']['parent_payment'])
 		print("paypal:12")
 		print(str(original_payment))
 		if 'custom' in original_payment['transactions'][0]:
