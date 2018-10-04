@@ -220,6 +220,7 @@ def post_save_has_notification(sender, instance, created, *args, **kwargs):
 		notif_profile.new_notifications = True
 		notif_profile.email_auth_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
 		notif_profile.save(update_fields=['new_notifications'])
+		notif_profile.save(update_fields=['email_auth_token'])
 
 
 # these connect our receivers and set them to listen to the appropriate model
