@@ -35,6 +35,7 @@ from .views import (
 		ContactView,
 		ConductView, 
 		FeesView,
+		AuthenticationView
 	)
 from .api.views import TestEmailEndpoint, SetTimzoneEndpoint 
 from parties.views import PartyListView
@@ -70,6 +71,7 @@ urlpatterns = [
 	path('api/notifications/', include('notifications.api.urls', namespace='notifications-api')),
 	path('tags/<slug:hashtag>/', HashTagView.as_view(), name='hashtag'),
 	path('api/tags/<slug:hashtag>/', TagPartyAPIView.as_view(), name='hashtag-api'),
+	path('authentication', AuthenticationView.as_view(), name='authentication'),
 	# this should migrate into the settings page at some point soon
 	path('tz/', set_timezone, name='set_timezone'),
 	path('stats/', include('userstatistics.urls', namespace='statistics')),
