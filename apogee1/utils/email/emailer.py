@@ -4,6 +4,7 @@ from random import randint
 from decouple import config
 import json
 import requests
+import random
 from ast import literal_eval
 from mailin import Mailin
 
@@ -16,7 +17,9 @@ def email(user_obj, email_type):
 	user_email = user_obj.email
 
 	if True:
-		user_obj.email_auth_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+		auth_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+		print(auth_token)
+		user_obj.email_auth_token = auth_token
 		user_obj.save(update_fields=['email_auth_token'])
 
 	if config('EMAIL_ON', default=False, cast=bool):
