@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
 from django.urls import reverse_lazy
-
+import random
 from notifications.models import Notification
 from parties.models import Party
 from userstatistics.models import StatisticsInfo
@@ -218,6 +218,7 @@ def post_save_has_notification(sender, instance, created, *args, **kwargs):
 	if created:
 		notif_profile = instance.user.profile
 		notif_profile.new_notifications = True
+		notif_profile.email_auth_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
 		notif_profile.save(update_fields=['new_notifications'])
 
 
