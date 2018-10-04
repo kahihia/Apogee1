@@ -159,25 +159,25 @@ TEMPLATES = [
 #     }
 # }
 #HEROKU
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'apogeetestdb',
-        'USER': 'caldwell',
-        'PASSWORD': 'apogeedb',
-        # 'NAME': 'mydb',
-        # 'USER': 'me',
-        # 'PASSWORD': 'pass',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
 # DATABASES = {
-#     'default': dj_database_url.config(
-#         default=config('DATABASE_URL', default='postgres://localhost'), 
-#         engine='django_postgrespool'
-#     )
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'apogeetestdb',
+#         'USER': 'caldwell',
+#         'PASSWORD': 'apogeedb',
+#         # 'NAME': 'mydb',
+#         # 'USER': 'me',
+#         # 'PASSWORD': 'pass',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
 # }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL', default='postgres://localhost'), 
+        engine='django_postgrespool'
+    )
+}
 
 DATABASE_POOL_ARGS = {
     'max_overflow': 10,
