@@ -1,6 +1,7 @@
 function addAuthenticationFunctionality(){
-	$(document.body).on("click", '.authBtn', function(e){
-		alert("CKIS");
-	}
+	alert("HERE");
+	// $(document.body).on("click", '.authBtn', function(e){
+	// 	alert("CKIS");
+	// }
 
 }
