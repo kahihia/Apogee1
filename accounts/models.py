@@ -210,6 +210,7 @@ def post_save_user_reciever(sender, instance, created, *args, **kwargs):
 	if created: 
 		new_profile = UserProfile.objects.get_or_create(user=instance)
 		StatisticsInfo.objects.create(user=instance)
+
 		# could run celery+redis deferred tasks here like an email task
 		
 # this looks for a notification signal and uses the user to set the 
@@ -218,9 +219,7 @@ def post_save_has_notification(sender, instance, created, *args, **kwargs):
 	if created:
 		notif_profile = instance.user.profile
 		notif_profile.new_notifications = True
-		notif_profile.email_auth_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
 		notif_profile.save(update_fields=['new_notifications'])
-		notif_profile.save(update_fields=['email_auth_token'])
 
 
 # these connect our receivers and set them to listen to the appropriate model

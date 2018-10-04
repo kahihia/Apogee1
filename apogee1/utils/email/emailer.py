@@ -14,12 +14,13 @@ def email(user_obj, email_type):
 		* kwargs: takes a object with keys appropriate to the message
 	"""
 	user_email = user_obj.email
-	print(user_email)
-	# if email_type == "welcome":
+
+	if True:
+		user_obj.email_auth_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+		user_obj.save(update_fields=['email_auth_token'])
 
 	if config('EMAIL_ON', default=False, cast=bool):
 		try:
-			print("_________________________________________________________________________--")
 			m = Mailin("https://api.sendinblue.com/v2.0", config('SENDINBLUE_V2_KEY'))
 			print("1")
 			data = { "to" : {user_email:"to whom!"},
@@ -27,9 +28,7 @@ def email(user_obj, email_type):
 				"subject" : "Account Registration",
 				"html" : "<h1>Welcome to Granite!</h1>\nYour account has been successfully registered!"
 				}
-			print("2")
 			result = m.send_email(data)
-			print(result)
 		except:
 			print("Email error")
 
