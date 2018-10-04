@@ -155,8 +155,13 @@ class UserProfile(models.Model):
 
 	new_notifications = models.BooleanField(default=False)
 
+
+
+	email_auth_token	= models.CharField(max_length=6, default="keyaut")
 	#To verify important users
 	is_verified 		= models.BooleanField(default=False)
+	#To authenticate emails
+	is_authenticated	= models.BooleanField(default=False)
 
 	account_balance = models.DecimalField(max_digits=12,\
 	 							decimal_places=2, default=0)
