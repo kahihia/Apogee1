@@ -20,13 +20,12 @@ def email(user_obj, email_type):
 	if True:
 		auth_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
 		print(auth_token)
-		user_obj.email_auth_token = auth_token
-		user_obj.save(update_fields=['email_auth_token'])
+		user_obj.profile.email_auth_token = auth_token
+		user_obj.profile.save(update_fields=['email_auth_token'])
 
 	if config('EMAIL_ON', default=False, cast=bool):
 		try:
 			m = Mailin("https://api.sendinblue.com/v2.0", config('SENDINBLUE_V2_KEY'))
-			print("1")
 			data = { "to" : {user_email:"to whom!"},
 				"from" : ["developers@apogee.gg", "Welcome to Granite!"],
 				"subject" : "Account Registration",
