@@ -17,14 +17,12 @@ def email(user_obj, email_type):
 	"""
 	user_email = user_obj.email
 
-	if True:
-		auth_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
-		print(auth_token)
-		user_obj.profile.email_auth_token = auth_token
-		user_obj.profile.save(update_fields=['email_auth_token'])
-
 	if config('EMAIL_ON', default=False, cast=bool):
 		try:
+			if True:
+				auth_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+				user_obj.profile.email_auth_token = auth_token
+				user_obj.profile.save(update_fields=['email_auth_token'])
 			m = Mailin("https://api.sendinblue.com/v2.0", config('SENDINBLUE_V2_KEY'))
 			data = { "to" : {user_email:"to whom!"},
 				"from" : ["developers@apogee.gg", "Welcome to Granite!"],
