@@ -29,7 +29,7 @@ def email(user_obj, email_type):
 				"from" : ["developers@apogee.gg", "Welcome to Granite!"],
 				"subject" : "Account Authentication",
 				"html" : "<h1>Welcome to Granite!</h1>\nYour account has been successfully registered!\n\
-				 Please visit https://granite.gg/authentication and enter in <strong>"+auth_token+"</strong> to authenticate your account"
+				 Please visit https://www.granite.gg/authentication and enter in <strong>"+auth_token+"</strong> to authenticate your account"
 				}
 			result = m.send_email(data)
 		except:
