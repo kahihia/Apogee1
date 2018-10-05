@@ -7,9 +7,9 @@ class AuthorizationAPIView(APIView):
 		# party_qeryset = Party.objects.filter(pk=pk)
 		# party_event_type = party_qeryset.first().event_type
 		#if party_event is bid
-		account = UserProfile.objects.get(email_auth_token=auth_key, is_authenticated=False)
+		account = UserProfile.objects.get(email_auth_token=auth_key)
 		# account = account.first()
-		if account:
+		if account and account.is_authenticated==False:
 			account.is_authenticated = True
 			account.email_auth_token = ""
 			account.save(update_fields=['email_auth_token'])
