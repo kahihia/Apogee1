@@ -13,10 +13,10 @@ function addAuthenticationFunctionality(){
      		method: 'GET',
       		url: authUrl,
       		success: function(data){
-        		console.log("Successful Report");
+        		console.log("");
       		}, 
       		error: function(data){
-        		console.log("Unsuccessful Report");      
+        		console.log("");      
       		}
     	})
 	})

@@ -19,6 +19,7 @@ def email(user_obj, email_type):
 
 	if config('EMAIL_ON', default=False, cast=bool):
 		try:
+			auth_token=""
 			if True:
 				auth_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
 				user_obj.profile.email_auth_token = auth_token
@@ -26,8 +27,9 @@ def email(user_obj, email_type):
 			m = Mailin("https://api.sendinblue.com/v2.0", config('SENDINBLUE_V2_KEY'))
 			data = { "to" : {user_email:"to whom!"},
 				"from" : ["developers@apogee.gg", "Welcome to Granite!"],
-				"subject" : "Account Registration",
-				"html" : "<h1>Welcome to Granite!</h1>\nYour account has been successfully registered!"
+				"subject" : "Account Authentication",
+				"html" : "<h1>Welcome to Granite!</h1>\nYour account has been successfully registered!\n\
+				 Please visit https://granite.gg/authentication and enter in <strong>"+auth_token+"</strong> to authenticate your account"
 				}
 			result = m.send_email(data)
 		except:
