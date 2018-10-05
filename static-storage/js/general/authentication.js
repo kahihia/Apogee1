@@ -14,11 +14,11 @@ function addAuthenticationFunctionality(){
       		url: authUrl,
       		success: function(data){
       			$('#authentication_confirmation').text("Your account has been authorized");
-        		console.log("");
+        		console.log("True");
       		}, 
       		error: function(data){
       			$('#authentication_confirmation').text("We could not authorize your account");
-        		console.log("");      
+        		console.log("False");      
       		}
     	})
 	})
