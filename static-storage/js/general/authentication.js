@@ -4,8 +4,8 @@ $(document).ready(function(){
 })
 
 function addAuthenticationFunctionality(){
-	$('authenticate_btn').click(function(e){
+	$('#authenticate_btn').click(function(e){
   		e.preventDefault();
-  		alert("LOL");
+		alert("LOL");
   	})
  }
