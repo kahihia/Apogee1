@@ -13,12 +13,17 @@ function addAuthenticationFunctionality(){
      		method: 'GET',
       		url: authUrl,
       		success: function(data){
-      			$('#authentication_confirmation').text("	Your account has been authorized");
-        		console.log("True");
+      			if(data==true){
+      				$('#authentication_confirmation').text("	Your account has been authorized");
+        			console.log("True");
+      			}
+      			else{
+      				$('#authentication_confirmation').text("	We could not authorize your account");
+        			console.log("False");      
+      			}
       		}, 
       		error: function(data){
-      			$('#authentication_confirmation').text("	We could not authorize your account");
-        		console.log("False");      
+
       		}
     	})
 	})
