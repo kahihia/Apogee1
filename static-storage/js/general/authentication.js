@@ -6,19 +6,18 @@ $(document).ready(function(){
 function addAuthenticationFunctionality(){
 	$('#authenticate_btn').click(function(e){
   		e.preventDefault();
-  		alert(document.getElementById('auth_key').value);
- //  		let this_ = $(this);
- //    	let partyID = this_.attr('data-id');
- //    	let reportUrl = '/api/events/' + partyID + '/report/';
- //    	$.ajax({
- //     		method: 'GET',
- //      		url: reportUrl,
- //      		success: function(data){
- //        		console.log("Successful Report");
- //      		}, 
- //      		error: function(data){
- //        		console.log("Unsuccessful Report");      
- //      		}
- //    	})
+  		auth_key = document.getElementById('auth_key').value;
+
+		let authUrl = '/api/' + auth_key +'/authorization/';
+    	$.ajax({
+     		method: 'GET',
+      		url: authUrl,
+      		success: function(data){
+        		console.log("Successful Report");
+      		}, 
+      		error: function(data){
+        		console.log("Unsuccessful Report");      
+      		}
+    	})
 	})
 }
