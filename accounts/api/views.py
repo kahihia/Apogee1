@@ -14,7 +14,7 @@ class AuthorizationAPIView(APIView):
 			print(3)
 		except:
 			print(4)
-			return Response({'authenticated':"false"})
+			return Response({'authenticated':False})
 
 		# account = account.first()
 		print(5)
@@ -28,6 +28,6 @@ class AuthorizationAPIView(APIView):
 			print(9)
 			account.save(update_fields=['is_authenticated'])
 			print(10)
-			return Response({'authenticated':"true"})
+			return Response({'authenticated':True})
 		print(11)
-		return Response({'authenticated':"false"})
+		return Response({'authenticated':False})
