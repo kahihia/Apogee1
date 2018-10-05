@@ -7,7 +7,11 @@ class AuthorizationAPIView(APIView):
 		# party_qeryset = Party.objects.filter(pk=pk)
 		# party_event_type = party_qeryset.first().event_type
 		#if party_event is bid
-		account = UserProfile.objects.get(email_auth_token=auth_key)
+		try:
+			account = UserProfile.objects.get(email_auth_token=auth_key)
+		except:
+			return Response(False)
+
 		# account = account.first()
 		if account and account.is_authenticated==False:
 			account.is_authenticated = True
