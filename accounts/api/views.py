@@ -9,12 +9,10 @@ class AuthorizationAPIView(APIView):
 		#if party_event is bid
 		account = UserProfile.objects.filter(email_auth_token=auth_key)
 		account = account.first()
-		if account and account.is_authenticated == True:
+		if account:
 			account.is_authenticated = True
 			account.email_auth_token = ""
 			account.save(update_fields=['email_auth_token'])
 			account.save(update_fields=['is_authenticated'])
 			return Response(True)
-
-		print("Not Found")
 		return Response(False)
