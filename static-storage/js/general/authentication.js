@@ -20,5 +20,5 @@ function addAuthenticationFunctionality(){
  //        		console.log("Unsuccessful Report");      
  //      		}
  //    	})
-	// })
+	})
 }
