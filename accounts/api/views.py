@@ -14,7 +14,7 @@ class AuthorizationAPIView(APIView):
 			print(3)
 		except:
 			print(4)
-			return Response({'authenticated':"true"})
+			return Response({'authenticated':"false"})
 
 		# account = account.first()
 		print(5)
@@ -30,4 +30,4 @@ class AuthorizationAPIView(APIView):
 			print(10)
 			return Response({'authenticated':"true"})
 		print(11)
-		return Response({'authenticated':"true"})
+		return Response({'authenticated':"false"})
