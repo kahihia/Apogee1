@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from accounts.models import UserProfile
 
 class AuthorizationAPIView(APIView):
 	def get(self, request, auth_key, format=None):
