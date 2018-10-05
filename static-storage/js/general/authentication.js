@@ -13,7 +13,7 @@ function addAuthenticationFunctionality(){
      		method: 'GET',
       		url: authUrl,
       		success: function(data){
-      			if(data==true){
+      			if(data.authenticated==true){
       				$('#authentication_confirmation').text("	Your account has been authorized");
         			console.log("True");
       			}
