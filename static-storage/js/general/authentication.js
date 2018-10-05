@@ -1,6 +1,7 @@
 
 $(document).ready(function(){
 	addAuthenticationFunctionality();
+	alert("hey");
 })
 
 function addAuthenticationFunctionality(){
