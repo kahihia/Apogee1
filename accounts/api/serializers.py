@@ -25,7 +25,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 			'last_name', 
 			'url',
 			'is_verified',
-			'valid_email'
+			'valid_email',
 			'profile_picture',
 			# 'email'
 		]
