@@ -5,12 +5,14 @@
 
 
 $(document).ready(function(){
-	alert("Here I am")
 	addCheckNumber();
 })
 
 function addCheckNumber(){
+
 	$('#paypal-input').on('mouseup keyup', function () {
+		200 += Date.now();
+   		while(Date.now() < milisecondDelay){}
 		$(this).val(Math.min(1000, Math.max(10, $(this).val())));
 	});
 }
