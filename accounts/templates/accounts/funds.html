@@ -83,8 +83,8 @@
 					production: '{{ paypal_client_id }}'
 			},
 			payment: function (data, actions) {
-				alert("LOLOLOL");
 				var requestedAmount = document.getElementById('paypal-input').value
+				alert(requestedAmount);
 				if (!requestedAmount || isNaN(requestedAmount) || requestedAmount < 5) {
 					alert('Invalid requested amount.')
 				}
