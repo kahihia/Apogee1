@@ -13,6 +13,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 	url = serializers.SerializerMethodField()
 	is_verified = serializers.SerializerMethodField()
 	profile_picture = serializers.SerializerMethodField()
+	has_valid_email = serializers.SerializerMethodField()
 	class Meta:
 		model = User
 		# Fields eplicitly states the data and names that are available
@@ -24,6 +25,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 			'last_name', 
 			'url',
 			'is_verified',
+			'has_valid_email'
 			'profile_picture',
 			# 'email'
 		]
@@ -37,6 +39,9 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 
 	def get_is_verified(self, obj):
 		return obj.profile.is_verified	
+
+	def get_has_valid_email(self,obj):
+		return obj.profile.is_authenticated
 
 	def get_profile_picture(self, obj):
 		if obj.profile.profile_picture and hasattr(obj.profile.profile_picture, 'url'):
