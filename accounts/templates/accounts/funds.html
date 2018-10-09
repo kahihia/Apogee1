@@ -7,9 +7,13 @@
 {% endblock title %}
 <script src='{% static "js/general/authentication.js"%}'></script>
 {% block content %}
+
+{% block script %}
+
 <script>
+	alert("dsasad");
 	$(document).ready(function(){
-		alert("Here I am")
+		alert("Here I am");
 		addCheckNumber();
 	})
 
@@ -19,6 +23,9 @@
 		});
 	}
 </script>
+
+{% endblock script %}
+
 {% if hide_funding %}
 <div class="container" style="padding-top: 30px">
 	<div class="row">
