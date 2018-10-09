@@ -57,7 +57,9 @@
 	</div>
 </div>
 {{user.profile.account_balance}}
-{{user.profile.has_valid_email}}
+{%if user.profile.has_valid_email%}
+	lolweherejjk
+{%endif%}
 
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
