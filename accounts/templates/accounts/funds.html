@@ -5,26 +5,11 @@
 {% block title %}
 	Update Profile | {{ block.super }}
 {% endblock title %}
-<script src='{% static "js/general/authentication.js"%}'></script>
+<script src='{% static "js/general/funds.js"%}'></script>
 {% block content %}
 
 {% block script %}
 
-<script>
-	alert("dsasad");
-	$(document).ready(function(){
-		alert("Here I am");
-		addCheckNumber();
-	})
-
-	function addCheckNumber(){
-		$('#paypal-input').on('mouseup keyup', function () {
-			$(this).val(Math.min(1000, Math.max(10, $(this).val())));
-		});
-	}
-</script>
-
-{% endblock script %}
 
 {% if hide_funding %}
 <div class="container" style="padding-top: 30px">
