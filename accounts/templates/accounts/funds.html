@@ -84,7 +84,9 @@
 			},
 			payment: function (data, actions) {
 				var requestedAmount = document.getElementById('paypal-input').value
-				alert(requestedAmount);
+				if(requestedAmount<10){
+					alert("Invalid requested amount.")
+				}
 				if (!requestedAmount || isNaN(requestedAmount) || requestedAmount < 5) {
 					alert('Invalid requested amount.')
 				}
