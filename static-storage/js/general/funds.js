@@ -11,9 +11,9 @@ $(document).ready(function(){
 function addCheckNumber(){
 
 	$('#paypal-input').on('mouseup keyup', function () {
-		milisecondDelay = 500
-		milisecondDelay += Date.now();
-   		while(Date.now() < milisecondDelay){}
+		// milisecondDelay = 500
+		// milisecondDelay += Date.now();
+  //  		while(Date.now() < milisecondDelay){}
 		$(this).val(Math.min(1000, Math.max(10, $(this).val())));
 	});
 }
