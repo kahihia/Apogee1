@@ -20,7 +20,9 @@
 </div>
 
 {% else %}
+{% block script %}
 <script src='{% static "js/general/funds.js"%}'></script>
+{% endblock script %}
 <div class="container" style="padding-top: 30px">
 	{%if user.profile.is_authenticated%}
 		<div class="row">
