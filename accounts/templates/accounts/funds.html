@@ -43,8 +43,8 @@
 			<div class="col-md-4 offset-md-1">
 				<h1 style="color: white">Add funds</h1>
 				<hr style="color: white; border-color: white;background-color:white" />
-				<p class="white">Use the form to the right to add money to your Granite account. 
-				You can use this money to buy events from your favorite creators. We have a $10.00 USD minimum.</p>
+				<p class="white">You must authenticate your email address. Check your registered e-mail for a message labeled "Welcome to Granite!". Follow the corresponding instructions and your e-mail will be authenticated.
+				</p>
 			</div>
 		</div>
 	{%endif%}
@@ -67,55 +67,55 @@
 		</div>
 	</div>
 </div>
-{%if user.profile.is_authenticated%}
-{%endif%}
-<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-<script>
-(function(){
-	paypal.Button.render({
-		env: '{{ paypal_env }}',
-		client: {
-				sandbox: '{{ paypal_client_id }}',
-				production: '{{ paypal_client_id }}'
-		},
-		payment: function (data, actions) {
-			var requestedAmount = document.getElementById('paypal-input').value
-			if (!requestedAmount || isNaN(requestedAmount) || requestedAmount < 5) {
-				alert('Invalid requested amount.')
-			}
-			return actions.payment.create({
-				transactions: [{
-					amount: {
-						total: requestedAmount,
-						currency: 'USD',
-					},
-					custom: '{{ user.id }}',
-		            description:  'Adding to Granite Account Balance: $' + requestedAmount + ' event {{user.id}}' ,
-		      item_list: {
-		        items: [
-		          {
-		            name: 'Add funds to {{ user.username }}',
-		            description:  'Adding to Granite Account Balance: $' + requestedAmount + ' event {{user.id}}' ,
-		            quantity: '1',
-		            price: requestedAmount,
-		            tax: '0.01',
-		            currency: 'USD'
-		          }
-		        ],
-		      }
-				}]
-			});
-		},
-		onAuthorize: function (data, actions) {
-			return actions.payment.execute()
-				.then(function () {
-					window.alert('Thank you for your purchase!');
-				});
-		}
-	}, '#paypal-button');
-})()
-</script>
 
+{%if user.profile.is_authenticated%}
+	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+	<script>
+	(function(){
+		paypal.Button.render({
+			env: '{{ paypal_env }}',
+			client: {
+					sandbox: '{{ paypal_client_id }}',
+					production: '{{ paypal_client_id }}'
+			},
+			payment: function (data, actions) {
+				var requestedAmount = document.getElementById('paypal-input').value
+				if (!requestedAmount || isNaN(requestedAmount) || requestedAmount < 5) {
+					alert('Invalid requested amount.')
+				}
+				return actions.payment.create({
+					transactions: [{
+						amount: {
+							total: requestedAmount,
+							currency: 'USD',
+						},
+						custom: '{{ user.id }}',
+			            description:  'Adding to Granite Account Balance: $' + requestedAmount + ' event {{user.id}}' ,
+			      item_list: {
+			        items: [
+			          {
+			            name: 'Add funds to {{ user.username }}',
+			            description:  'Adding to Granite Account Balance: $' + requestedAmount + ' event {{user.id}}' ,
+			            quantity: '1',
+			            price: requestedAmount,
+			            tax: '0.01',
+			            currency: 'USD'
+			          }
+			        ],
+			      }
+					}]
+				});
+			},
+			onAuthorize: function (data, actions) {
+				return actions.payment.execute()
+					.then(function () {
+						window.alert('Thank you for your purchase!');
+					});
+			}
+		}, '#paypal-button');
+	})()
+	</script>
+{% endif %}
 {% endif %}
 
 
