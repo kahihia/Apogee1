@@ -116,7 +116,7 @@ class FundsView(LoginRequiredMixin, DetailView):
         paypal_client_id = config("PAYPAL_CLIENT_ID", default="test"),
         paypal_env = config("PAYPAL_ENV", default="sandbox")
         print("HERE IA MAMSDMSDMDADMDS")
-        print(self.request.user.profile.is_authenticated)
+        print(self.request.user.is_authenticated)
         if paypal_env == "live":
             paypal_env = "production"
         context = {'user': self.request.user, 'paypal_env': paypal_env, 'paypal_client_id': paypal_client_id[0] }
