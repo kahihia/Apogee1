@@ -56,11 +56,15 @@
 		</div>
 	</div>
 </div>
+d
 {{user.profile.account_balance}}
-{%if user.profile.has_valid_email%}
+{%if user.profile.is_authenticated%}
 	lolweherejjk
 {%endif%}
-
+{%if request.user.profile.is_authenticated%}
+	lolweherejjksddssddssdsddd
+{%endif%}
+d
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
 (function(){

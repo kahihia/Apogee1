@@ -13,7 +13,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 	url = serializers.SerializerMethodField()
 	is_verified = serializers.SerializerMethodField()
 	profile_picture = serializers.SerializerMethodField()
-	has_valid_email = serializers.SerializerMethodField()
+	is_authenticated = serializers.SerializerMethodField()
 	class Meta:
 		model = User
 		# Fields eplicitly states the data and names that are available
@@ -25,7 +25,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 			'last_name', 
 			'url',
 			'is_verified',
-			'has_valid_email'
+			'is_authenticated'
 			'profile_picture',
 			# 'email'
 		]
