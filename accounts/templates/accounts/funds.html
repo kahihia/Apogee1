@@ -22,7 +22,7 @@
 {% else %}
 
 <div class="container" style="padding-top: 30px">
-	{%if user.profile.is_authenticated%}
+	{%if user.profile.valid_email%}
 		<div class="row">
 			<div class="col-md-4 offset-md-1">
 				<h1 style="color: white">Add funds</h1>
@@ -68,7 +68,7 @@
 	</div>
 </div>
 
-{%if user.profile.is_authenticated%}
+{%if user.profile.valid_email%}
 	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 	<script>
 	(function(){

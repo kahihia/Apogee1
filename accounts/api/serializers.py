@@ -13,7 +13,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 	url = serializers.SerializerMethodField()
 	is_verified = serializers.SerializerMethodField()
 	profile_picture = serializers.SerializerMethodField()
-	is_authenticated = serializers.SerializerMethodField()
+	valid_email = serializers.SerializerMethodField()
 	class Meta:
 		model = User
 		# Fields eplicitly states the data and names that are available
@@ -25,7 +25,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 			'last_name', 
 			'url',
 			'is_verified',
-			'is_authenticated'
+			'valid_email'
 			'profile_picture',
 			# 'email'
 		]
@@ -40,7 +40,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 	def get_is_verified(self, obj):
 		return obj.profile.is_verified
 
-	def get_is_authenticated(self, obj):
+	def get_valid_email(self, obj):
 		return obj.profile.is_authenticated		
 
 	def get_has_valid_email(self,obj):
