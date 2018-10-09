@@ -83,6 +83,7 @@
 					production: '{{ paypal_client_id }}'
 			},
 			payment: function (data, actions) {
+				console.log("!");
 				var requestedAmount = document.getElementById('paypal-input').value
 				if(requestedAmount<10){
 					alert("Invalid requested amount.")
