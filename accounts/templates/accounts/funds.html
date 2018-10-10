@@ -86,7 +86,7 @@
 				console.log("!");
 				var requestedAmount = document.getElementById('paypal-input').value
 				if(requestedAmount<10){
-					alert("Invalid requested amount.")
+					requestedAmount=10
 				}
 				if (!requestedAmount || isNaN(requestedAmount) || requestedAmount < 5) {
 					alert('Invalid requested amount.')
