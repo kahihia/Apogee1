@@ -89,6 +89,9 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	# the date, it just has to be formatted properly.
 
 	# for using a hybrid create/form view
+
+	print("_____________________________________________________________________________________________________-")
+
 	form_class = PartyModelForm
 	template_name = 'parties/create_view.html'
 	# success_url = reverse_lazy('parties:detail') doesnt work bc it needs a pk

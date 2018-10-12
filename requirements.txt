@@ -6,6 +6,7 @@ gunicorn==19.6.0
 whitenoise==3.3.1
 redis
 django-storages
+requests
 boto3
 boto
 paypal
