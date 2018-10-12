@@ -92,6 +92,24 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 
 	print("_____________________________________________________________________________________________________-")
 
+	# importing the requests library 
+	import requests 
+	  
+	# api-endpoint 
+	URL = "http://maps.googleapis.com/maps/api/geocode/json"
+	  
+	# location given here 
+	response_type=code&client_id=f054futox6ybt8p07bndbqbuaw0v48&redirect_uri=https://malek-server.herokuapp.com&scope=channel_subscriptions
+	# defining a params dict for the parameters to be sent to the API 
+	PARAMS = {'response_type':'code', 'client_id':'f054futox6ybt8p07bndbqbuaw0v48','redirect_uri':'https://malek-server.herokuapp.com','scope':'channel_subscriptions' } 
+	  
+	# sending get request and saving the response as response object 
+	r = requests.get(url = URL, params = PARAMS) 
+	  
+	# extracting data in json format 
+	data = r.json() 
+	print(data)
+
 	form_class = PartyModelForm
 	template_name = 'parties/create_view.html'
 	# success_url = reverse_lazy('parties:detail') doesnt work bc it needs a pk
