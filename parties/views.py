@@ -99,7 +99,7 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	URL = "http://maps.googleapis.com/maps/api/geocode/json"
 	  
 	# location given here 
-	response_type=code&client_id=f054futox6ybt8p07bndbqbuaw0v48&redirect_uri=https://malek-server.herokuapp.com&scope=channel_subscriptions
+	# response_type=code&client_id=f054futox6ybt8p07bndbqbuaw0v48&redirect_uri=https://malek-server.herokuapp.com&scope=channel_subscriptions
 	# defining a params dict for the parameters to be sent to the API 
 	PARAMS = {'response_type':'code', 'client_id':'f054futox6ybt8p07bndbqbuaw0v48','redirect_uri':'https://malek-server.herokuapp.com','scope':'channel_subscriptions' } 
 	  
