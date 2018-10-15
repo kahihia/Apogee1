@@ -89,7 +89,9 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	# the date, it just has to be formatted properly.
 
 	# for using a hybrid create/form view
-	print("_____________________________________________________________________________________________________")
+
+	# curl --request POST --url 'https://id.twitch.tv/oauth2/token' --header 'content-type: application/json' --data '{"grant_type":"authorization_code","client_id": "f054futox6ybt8p07bndbqbuaw0v48","client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code": "5skrc6ox9pupw4jm6anjjjqv8hofs3","redirect_uri": "https://malek-server.herokuapp.com"}'
+
 
 
 	form_class = PartyModelForm
