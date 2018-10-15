@@ -109,7 +109,6 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	  
 	# extracting data in json format 
 	# data = r.json() 
-	print(data)
 	status, output = commands.getstatusoutput("curl -X GET \
 	'https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id=f054futox6ybt8p07bndbqbuaw0v48&redirect_uri=https://malek-server.herokuapp.com&scope=channel_subscriptions'")
 	print output
