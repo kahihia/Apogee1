@@ -89,39 +89,11 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	# the date, it just has to be formatted properly.
 
 	# for using a hybrid create/form view
+	print("_____________________________________________________________________________________________________")
 
-	print("_____________________________________________________________________________________________________-")
 
-	import requests
-
-	params = (
-	    ('response_type', 'code'),
-	    ('client_id', 'f054futox6ybt8p07bndbqbuaw0v48'),
-	    ('redirect_uri', 'https://malek-server.herokuapp.com'),
-	    ('scope', 'channel_subscriptions'),
-	    ('state', 'c3ab8aa609ea11e793ae92361f002671'),
-	)
-
-	response = requests.get('https://id.twitch.tv/oauth2/authorize', params=params)
-	print(response)
-
-#NB. Original query string below. It seems impossible to parse and
-#reproduce query strings 100% accurately so the one below is given
-#in case the reproduced version is not "correct".
-# response = requests.get('https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=uo6dggojyb8d6soh92zknwmi5ej1q2&redirect_uri=http://localhost&scope=viewing_activity_read&state=c3ab8aa609ea11e793ae92361f002671')
 	form_class = PartyModelForm
 	template_name = 'parties/create_view.html'
-	# success_url = reverse_lazy('parties:detail') doesnt work bc it needs a pk
-	# It does reroute to the event detail page after creation, not sure why
-
-	# for if were doing straight createview
-	# model = Party
-	# fields = [
-	# 		# 'user',
-	# 		'title',
-	# 		'description',
-	# 		'party_time'
-	# 	]
 
 # the mixin requires you to be logged in to view events
 # because of the way the detail HTML is named, we don't need to 
