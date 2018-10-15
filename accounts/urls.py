@@ -11,6 +11,7 @@ from .views import (
 		UserBlockView,
 		UserProfileUpdateView,
 		UserDeleteView,
+		UserTwitchAuthView
 	)
 
 app_name = 'profiles'
@@ -22,5 +23,6 @@ urlpatterns = [
     path('<username>/block/', UserBlockView.as_view(), name='block'),
     path('<username>/edit/', UserProfileUpdateView.as_view(), name='edit'), 
     path('<username>/funds/', FundsView.as_view(), name='funds'), 	
-    path('<username>/unregister/', UserDeleteView.as_view(), name='delete_user'), 
+    path('<username>/unregister/', UserDeleteView.as_view(), name='delete_user'),
+    path('<username>/twitchauth/', UserTwitchAuthView.as_view()),  
 ]

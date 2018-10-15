@@ -120,7 +120,9 @@ class FundsView(LoginRequiredMixin, DetailView):
         context = {'user': self.request.user, 'paypal_env': paypal_env, 'paypal_client_id': paypal_client_id[0] }
         return render(request, 'accounts/funds.html', context)
 
-
+class UserTwitchAuthView(View, LoginRequiredMixin):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'accounts/twitch_auth.html', context)
 # this is used to toggle following
 class UserFollowView(View, LoginRequiredMixin):
     def get(self, request, username, *args, **kwargs):
