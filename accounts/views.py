@@ -122,6 +122,8 @@ class FundsView(LoginRequiredMixin, DetailView):
 
 class UserTwitchAuthView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
+        code = request.GET.get('code', 'None')
+        print(code)
         return render(request, 'accounts/twitch_auth.html')
 # this is used to toggle following
 class UserFollowView(View, LoginRequiredMixin):
