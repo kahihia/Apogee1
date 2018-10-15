@@ -92,27 +92,23 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 
 	print("_____________________________________________________________________________________________________-")
 
-	# importing the requests library 
-	# import requests 
-	  
-	# api-endpoint 
-	# URL = "http://maps.googleapis.com/maps/api/geocode/json"
-	import commands
+	import requests
 
-	# location given here 
-	# response_type=code&client_id=f054futox6ybt8p07bndbqbuaw0v48&redirect_uri=https://malek-server.herokuapp.com&scope=channel_subscriptions
-	# defining a params dict for the parameters to be sent to the API 
-	# PARAMS = {'response_type':'code', 'client_id':'f054futox6ybt8p07bndbqbuaw0v48','redirect_uri':'https://malek-server.herokuapp.com','scope':'channel_subscriptions' } 
-	  
-	# sending get request and saving the response as response object 
-	# r = requests.get(url = URL, params = PARAMS) 
-	  
-	# extracting data in json format 
-	# data = r.json() 
-	status, output = commands.getstatusoutput("curl -X GET \
-	'https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id=f054futox6ybt8p07bndbqbuaw0v48&redirect_uri=https://malek-server.herokuapp.com&scope=channel_subscriptions'")
-	print(output)
+	params = (
+	    ('response_type', 'code'),
+	    ('client_id', 'f054futox6ybt8p07bndbqbuaw0v48'),
+	    ('redirect_uri', 'https://malek-server.herokuapp.com'),
+	    ('scope', 'channel_subscriptions'),
+	    ('state', 'c3ab8aa609ea11e793ae92361f002671'),
+	)
 
+	response = requests.get('https://id.twitch.tv/oauth2/authorize', params=params)
+	print(response)
+
+#NB. Original query string below. It seems impossible to parse and
+#reproduce query strings 100% accurately so the one below is given
+#in case the reproduced version is not "correct".
+# response = requests.get('https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=uo6dggojyb8d6soh92zknwmi5ej1q2&redirect_uri=http://localhost&scope=viewing_activity_read&state=c3ab8aa609ea11e793ae92361f002671')
 	form_class = PartyModelForm
 	template_name = 'parties/create_view.html'
 	# success_url = reverse_lazy('parties:detail') doesnt work bc it needs a pk
