@@ -136,12 +136,15 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
         code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}
         twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
         twitch_dict=json.loads(twitch_response.text)
+        context={}
         try:
+            context['authenticated']=True
             print(twitch_dict['access_token'])
             print(twitch_dict)
+            return render(request, 'accounts/twitch_auth.html', context={'authenticated': True})
         except:
             print("failed")
-        return render(request, 'accounts/twitch_auth.html')
+            return render(request, 'accounts/twitch_auth.html', context={'authenticated': False})
 # this is used to toggle following
 class UserFollowView(View, LoginRequiredMixin):
     def get(self, request, username, *args, **kwargs):
