@@ -124,20 +124,31 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
         code = request.GET.get('code', 'None')
 
-        import requests
+        import urllib
+        url = "https://id.twitch.tv/oauth2/token"
+        channel_id = urllib.request.Request(url)
+        channel_id.add_header("Client-ID", "f054futox6ybt8p07bndbqbuaw0v48")
+        channel_id.add_header("content-type", "application/json")
 
-        headers = {
-            'content-type': 'application/json',
-            'client_id': 'f054futox6ybt8p07bndbqbuaw0v48'
-        }
+        #MY_OAUTH defined as MY_OAUTH = "oauth:123blablabla"
+        # channel_id.add_header("Authorization: OAuth", MY_OAUTH)
+        response = urllib.request.urlopen(channel_id)
+        tmpJSON = json.loads(response.read())
+        print(tmpJSON)
+        # import requests
 
-        data = '{"grant_type":"authorization_code","client_id": "f054futox6ybt8p07bndbqbuaw0v48","client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code": code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}'
+        # headers = {
+        #     'content-type': 'application/json',
+        #     'client_id': 'f054futox6ybt8p07bndbqbuaw0v48'
+        # }
+
+        # data = '{"grant_type":"authorization_code","client_id": "f054futox6ybt8p07bndbqbuaw0v48","client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code": code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}'
 
 
-        response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers)
+        # response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers)
 
-        print(response.json)
-        print(response.text)
+        # print(response.json)
+        # print(response.text)
         return render(request, 'accounts/twitch_auth.html')
 # this is used to toggle following
 class UserFollowView(View, LoginRequiredMixin):
