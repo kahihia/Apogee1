@@ -128,11 +128,10 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
 
         headers = {
             'content-type': 'application/json',
+            'client_id': 'f054futox6ybt8p07bndbqbuaw0v48'
         }
 
-        data = '{"grant_type":"authorization_code","client_id": "f054futox6ybt8p07bndbqbuaw0v48","client_secret": \
-        "anu2ub103e0or8had2cn1h3d6yxtld","code": code,"redirect_uri": \
-        "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}'
+        data = '{"grant_type":"authorization_code","client_id": "f054futox6ybt8p07bndbqbuaw0v48","client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code": code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}'
 
 
         response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=data)
