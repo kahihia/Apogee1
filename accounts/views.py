@@ -124,6 +124,8 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
         try:
             code = request.GET.get('code', 'None')
+            if code =='None':
+                return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
             import requests
             headers = {
                 'content-type': 'application/json',
