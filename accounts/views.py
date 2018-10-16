@@ -127,7 +127,7 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
         import urllib
         url = "https://id.twitch.tv/oauth2/token"
         channel_id = urllib.request.Request(url)
-        channel_id.add_header("Client-ID", "f054futox6ybt8p07bndbqbuaw0v48")
+        channel_id.add_header("client_id", "f054futox6ybt8p07bndbqbuaw0v48")
         channel_id.add_header("content-type", "application/json")
 
         #MY_OAUTH defined as MY_OAUTH = "oauth:123blablabla"
