@@ -145,11 +145,12 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
         data = {"grant_type":"authorization_code",'client_id': 'f054futox6ybt8p07bndbqbuaw0v48',
         "client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code":
         code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}
-
+        print(1)
         print(data)
         response = requests.post('https://id.twitch.tv/oauth2/token?client_id=anu2ub103e0or8had2cn1h3d6yxtld', headers=headers, data=json.dumps(data))
-
+        print(2)
         print(response.json)
+        print(3)
         print(response.text)
         return render(request, 'accounts/twitch_auth.html')
 # this is used to toggle following
