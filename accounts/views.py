@@ -145,6 +145,19 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 print(twitch_dict)
                 print(twitch_oauth_token)
                 print(twitch_refresh_token)
+                auth_string = 'OAuth '
+                auth_string+= twitch_oauth_token
+                print(twitch_oauth_token)
+                headers = {
+                    'Accept': 'application/vnd.twitchtv.v5+json',
+                    'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
+                    'Authorization': auth_string,
+                }
+                response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
+                print("___________________")
+                print(response.text)
+                print(response.json)
+
                 return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
             except:
                 return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have not been authenticated with Twitch"})
