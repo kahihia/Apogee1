@@ -123,19 +123,7 @@ class FundsView(LoginRequiredMixin, DetailView):
 class UserTwitchAuthView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
         code = request.GET.get('code', 'None')
-
-        # import urllib
-        # url = "https://id.twitch.tv/oauth2/token"
-        # channel_id = urllib.request.Request(url)
-        # channel_id.add_header("client_id", "f054futox6ybt8p07bndbqbuaw0v48")
-        # channel_id.add_header("content-type", "application/json")
-        # print(json.loads(channel_id))
-        # #MY_OAUTH defined as MY_OAUTH = "oauth:123blablabla"
-        # # channel_id.add_header("Authorization: OAuth", MY_OAUTH)
-        # response = urllib.request.urlopen(channel_id)
-        # tmpJSON = json.loads(response.read())
-        # print(tmpJSON)
-        # import requests
+        print(code)
 
         headers = {
             'content-type': 'application/json',
