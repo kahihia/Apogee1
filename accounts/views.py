@@ -139,11 +139,12 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
         context={}
         try:
             context['authenticated']=True
-            print(twitch_dict['access_token'])
+            twitch_token = twitch_dict['access_token']
             print(twitch_dict)
+            print(twitch_token)
+
             return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
         except:
-            print("failed")
             return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have not been authenticated with Twitch"})
 # this is used to toggle following
 class UserFollowView(View, LoginRequiredMixin):
