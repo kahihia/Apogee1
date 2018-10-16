@@ -123,6 +123,21 @@ class FundsView(LoginRequiredMixin, DetailView):
 class UserTwitchAuthView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
         code = request.GET.get('code', 'None')
+
+        import requests
+
+        headers = {
+            'content-type': 'application/json',
+        }
+
+        data = {"grant_type":"authorization_code","client_id": "f054futox6ybt8p07bndbqbuaw0v48","client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code": code,"redirect_uri": "https://malek-server.herokuapp.com"}
+
+        response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=data)
+
+        print(response)
+
+
+
         print(code)
         return render(request, 'accounts/twitch_auth.html')
 # this is used to toggle following
