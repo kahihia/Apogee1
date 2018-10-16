@@ -136,9 +136,11 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
         code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}
         response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
         notjson=json.loads(response.text)
-        if not notjson['status'] or notjson['status'] == 400:
+        if not notjson['status'] or not notjson['status'] == 200:
+            print('failed auth')
             print(notjson)
         else:
+            print('successful auth')
             print(notjson)
             print(notjson['access_token'])
         return render(request, 'accounts/twitch_auth.html')
