@@ -9,7 +9,6 @@ django-storages
 requests
 boto3
 boto
-urllib
 paypal
 django-paypal
 paypalrestsdk
