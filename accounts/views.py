@@ -125,6 +125,7 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
         code = request.GET.get('code', 'None')
         print(code)
 
+        import requests
         headers = {
             'content-type': 'application/json',
             'Client-id': 'f054futox6ybt8p07bndbqbuaw0v48'
