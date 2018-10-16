@@ -122,30 +122,33 @@ class FundsView(LoginRequiredMixin, DetailView):
 
 class UserTwitchAuthView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
-        code = request.GET.get('code', 'None')
-        print(code)
-
-        import requests
-        headers = {
-            'content-type': 'application/json',
-            'Client-id': 'f054futox6ybt8p07bndbqbuaw0v48'
-        }
-
-        data = {"grant_type":"authorization_code",'client_id': 'f054futox6ybt8p07bndbqbuaw0v48',
-        "client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code":
-        code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}
-        twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
-        twitch_dict=json.loads(twitch_response.text)
-        context={}
         try:
-            context['authenticated']=True
-            twitch_token = twitch_dict['access_token']
-            print(twitch_dict)
-            print(twitch_token)
+            code = request.GET.get('code', 'None')
+            import requests
+            headers = {
+                'content-type': 'application/json',
+                'Client-id': 'f054futox6ybt8p07bndbqbuaw0v48'
+            }
 
-            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
+            data = {"grant_type":"authorization_code",'client_id': 'f054futox6ybt8p07bndbqbuaw0v48',
+            "client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code":
+            code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}
+            twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
+            twitch_dict=json.loads(twitch_response.text)
+            context={}
+            try:
+                context['authenticated']=True
+                twitch_oauth_token = twitch_dict['access_token']
+                twitch_refresh_token = twitch_dict['refresh_token']
+                print(twitch_dict)
+                print(twitch_oauth_token)
+                print(twitch_refresh_token)
+                return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
+            except:
+                return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have not been authenticated with Twitch"})
         except:
-            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have not been authenticated with Twitch"})
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
+        
 # this is used to toggle following
 class UserFollowView(View, LoginRequiredMixin):
     def get(self, request, username, *args, **kwargs):
