@@ -149,7 +149,7 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
         print(data)
         response = requests.post('https://id.twitch.tv/oauth2/token?client_id=anu2ub103e0or8had2cn1h3d6yxtld', headers=headers, data=json.dumps(data))
         print(2)
-        print(response.json)
+        print("hello"+response.json)
         print(3)
         print(response.text)
         return render(request, 'accounts/twitch_auth.html')
