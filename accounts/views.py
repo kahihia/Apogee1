@@ -137,6 +137,7 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
         twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
         twitch_dict=json.loads(twitch_response.text)
         try:
+            print(twitch_dict['access_token'])
             print(twitch_dict)
         except:
             print("failed")
