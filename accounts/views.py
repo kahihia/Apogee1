@@ -164,6 +164,16 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 print("___________________")
                 print(response.text)
                 print(response.json)
+                headers = {
+                    'Accept': 'application/vnd.twitchtv.v5+json',
+                    'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
+                }
+                new_url = 'https://api.twitch.tv/kraken/channels/'
+                new_url+=twitch_id
+                new_url+='/follows'
+                print(new_url)
+                follow_info = requests.get('new_url', headers=headers)
+                print(follow_info.json)
 
                 return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
             except:
