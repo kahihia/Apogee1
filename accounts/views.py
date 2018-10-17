@@ -155,11 +155,17 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                     'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
                     'Authorization': auth_string,
                 }
-
                 response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
                 # response = twitch_functions.getChannelInfo(twitch_oauth_token)
                 twitch_dict2 = json.loads(response.text)
                 twitch_id = twitch_dict2['_id']
+                user_obj = request.user
+                user_obj.profile.twitch_id = twitch_id
+                user_obj.profile.twitch_refresh_token = twitch_refresh_token
+                user_obj.profile.twitch_OAuth_token = twitch_oauth_token
+                user_obj.profile.save(update_fields=['twitch_id'])
+                user_obj.profile.save(update_fields=['twitch_refresh_token'])
+                user_obj.profile.save(update_fields=['twitch_OAuth_token'])
                 print(twitch_id)
                 print("___________________")
                 print(response.text)
