@@ -1,6 +1,7 @@
 import requests
 
 def getOAuth(code):
+	print(1)
 	headers = {
 	    'content-type': 'application/json',
 	    'Client-id': 'f054futox6ybt8p07bndbqbuaw0v48'
@@ -10,6 +11,7 @@ def getOAuth(code):
 	code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}
 	twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
 	twitch_dict=json.loads(twitch_response.text)
+	print(twitch_dict)
 	return twitch_dict
 
 def getChannelInfo(OAuth):
