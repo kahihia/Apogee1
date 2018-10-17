@@ -18,6 +18,7 @@ from .models import UserProfile
 from .forms import UserRegisterForm, UserProfileModelForm
 from .mixins import ProfileOwnerMixin
 from apogee1.utils.email import emailer
+from apogee1.utils.twitch import twitch_functions
 from parties.api.serializers import PartyModelSerializer
 from parties.models import Party
 
@@ -123,20 +124,21 @@ class FundsView(LoginRequiredMixin, DetailView):
 class UserTwitchAuthView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
         try:
-            code = request.GET.get('code', 'None')
+            code = request.GET.get('code', 'None')            
             if code =='None':
                 return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
-            import requests
-            headers = {
-                'content-type': 'application/json',
-                'Client-id': 'f054futox6ybt8p07bndbqbuaw0v48'
-            }
+            # import requests
+            # headers = {
+            #     'content-type': 'application/json',
+            #     'Client-id': 'f054futox6ybt8p07bndbqbuaw0v48'
+            # }
 
-            data = {"grant_type":"authorization_code",'client_id': 'f054futox6ybt8p07bndbqbuaw0v48',
-            "client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code":
-            code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}
-            twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
-            twitch_dict=json.loads(twitch_response.text)
+            # data = {"grant_type":"authorization_code",'client_id': 'f054futox6ybt8p07bndbqbuaw0v48',
+            # "client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code":
+            # code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}
+            # twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
+            # twitch_dict=json.loads(twitch_response.text)
+            twitch_dict = twitch_functions.getOAuth(code)
             context={}
             try:
                 context['authenticated']=True
@@ -145,15 +147,17 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 print(twitch_dict)
                 print(twitch_oauth_token)
                 print(twitch_refresh_token)
-                auth_string = 'OAuth '
-                auth_string+= twitch_oauth_token
-                print(twitch_oauth_token)
-                headers = {
-                    'Accept': 'application/vnd.twitchtv.v5+json',
-                    'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
-                    'Authorization': auth_string,
-                }
-                response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
+                # auth_string = 'OAuth '
+                # auth_string+= twitch_oauth_token
+                # print(twitch_oauth_token)
+                # headers = {
+                #     'Accept': 'application/vnd.twitchtv.v5+json',
+                #     'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
+                #     'Authorization': auth_string,
+                # }
+
+                # response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
+                response = twitch_functions.getChannelInfo(twitch_oauth_token)
                 print("___________________")
                 print(response.text)
                 print(response.json)
