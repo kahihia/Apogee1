@@ -158,6 +158,9 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
 
                 response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
                 # response = twitch_functions.getChannelInfo(twitch_oauth_token)
+                twitch_dict2 = json.loads(response.text)
+                twitch_id = twitch_dict2['_id']
+                print(twitch_id)
                 print("___________________")
                 print(response.text)
                 print(response.json)
