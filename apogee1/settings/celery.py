@@ -11,8 +11,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'apogee1.settings.local')
 app = Celery('apogee1')
 
 ####### THIS LINE NEEDS TO BE COMMENTED OUT FOR LOCAL #########
-# app.conf.update(BROKER_URL=os.environ['REDIS_URL'],
-#                 CELERY_RESULT_BACKEND=os.environ['REDIS_URL'])
+app.conf.update(BROKER_URL=os.environ['REDIS_URL'],
+                CELERY_RESULT_BACKEND=os.environ['REDIS_URL'])
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
