@@ -112,7 +112,7 @@ class Party(models.Model):
 	task_id			= models.CharField(max_length=50, blank=True, editable=False)
 
 	cost 			= models.DecimalField(max_digits=7, decimal_places=2, default=0)
-
+	twitch_exclusive = models.BooleanField(default=False)
 
 	# declares our choices for event types
 	event_type		= models.IntegerField(
