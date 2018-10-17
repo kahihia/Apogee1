@@ -166,6 +166,12 @@ class UserProfile(models.Model):
 	account_balance = models.DecimalField(max_digits=12,\
 	 							decimal_places=2, default=0)
 
+	twitch_OAuth_token = models.CharField(max_length=100, default="")
+
+	twitch_refresh_token = models.CharField(max_length=100, default="")
+
+	twitch_id = models.CharField(max_length=100, default="")
+
 	# this is the same as calling UserProfile.objects.all()
 	# it just connects to the manager
 	objects = UserProfileManager()
