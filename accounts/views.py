@@ -176,7 +176,8 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 print(follow_info.json)
 
                 return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
-            except:
+            except Exception as e:
+                print(e)
                 return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have not been authenticated with Twitch"})
         except:
             return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
