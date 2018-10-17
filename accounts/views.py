@@ -172,7 +172,7 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 new_url+=twitch_id
                 new_url+='/follows'
                 print(new_url)
-                follow_info = requests.get('new_url', headers=headers)
+                follow_info = requests.get(new_url, headers=headers)
                 print(follow_info.json)
 
                 return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
