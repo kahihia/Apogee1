@@ -14,13 +14,13 @@ def getOAuth(code):
 
 def getChannelInfo(OAuth):
 	auth_string = 'OAuth '
-    auth_string+= OAuth
-    print(OAuth)
-    headers = {
+	auth_string+= OAuth
+	print(OAuth)
+	headers = {
         'Accept': 'application/vnd.twitchtv.v5+json',
         'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
         'Authorization': auth_string,
-    }
+	}
 
-    response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
-    return response
+	response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
+	return response
