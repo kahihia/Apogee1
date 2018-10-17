@@ -174,7 +174,7 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 print(new_url)
                 follow_info = requests.get(new_url, headers=headers)
                 print(follow_info.json)
-
+                print(follow_info.text)
                 return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
             except Exception as e:
                 print(e)
