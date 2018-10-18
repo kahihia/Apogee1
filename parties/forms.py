@@ -89,10 +89,10 @@ class PartyModelForm(forms.ModelForm):
 	def clean_is_twitch_event(self, *args, **kwargs):
 		twitch_event = self.cleaned_data.get('is_twitch_event')
 		if twitch_event:
-			twitch_id = self.request.user.profile.twitch_id
+			twitch_id = self.user.profile.twitch_id
 			print(twitch_id)
 			if twitch_id == "":
-				raise forms.ValidationError('You must authenticate your account with Twitch to use this feature')
+				raise forms.ValidationError('You must authenticate your account with Twitch to use thisfaz')
 		#k.set_contents_from_file(resized_photo)
 	# ensures that the event cannot have more winners than entrants. 
 	# has to be called on the second field because the second field isnt 
