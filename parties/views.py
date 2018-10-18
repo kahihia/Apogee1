@@ -90,12 +90,13 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 
 	# for using a hybrid create/form view
 
-	# curl --request POST --url 'https://id.twitch.tv/oauth2/token' --header 'content-type: application/json' --data '{"grant_type":"authorization_code","client_id": "f054futox6ybt8p07bndbqbuaw0v48","client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code": "5skrc6ox9pupw4jm6anjjjqv8hofs3","redirect_uri": "https://malek-server.herokuapp.com"}'
-
-
-
 	form_class = PartyModelForm
 	template_name = 'parties/create_view.html'
+	def form_valid(self, form):
+		 twitch_private = form.cleaned_data.get('is_twitch_event')
+		 if twitch_private:
+		 	print("lalalalalalalaalalalalalalalalalalalalalalalalalalalalalallalala")
+		 	print(self.request.user)
 
 # the mixin requires you to be logged in to view events
 # because of the way the detail HTML is named, we don't need to 
