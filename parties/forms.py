@@ -55,7 +55,7 @@ class PartyModelForm(forms.ModelForm):
 			'num_possible_winners', 
 			'cost',
 			'thumbnail',
-			'is_twitch_event' 
+			'is_twitch_event', 
 		]
 
 		# dont think these will ever appear cause the fields have length limits on them 
