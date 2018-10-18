@@ -92,11 +92,6 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 
 	form_class = PartyModelForm
 	template_name = 'parties/create_view.html'
-	def form_valid(self, form):
-		 twitch_private = form.cleaned_data.get('is_twitch_event')
-		 if twitch_private:
-		 	print("lalalalalalalaalalalalalalalalalalalalalalalalalalalalalallalala")
-		 	print(self.request.user)
 
 # the mixin requires you to be logged in to view events
 # because of the way the detail HTML is named, we don't need to 
