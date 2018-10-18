@@ -88,7 +88,7 @@ class PartyModelForm(forms.ModelForm):
 
 	def clean_is_twitch_event(self, *args, **kwargs):
 		twitch_event = self.cleaned_data.get('is_twitch_event')
-		print(self.user = kwargs.pop('user'))
+		print(kwargs.pop('user'))
 		# if twitch_event:
 			# twitch_id = self.user.profile.twitch_id
 			# print(twitch_id)
