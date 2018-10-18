@@ -119,7 +119,8 @@ always added in to other form displays -->
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						Only allow my Twitch subscribers
+						{{ form.is_twitch_event.errors }}
+						{{ form.is_twitch_event.label_tag }}
 						{{ form.is_twitch_event }}
 					</div>
 				</div>
