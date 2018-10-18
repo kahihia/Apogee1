@@ -69,8 +69,8 @@ class PartyModelForm(forms.ModelForm):
 			},
 		}
 		def __init__(self, *args, **kwargs):
-        	self.user = kwargs.pop('user', None)
-        	super(PartyModelForm, self).__init__(*args, **kwargs)
+			self.user = kwargs.pop('user', None)
+			super(PartyModelForm, self).__init__(*args, **kwargs)
 	# ensures that the event cannot be scheduled for the past. 
 	def clean_party_time(self, *args, **kwargs):
 		party_time = self.cleaned_data.get('party_time')
