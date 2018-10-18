@@ -68,11 +68,12 @@ class PartyModelForm(forms.ModelForm):
 				'max_length': "This description is too long.",
 			},
 		}
-		def __init__(self, *args, **kwargs):
-			self.user = kwargs.pop('user', None)
-			print(self.user)
-			super(PartyModelForm, self).__init__(*args, **kwargs)
+	def __init__(self, *args, **kwargs):
+        if kwargs.get('user'):
+            self.user = kwargs.pop('user', None)
+        super(PartyModelForm, self).__init__(*args,**kwargs)
 	# ensures that the event cannot be scheduled for the past. 
+	
 	def clean_party_time(self, *args, **kwargs):
 		party_time = self.cleaned_data.get('party_time')
 		if party_time < timezone.now():
