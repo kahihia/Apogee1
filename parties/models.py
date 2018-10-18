@@ -84,6 +84,7 @@ class Party(models.Model):
 						blank=True, 
 						related_name='reported_by'
 					)
+	is_private_event 	= models.BooleanField(default=False)
 	is_twitch_event 		= models.BooleanField(default=False)
 	is_flagged 		= models.BooleanField(default=False)
 	#Number of possible winners - sepcified by the creator on event creation
