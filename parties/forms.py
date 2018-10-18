@@ -38,7 +38,8 @@ class PartyModelForm(forms.ModelForm):
 		attrs={'placeholder': 'For a FREE event, enter 0', 'class': 'form-control'}))
 
 	thumbnail = forms.ImageField(label='Upload Thumbnail')
-	is_twitch_event = forms.BooleanField(label='Only allow your Twitch subscribers')
+	is_twitch_event = forms.IntegerField(label='N possible winners', min_value=1, 
+		widget=forms.NumberInput(attrs={'placeholder': 'Minimum of 1 winner', 'class': 'form-control'}))
 
 	# event_type has a default widget so we're not gonna mess with it
 	# event_type = forms.ChoiceField(label='Event Type')
