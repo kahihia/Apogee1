@@ -16,7 +16,7 @@
 		<!-- brings in the create/update form -->
 		{% load crispy_forms_tags %}
 
-		<h5 class=" mt-3"><b><u>Profile Settings</u></b></h5><hr>
+		<h4 class="mt-3">Profile Settings</h4><hr>
 
 		<form class='form mt-3' method='POST' action='' enctype="multipart/form-data">
 			{% csrf_token %}
@@ -25,7 +25,9 @@
 		    {{ form|crispy }}
 		    <input class='btn btn-primary-new' type="submit" value='Save Changes' />
 		</form>
-
+	</div>
+	<div class='col-sm-8 offset-sm-2 mt-3'>
+		<h4 class="mt-3">Integrations</h4><hr>
 		<a href=https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id=f054futox6ybt8p07bndbqbuaw0v48&redirect_uri=https://malek-server.herokuapp.com/profiles/Tes/twitchauth/&scope=channel_subscriptions+channel_read 142”>
 			<button class="btn btn-new btn-primary-new">Connect your Twitch account!</button>
 		</a>
