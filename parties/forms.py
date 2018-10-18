@@ -39,6 +39,8 @@ class PartyModelForm(forms.ModelForm):
 
 	thumbnail = forms.ImageField(label='Upload Thumbnail')
 
+	is_twitch_event = forms.BooleanField(label="Twitch subscribers only")
+
 
 	# event_type has a default widget so we're not gonna mess with it
 	# event_type = forms.ChoiceField(label='Event Type')
