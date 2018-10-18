@@ -91,8 +91,9 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	# for using a hybrid create/form view
 
 	# form_class = PartyModelForm
-	form = PartyModelForm(user=request.user)
-	template_name = 'parties/create_view.html'
+	def party_create(request, *args, **kwargs):
+		form = PartyModelForm(user=request.user)
+		template_name = 'parties/create_view.html'
 
 # the mixin requires you to be logged in to view events
 # because of the way the detail HTML is named, we don't need to 
