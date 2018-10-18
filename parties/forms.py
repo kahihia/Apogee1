@@ -49,13 +49,13 @@ class PartyModelForm(forms.ModelForm):
 		fields = [
 			'title',
 			'description',
+			'is_twitch_event', 
 			'party_time',
 			'event_type',
 			'max_entrants', 
 			'num_possible_winners', 
 			'cost',
 			'thumbnail',
-			'is_twitch_event', 
 		]
 
 		# dont think these will ever appear cause the fields have length limits on them 
