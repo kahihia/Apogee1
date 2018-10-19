@@ -22,7 +22,7 @@ from .validators import validate_title
 from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
 from apogee1.utils.email import emailer
-
+from apogee1.utils.twitch import twitch_functions
 ############################ GLOBAL VARIABLES #################################
 max_acceptable_bid = 99999.99
 
@@ -34,6 +34,10 @@ max_acceptable_bid = 99999.99
 ################################################################################
 
 ######################### GENERAL EVENT FUNCTIONS ##############################
+
+
+def event_not_twitch_sub(user, party_obj):
+	return {'added':False, 'error_message':"You must be subscribed to the event owner's Twitch profile to join this event"}
 
 #Returns dict with event information
 #error = event closed
@@ -325,6 +329,10 @@ def buyout_add(user, party_obj):
 	# If party is closed
 	# returns dict with added = False and error_message
 	# = Event is closed
+	is_twitch_event = party_obj.is_twitch_event
+	subscribed_status  = False
+	if is_twitch_event:
+		subscribed_status = twitch_functions.is_twitch_sub(party_obj.user, user)
 	if not party_obj.is_open:
 		event_info = event_is_closed()
 	# If user has been banned by event owner

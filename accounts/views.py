@@ -144,12 +144,8 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 context['authenticated']=True
                 twitch_oauth_token = twitch_dict['access_token']
                 twitch_refresh_token = twitch_dict['refresh_token']
-                print(twitch_dict)
-                print(twitch_oauth_token)
-                print(twitch_refresh_token)
                 auth_string = 'OAuth '
                 auth_string+= twitch_oauth_token
-                print(twitch_oauth_token)
                 headers = {
                     'Accept': 'application/vnd.twitchtv.v5+json',
                     'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
@@ -166,21 +162,14 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 user_obj.profile.save(update_fields=['twitch_id'])
                 user_obj.profile.save(update_fields=['twitch_refresh_token'])
                 user_obj.profile.save(update_fields=['twitch_OAuth_token'])
-                print(twitch_id)
-                print("___________________")
-                print(response.text)
-                print(response.json)
-                headers = {
-                    'Accept': 'application/vnd.twitchtv.v5+json',
-                    'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
-                }
-                new_url = 'https://api.twitch.tv/kraken/channels/'
-                new_url+=twitch_id
-                new_url+='/follows'
-                print(new_url)
-                follow_info = requests.get(new_url, headers=headers)
-                print(follow_info.json)
-                print(follow_info.text)
+                # headers = {
+                #     'Accept': 'application/vnd.twitchtv.v5+json',
+                #     'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
+                # }
+                # new_url = 'https://api.twitch.tv/kraken/channels/'
+                # new_url+=twitch_id
+                # new_url+='/follows'
+                # follow_info = requests.get(new_url, headers=headers)
                 return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
             except Exception as e:
                 print(e)
