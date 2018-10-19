@@ -93,6 +93,7 @@ class PartyModelForm(forms.ModelForm):
 	def clean_is_twitch_event(self, *args, **kwargs):
 		twitch_event = self.cleaned_data.get('is_twitch_event')
 		if twitch_event:
+			print("WOOOOOOOo")
 			print(self.user)
 		#k.set_contents_from_file(resized_photo)
 	# ensures that the event cannot have more winners than entrants. 
