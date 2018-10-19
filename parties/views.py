@@ -93,14 +93,12 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	form_class = PartyModelForm
 	template_name = 'parties/create_view.html'
 	def get_form_kwargs(self):
-    '''This goes in the Update view'''
-        kwargs = super(PartyCreateView, self).get_form_kwargs() #put your view name in the super
-        user = self.request.user
+		kwargs = super(PartyCreateView, self).get_form_kwargs() #put your view name in the super
+		user = self.request.user
+		if user:
+			kwargs['user'] = user
 
-        if user:
-            kwargs['user'] = user
-
-        return kwargs
+		return kwargs
 
 # the mixin requires you to be logged in to view events
 # because of the way the detail HTML is named, we don't need to 
