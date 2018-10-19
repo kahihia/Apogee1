@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
+from django.urls import reverse
 from django.views import View
 from django.core.exceptions import PermissionDenied
 from apogee1.utils.auth.auth import get_blocking_lists
@@ -92,13 +93,16 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 
 	form_class = PartyModelForm
 	template_name = 'parties/create_view.html'
-	def get_form_kwargs(self):
-		kwargs = super(PartyCreateView, self).get_form_kwargs() #put your view name in the super
-		user = self.request.user
-		if user:
-			kwargs['user'] = user
+	# def form_valid(self, form):
+	# 	print("11111111111111111111111111111111")
+	# 	return reverse('parties:detail', kwargs={'pk':self.pk})
+	# def get_form_kwargs(self):
+	# 	kwargs = super(PartyCreateView, self).get_form_kwargs() #put your view name in the super
+	# 	user = self.request.user
+	# 	if user:
+	# 		kwargs['user'] = user
 
-		return kwargs
+	# 	return kwargs
 
 # the mixin requires you to be logged in to view events
 # because of the way the detail HTML is named, we don't need to 

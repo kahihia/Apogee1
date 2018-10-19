@@ -68,10 +68,10 @@ class PartyModelForm(forms.ModelForm):
 				'max_length': "This description is too long.",
 			},
 		}
-	def __init__(self, *args, **kwargs):
-		if kwargs.get('user'):
-			self.user = kwargs.pop('user', None)
-		super(PartyModelForm, self).__init__(*args,**kwargs)
+	# def __init__(self, *args, **kwargs):
+	# 	if kwargs.get('user'):
+	# 		self.user = kwargs.pop('user', None)
+	# 	super(PartyModelForm, self).__init__(*args,**kwargs)
 	# ensures that the event cannot be scheduled for the past. 
 	
 	def clean_party_time(self, *args, **kwargs):
@@ -90,11 +90,11 @@ class PartyModelForm(forms.ModelForm):
 		upload.name="hey you"
 		k.set_contents_from_file(upload)
 
-	def clean_is_twitch_event(self, *args, **kwargs):
-		twitch_event = self.cleaned_data.get('is_twitch_event')
-		if twitch_event:
-			print("WOOOOOOOo")
-			print(self.user)
+	# def clean_is_twitch_event(self, *args, **kwargs):
+	# 	twitch_event = self.cleaned_data.get('is_twitch_event')
+	# 	if twitch_event:
+	# 		print("WOOOOOOOo")
+	# 		print(self.user)
 		#k.set_contents_from_file(resized_photo)
 	# ensures that the event cannot have more winners than entrants. 
 	# has to be called on the second field because the second field isnt 
