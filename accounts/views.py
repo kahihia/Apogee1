@@ -162,14 +162,7 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 user_obj.profile.save(update_fields=['twitch_id'])
                 user_obj.profile.save(update_fields=['twitch_refresh_token'])
                 user_obj.profile.save(update_fields=['twitch_OAuth_token'])
-                # headers = {
-                #     'Accept': 'application/vnd.twitchtv.v5+json',
-                #     'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
-                # }
-                # new_url = 'https://api.twitch.tv/kraken/channels/'
-                # new_url+=twitch_id
-                # new_url+='/follows'
-                # follow_info = requests.get(new_url, headers=headers)
+                print("GOT HERE!!!!")
                 return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
             except Exception as e:
                 print(e)
