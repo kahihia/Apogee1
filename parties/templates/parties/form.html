@@ -111,11 +111,15 @@ always added in to other form displays -->
 					</div>
 				</div>
 				<div class="col-md-6">
+					{% if request.user.profile.twitch_id == '' %}
+					<p>Connect your twitch account to make sub-only events!</p>
+					{% else %}
 					<div class="form-group">
 						{{ form.is_twitch_event.errors }}
 						{{ form.is_twitch_event.label_tag }}
 						{{ form.is_twitch_event }}
 					</div>
+					{% endif %}
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">

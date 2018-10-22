@@ -108,6 +108,9 @@
                 <a class="dropdown-item" href="{{ request.user.profile.get_absolute_url }}">
                     <span>Profile</span>
                 </a>
+                <a class="dropdown-item" href="{{ request.user.profile.get_edit_url }}">
+                    <span>Settings</span>
+                </a>
                 <a class="dropdown-item" href="{% url 'statistics:list' %}">
                     <span>Stats</span>
                 </a>

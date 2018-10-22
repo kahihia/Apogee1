@@ -98,4 +98,3 @@ class PartyModelForm(forms.ModelForm):
 			if num_possible_winners > max_entrants:
 				raise forms.ValidationError('Event cannot have more winners than entrants.')
 		return num_possible_winners
-		
