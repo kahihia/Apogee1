@@ -123,8 +123,6 @@ class FundsView(LoginRequiredMixin, DetailView):
 
 class UserTwitchAuthView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
-        print("_____________________________________________HEREHREHREHERHREHERHERHREHRE")
-        return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
         try:
             code = request.GET.get('code', 'None')            
             if code =='None':
@@ -137,7 +135,7 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
 
             data = {"grant_type":"authorization_code",'client_id': 'f054futox6ybt8p07bndbqbuaw0v48',
             "client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code":
-            code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/twitchauth/"}
+            code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/Tes/twitchauth/"}
             twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
             twitch_dict=json.loads(twitch_response.text)
             # twitch_dict = twitch_functions.getOAuth(code)
@@ -164,7 +162,14 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 user_obj.profile.save(update_fields=['twitch_id'])
                 user_obj.profile.save(update_fields=['twitch_refresh_token'])
                 user_obj.profile.save(update_fields=['twitch_OAuth_token'])
-                print("GOT HERE!!!!")
+                # headers = {
+                #     'Accept': 'application/vnd.twitchtv.v5+json',
+                #     'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
+                # }
+                # new_url = 'https://api.twitch.tv/kraken/channels/'
+                # new_url+=twitch_id
+                # new_url+='/follows'
+                # follow_info = requests.get(new_url, headers=headers)
                 return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
             except Exception as e:
                 print(e)
