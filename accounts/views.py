@@ -123,6 +123,7 @@ class FundsView(LoginRequiredMixin, DetailView):
 
 class UserTwitchAuthView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
+        print("_____________________________________________HEREHREHREHERHREHERHERHREHRE")
         return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
         try:
             code = request.GET.get('code', 'None')            
