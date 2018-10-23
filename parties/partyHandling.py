@@ -366,9 +366,8 @@ def buyout_add(user, party_obj):
 	# = ""
 	#Also checks, after adding user, if winners has reached max cap
 	#if so, ends buyout even
-	else
+	else:
 		event_info = buyout_add_user(user, party_obj)
-
 		if party_obj.winners.all().count()==party_obj.num_possible_winners:
 			buyout_end(user, party_obj)
 	#Send dictonary info and number of joined
