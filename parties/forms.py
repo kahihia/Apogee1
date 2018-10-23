@@ -39,6 +39,8 @@ class PartyModelForm(forms.ModelForm):
 
 	thumbnail = forms.ImageField(label='Upload Thumbnail')
 
+	is_twitch_event = forms.BooleanField(label="Twitch subscribers only")
+
 
 	# event_type has a default widget so we're not gonna mess with it
 	# event_type = forms.ChoiceField(label='Event Type')
@@ -49,13 +51,13 @@ class PartyModelForm(forms.ModelForm):
 		fields = [
 			'title',
 			'description',
-			'is_twitch_event', 
 			'party_time',
 			'event_type',
 			'max_entrants', 
 			'num_possible_winners', 
 			'cost',
 			'thumbnail',
+			'is_twitch_event', 
 		]
 
 		# dont think these will ever appear cause the fields have length limits on them 
@@ -106,4 +108,3 @@ class PartyModelForm(forms.ModelForm):
 			if num_possible_winners > max_entrants:
 				raise forms.ValidationError('Event cannot have more winners than entrants.')
 		return num_possible_winners
-		

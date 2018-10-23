@@ -1,6 +1,18 @@
-{% extends "base.html" %}
+<!-- This is the HTML for editing the user profile -->
+{% extends 'base.html' %}
+
+<!-- these provide the tab titles on the browser -->
+{% block title %}
+	Twitch Auth | {{ block.super }}
+{% endblock title %}
+
 {% block content %}
-
-<h2>{{authentication_message}}<h2>
-
+<div class='row'>
+	<div class='col-sm-8 offset-sm-2 mt-3 text-center'>
+		<h2>{{authentication_message}}</h2>
+		<a href='{% url "home" %}'>
+			<button class="btn btn-primary-new">Return to site</button>
+		</a>
+	</div>
+</div>
 {% endblock content %}
