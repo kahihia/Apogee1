@@ -140,8 +140,6 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
             code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/tes/twitchauth/"}
             twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
             twitch_dict=json.loads(twitch_response.text)
-            print("Twith dict1")
-            print(twitch_dict)
             # twitch_dict = twitch_functions.getOAuth(code)
             context={}
             try:
@@ -158,8 +156,6 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
                 # response = twitch_functions.getChannelInfo(twitch_oauth_token)
                 twitch_dict2 = json.loads(response.text)
-                print("Twith dict2")
-                print(twitch_dict2)
                 twitch_id = twitch_dict2['_id']
                 user_obj = request.user
                 user_obj.profile.twitch_id = twitch_id

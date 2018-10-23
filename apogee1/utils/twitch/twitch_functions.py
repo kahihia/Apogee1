@@ -50,17 +50,18 @@ def is_twitch_sub(party_owner, party_joiner):
 		print(new_url)
 		response = requests.get(new_url, headers=headers)
 		twitch_dict=json.loads(response.text)
+		print("TWITCH DICT IN TWITCH SUB")
 		print(twitch_dict)
 		has_sub = twitch_dict['sub_plan']
 		if has_sub:
 			print(2)
 			return True
 		else:
-			refresh_twitch_credentials(user_obj)
+			refresh_twitch_credentials(party_owner)
 			print(3)
 			return False
 	except:
-		print(4)
+		print("EXCEPTION IN TWITCH SUB")
 		return False
 
 

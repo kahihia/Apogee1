@@ -36,7 +36,7 @@ max_acceptable_bid = 99999.99
 ######################### GENERAL EVENT FUNCTIONS ##############################
 
 
-def event_not_twitch_sub(user, party_obj):
+def event_not_twitch_sub():
 	return {'added':False, 'error_message':"You must be subscribed to the event owner's Twitch profile to join this event"}
 
 #Returns dict with event information
@@ -332,7 +332,10 @@ def buyout_add(user, party_obj):
 	is_twitch_event = party_obj.is_twitch_event
 	subscribed_status  = False
 	if is_twitch_event:
+		print("IS TWITCH SUB EVENT")
 		subscribed_status = twitch_functions.is_twitch_sub(party_obj.user, user)
+		print("IS SUBBED")
+		print(subscribed_status)
 	if not party_obj.is_open:
 		event_info = event_is_closed()
 	# If user has been banned by event owner
@@ -340,6 +343,9 @@ def buyout_add(user, party_obj):
 	# = you've been blocked from this event
 	elif user in party_obj.user.profile.blocking.all():
 		event_info = event_blocked()
+	elif is_twitch_event and not subscribed_status:
+		print("REJECTED BECAUSE NOT TWITCH SUBBED")
+		event_info = event_not_twitch_sub()
 	# If user already bought this event
 	# returns dict with added = False and error_message 
 	# = You have bought this event
@@ -359,8 +365,8 @@ def buyout_add(user, party_obj):
 	# returns dict with added=True and error_message
 	# = ""
 	#Also checks, after adding user, if winners has reached max cap
-	#if so, ends buyout event
-	else:
+	#if so, ends buyout even
+	else
 		event_info = buyout_add_user(user, party_obj)
 
 		if party_obj.winners.all().count()==party_obj.num_possible_winners:
