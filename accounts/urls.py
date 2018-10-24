@@ -18,7 +18,7 @@ app_name = 'profiles'
 # /profiles routes to this 
 # names are how you lazy refer to pages
 urlpatterns = [
-	path('twitchauth/', UserTwitchAuthView.as_view()),  
+	path('twitchauth/confirmation/', UserTwitchAuthView.as_view()),  
     path('<username>/', UserDetailView.as_view(), name='detail'), 
     path('<username>/follow/', UserFollowView.as_view(), name='follow'),
     path('<username>/block/', UserBlockView.as_view(), name='block'),
