@@ -99,6 +99,8 @@ class UserDetailView(DetailView, LoginRequiredMixin):
             context['blocking'] = UserProfile.objects.is_blocking(self.request.user, self.get_object())
             context['blocked'] = UserProfile.objects.is_blocked(self.request.user, self.get_object())
             context['recommended'] = UserProfile.objects.recommended(self.request.user)
+            context['twitch_redirect_uri'] = config('TWITCH_REDIRECT_URI')
+            context['twitch_client_id'] = config('TWITCH_CLIENT_ID')
 
         requested_user = self.kwargs.get('username')
         if requested_user:
@@ -123,64 +125,65 @@ class FundsView(LoginRequiredMixin, DetailView):
 
 class UserTwitchAuthView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
-        try:
-            cd = 'k6pbewo0iifuw2fu73rn9wz7k0beu1'
-            print(1)
-            code = request.GET.get('code', 'None')
-            print(2)            
-            if code =='None':
-                return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
-            import requests
-            headers = {
-                'content-type': 'application/json',
-                'Client-id': 'k6pbewo0iifuw2fu73rn9wz7k0beu1'
-            }
-            print(3)
-            data = {"grant_type":"authorization_code",'client_id': 'k6pbewo0iifuw2fu73rn9wz7k0beu1',
-            "client_secret": "ycvbiwehveb5wodwaimdwdiho2rqs2","code":
-            code,"redirect_uri": "https://www.granite.gg/profiles/twitchauth/confirmation/"}
-            twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
-            twitch_dict=json.loads(twitch_response.text)
-            # twitch_dict = twitch_functions.getOAuth(code)
-            context={}
-            print(twitch_dict)
-            try:
-                context['authenticated']=True
-                twitch_oauth_token = twitch_dict['access_token']
-                twitch_refresh_token = twitch_dict['refresh_token']
-                auth_string = 'OAuth '
-                auth_string+= twitch_oauth_token
-                headers = {
-                    'Accept': 'application/vnd.twitchtv.v5+json',
-                    'Client-ID': 'k6pbewo0iifuw2fu73rn9wz7k0beu1',
-                    'Authorization': auth_string,
-                }
-                response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
-                # response = twitch_functions.getChannelInfo(twitch_oauth_token)
-                twitch_dict2 = json.loads(response.text)
-                twitch_id = twitch_dict2['_id']
-                print(twitch_dict2)
-                user_obj = request.user
-                user_obj.profile.twitch_id = twitch_id
-                user_obj.profile.twitch_refresh_token = twitch_refresh_token
-                user_obj.profile.twitch_OAuth_token = twitch_oauth_token
-                user_obj.profile.save(update_fields=['twitch_id'])
-                user_obj.profile.save(update_fields=['twitch_refresh_token'])
-                user_obj.profile.save(update_fields=['twitch_OAuth_token'])
-                # headers = {
-                #     'Accept': 'application/vnd.twitchtv.v5+json',
-                #     'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
-                # }
-                # new_url = 'https://api.twitch.tv/kraken/channels/'
-                # new_url+=twitch_id
-                # new_url+='/follows'
-                # follow_info = requests.get(new_url, headers=headers)
-                return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
-            except Exception as e:
-                print(e)
-                return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have not been authenticated with Twitch"})
-        except:
+        code = request.GET.get('code', 'None')
+        if code =='None':
             return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
+        response = twitch_functions.get_twitch_details(code, request.user)
+        if response==-1:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
+        if response==0:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have not been authenticated with Twitch"})
+        if response==1:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
+        # try:
+        #     print(1)
+        #     code = request.GET.get('code', 'None')
+        #     print(2)            
+        #     if code =='None':
+        #         return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
+        #     import requests
+        #     headers = {
+        #         'content-type': 'application/json',
+        #         'Client-id': 'k6pbewo0iifuw2fu73rn9wz7k0beu1'
+        #     }
+        #     print(3)
+        #     data = {"grant_type":"authorization_code",'client_id': 'k6pbewo0iifuw2fu73rn9wz7k0beu1',
+        #     "client_secret": "ycvbiwehveb5wodwaimdwdiho2rqs2","code":
+        #     code,"redirect_uri": "https://www.granite.gg/profiles/twitchauth/confirmation/"}
+        #     twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
+        #     twitch_dict=json.loads(twitch_response.text)
+        #     # twitch_dict = twitch_functions.getOAuth(code)
+        #     context={}
+        #     print(twitch_dict)
+        #     try:
+        #         context['authenticated']=True
+        #         twitch_oauth_token = twitch_dict['access_token']
+        #         twitch_refresh_token = twitch_dict['refresh_token']
+        #         auth_string = 'OAuth '
+        #         auth_string+= twitch_oauth_token
+        #         headers = {
+        #             'Accept': 'application/vnd.twitchtv.v5+json',
+        #             'Client-ID': 'k6pbewo0iifuw2fu73rn9wz7k0beu1',
+        #             'Authorization': auth_string,
+        #         }
+        #         response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
+        #         # response = twitch_functions.getChannelInfo(twitch_oauth_token)
+        #         twitch_dict2 = json.loads(response.text)
+        #         twitch_id = twitch_dict2['_id']
+        #         print(twitch_dict2)
+        #         user_obj = request.user
+        #         user_obj.profile.twitch_id = twitch_id
+        #         user_obj.profile.twitch_refresh_token = twitch_refresh_token
+        #         user_obj.profile.twitch_OAuth_token = twitch_oauth_token
+        #         user_obj.profile.save(update_fields=['twitch_id'])
+        #         user_obj.profile.save(update_fields=['twitch_refresh_token'])
+        #         user_obj.profile.save(update_fields=['twitch_OAuth_token'])
+        #         return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
+        #     except Exception as e:
+        #         print(e)
+        #         return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have not been authenticated with Twitch"})
+        # except:
+        #     return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
         
 # this is used to toggle following
 class UserFollowView(View, LoginRequiredMixin):

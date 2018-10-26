@@ -1,6 +1,59 @@
 import requests
 
-def getOAuth(code):
+def get_twitch_details(code, user_obj):
+	try:
+		twitch_client_id = config('TWITCH_CLIENT_ID')
+		twitch_secret = config('TWITCH_SECRET')
+		twitch_redirect_uri = config('TWITCH_REDIRECT_URI')
+		headers = {
+			'content-type': 'application/json',
+			'Client-id': twitch_client_id
+		}
+		print(3)
+		data = {
+			"grant_type":"authorization_code",
+			'client_id': twitch_client_id,
+			"client_secret": twitch_secret,
+			"code": code,
+			"redirect_uri": twitch_redirect_uri
+		}
+		twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
+		twitch_dict=json.loads(twitch_response.text)
+		# twitch_dict = twitch_functions.getOAuth(code)
+		context={}
+		print(twitch_dict)
+		try:
+			context['authenticated']=True
+			twitch_oauth_token = twitch_dict['access_token']
+			twitch_refresh_token = twitch_dict['refresh_token']
+			auth_string = 'OAuth '
+			auth_string+= twitch_oauth_token
+			headers = {
+				'Accept': 'application/vnd.twitchtv.v5+json',
+				'Client-ID': twitch_client_id,
+				'Authorization': auth_string,
+			}
+			response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
+			# response = twitch_functions.getChannelInfo(twitch_oauth_token)
+			twitch_dict2 = json.loads(response.text)
+			twitch_id = twitch_dict2['_id']
+			print(twitch_dict2)
+			user_obj = request.user
+			user_obj.profile.twitch_id = twitch_id
+			user_obj.profile.twitch_refresh_token = twitch_refresh_token
+			user_obj.profile.twitch_OAuth_token = twitch_oauth_token
+			user_obj.profile.save(update_fields=['twitch_id'])
+			user_obj.profile.save(update_fields=['twitch_refresh_token'])
+			user_obj.profile.save(update_fields=['twitch_OAuth_token'])
+			return 1
+		except:
+			return 0
+	except:
+		#failure on authenticating code from twitch
+		return -1
+
+
+def getOAuth(code, user_obj):
 	print(1)
 	headers = {
 	    'content-type': 'application/json',
