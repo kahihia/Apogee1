@@ -124,6 +124,7 @@ class FundsView(LoginRequiredMixin, DetailView):
 class UserTwitchAuthView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
         try:
+            cd = 'k6pbewo0iifuw2fu73rn9wz7k0beu1'
             print(1)
             code = request.GET.get('code', 'None')
             print(2)            
@@ -132,12 +133,12 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
             import requests
             headers = {
                 'content-type': 'application/json',
-                'Client-id': 'f054futox6ybt8p07bndbqbuaw0v48'
+                'Client-id': cd
             }
 
-            data = {"grant_type":"authorization_code",'client_id': 'f054futox6ybt8p07bndbqbuaw0v48',
-            "client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code":
-            code,"redirect_uri": "https://malek-server.herokuapp.com/profiles/twitchauth/confirmation/"}
+            data = {"grant_type":"authorization_code",'client_id': cd,
+            "client_secret": "ycvbiwehveb5wodwaimdwdiho2rqs2","code":
+            code,"redirect_uri": "https://www.granite.gg/profiles/twitchauth/confirmation"}
             twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
             twitch_dict=json.loads(twitch_response.text)
             # twitch_dict = twitch_functions.getOAuth(code)
@@ -150,7 +151,7 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 auth_string+= twitch_oauth_token
                 headers = {
                     'Accept': 'application/vnd.twitchtv.v5+json',
-                    'Client-ID': 'f054futox6ybt8p07bndbqbuaw0v48',
+                    'Client-ID': cd,
                     'Authorization': auth_string,
                 }
                 response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
