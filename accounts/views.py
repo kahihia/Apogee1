@@ -138,7 +138,7 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
             print(3)
             data = {"grant_type":"authorization_code",'client_id': 'k6pbewo0iifuw2fu73rn9wz7k0beu1',
             "client_secret": "ycvbiwehveb5wodwaimdwdiho2rqs2","code":
-            code,"redirect_uri": "https://www.granite.gg/profiles/twitchauth/confirmation"}
+            code,"redirect_uri": "https://www.granite.gg/profiles/twitchauth/confirmation/"}
             twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
             twitch_dict=json.loads(twitch_response.text)
             # twitch_dict = twitch_functions.getOAuth(code)
