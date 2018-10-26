@@ -133,16 +133,17 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
             import requests
             headers = {
                 'content-type': 'application/json',
-                'Client-id': cd
+                'Client-id': 'k6pbewo0iifuw2fu73rn9wz7k0beu1'
             }
-
-            data = {"grant_type":"authorization_code",'client_id': cd,
+            print(3)
+            data = {"grant_type":"authorization_code",'client_id': 'k6pbewo0iifuw2fu73rn9wz7k0beu1',
             "client_secret": "ycvbiwehveb5wodwaimdwdiho2rqs2","code":
             code,"redirect_uri": "https://www.granite.gg/profiles/twitchauth/confirmation"}
             twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
             twitch_dict=json.loads(twitch_response.text)
             # twitch_dict = twitch_functions.getOAuth(code)
             context={}
+            print(twitch_dict)
             try:
                 context['authenticated']=True
                 twitch_oauth_token = twitch_dict['access_token']
@@ -151,13 +152,14 @@ class UserTwitchAuthView(View, LoginRequiredMixin):
                 auth_string+= twitch_oauth_token
                 headers = {
                     'Accept': 'application/vnd.twitchtv.v5+json',
-                    'Client-ID': cd,
+                    'Client-ID': 'k6pbewo0iifuw2fu73rn9wz7k0beu1',
                     'Authorization': auth_string,
                 }
                 response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
                 # response = twitch_functions.getChannelInfo(twitch_oauth_token)
                 twitch_dict2 = json.loads(response.text)
                 twitch_id = twitch_dict2['_id']
+                print(twitch_dict2)
                 user_obj = request.user
                 user_obj.profile.twitch_id = twitch_id
                 user_obj.profile.twitch_refresh_token = twitch_refresh_token
