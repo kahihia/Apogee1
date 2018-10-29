@@ -205,9 +205,9 @@ class UserDeTwitchView(View, LoginRequiredMixin):
             user.twitch_id=""
             user.twitch_OAuth_token=""
             user.twitch_refresh_token=""
-            user_obj.profile.save(update_fields=['twitch_id'])
-            user_obj.profile.save(update_fields=['twitch_refresh_token'])
-            user_obj.profile.save(update_fields=['twitch_OAuth_token'])
+            user.save(update_fields=['twitch_id'])
+            user.save(update_fields=['twitch_refresh_token'])
+            user.save(update_fields=['twitch_OAuth_token'])
 
 # this is used to toggle blocking
 class UserBlockView(LoginRequiredMixin, View):
