@@ -47,7 +47,7 @@
 			      			Disconnecting your Twitch account prevents you from participating in any Twitch enabled events.
 			      		</div>
 			      		<div class="modal-footer">
-			        		<a class="btn btn-outline-danger btn-block" id="modalTwitchDisconnectButton" href='{{ request.user.get_twitch_reset_url }}'>
+			        		<a class="btn btn-outline-danger btn-block" id="modalTwitchDisconnectButton" href='{{ request.user.profile.get_twitch_reset_url }}'>
 			        			Disconnect
 			    			</a>
 			      		</div>
