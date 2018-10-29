@@ -198,7 +198,7 @@ class UserFollowView(View, LoginRequiredMixin):
 
 
 
-class UserDeTwitchView(view, LoginRequiredMixin):
+class UserDeTwitchView(View, LoginRequiredMixin):
     def get(self, request, username, *args, **kwargs):
         if request.user.is_authenticated:
             user = request.user.profile
@@ -208,7 +208,7 @@ class UserDeTwitchView(view, LoginRequiredMixin):
             user_obj.profile.save(update_fields=['twitch_id'])
             user_obj.profile.save(update_fields=['twitch_refresh_token'])
             user_obj.profile.save(update_fields=['twitch_OAuth_token'])
-            
+
 # this is used to toggle blocking
 class UserBlockView(LoginRequiredMixin, View):
     def get(self, request, username, *args, **kwargs):

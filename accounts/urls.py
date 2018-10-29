@@ -11,7 +11,8 @@ from .views import (
 		UserBlockView,
 		UserProfileUpdateView,
 		UserDeleteView,
-		UserTwitchAuthView
+		UserTwitchAuthView,
+		UserDeTwitchView
 	)
 
 app_name = 'profiles'
