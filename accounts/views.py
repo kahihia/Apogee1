@@ -196,6 +196,19 @@ class UserFollowView(View, LoginRequiredMixin):
             # it redirects you to the same page you were on and updates the text on the button
             return redirect('profiles:detail', username=username)
 
+
+
+class UserDeTwitchView(view, LoginRequiredMixin):
+    def get(self, request, username, *args, **kwargs):
+        if request.user.is_authenticated:
+            user = request.user.profile
+            user.twitch_id=""
+            user.twitch_OAuth_token=""
+            user.twitch_refresh_token=""
+            user_obj.profile.save(update_fields=['twitch_id'])
+            user_obj.profile.save(update_fields=['twitch_refresh_token'])
+            user_obj.profile.save(update_fields=['twitch_OAuth_token'])
+            
 # this is used to toggle blocking
 class UserBlockView(LoginRequiredMixin, View):
     def get(self, request, username, *args, **kwargs):
