@@ -265,3 +265,13 @@ class UserProfileUpdateView(LoginRequiredMixin, ProfileOwnerMixin, UpdateView):
     # we arent trying to edit the user object here. 
     def get_object(self):
         return get_object_or_404(UserProfile.objects.all(), user__username__iexact=self.kwargs.get('username'))
+    def get_context_data(self, *args, **kwargs):
+        context = super(UserProfileUpdateView, self).get_context_data(*args, **kwargs)
+        if self.request.user.is_authenticated:
+            # in the html, we call both following and recommended. this is how those 
+            # variables get passed through
+            context['twitch_redirect_uri'] = config('TWITCH_REDIRECT_URI')
+            context['twitch_client_id'] = config('TWITCH_CLIENT_ID')
+        requested_user = self.kwargs.get('username')
+        context['request'] = self.request
+        return context
