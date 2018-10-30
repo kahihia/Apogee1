@@ -2,13 +2,10 @@ import requests
 from decouple import config
 
 def get_twitch_details(code, user_obj):
-	print("________________1_____________________________________")
 	try:
-		print("________________1.5_____________________________________")
 		twitch_client_id = config('TWITCH_CLIENT_ID')
 		twitch_secret = config('TWITCH_SECRET')
 		twitch_redirect_uri = config('TWITCH_REDIRECT_URI')
-		print("________________2_____________________________________")
 		headers = {
 			'content-type': 'application/json',
 			'Client-id': twitch_client_id
@@ -21,7 +18,9 @@ def get_twitch_details(code, user_obj):
 			"code": code,
 			"redirect_uri": twitch_redirect_uri
 		}
+		print("________________4_____________________________________")
 		twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
+		print(twitch_response)
 		twitch_dict=json.loads(twitch_response.text)
 		# twitch_dict = twitch_functions.getOAuth(code)
 		context={}
