@@ -1,15 +1,18 @@
 import requests
 
 def get_twitch_details(code, user_obj):
+	print("________________1_____________________________________")
 	try:
+		print("________________1.5_____________________________________")
 		twitch_client_id = config('TWITCH_CLIENT_ID')
 		twitch_secret = config('TWITCH_SECRET')
 		twitch_redirect_uri = config('TWITCH_REDIRECT_URI')
+		print("________________2_____________________________________")
 		headers = {
 			'content-type': 'application/json',
 			'Client-id': twitch_client_id
 		}
-		print(3)
+		print("________________3_____________________________________")
 		data = {
 			"grant_type":"authorization_code",
 			'client_id': twitch_client_id,
