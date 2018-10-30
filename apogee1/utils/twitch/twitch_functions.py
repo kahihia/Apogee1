@@ -1,4 +1,5 @@
 import requests
+from decouple import config
 
 def get_twitch_details(code, user_obj):
 	print("________________1_____________________________________")
