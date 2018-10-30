@@ -1,5 +1,6 @@
 import requests
 from decouple import config
+import json
 
 def get_twitch_details(code, user_obj):
 	try:
