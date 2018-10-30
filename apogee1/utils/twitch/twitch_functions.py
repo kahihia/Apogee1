@@ -11,7 +11,6 @@ def get_twitch_details(code, user_obj):
 			'content-type': 'application/json',
 			'Client-id': twitch_client_id
 		}
-		print("________________3_____________________________________")
 		data = {
 			"grant_type":"authorization_code",
 			'client_id': twitch_client_id,
@@ -19,14 +18,9 @@ def get_twitch_details(code, user_obj):
 			"code": code,
 			"redirect_uri": twitch_redirect_uri
 		}
-		print(data)
-		print("________________4_____________________________________")
 		twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
-		print(twitch_response)
 		twitch_dict=json.loads(twitch_response.text)
-		# twitch_dict = twitch_functions.getOAuth(code)
 		context={}
-		print(twitch_dict)
 		try:
 			context['authenticated']=True
 			twitch_oauth_token = twitch_dict['access_token']
@@ -39,7 +33,6 @@ def get_twitch_details(code, user_obj):
 				'Authorization': auth_string,
 			}
 			response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
-			# response = twitch_functions.getChannelInfo(twitch_oauth_token)
 			twitch_dict2 = json.loads(response.text)
 			twitch_id = twitch_dict2['_id']
 			print(twitch_dict2)
@@ -51,7 +44,6 @@ def get_twitch_details(code, user_obj):
 			user_obj.profile.save(update_fields=['twitch_OAuth_token'])
 			return 1
 		except Exception as e:
-			print(e)
 			return 0
 	except:
 		#failure on authenticating code from twitch
