@@ -43,7 +43,6 @@ def get_twitch_details(code, user_obj):
 			twitch_dict2 = json.loads(response.text)
 			twitch_id = twitch_dict2['_id']
 			print(twitch_dict2)
-			user_obj = request.user
 			user_obj.profile.twitch_id = twitch_id
 			user_obj.profile.twitch_refresh_token = twitch_refresh_token
 			user_obj.profile.twitch_OAuth_token = twitch_oauth_token
