@@ -84,15 +84,17 @@ def is_twitch_sub(party_owner, party_joiner):
 	print("is subscribed to")
 	print(party_owner.username)
 	print(party_owner.profile.twitch_id)
-
 	try:
+		twitch_client_id = config('TWITCH_CLIENT_ID')
+		twitch_secret = config('TWITCH_SECRET')
+		twitch_redirect_uri = config('TWITCH_REDIRECT_URI')
 		print(0)
 		if party_owner.twitch_id=="" or party_joiner.twitch_id=="":
 			return False
 		print(1)
 		auth_string = 'OAuth '
 		auth_string+= party_owner.twitch_OAuth_token
-		headers = {'Accept': 'application/vnd.twitchtv.v5+json','Client-ID': 'k6pbewo0iifuw2fu73rn9wz7k0beu1','Authorization': auth_string,}
+		headers = {'Accept': 'application/vnd.twitchtv.v5+json','Client-ID': twitch_client_id,'Authorization': auth_string,}
 		new_url = 'https://api.twitch.tv/kraken/channels/'
 		new_url+=party_owner.profile.twitch_id
 		new_url+='/subscriptions/'
@@ -109,7 +111,8 @@ def is_twitch_sub(party_owner, party_joiner):
 		else:
 			print(3)
 			return False
-	except:
+	except Exception as e:
+		print(e)
 		refresh_twitch_credentials(party_owner)
 		print("EXCEPTION IN TWITCH SUB")
 		return False
@@ -118,14 +121,19 @@ def is_twitch_sub(party_owner, party_joiner):
 
 def refresh_twitch_credentials(user_obj):
 	try:
-		params = (('grant_type', 'refresh_token'), ('refresh_token', user_obj.twitch_refresh_token), ('Client-id', 'k6pbewo0iifuw2fu73rn9wz7k0beu1'), ('client_secret', 'ycvbiwehveb5wodwaimdwdiho2rqs2'),)
+		twitch_client_id = config('TWITCH_CLIENT_ID')
+		twitch_secret = config('TWITCH_SECRET')
+		twitch_redirect_uri = config('TWITCH_REDIRECT_URI')
+		params = (('grant_type', 'refresh_token'), ('refresh_token', user_obj.twitch_refresh_token), ('Client-id', twitch_client_id), ('client_secret', twitch_secret),)
 
-		response = requests.post('https://id.twitch.tv/oauth2/token?client_id=k6pbewo0iifuw2fu73rn9wz7k0beu1', params=params)
+		response = requests.post('https://id.twitch.tv/oauth2/token?client_id='+twitch_client_id, params=params)
 		twitch_dict=json.loads(response.text)
 		user_obj.profile.twitch_refresh_token = twitch_dict['refresh_token']
 		user_obj.profile.twitch_OAuth_token = twitch_dict['access_token']
 		user_obj.profile.save(update_fields=['twitch_refresh_token'])
 		user_obj.profile.save(update_fields=['twitch_OAuth_token'])
 		return True
-	except:
+	except Exception as e:
+		print(refresh)
+		print(e)
 		return False
