@@ -51,7 +51,8 @@ def get_twitch_details(code, user_obj):
 			user_obj.profile.save(update_fields=['twitch_refresh_token'])
 			user_obj.profile.save(update_fields=['twitch_OAuth_token'])
 			return 1
-		except:
+		except Exception as e:
+			print(e)
 			return 0
 	except:
 		#failure on authenticating code from twitch
