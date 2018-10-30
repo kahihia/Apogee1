@@ -18,6 +18,7 @@ def get_twitch_details(code, user_obj):
 			"code": code,
 			"redirect_uri": twitch_redirect_uri
 		}
+		print(data)
 		print("________________4_____________________________________")
 		twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
 		print(twitch_response)
