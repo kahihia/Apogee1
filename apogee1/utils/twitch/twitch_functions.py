@@ -89,7 +89,7 @@ def is_twitch_sub(party_owner, party_joiner):
 		twitch_secret = config('TWITCH_SECRET')
 		twitch_redirect_uri = config('TWITCH_REDIRECT_URI')
 		print(0)
-		if party_owner.twitch_id=="" or party_joiner.twitch_id=="":
+		if party_owner.profile.twitch_id=="" or party_joiner.profile.twitch_id=="":
 			return False
 		print(1)
 		auth_string = 'OAuth '
@@ -124,7 +124,7 @@ def refresh_twitch_credentials(user_obj):
 		twitch_client_id = config('TWITCH_CLIENT_ID')
 		twitch_secret = config('TWITCH_SECRET')
 		twitch_redirect_uri = config('TWITCH_REDIRECT_URI')
-		params = (('grant_type', 'refresh_token'), ('refresh_token', user_obj.twitch_refresh_token), ('Client-id', twitch_client_id), ('client_secret', twitch_secret),)
+		params = (('grant_type', 'refresh_token'), ('refresh_token', user_obj.profile.twitch_refresh_token), ('Client-id', twitch_client_id), ('client_secret', twitch_secret),)
 
 		response = requests.post('https://id.twitch.tv/oauth2/token?client_id='+twitch_client_id, params=params)
 		twitch_dict=json.loads(response.text)
