@@ -93,7 +93,7 @@ def is_twitch_sub(party_owner, party_joiner):
 			return False
 		print(1)
 		auth_string = 'OAuth '
-		auth_string+= party_owner.twitch_OAuth_token
+		auth_string+= party_owner.profile.twitch_OAuth_token
 		headers = {'Accept': 'application/vnd.twitchtv.v5+json','Client-ID': twitch_client_id,'Authorization': auth_string,}
 		new_url = 'https://api.twitch.tv/kraken/channels/'
 		new_url+=party_owner.profile.twitch_id
