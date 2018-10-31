@@ -135,6 +135,6 @@ def refresh_twitch_credentials(user_obj):
 		user_obj.profile.save(update_fields=['twitch_OAuth_token'])
 		return True
 	except Exception as e:
-		print(refresh)
+		print("refresh")
 		print(e)
 		return False
