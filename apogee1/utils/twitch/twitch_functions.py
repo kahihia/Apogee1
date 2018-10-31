@@ -128,6 +128,7 @@ def refresh_twitch_credentials(user_obj):
 
 		response = requests.post('https://id.twitch.tv/oauth2/token?client_id='+twitch_client_id, params=params)
 		twitch_dict=json.loads(response.text)
+		print(twitch_dict)
 		user_obj.profile.twitch_refresh_token = twitch_dict['refresh_token']
 		user_obj.profile.twitch_OAuth_token = twitch_dict['access_token']
 		user_obj.profile.save(update_fields=['twitch_refresh_token'])
