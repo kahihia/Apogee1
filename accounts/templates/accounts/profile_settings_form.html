@@ -27,6 +27,7 @@
 		<h2 class="mt-3">Integrations</h2><hr>
 		<h4 class='mt-3'>Twitch</h4><hr>
 		{% if request.user.profile.twitch_id == '' %}
+			<h5 class='mt-3'>Our current authentication allows us to view stream keys. We are updating our process to restrict ourselves from viewing stream keys. Please refrain from connecting Twitch at this time if you do not want to give us access to you stream key.</h5>
 			<a href='https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id=k6pbewo0iifuw2fu73rn9wz7k0beu1&redirect_uri=https://www.granite.gg/profiles/twitchauth/confirmation/&scope=channel_subscriptions+channel_read+channel_check_subscription'>
 				<button class="btn btn-primary-new">Connect your Twitch account!</button>
 			</a>
