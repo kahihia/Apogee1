@@ -32,10 +32,11 @@ def get_twitch_details(code, user_obj):
 				'Client-ID': twitch_client_id,
 				'Authorization': auth_string,
 			}
-			response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
+			response = requests.get('https://api.twitch.tv/kraken/user', headers=headers)
 			twitch_dict2 = json.loads(response.text)
-			twitch_id = twitch_dict2['_id']
 			print(twitch_dict2)
+			twitch_id = twitch_dict2['_id']
+
 			user_obj.profile.twitch_id = twitch_id
 			user_obj.profile.twitch_refresh_token = twitch_refresh_token
 			user_obj.profile.twitch_OAuth_token = twitch_oauth_token
@@ -50,32 +51,32 @@ def get_twitch_details(code, user_obj):
 		return -1
 
 
-def getOAuth(code, user_obj):
-	print(1)
-	headers = {
-	    'content-type': 'application/json',
-	    'Client-id': 'f054futox6ybt8p07bndbqbuaw0v48'
-	}
-	data = {"grant_type":"authorization_code",'client_id': 'f054futox6ybt8p07bndbqbuaw0v48',
-	"client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code":
-	code,"redirect_uri": "https://granite.gg/profiles/twitchauth/confirmation/"}
-	twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
-	twitch_dict=json.loads(twitch_response.text)
-	print(twitch_dict)
-	return twitch_dict
+# def getOAuth(code, user_obj):
+# 	print(1)
+# 	headers = {
+# 	    'content-type': 'application/json',
+# 	    'Client-id': 'f054futox6ybt8p07bndbqbuaw0v48'
+# 	}
+# 	data = {"grant_type":"authorization_code",'client_id': 'f054futox6ybt8p07bndbqbuaw0v48',
+# 	"client_secret": "anu2ub103e0or8had2cn1h3d6yxtld","code":
+# 	code,"redirect_uri": "https://granite.gg/profiles/twitchauth/confirmation/"}
+# 	twitch_response = requests.post('https://id.twitch.tv/oauth2/token', headers=headers, data=json.dumps(data))
+# 	twitch_dict=json.loads(twitch_response.text)
+# 	print(twitch_dict)
+# 	return twitch_dict
 
-def getChannelInfo(OAuth):
-	auth_string = 'OAuth '
-	auth_string+= OAuth
-	print(OAuth)
-	headers = {
-        'Accept': 'application/vnd.twitchtv.v5+json',
-        'Client-ID': 'k6pbewo0iifuw2fu73rn9wz7k0beu1',
-        'Authorization': auth_string,
-	}
+# def getChannelInfo(OAuth):
+# 	auth_string = 'OAuth '
+# 	auth_string+= OAuth
+# 	print(OAuth)
+# 	headers = {
+#         'Accept': 'application/vnd.twitchtv.v5+json',
+#         'Client-ID': 'k6pbewo0iifuw2fu73rn9wz7k0beu1',
+#         'Authorization': auth_string,
+# 	}
 
-	response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
-	return response
+# 	response = requests.get('https://api.twitch.tv/kraken/channel', headers=headers)
+# 	return response
 
 def is_twitch_sub(party_owner, party_joiner):
 	print("Checking that ")
