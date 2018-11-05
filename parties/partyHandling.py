@@ -273,6 +273,13 @@ def lottery_add(user, party_obj):
 	# If party is closed
 	# returns dict with joined = False and error_message
 	# = Event is closed
+	is_twitch_event = party_obj.is_twitch_event
+	subscribed_status  = False
+	if is_twitch_event:
+		print("IS TWITCH SUB EVENT")
+		subscribed_status = twitch_functions.is_twitch_sub(party_obj.user, user)
+		print("IS SUBBED")
+		print(subscribed_status)
 	if not party_obj.is_open:
 		event_info = event_is_closed()
 	# If user has been banned by event owner
@@ -283,6 +290,9 @@ def lottery_add(user, party_obj):
 	# If user is already in the lottery
 	# returns dict with joined = False and error_message 
 	# = You have already joined this event
+	elif is_twitch_event and not subscribed_status:
+		print("REJECTED BECAUSE NOT TWITCH SUBBED")
+		event_info = event_not_twitch_sub()
 	elif user in party_obj.joined.all():
 		event_info = event_user_already_in_event(party_obj)
 	#if user does not have enough money in their account
@@ -383,6 +393,13 @@ def buyout_add(user, party_obj):
 def bid_add(user, party_obj, bid):
 	#Checks if bid is a number
 	#if not returns error
+	is_twitch_event = party_obj.is_twitch_event
+	subscribed_status  = False
+	if is_twitch_event:
+		print("IS TWITCH SUB EVENT")
+		subscribed_status = twitch_functions.is_twitch_sub(party_obj.user, user)
+		print("IS SUBBED")
+		print(subscribed_status)
 	try:
 		bid = float(bid)
 	except ValueError:
@@ -409,6 +426,9 @@ def bid_add(user, party_obj, bid):
 	# = you've been blocked from this event
 	elif user in party_obj.user.profile.blocking.all():
 		event_info = event_blocked()
+	elif is_twitch_event and not subscribed_status:
+		print("REJECTED BECAUSE NOT TWITCH SUBBED")
+		event_info = event_not_twitch_sub()
 	# If user already bought this event
 	# returns dict with added = False and error_message 
 	# = You have already bid on this event

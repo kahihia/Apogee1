@@ -191,6 +191,10 @@ class UserProfile(models.Model):
 	def get_follow_url(self):
 		return reverse_lazy('profiles:follow', kwargs={'username': self.user.username})
 
+	def get_twitch_reset_url(self):
+		print("less gooooooooooooooooooooooooooooooooooooooooooooo")
+		return reverse_lazy('profiles:detwitch', kwargs={'username': self.user.username})
+
 	# gets the follow url for the person whose page you are on
 	def get_block_url(self):
 		return reverse_lazy('profiles:block', kwargs={'username': self.user.username})
