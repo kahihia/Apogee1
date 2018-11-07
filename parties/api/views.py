@@ -158,9 +158,9 @@ class BuyoutLotteryAPIView(APIView):
 		elif party_event_type == 4:
 			if request.user.is_authenticated:
 				queue_table = partyHandling.queue_add(request.user, party_qeryset.first())
-				return Response({'joined': "100",
-								'num_joined':"55",
-								'error_message':""
+				return Response({'joined': queue_table["is_joined"],
+								'num_joined':queue_table["num_joined"],
+								'error_message':queue_table["error_message"]
 								})
 
 # used to async create events and push them to the api list

@@ -202,6 +202,14 @@ def bid_bid_too_low():
 
 ############################ END BID FUNCTIONS #################################
 
+############################# QUEUE FUNCTIONS ##################################
+def queue_add_user(user, party_obj):
+	party_obj.joined.add(user)
+	return {'added':True, 'error_message':""}
+
+########################### END QUEUE FUNCTIONS #################################
+
+###########
 ################################################################################
 ########################## END HELPER FUNCTIONS ################################
 ################################################################################
@@ -487,8 +495,64 @@ def bid_add(user, party_obj, bid):
 
 
 def queue_add(user, party_obj):
-	print(user.username)
-	print(party_obj.event_type)
+	is_twitch_event = party_obj.is_twitch_event
+	subscribed_status  = False
+	if is_twitch_event:
+		print("IS TWITCH SUB EVENT")
+		subscribed_status = twitch_functions.is_twitch_sub(party_obj.user, user)
+		print("IS SUBBED")
+		print(subscribed_status)
+	if not party_obj.is_open:
+		event_info = event_is_closed()
+	# If user has been banned by event owner
+	# returns dict with joined = False and error_message
+	# = you've been blocked from this event
+	elif user in party_obj.user.profile.blocking.all():
+		event_info = event_blocked()
+	# If user is already in the lottery
+	# returns dict with joined = False and error_message 
+	# = You have already joined this event
+	elif is_twitch_event and not subscribed_status:
+		print("REJECTED BECAUSE NOT TWITCH SUBBED")
+		event_info = event_not_twitch_sub()
+	elif user in party_obj.joined.all():
+		event_info = event_user_already_in_event(party_obj)
+	#if user does not have enough money in their account
+	#returns dict with joined=false and error_message
+	elif user.profile.account_balance<party_obj.cost:
+		event_info = event_insufficient_funds()
+	# If there is no cap on how many users can enter the party
+	# add user to joined list
+	# returns dict with joined = True and error_message
+	# = ""
+	elif party_obj.max_entrants is None:
+		event_info = queue_add_user(user, party_obj)
+	# if the party has reached its max cap
+	# returns dict with joined = False and error_message
+	# = This event is already at max capacity
+	elif party_obj.joined.all().count()>=party_obj.max_entrants:
+		event_info = event_at_max_capacity()
+	# No constraints left
+	# add user to joined list
+	# returns dict with joined = True and error_message
+	# = ""
+	else:
+		event_info = queue_add_user(user, party_obj)
+	#if there is a cap on entrants and
+	#that cap has been reached in the 
+	#joined list, end the lottery and
+	#select the winners	
+		# if party_obj.max_entrants is not None and\
+		# party_obj.joined.all().count()== party_obj.max_entrants:
+		# 	lottery_end(party_obj)
+	#get information from the dictionaries	
+	is_joined = event_info["added"]
+	error_message = event_info["error_message"]
+	#Send dictonary info and number of joined
+	#to parties/api/views under JoinToggleAPIView
+	return {'is_joined':is_joined,\
+	'num_joined':party_obj.joined.all().count(),\
+	'error_message':error_message}	
 
 
 # this isnt really a toggle. once you've been added, it sticks
