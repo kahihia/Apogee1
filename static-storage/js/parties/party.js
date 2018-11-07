@@ -26,7 +26,7 @@ function addJoinFunctionality(){
     console.log("The party is "+partyType)
     // api endpoint
     let joinedUrl;
-    if(partyType == 1 || partyType == 3){
+    if(partyType == 1 || partyType == 3||partyType==4){
       joinedUrl = '/api/events/' + partyID + '/join/'
     }
     else{
