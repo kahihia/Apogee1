@@ -193,7 +193,7 @@
 								</div>
 
 								<!-- # Joined -->
-								{% if serialized.event_type == 1 %}
+								{% if serialized.event_type == 1 or serialized.event_type == 4 %}
 								<div class="col-sm-12"> 
 									<p class=""><span id="num_joined" name="num_joined"> {{serialized.joins}} </span> <small class="">Joined</small></p>
 								</div>
@@ -235,7 +235,8 @@
 								{% if not serialized.is_owner and not serialized.did_join and request.user.is_authenticated and serialized.is_open and not blocked %}
 									{% with "Enter Lottery" as lottery_text %}  
 									{% with "Submit a Bid" as bid_text %}  
-									{% with "Buy Event" as buy_text %}  
+									{% with "Buy Event" as buy_text %}
+									{% with "Enter Queue" as queue_text %}  
 									<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> 
 										{% if serialized.event_type == 1 %}
 											{{ lottery_text }} 
@@ -243,6 +244,8 @@
 											{{ bid_text }} 
 										{% elif serialized.event_type == 3 %}
 											{{ buy_text }} 
+										{% elif serialized.event_type == 4%}
+											{{ queue_text }}
 										{% endif %}
 									</button>
 								{% endwith %}
