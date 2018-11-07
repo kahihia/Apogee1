@@ -486,6 +486,11 @@ def bid_add(user, party_obj, bid):
 	'error_message':error_message}
 
 
+def queue_add(user, party_obj):
+	print(user.username)
+	print(party_obj.event_type)
+
+
 # this isnt really a toggle. once you've been added, it sticks
 def win_toggle(user, party_obj):
 	winner_text = "You Won!"

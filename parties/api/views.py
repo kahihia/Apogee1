@@ -148,13 +148,16 @@ class BuyoutLotteryAPIView(APIView):
 			'min_bid':party_qeryset.first().minimum_bid,
 			'error_message':"Improper input"
 			})
-		else:
+		elif party_event_type == 3:
 			if request.user.is_authenticated:
 				buy_table = partyHandling.buyout_add(request.user, party_qeryset.first())
 				return Response({'won':buy_table["winner"],
 								'num_curr_winners':buy_table["num_winners"],
 								'error_message':buy_table["error_message"]
 								})
+		elif party_event_type == 4:
+			if request.user.is_authenticated:
+				queue_table = partyHandling.queue_add()
 
 # used to async create events and push them to the api list
 # so that we can update the main page with the new tweet
