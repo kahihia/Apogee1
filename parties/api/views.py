@@ -158,7 +158,7 @@ class BuyoutLotteryAPIView(APIView):
 		elif party_event_type == 4:
 			print("HERHRHEHRRHERHERHHERHERHERERHHRHERERHERHERHERHERHERHERHEHEHEHREHRHEHEHHERERHEREHEREHEREHERE")
 			if request.user.is_authenticated:
-				queue_table = partyHandling.queue_add()
+				queue_table = partyHandling.queue_add(request.user, party_qeryset.first())
 
 # used to async create events and push them to the api list
 # so that we can update the main page with the new tweet
