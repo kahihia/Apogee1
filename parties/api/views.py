@@ -156,6 +156,7 @@ class BuyoutLotteryAPIView(APIView):
 								'error_message':buy_table["error_message"]
 								})
 		elif party_event_type == 4:
+			print("HERHRHEHRRHERHERHHERHERHERERHHRHERERHERHERHERHERHERHERHEHEHEHREHRHEHEHHERERHEREHEREHEREHERE")
 			if request.user.is_authenticated:
 				queue_table = partyHandling.queue_add()
 
