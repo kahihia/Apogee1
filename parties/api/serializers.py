@@ -83,6 +83,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'max_entrants',
 			'verified',
 			'profile_picture',
+			'is_twitch_event', 
 		]
 
 	# method if you want the human readable format of the event type
