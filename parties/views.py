@@ -126,7 +126,7 @@ class PartyDetailView(DetailView):
 				raise PermissionDenied
 		context['request'] = self.request
 		context['serialized'] = serialized_context
-		if self.event_type == 4:
+		if qs.event_type == 4:
 			print("____________________________________________________________________")
 		else:
 			print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
