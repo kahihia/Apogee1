@@ -137,7 +137,7 @@ class Party(models.Model):
 	def schedule_pick_winner(self):
 		# the pick time is set to be slightly before when the event 
 		# actully happens to allow everyone to get set up.
-		pick_time = self.party_time - timedelta(minutes=10)
+		pick_time = self.party_time - timedelta(minutes=2)
 		# .astimezone(pytz.utc)
 		# brings in the pick winner method
 		from .tasks import pick_winner

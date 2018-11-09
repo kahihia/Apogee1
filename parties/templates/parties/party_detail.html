@@ -226,6 +226,9 @@
 
 							<!-- Button Bid/Buy/Join -->
 							<div class=""> 
+								{% if serialized.is_twitch_event %}
+								<p><small>This event is for {{ serialized.user.username }}'s Twitch subscribers only.</small></p>
+								{% endif %}
 								{% if not serialized.is_owner and not serialized.did_join and request.user.is_authenticated and serialized.is_open and not blocked %}
 									{% with "Enter Lottery" as lottery_text %}  
 									{% with "Submit a Bid" as bid_text %}  
