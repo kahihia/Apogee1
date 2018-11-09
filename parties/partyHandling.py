@@ -548,13 +548,11 @@ def queue_add(user, party_obj):
 	#get information from the dictionaries	
 	is_joined = event_info["added"]
 	error_message = event_info["error_message"]
-	place = event_info[""]
 	#Send dictonary info and number of joined
 	#to parties/api/views under JoinToggleAPIView
 	return {'is_joined':is_joined,\
 	'num_joined':party_obj.joined.all().count(),\
 	'error_message':error_message,\
-	'place_in_queue': 1
 	}	
 
 

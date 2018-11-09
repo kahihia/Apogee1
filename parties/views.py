@@ -126,6 +126,10 @@ class PartyDetailView(DetailView):
 				raise PermissionDenied
 		context['request'] = self.request
 		context['serialized'] = serialized_context
+		if serialized_context.event_type == 4:
+			print("____________________________________________________________________")
+		else:
+			print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 		return context
 
 	# use 'template_name' to use a custom template name

@@ -160,7 +160,7 @@ class BuyoutLotteryAPIView(APIView):
 				queue_table = partyHandling.queue_add(request.user, party_qeryset.first())
 				return Response({'joined': queue_table["is_joined"],
 								'num_joined':queue_table["num_joined"],
-								'error_message':queue_table["error_message"]
+								'error_message':queue_table["error_message"],
 								})
 
 # used to async create events and push them to the api list
