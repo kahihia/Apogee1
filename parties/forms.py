@@ -78,7 +78,7 @@ class PartyModelForm(forms.ModelForm):
 	
 	def clean_party_time(self, *args, **kwargs):
 		party_time = self.cleaned_data.get('party_time')
-		if party_time < timezone.now() + tiemzone.timedelta(minutes=2):
+		if party_time < timezone.now() + timezone.timedelta(minutes=2):
 			raise forms.ValidationError('Event must be at least two minutes in the future.')
 		return party_time
 
