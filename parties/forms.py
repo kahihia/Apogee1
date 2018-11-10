@@ -34,8 +34,9 @@ class PartyModelForm(forms.ModelForm):
 		widget=forms.NumberInput(attrs={'placeholder': 'Minimum of 1 winner', 'class': 'form-control'}))
 	
 
-	cost = forms.DecimalField(label='Cost ($)', min_value=0, initial=0, widget=forms.NumberInput(
-		attrs={'placeholder': 'For a FREE event, enter 0', 'class': 'form-control'}))
+	cost = forms.DecimalField(label='Cost ($)', min_value=0, initial=0, 
+		help_text='For free events, enter 0.', 
+		widget=forms.NumberInput(attrs={'placeholder': 'For a FREE event, enter 0', 'class': 'form-control'}))
 
 	thumbnail = forms.ImageField(label='Upload Thumbnail')
 
