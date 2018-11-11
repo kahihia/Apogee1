@@ -10,10 +10,10 @@ from boto.s3.key import Key
 class PartyModelForm(forms.ModelForm):
 	# the altered form fields are for formatting on the create page
 	# form-control allows bootstrap to format the form
-	title = forms.CharField(label='', max_length=140, widget=forms.Textarea(
+	title = forms.CharField(label='', max_length=140, required=False, widget=forms.Textarea(
 		attrs={'placeholder': 'Title for your event', 'class': 'form-control', 'rows': 1}
 		))
-	description = forms.CharField(label='', max_length=280, widget=forms.Textarea(
+	description = forms.CharField(label='', max_length=280, required=false, widget=forms.Textarea(
 		attrs={'placeholder': 'Event description', 'class': 'form-control', 'rows': 4}
 		))
 	# localize tells us that this is in localtime so it converts to UTC for storage
