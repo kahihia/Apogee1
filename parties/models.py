@@ -44,9 +44,9 @@ class Party(models.Model):
 						on_delete=models.CASCADE
 					)
 	title 			= models.CharField(
-						max_length=140, 
+						max_length=140, blank=True, 
 						validators=[validate_title, validate_profanity])
-	description 	= models.CharField(max_length=280, validators=[validate_profanity])
+	description 	= models.CharField(max_length=280, blank=True, validators=[validate_profanity])
 	# auto_now_add automatically inputs the current time on creation
 	time_created	= models.DateTimeField(db_index=True, auto_now_add=True)
 	# auto_now adds the time, but it can be overwritten if it adds again
@@ -189,6 +189,12 @@ class Party(models.Model):
 		self.minimum_bid = self.cost
 		self.time_pts = self.set_time_pts()
 		self.task_id = self.schedule_pick_winner()
+
+		# sets default text for title and description
+		if not self.title:
+			self.title = self.user.username + "'s " + self.get_event_type_display()
+		if not self.description:
+			self.title = self.user.username + "'s " + self.get_event_type_display()
 		# self.send_notifications()
 		super(Party, self).save(*args, **kwargs)
 
