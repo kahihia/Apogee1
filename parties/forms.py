@@ -37,7 +37,7 @@ class PartyModelForm(forms.ModelForm):
 	cost = forms.DecimalField(label='Cost ($)', min_value=0, initial=0, 
 		widget=forms.NumberInput(attrs={'placeholder': 'For a FREE event, enter 0', 'class': 'form-control'}))
 
-	thumbnail = forms.ImageField(label='Upload Thumbnail', initial='media/thumbnails/default_thumbnail.png')
+	thumbnail = forms.ImageField(label='Upload Thumbnail', initial='default_thumbnail.png')
 
 	is_twitch_event = forms.BooleanField(label="Twitch subscribers only", required=False)
 
