@@ -194,7 +194,7 @@ class Party(models.Model):
 		if not self.title:
 			self.title = self.user.username + "'s " + self.get_event_type_display()
 		if not self.description:
-			self.title = self.user.username + "'s " + self.get_event_type_display()
+			self.description = self.user.username + "'s " + self.get_event_type_display()
 		# self.send_notifications()
 		super(Party, self).save(*args, **kwargs)
 
