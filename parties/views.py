@@ -128,15 +128,17 @@ class PartyDetailView(DetailView):
 		context['serialized'] = serialized_context
 		if qs.event_type == 4:
 			try:
+				winners_list = qs.winners.all()
+				joined_list = qs.joined.all()
 				print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 				print("winners")
-				for x in range(len(qs.winners)): 
-					print(qs.winners[x])
+				for w in winners_list: 
+					print(w)
 				print("joined")
-				for x in range(len(qs.joined)): 
-					print(qs.joined[x])
-				print(qs.joined.index(self.request.user))
-				context['place_in_queue'] = qs.joined_list.index(self.request.user)
+				for j in joined_list: 
+					print(j)
+				print(joined_list.index(self.request.user))
+				# context['place_in_queue'] = qs.joined_list.index(self.request.user)
 			except Exception as e: 
 				print(e)
 				context['place_in_queue'] = 'None'
