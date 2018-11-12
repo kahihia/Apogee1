@@ -178,7 +178,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		return tz_converted.strftime('%b %d at %I:%M %p')
 
 	def get_timeuntil(self, obj):
-		return timeuntil(obj.party_time - timedelta(minutes=10))
+		return timeuntil(obj.party_time - timedelta(minutes=2))
 
 	# this compares the current time to the event time and tells us if it's closed
 	# def get_is_open(self, obj):
