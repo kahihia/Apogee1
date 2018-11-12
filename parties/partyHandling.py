@@ -526,12 +526,10 @@ def queue_add(user, party_obj):
 	# add user to joined list
 	# returns dict with joined = True and error_message
 	# = ""
-	elif party_obj.max_entrants is None:
-		event_info = queue_add_user(user, party_obj)
 	# if the party has reached its max cap
 	# returns dict with joined = False and error_message
 	# = This event is already at max capacity
-	elif party_obj.joined.all().count()>=party_obj.max_entrants:
+	elif party_obj.joined.all().count()>=1000:
 		event_info = event_at_max_capacity()
 	# No constraints left
 	# add user to joined list
