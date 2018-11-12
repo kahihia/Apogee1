@@ -15,6 +15,13 @@ function updateHashLinks(){
   })
 }
 
+
+function addRequestFunctionality(){
+   $(document.body).on("click", '.requestBtn', function(e){
+    alert("Requesting stuff");
+   }
+}
+
 function addJoinFunctionality(){
   $(document.body).on("click", '.joinBtn', function(e){
     e.preventDefault()

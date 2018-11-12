@@ -15,6 +15,7 @@
 	addStarFunctionality();
 	addJoinFunctionality();
 	addReportFunctionality();
+	addRequestFunctionality();
 	setupChatRoom();
 	updateHashLinks()
 	getMessages(false, function(messages){
@@ -242,7 +243,7 @@
 									<div class="col-sm-20">
 										<input type="hidden" name="is_owner" value="{{serialized.is_owner}}">
 									</div>
-									<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> user stuff </button>
+									<button type="button" class="btn btn-primary-new btn-block requestBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> user stuff </button>
 								{%endif%}
 							</div>
 
