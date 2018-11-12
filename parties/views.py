@@ -137,7 +137,8 @@ class PartyDetailView(DetailView):
 					print(qs.joined[x])
 				print(qs.joined.index(self.request.user))
 				context['place_in_queue'] = qs.joined_list.index(self.request.user)
-			except:
+			except Exception as e: 
+				print(e)
 				context['place_in_queue'] = 'None'
 
 		else:
