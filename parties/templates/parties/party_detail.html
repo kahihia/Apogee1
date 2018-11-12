@@ -46,7 +46,12 @@
 							<div class="row">
 								<!-- Event Image -->
 								<div class="col-12">
+									{% if serialized.thumbnail_url %}
 									<img class="img-fluid rounded mx-auto mb-3" src="{{serialized.thumbnail_url}}" alt="not here"> 
+									{% else %}
+									<img class='img-fluid rounded mx-auto mb-3' src="{% static 'media/thumbnails/default_thumbnail.png'%}" alt=
+									'not here'>
+									{% endif %}
 								</div>
 								<br  />
 							</div>
