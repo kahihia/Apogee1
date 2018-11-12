@@ -127,9 +127,15 @@ class PartyDetailView(DetailView):
 		context['request'] = self.request
 		context['serialized'] = serialized_context
 		if qs.event_type == 4:
-			print("____________________________________________________________________")
+			try:
+				print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+				print(qs.joined_list.index(self.request.user))
+				context['place_in_queue'] = qs.joined_list.index(self.request.user)
+			except:
+				context['place_in_queue'] = 'None'
+
 		else:
-			print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+			context['place_in_queue'] = 'None'
 		return context
 
 	# use 'template_name' to use a custom template name
