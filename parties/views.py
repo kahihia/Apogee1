@@ -138,10 +138,11 @@ class PartyDetailView(DetailView):
 				count = 0
 				for j in joined_list:
 					count+=1
-					if j is self.request.user:
+					print(j.username)
+					print(self.request.user.username)
+					if j.username == self.request.user.username:
 						print("The count is "+count)
 					print(j)
-				print(joined_list.index(self.request.user))
 				# context['place_in_queue'] = qs.joined_list.index(self.request.user)
 			except Exception as e: 
 				print(e)
