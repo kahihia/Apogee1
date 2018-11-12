@@ -122,7 +122,7 @@ class Party(models.Model):
 							(2, 'Bid'), 
 							(3, 'Buy'),
 							(4, 'Queue'),),  
-							default=1)
+							default=4)
 
 	
 	# this is what success_url reroutes to if it is not defined in the view

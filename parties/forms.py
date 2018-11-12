@@ -30,7 +30,7 @@ class PartyModelForm(forms.ModelForm):
 	# 			(500, 500), 
 	# 			(1000, 1000)))
 
-	num_possible_winners = forms.IntegerField(label='Number of possible winners', min_value=1, 
+	num_possible_winners = forms.IntegerField(label='Number of possible winners', min_value=1, initial=1, 
 		widget=forms.NumberInput(attrs={'placeholder': 'Minimum of 1 winner', 'class': 'form-control'}))
 	
 
