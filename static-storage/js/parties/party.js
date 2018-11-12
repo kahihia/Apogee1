@@ -19,7 +19,10 @@ function updateHashLinks(){
 function addRequestFunctionality(){
    $(document.body).on("click", '.requestBtn', function(e){
     e.preventDefault();
-    alert("Requesting stuff");
+    let this_ = $(this)
+    let partyID = this_.attr('data-id')
+    let partyType = this_.attr('event-id')
+    alert(document.getElementsByName("bid_amount")[0].value)
    })
 }
 
