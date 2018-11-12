@@ -140,7 +140,7 @@ class PartyDetailView(DetailView):
 					count+=1
 					print(j.username)
 					print(self.request.user.username)
-					if j.username == self.request.user.username:
+					if str(j.username) == str(self.request.user.username):
 						print("The count is "+count)
 					print(j)
 				# context['place_in_queue'] = qs.joined_list.index(self.request.user)
