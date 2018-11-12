@@ -23,7 +23,7 @@ function check_event_type(type) {
      // this sets the text for cost
     $("label[for=id_cost]").text('Starting Bid ($)*');
   // if the event is a buy
-  } else {
+  } else if (type == 3) {
     // this hides the max entrants field
     toggleField("#id_max_entrants", true)
     // this hides the minimum bid field
@@ -32,6 +32,11 @@ function check_event_type(type) {
     $("label[for=id_num_possible_winners]").text('Number of purchases available*');
      // this sets the text for cost
     $("label[for=id_cost]").text('Cost ($)*');
+  } else {
+    // this hides the max entrants field
+    toggleField("#id_max_entrants", true)
+    // this hides the number of winners field
+    toggleField("#id_num_possible_winners", true)
   }
 }
 
