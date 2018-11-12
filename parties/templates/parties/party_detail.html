@@ -319,39 +319,8 @@
 
 							<div class="row mt-3"> 
 								<!-- Cost/Bid -->
-								<div class="col-sm-12"> 
-									{% if serialized.cost == 0 %}
-										<p class="" id="cost"> FREE </p> 
-									{% endif %}
-									{% if serialized.event_type == 1 %}
-										<p class="">
-											<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i>
-											$<span id="cost">{{serialized.cost}}</span>
-										</p>
-									{% endif %}
-									{% if serialized.event_type == 2 %}
-											<p class="">
-												<i class="fas fa-gavel grey-color" data-toggle="tooltip" data-placement="top" title="Auction"></i> 
-												$<span name="min_bid" id="cost">{{serialized.minimum_bid}}</span>
-												<small class=""> bid to beat</small>
-											</p>
-									{% endif %}
-									{% if serialized.event_type == 3 %}
-											<p class=""><span name="num_curr_winners" id="num_curr_winners"> {{serialized.num_curr_winners}} 
-											</span> <small class="">Spots taken</small></p>
-											<p class="">
-											<i class="fas fa-donate grey-color" data-toggle="tooltip" data-placement="top"></i>
-											$<span id="cost">{{serialized.cost}}</span>
-										</p>
-									{% endif %}
-									{% if serialized.event_type == 4 %}
-										<p class="">
-											<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Queue"></i>
-											$<span id="cost">{{serialized.cost}}</span>
-											<br>
-											Place in queue: <span id="place">{{place_in_queue}}</span>
-										</p>
-									{% endif %}
+								<div class="col-sm-12 text-center"> 
+									<p>Winner's box</p>
 								</div>
 
 								<!-- Time Until Close -->
