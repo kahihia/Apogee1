@@ -20,7 +20,7 @@ function addRequestFunctionality(){
    $(document.body).on("click", '.requestBtn', function(e){
     e.preventDefault();
     alert("Requesting stuff");
-   }
+   })
 }
 
 function addJoinFunctionality(){
