@@ -170,7 +170,7 @@ function renderPartyList(partyContainerID){
       thumbnail = partyValue.thumbnail_url
     }
     else {
-      thumbnail = '/media/thumbnails/default_thumbnail.png'
+      thumbnail = '/static/media/thumbnails/default_thumbnail.png'
     }
 
     let container =  
