@@ -134,7 +134,7 @@ class PartyDetailView(DetailView):
 					print(qs.winners[x])
 				print("joined")
 				for x in range(len(qs.joined)): 
-    				print(qs.joined[x])
+					print(qs.joined[x])
 				print(qs.joined.index(self.request.user))
 				context['place_in_queue'] = qs.joined_list.index(self.request.user)
 			except:
