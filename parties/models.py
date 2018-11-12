@@ -195,10 +195,6 @@ class Party(models.Model):
 			self.title = self.user.username + "'s " + self.get_event_type_display()
 		if not self.description:
 			self.description = self.user.username + "'s " + self.get_event_type_display()
-
-		# sets default thumbnail
-		if not self.thumbnail:
-			self.thumbnail = "/media/thumbnails/default_thumbnail.png"
 		# self.send_notifications()
 		super(Party, self).save(*args, **kwargs)
 
