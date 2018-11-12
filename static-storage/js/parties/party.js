@@ -18,13 +18,14 @@ function updateHashLinks(){
 
 function addRequestFunctionality(){
    $(document.body).on("click", '.requestBtn', function(e){
+    e.preventDefault();
     alert("Requesting stuff");
    }
 }
 
 function addJoinFunctionality(){
   $(document.body).on("click", '.joinBtn', function(e){
-    e.preventDefault()
+    e.preventDefault();
 
     let this_ = $(this)
     // selector for the button. makes sure we have the event id 
