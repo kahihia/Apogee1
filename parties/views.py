@@ -135,7 +135,11 @@ class PartyDetailView(DetailView):
 				for w in winners_list: 
 					print(w)
 				print("joined")
-				for j in joined_list: 
+				count = 0
+				for j in joined_list:
+					count+=1
+					if j is self.request.user:
+						print("The count is "+count)
 					print(j)
 				print(joined_list.index(self.request.user))
 				# context['place_in_queue'] = qs.joined_list.index(self.request.user)
