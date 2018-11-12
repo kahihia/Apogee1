@@ -34,11 +34,6 @@
 <script src='{% static "js/parties/party-create-helper.js"%}?q={% now "U" %}'></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		// // we hide max entrants and winner so that queue is the default
-		// // this hides the max entrants field
-	 //    toggleField("#id_max_entrants", true)
-	 //    // this hides the number of winners field
-	 //    toggleField("#id_num_possible_winners", true)
         // set things up so my function will be called when field_three changes
         $('#id_event_type').change( function() {
             check_event_type(this.value);
