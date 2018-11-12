@@ -135,18 +135,20 @@ class PartyDetailView(DetailView):
 				for w in winners_list: 
 					print(w)
 				print("joined")
+				context['place_in_queue'] = 'Not in queue'
 				count = 0
 				for j in joined_list:
 					count+=1
 					print(j.username)
 					print(self.request.user.username)
 					if str(j.username) == str(self.request.user.username):
-						print("The count is "+str(count))
+						print(str(count))
+						context['place_in_queue'] = count
 					print(j)
 				# context['place_in_queue'] = qs.joined_list.index(self.request.user)
 			except Exception as e: 
 				print(e)
-				context['place_in_queue'] = 'None'
+				context['place_in_queue'] = 'Not in queue'
 
 		else:
 			context['place_in_queue'] = 'None'
