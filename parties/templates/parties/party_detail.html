@@ -330,96 +330,27 @@
 									<p>sup {{ winner }}</p>
 									{% endfor %}
 								</div>
-
-								<!-- Bid functionality -->
-								{% if not serialized.is_owner and serialized.event_type == 2 and not serialized.did_join and not blocked %}
-									<form id= "bid-submit" method="GET">
-										<div class="col-sm-12 form-group mb-1" id="div_bid_amount">
-											<input type="number" class="form-control" step="0.01" id="bid_amount" name="bid_amount" value="{{serialized.minimum_bid}}"  {{ serialized.bid_amount }} >
-										</div>
-									</form>
-									<div class="col-sm-20">
-										<input type="hidden" name="party_id" value="{{serialized.id}}">
-									</div>
-								{%endif%}
-								{% if serialized.is_owner and serialized.event_type == 4 %}
-									<form id= "bid-submit" method="GET">
-										<div class="col-sm-12 form-group mb-1" id="div_bid_amount">
-											<input type="number" class="form-control" step="0.01" id="bid_amount" name="bid_amount" value="{{serialized.minimum_bid}}"  {{ serialized.bid_amount }} >
-										</div>
-									</form>
-									<div class="col-sm-20">
-										<input type="hidden" name="party_id" value="{{serialized.id}}">
-									</div>
-									<div class="col-sm-20">
-										<input type="hidden" name="is_owner" value="{{serialized.is_owner}}">
-									</div>
-									<button type="button" class="btn btn-primary-new btn-block requestBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> user stuff </button>
-								{%endif%}
 							</div>
 
-							<!-- Button Bid/Buy/Join -->
-							<div class=""> 
-								{% if not serialized.is_owner and not serialized.did_join and request.user.is_authenticated and serialized.is_open and not blocked %}
-									{% with "Enter Lottery" as lottery_text %}  
-									{% with "Submit a Bid" as bid_text %}  
-									{% with "Buy Event" as buy_text %}
-									{% with "Enter Queue" as queue_text %}  
-									<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> 
-										{% if serialized.event_type == 1 %}
-											{{ lottery_text }} 
-										{% elif serialized.event_type == 2 %}
-											{{ bid_text }} 
-										{% elif serialized.event_type == 3 %}
-											{{ buy_text }} 
-										{% elif serialized.event_type == 4%}
-											{{ queue_text }}
-										{% endif %}
-									</button>
-								{% endwith %}
-								{% endwith %}
-								{% endwith %}
-								{% endwith %}
-								{% endif %}
-								{% if not request.user.is_authenticated %}
-									<a href="/register">
-										<button type="button" class="btn btn-primary-new btn-block">Sign up to join</button>										
-									</a>
+							<!-- leave/clear button -->
+							<div class="mt-3"> 
+								{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
+								<a href='' style="text-decoration: none">
+									<button type='button' class='btn btn-primary-new btn-block my-3'>Clear winners list</button>
+								</a>	
+								{% else %}
+								<a href='' style="text-decoration: none">
+									<button type='button' class='btn btn-primary-new btn-block my-3'>Leave Queue</button>
+								</a>	
 								{% endif %}
 							</div> 
-							<!-- Event Actions / Join -->
-							{% if serialized.did_join %}
-									<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay disabled" disabled> Joined </button>
-							{% endif %}
-
-							{% if blocked %}
-							<div class='row mt-4 text-center'>
-								<div class='col-sm-12  mt-4'>
-									<p><small>You have been blocked from joining</small></p>
-								</div>
-							</div>
-							{% endif %}
-
-							{% if not serialized.is_open %}
-							<div class="row mt-3">
-								<div class="col-sm-12"> 
-									<p class="text-center"><small>This Event Has Ended</small></p>
-								</div>
-							</div>
-							{% endif %}
-
-							<!-- if the user is the owner, they get a second section that 
-							allows the owner to update and delete -->
+							
+							<!-- end button for owner -->
 							{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
 							<div class='mt-3'>
-								<a href='{{serialized.id}}/duplicate/' style="text-decoration: none">
-									<button type='button' class='btn btn-primary-new btn-block my-3' id='duplicate'>Duplicate Event</button>
+								<a href='' style="text-decoration: none">
+									<button type='button' class='btn btn-primary-new btn-block my-3'>Close Queue</button>
 								</a>	
-								{% if serialized.is_open %}
-									<a href='{{serialized.id}}/delete/' style="text-decoration: none">
-										<button type='button' class='btn btn-danger btn-block my-3' id='delete'>Delete Event</button>
-									</a>	
-								{% endif %}
 							</div>
 							{% endif %}
 
