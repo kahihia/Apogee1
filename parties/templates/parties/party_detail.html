@@ -325,22 +325,32 @@
 
 								<!-- winners list -->
 								<div class="col-sm-12"> 
-									<p>Winners:</p>
-									{% for winner in serialized.winner_names %}
-									<p>sup {{ winner }}</p>
-									{% endfor %}
+									{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
+										<p>Winners:</p>
+										{% for winner in serialized.winner_names %}
+										<div class="col-xs-9">
+											<p>{{ winner }}</p>
+										</div>
+										<div class="col-xs-3">
+											<a href='#' style="text-decoration: none">
+												<button type='button' class='btn btn-primary-new btn-block'>Kick</button>
+											</a>
+										</div>
+										{% endfor %}
+									{% else %}
+										<p>Your place in line is: {{ place_in_queue }}</p>
 								</div>
 							</div>
 
 							<!-- leave/clear button -->
 							<div class="mt-3"> 
 								{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
-								<a href='' style="text-decoration: none">
+								<a href='#' style="text-decoration: none">
 									<button type='button' class='btn btn-primary-new btn-block my-3'>Clear winners list</button>
 								</a>	
 								{% else %}
-								<a href='' style="text-decoration: none">
-									<button type='button' class='btn btn-primary-new btn-block my-3'>Leave Queue</button>
+								<a href='#' style="text-decoration: none">
+									<button type='button' class='btn btn-danger btn-block my-3'>Leave Queue</button>
 								</a>	
 								{% endif %}
 							</div> 
@@ -348,8 +358,8 @@
 							<!-- end button for owner -->
 							{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
 							<div class='mt-3'>
-								<a href='' style="text-decoration: none">
-									<button type='button' class='btn btn-primary-new btn-block my-3'>Close Queue</button>
+								<a href='#' style="text-decoration: none">
+									<button type='button' class='btn btn-danger btn-block my-3'>Close Queue</button>
 								</a>	
 							</div>
 							{% endif %}
