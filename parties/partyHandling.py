@@ -205,6 +205,7 @@ def bid_bid_too_low():
 ############################# QUEUE FUNCTIONS ##################################
 def queue_add_user(user, party_obj):
 	party_obj.joined.add(user)
+	print("ADDED A USER LOL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 	return {'added':True, 'error_message':""}
 
 ########################### END QUEUE FUNCTIONS #################################

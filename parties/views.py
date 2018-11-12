@@ -129,8 +129,8 @@ class PartyDetailView(DetailView):
 		if qs.event_type == 4:
 			try:
 				print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-				print(*qs.winners)
-				print(*qs.joined)
+				print("here are the winners"+*qs.winners+"LOLOLOL")
+				print("here are the winners"+*qs.joined+"LOLOLOL")
 				print(qs.joined.index(self.request.user))
 				context['place_in_queue'] = qs.joined_list.index(self.request.user)
 			except:
