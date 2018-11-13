@@ -128,7 +128,8 @@ class BidAPIView(APIView):
 			if request.user.is_authenticated:
 				if request.user == party_qeryset.first().user:
 					print("WE DID IT")
-					return Response({'error_message':bids})
+					print(bids)
+					return Response({'error_message':str(bids)})
 				else:
 					return Response({'error_message':'You must be the owner of this event to make this request'})
 
