@@ -124,6 +124,13 @@ class BidAPIView(APIView):
 								'min_bid': bid_table["min_bid"],
 								'error_message':bid_table["error_message"]
 								})
+		if party_event_type == 4:
+			if request.user.is_authenticated:
+				if request.user == party_qeryset.first().owner:
+					print("WE DID IT")
+					return Response('error_message':bids)
+				else:
+					return Response('error_message':"You must be the owner of this event to make this request")
 
 
 

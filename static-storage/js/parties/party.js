@@ -22,7 +22,31 @@ function addRequestFunctionality(){
     let this_ = $(this)
     let partyID = this_.attr('data-id')
     let partyType = this_.attr('event-id')
-    alert(document.getElementsByName("request_amount")[0].value)
+    let joinedUrl;
+    let requestAmount = document.getElementsByName("request_amount")[0].value
+    if(partyType==4){
+      joinedUrl = '/api/events/' + partyID + '/join/'+ request_amount;
+      $.ajax({
+        method: 'GET',
+        url: joinedUrl,
+        success: function(data){
+          if(partyType == 4){
+            alert(data)
+            // document.getElementsByName("num_curr_winners")[0].innerHTML = data.num_curr_winners;
+          }
+          if(data.error_message!=""){
+            alert(data.error_message);
+          }
+          location.reload();
+          // the api handles updating the database 
+        }, 
+        error: function(data){
+          console.log('error')
+          console.log(data)
+        }
+    })
+    }
+
    })
 }
 
