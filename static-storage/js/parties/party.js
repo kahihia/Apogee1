@@ -25,13 +25,13 @@ function addRequestFunctionality(){
     let joinedUrl;
     let requestAmount = document.getElementsByName("request_amount")[0].value
     if(partyType==4){
+      alert(request_amount)
       joinedUrl = '/api/events/' + partyID + '/join/'+ request_amount;
       $.ajax({
         method: 'GET',
         url: joinedUrl,
         success: function(data){
           if(partyType == 4){
-            alert(data)
             // document.getElementsByName("num_curr_winners")[0].innerHTML = data.num_curr_winners;
           }
           if(data.error_message!=""){
