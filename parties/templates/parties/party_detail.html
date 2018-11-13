@@ -234,7 +234,7 @@
 								{% if serialized.is_owner and serialized.event_type == 4 %}
 									<form id= "request-input" method="GET">
 										<div class="col-sm-12 form-group mb-1" id="div_request_input">
-											<input type="number" class="form-control" step="1" id="request_amount" name="request_amount" value="0">
+											<input type="number" class="form-control" step="1" id="request_amount" name="request_amount" value="0"  {{ serialized.bid_amount }} >
 										</div>
 									</form>
 									<div class="col-sm-20">
