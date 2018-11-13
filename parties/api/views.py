@@ -130,7 +130,7 @@ class BidAPIView(APIView):
 					print("WE DID IT")
 					return Response({'error_message':bids})
 				else:
-					return Response({'error_message':"You must be the owner of this event to make this request"})
+					return Response({'error_message':'You must be the owner of this event to make this request'})
 
 
 
