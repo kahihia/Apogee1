@@ -205,8 +205,20 @@ def bid_bid_too_low():
 ############################# QUEUE FUNCTIONS ##################################
 def queue_add_user(user, party_obj):
 	party_obj.joined.add(user)
-	print("ADDED A USER LOL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 	return {'added':True, 'error_message':""}
+
+def queue_dequeue(user, party_obj, number):
+	if party_obj.joined.all().count() > number:
+		return {'added':True, 'error_message':"Not enough people in queue"}
+	else:
+		joined_list = party_obj.joined.all()
+		count = 0
+		for user in joined_list:
+			if count >= number:
+				break
+			party_obj.winners.add(user)
+			party_obj.joined.remove(user)
+			return {'added':True, 'error_message':""}
 
 ########################### END QUEUE FUNCTIONS #################################
 
