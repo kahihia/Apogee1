@@ -26,8 +26,8 @@ function addRequestFunctionality(){
     let requestAmount = document.getElementsByName("request_amount")[0].value
     alert("looolololol")
     if(partyType==4){
-      alert(request_amount);
-      joinedUrl = '/api/events/' + partyID + '/join/'+ request_amount;
+      alert(requestAmount);
+      joinedUrl = '/api/events/' + partyID + '/join/'+ requestAmount;
       $.ajax({
         method: 'GET',
         url: joinedUrl,
