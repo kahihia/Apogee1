@@ -52,7 +52,7 @@ from accounts.views import UserRegisterView
 # in any of the other apps
 # namespace is an instance namespace. the app_name attr is the application namespace
 urlpatterns = [
-	path('admin/', admin.site.urls),
+	path('admin/', admin.site.urls, name='admin'),
 	path('', PartyListView.as_view(), name='home'),
 	path('set_timezone/', SetTimzoneEndpoint.as_view(), name="set_timezone"),
 	path('test_email/', TestEmailEndpoint.as_view(), name="test_email"),
