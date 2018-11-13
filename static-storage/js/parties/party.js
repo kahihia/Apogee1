@@ -22,7 +22,7 @@ function addRequestFunctionality(){
     let this_ = $(this)
     let partyID = this_.attr('data-id')
     let partyType = this_.attr('event-id')
-    alert(document.getElementsByName("bid_amount")[0].value)
+    alert(document.getElementsByName("request_amount")[0].value)
    })
 }
 
