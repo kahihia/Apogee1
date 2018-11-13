@@ -126,7 +126,7 @@ class BidAPIView(APIView):
 								})
 		if party_event_type == 4:
 			if request.user.is_authenticated:
-				if request.user == party_qeryset.first().owner:
+				if request.user == party_qeryset.first().user:
 					print("WE DID IT")
 					return Response({'error_message':bids})
 				else:
