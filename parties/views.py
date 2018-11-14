@@ -111,7 +111,8 @@ class PartyKickallView(DetailView):
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
 			party_id = self.kwargs.get('pk')
-			qs = Party.objects.get(pk=party_id)
+			objs = Party.objects.filter(pk=party_id)
+			qs = objs.first()
 			winners_list = qs.winners.all()
 			for w in winners_list:
 				qs.winners.remove(w)
