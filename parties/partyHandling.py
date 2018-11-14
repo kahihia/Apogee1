@@ -216,6 +216,11 @@ def queue_dequeue(user, party_obj, number):
 		for user in joined_list:
 			if count >= number:
 				break
+			count+=1
+			print(user)
+			print(count)
+			print(party_obj.winners)
+			print(party_obj.joined)
 			party_obj.winners.add(user)
 			party_obj.joined.remove(user)
 			return {'added':True, 'error_message':""}
