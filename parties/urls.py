@@ -11,7 +11,8 @@ from .views import (
 		FollowingListView,
 		StarredListView,
 		JoinedListView,
-		PartyDuplicateView, 
+		PartyDuplicateView,
+		PartyKickallView, 
 	)
 
 # app name specifies how we refer to these urls
