@@ -108,7 +108,7 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 # because of the way the detail HTML is named, we don't need to 
 # specify it here. model_view (party_detail this time) is recognized automatically
 class PartyKickallView(DetailView):
-	def get(self, request, username, *args, **kwargs):
+	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
 			party_id = self.kwargs.get('pk')
 			qs = Party.objects.get(pk=party_id)
