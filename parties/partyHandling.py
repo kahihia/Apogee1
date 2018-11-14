@@ -217,7 +217,7 @@ def queue_dequeue(user, party_obj, number):
 		count = 0
 		for user in joined_list:
 			print(user)
-			if count >= number:
+			if count >= int(number):
 				break
 			count+=1
 			print("______________")
