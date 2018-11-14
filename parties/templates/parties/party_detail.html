@@ -328,21 +328,14 @@
 									{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
 										<p>Winners:</p>
 										{% for winner in serialized.winner_names %}
-										<p>{{ winner }} 
-											<span class='align-right'>
-												<a href='#' style="text-decoration: none">
-													<button type='button' class='btn btn-primary-new'>Kick</button>
-												</a>
-											</span>
-										</p>
-										<!-- <div class="col-xs-9">
+										<div class="col-9">
 											<p>{{ winner }}</p>
 										</div>
-										<div class="col-xs-3">
+										<div class="col-3 justify-content-end">
 											<a href='#' style="text-decoration: none">
-												<button type='button' class='btn btn-primary-new btn-block'>Kick</button>
+												<button type='button' class='btn btn-primary-new'>Kick</button>
 											</a>
-										</div> -->
+										</div>
 										{% endfor %}
 									{% else %}
 										<p>Your place in line is: {{ place_in_queue }}</p>
