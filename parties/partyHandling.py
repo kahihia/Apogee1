@@ -208,21 +208,20 @@ def queue_add_user(user, party_obj):
 	return {'added':True, 'error_message':""}
 
 def queue_dequeue(user, party_obj, number):
-	print("GETTING HEHRHERHERHERH__________________________________________________________________________________________________________________________")
 	if party_obj.joined.all().count() > int(number):
+		print("HEREREERERRE")
 		return {'added':True, 'error_message':"Not enough people in queue"}
 	else:
+		print("111111111111111")
 		joined_list = party_obj.joined.all()
 		count = 0
 		for user in joined_list:
+			print(user)
 			if count >= number:
 				break
 			count+=1
 			print("______________")
-			print(user)
 			print(count)
-			print(party_obj.winners)
-			print(party_obj.joined)
 			party_obj.winners.add(user)
 			party_obj.joined.remove(user)
 			return {'added':True, 'error_message':""}
