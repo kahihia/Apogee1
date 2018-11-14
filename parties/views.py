@@ -107,6 +107,15 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 # the mixin requires you to be logged in to view events
 # because of the way the detail HTML is named, we don't need to 
 # specify it here. model_view (party_detail this time) is recognized automatically
+class PartyKickallView(DetailView):
+	def get(self, request, username, *args, **kwargs):
+		if request.user.is_authenticated:
+			party_id = self.kwargs.get('pk')
+			qs = Party.objects.get(pk=party_id)
+			winners_list = qs.winners.all()
+			for w in winners_list:
+				party_obj.winners.remove(w)
+			return reverse_lazy('parties:detail')
 class PartyDetailView(DetailView):
 	template_name = 'parties/party_detail.html'
 
@@ -130,15 +139,10 @@ class PartyDetailView(DetailView):
 			try:
 				winners_list = qs.winners.all()
 				joined_list = qs.joined.all()
-				print("Winners:")
-				for w in winners_list: 
-					print(w)
-				print("Joined:")
 				context['place_in_queue'] = 'Not in queue'
 				count = 0
 				for j in joined_list:
 					count+=1
-					print(j.username)
 					if str(j.username) == str(self.request.user.username):
 						context['place_in_queue'] = count
 				# context['place_in_queue'] = qs.joined_list.index(self.request.user)

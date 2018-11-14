@@ -211,16 +211,12 @@ def queue_dequeue(user, party_obj, number):
 	if party_obj.joined.all().count() < int(number):
 		return {'added':True, 'error_message':"Not enough people in queue"}
 	else:
-		print("111111111111111")
 		joined_list = party_obj.joined.all()
 		count = 0
 		for user in joined_list:
-			print(user)
 			if count >= int(number):
 				break
 			count+=1
-			print("______________")
-			print(count)
 			party_obj.winners.add(user)
 			party_obj.joined.remove(user)
 			return {'added':True, 'error_message':""}
