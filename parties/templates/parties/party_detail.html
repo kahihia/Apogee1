@@ -342,7 +342,7 @@
 								<!-- winners list -->
 								<div class="col-sm-12"> 
 									{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
-										<p>People in queue: {{ serialized. joins }}</p><br>
+										<p>People in queue: {{ serialized.joins }}</p><br>
 										<p>Currently in:</p>
 										{% for winner in serialized.winner_names %}
 										<div class='row justify-content-between mx-1'>
