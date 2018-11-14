@@ -318,11 +318,6 @@
 						<div class='my-3' style="padding: 12px; background: rgba(255,255,255,0.4); box-shadow: 6px 6px 0px rgba(255,255,255,0.5);">
 
 							<div class="row mt-3"> 
-								<!-- title -->
-								<div class="col-sm-12 text-center"> 
-									<p>Winner's box</p>
-								</div>
-
 								<!-- winners list -->
 								<div class="col-sm-12"> 
 									{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
@@ -330,7 +325,7 @@
 										{% for winner in serialized.winner_names %}
 										<div class='row justify-content-between mx-1'>
 											<div>
-												<p>{{ winner }}</p>
+												<p><small>{{ winner }}</small></p>
 											</div>
 											<div>
 												<a href='#' style="text-decoration: none">
