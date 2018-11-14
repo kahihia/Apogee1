@@ -116,7 +116,7 @@ class PartyKickallView(View):
 			winners_list = qs.winners.all()
 			for w in winners_list:
 				qs.winners.remove(w)
-		return redirect('parties:detail', username=username)
+		return redirect('parties:detail')
 
 class PartyDetailView(DetailView):
 	template_name = 'parties/party_detail.html'
