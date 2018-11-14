@@ -114,7 +114,7 @@ class PartyKickallView(DetailView):
 			qs = Party.objects.get(pk=party_id)
 			winners_list = qs.winners.all()
 			for w in winners_list:
-				party_obj.winners.remove(w)
+				qs.winners.remove(w)
 			return reverse_lazy('parties:detail')
 class PartyDetailView(DetailView):
 	template_name = 'parties/party_detail.html'
