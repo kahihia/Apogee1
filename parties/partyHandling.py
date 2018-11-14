@@ -208,8 +208,7 @@ def queue_add_user(user, party_obj):
 	return {'added':True, 'error_message':""}
 
 def queue_dequeue(user, party_obj, number):
-	if party_obj.joined.all().count() > int(number):
-		print("HEREREERERRE")
+	if party_obj.joined.all().count() < int(number):
 		return {'added':True, 'error_message':"Not enough people in queue"}
 	else:
 		print("111111111111111")
