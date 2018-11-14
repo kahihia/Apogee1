@@ -328,13 +328,13 @@
 									{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
 										<p>Winners:</p>
 										{% for winner in serialized.winner_names %}
-										<div class='row justify-content-end'>
+										<div class='row justify-content-between'>
 											<div>
 												<p>{{ winner }}</p>
 											</div>
-											<div class="col-3 justify-content-end">
+											<div>
 												<a href='#' style="text-decoration: none">
-													<button type='button' class='btn btn-primary-new'>Kick</button>
+													<button type='button' class='btn btn-sm btn-primary-new'>Kick</button>
 												</a>
 											</div>
 										</div>
