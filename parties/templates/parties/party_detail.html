@@ -41,17 +41,17 @@
 			<div id='party-container'>
 				<div id="party-room-id" style="display:none">{{serialized.id}}</div>
 				<div class="row mt-3 px-3">
+
 					<!-- Left Sidebar -->
 					<div class="col-md-3">  
 
-							<div class="row">
-								<!-- Event Image -->
-								<div class="col-12">
-									<img class="img-fluid rounded mx-auto mb-3" src="{{serialized.thumbnail_url}}" alt="not here"> 
-								</div>
-								<br  />
+						<div class="row">
+							<!-- Event Image -->
+							<div class="col-12">
+								<img class="img-fluid rounded mx-auto mb-3" src="{{serialized.thumbnail_url}}" alt="not here"> 
 							</div>
-
+							<br  />
+						</div>
 
 					</div>
 
@@ -313,6 +313,58 @@
 							{% endif %}
 
 						</div>
+
+						<!-- winners box -->
+						<div class='my-3' style="padding: 12px; background: rgba(255,255,255,0.4); box-shadow: 6px 6px 0px rgba(255,255,255,0.5);">
+							<!-- leave/clear button -->
+							<div class="mt-3"> 
+								{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
+								<a href='#' style="text-decoration: none">
+									<button type='button' class='btn btn-primary-new btn-block my-3'>Clear winners list</button>
+								</a>	
+								{% else %}
+								<a href='#' style="text-decoration: none">
+									<button type='button' class='btn btn-danger btn-block my-3'>Leave Queue</button>
+								</a>	
+								{% endif %}
+							</div> 
+							
+							<!-- end button for owner -->
+							{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
+							<div class='mt-3'>
+								<a href='#' style="text-decoration: none">
+									<button type='button' class='btn btn-danger btn-block my-3'>Close Queue</button>
+								</a>	
+							</div>
+							{% endif %}
+
+							<div class="row mt-3"> 
+								<!-- winners list -->
+								<div class="col-sm-12"> 
+									{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
+										<p>People in queue: {{ serialized.joins }}</p><br>
+										<p>Currently in:</p>
+										{% for winner in serialized.winner_names %}
+										<div class='row justify-content-between mx-1'>
+											<div>
+												<p><small>{{ winner }}</small></p>
+											</div>
+											<div>
+												<a href='#' style="text-decoration: none">
+													<button type='button' class='btn btn-sm btn-primary-new'><small>Kick</small></button>
+												</a>
+											</div>
+										</div>
+										<hr class='mt-0'>
+										{% endfor %}
+									{% else %}
+										<p>Your place in line is: {{ place_in_queue }}</p>
+									{% endif %}
+								</div>
+							</div>
+
+						</div>
+
 					</div>
 
 				</div>	
