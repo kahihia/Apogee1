@@ -328,7 +328,7 @@
 									{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
 										<p>Winners:</p>
 										{% for winner in serialized.winner_names %}
-										<div class='row justify-content-between'>
+										<div class='row justify-content-between mx-1'>
 											<div>
 												<p>{{ winner }}</p>
 											</div>
