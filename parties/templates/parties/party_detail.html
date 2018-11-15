@@ -194,9 +194,13 @@
 								</div>
 
 								<!-- # Joined -->
-								{% if serialized.event_type == 1 or serialized.event_type == 4 %}
+								{% if serialized.event_type == 1 %}
 								<div class="col-sm-12"> 
-									<p class=""><span id="num_joined" name="num_joined"> {{serialized.joins}} </span> <small class="">Joined</small></p>
+									<p class=""><span id="num_joined" name="num_joined">{{serialized.joins}} </span><small class="">Joined</small></p>
+								</div>
+								{% elif serialized.event_type == 4 %}
+								<div class="col-sm-12"> 
+									<p class=""><span id="num_joined" name="num_joined">{{serialized.joins}} </span><small class="">In Queue</small></p>
 								</div>
 								{% endif %}
 
