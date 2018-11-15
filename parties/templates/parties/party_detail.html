@@ -338,7 +338,7 @@
 							</div>	
 
 							<!-- fan leave button -->
-							{% elif serialized.event_type == 4 %}
+							{% elif serialized.event_type == 4 and serialized.did_join %}
 							<div class='mt-3'>
 								<a href='#' style="text-decoration: none">
 									<button type='button' class='btn btn-danger btn-block my-3'>Leave Queue</button>
