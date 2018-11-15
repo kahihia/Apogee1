@@ -144,6 +144,16 @@ class PartyCloseView(View):
 				qs.save2(update_fields=['is_open'])
 		return redirect('parties:detail', pk=party_id)
 
+class PartyLeaveView(View):
+	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated:
+			party_id = self.kwargs.get('pk')
+			objs = Party.objects.filter(pk=party_id)
+			qs = objs.first()
+			if qs.event_type==4:
+				qs.joined.remove(request.user)
+		return redirect('parties:detail', pk=party_id)
+
 class PartyDetailView(DetailView):
 	template_name = 'parties/party_detail.html'
 

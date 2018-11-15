@@ -14,7 +14,8 @@ from .views import (
 		PartyDuplicateView,
 		PartyKickallView,
 		PartyKickView,
-		PartyCloseView, 
+		PartyCloseView,
+		PartyLeaveView, 
 	)
 
 # app name specifies how we refer to these urls
@@ -36,4 +37,5 @@ urlpatterns = [
     path('<int:pk>/kickall/', PartyKickallView.as_view(), name='kickall'), # /1/duplicate
     path('<int:pk>/kick/<username>', PartyKickView.as_view(), name='kick'),
     path('<int:pk>/close/', PartyCloseView.as_view(), name='close'),
+    path('<int:pk>/leavequeue/', PartyLeaveView.as_view(), name='leavequeue'),
 ]
