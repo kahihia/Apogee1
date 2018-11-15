@@ -113,10 +113,26 @@ class PartyKickallView(View):
 			party_id = self.kwargs.get('pk')
 			objs = Party.objects.filter(pk=party_id)
 			qs = objs.first()
-			winners_list = qs.winners.all()
-			for w in winners_list:
-				qs.winners.remove(w)
+			if request.user is qs.user:
+				winners_list = qs.winners.all()
+				for w in winners_list:
+					qs.winners.remove(w)
 		return redirect('parties:detail', pk=party_id)
+
+class PartKickView(View):
+	def get(self, request, username, *args, **kwargs):
+		if request.user.is_authenticated:
+			party_id = self.kwargs.get('pk')
+			objs = Party.objects.filter(pk=party_id)
+			qs = objs.first()
+			if request.user is qs.user:
+				winners_list = qs.winners.all()
+				for w in winners_list:
+					if w.username == username:
+						qs.winners.remove(w)
+						break
+		return redirect('parties:detail', pk=party_id)
+
 
 class PartyDetailView(DetailView):
 	template_name = 'parties/party_detail.html'

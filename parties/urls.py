@@ -32,4 +32,5 @@ urlpatterns = [
     path('<int:pk>/delete/', PartyDeleteView.as_view(), name='delete'), # /1/delete
     path('<int:pk>/duplicate/', PartyDuplicateView.as_view(), name='duplicate'), # /1/duplicate
     path('<int:pk>/kickall/', PartyKickallView.as_view(), name='kickall'), # /1/duplicate
+    path('<int:pk>/kick/<username>', PartyKickView.as_view(), name='kick'),
 ]
