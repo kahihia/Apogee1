@@ -301,7 +301,7 @@
 						</div>
 
 						<!-- winners box -->
-						{% if serialized.is_owner or serialized.event_type == 4 or request.user.username in serialized.winners_list}
+						{% if serialized.is_owner or serialized.event_type == 4 or request.user.username in serialized.winners_list %}
 						<div class='my-3' style="padding: 12px; background: rgba(255,255,255,0.4); box-shadow: 6px 6px 0px rgba(255,255,255,0.5);">
 							<!-- if owner and queue -->
 							{% if serialized.is_owner and serialized.event_type == 4 %}
@@ -387,8 +387,8 @@
 									{% endif %}
 								</div>
 							</div>
-
 						</div>
+						{% endif %}
 
 					</div>
 
