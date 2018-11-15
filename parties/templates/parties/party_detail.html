@@ -371,6 +371,7 @@
 												<p><small>{{ winner }}</small></p>
 											</div>
 											<hr class='mt-0'>
+										{% endfor %}
 									<!-- if winner and not queue, show winners -->
 									{% elif request.user.username in serialized.winner_names %}
 										<p>Currently in:</p>
@@ -379,6 +380,7 @@
 												<p><small>{{ winner }}</small></p>
 											</div>
 											<hr class='mt-0'>
+										{% endfor %}
 									<!-- if not winner and queue, show place in line -->
 									{% elif serialized.event_type == 4 %}
 										<p>Your place in line is: {{ place_in_queue }}</p>
