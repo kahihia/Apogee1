@@ -68,11 +68,6 @@ function addJoinFunctionality(){
       let bid = document.getElementsByName("bid_amount")[0].value
       joinedUrl = '/api/events/' + partyID + '/join/'+ bid
     }
-    if(partyType==4){
-      let is_owner = document.getElementsByName("is_owner")[0].value
-      console.log("RUTHEOWNER")
-      console.log(is_owner)
-    }
     
     // ajax accesses the api
     $.ajax({
