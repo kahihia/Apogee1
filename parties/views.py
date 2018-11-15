@@ -126,12 +126,9 @@ class PartyKickView(View):
 			objs = Party.objects.filter(pk=party_id)
 			qs = objs.first()
 			if request.user == qs.user:
-				print("eefshfjsfkhhsdfhdfsjhfshjasdfjhskgjdfjgfajgjgkasf")
 				winners_list = qs.winners.all()
 				for w in winners_list:
-					print(w)
 					if w.username == username:
-						print("HERE I AM ROCK U LIKE HIRUCUCASHDND")
 						qs.winners.remove(w)
 						break
 		return redirect('parties:detail', pk=party_id)
