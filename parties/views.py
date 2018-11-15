@@ -119,7 +119,7 @@ class PartyKickallView(View):
 					qs.winners.remove(w)
 		return redirect('parties:detail', pk=party_id)
 
-class PartKickView(View):
+class PartyKickView(View):
 	def get(self, request, username, *args, **kwargs):
 		if request.user.is_authenticated:
 			party_id = self.kwargs.get('pk')

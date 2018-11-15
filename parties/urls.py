@@ -13,7 +13,7 @@ from .views import (
 		JoinedListView,
 		PartyDuplicateView,
 		PartyKickallView,
-		PartKickView, 
+		PartyKickView, 
 	)
 
 # app name specifies how we refer to these urls
