@@ -178,10 +178,8 @@
 									{% endif %}
 									{% if serialized.event_type == 4 %}
 										<p class="">
-											<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Queue"></i>
+											<i class="fas fa-user-friends grey-color" data-toggle="tooltip" data-placement="top" title="Queue"></i>
 											$<span id="cost">{{serialized.cost}}</span>
-											<br>
-											Place in queue: <span id="place">{{place_in_queue}}</span>
 										</p>
 									{% endif %}
 								</div>
@@ -196,9 +194,13 @@
 								</div>
 
 								<!-- # Joined -->
-								{% if serialized.event_type == 1 or serialized.event_type == 4 %}
+								{% if serialized.event_type == 1 %}
 								<div class="col-sm-12"> 
-									<p class=""><span id="num_joined" name="num_joined"> {{serialized.joins}} </span> <small class="">Joined</small></p>
+									<p class=""><span id="num_joined" name="num_joined">{{serialized.joins}} </span><small class="">Joined</small></p>
+								</div>
+								{% elif serialized.event_type == 4 %}
+								<div class="col-sm-12"> 
+									<p class=""><span id="num_joined" name="num_joined">{{serialized.joins}} </span><small class="">In Queue</small></p>
 								</div>
 								{% endif %}
 
@@ -215,7 +217,7 @@
 									{% if serialized.event_type == 3 %}
 										<p class=""> <span id="num_possible_winners" name="num_possible_winners">{{serialized.num_possible_winners}}</span> 
 										 <small class="">Spots total</small></p>
-									{% elif serialized.num_possible_winners %}
+									{% elif serialized.event_type == 1 or serialized.event_type == 2 %}
 										<p> <span id="num_possible_winners" name="num_possible_winners">{{serialized.num_possible_winners}}</span><small> Winners possible</small></p>
 									{%endif%}
 								</div>
@@ -230,20 +232,6 @@
 									<div class="col-sm-20">
 										<input type="hidden" name="party_id" value="{{serialized.id}}">
 									</div>
-								{%endif%}
-								{% if serialized.is_owner and serialized.event_type == 4 %}
-									<form id= "request-input" method="GET">
-										<div class="col-sm-12 form-group mb-1" id="div_request_input">
-											<input type="number" class="form-control" step="1" id="request_amount" name="request_amount" value="0">
-										</div>
-									</form>
-									<div class="col-sm-20">
-										<input type="hidden" name="party_id" value="{{serialized.id}}">
-									</div>
-									<div class="col-sm-20">
-										<input type="hidden" name="is_owner" value="{{serialized.is_owner}}">
-									</div>
-									<button type="button" class="btn btn-primary-new btn-block requestBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> user stuff </button>
 								{%endif%}
 							</div>
 
@@ -315,55 +303,94 @@
 						</div>
 
 						<!-- winners box -->
+						{% if serialized.is_owner or serialized.event_type == 4 or request.user.username in serialized.winners_list %}
 						<div class='my-3' style="padding: 12px; background: rgba(255,255,255,0.4); box-shadow: 6px 6px 0px rgba(255,255,255,0.5);">
-							<!-- leave/clear button -->
-							<div class="mt-3"> 
-								{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
-								<a href='{{serialized.id}}/kickall/' style="text-decoration: none">
-									<button type='button' class='btn btn-primary-new btn-block my-3'>Clear winners list</button>
-								</a>	
-								{% else %}
-								<a href='{{serialized.id}}/leavequeue/' style="text-decoration: none">
-									<button type='button' class='btn btn-danger btn-block my-3'>Leave Queue</button>
-								</a>	
-								{% endif %}
-							</div> 
+							<!-- if owner and queue -->
+							{% if serialized.is_owner and serialized.event_type == 4 %}
+							<!-- owner pull field -->
+							<div class='mt-3'>
+								<form id= "request-input" method="GET">
+									<div class="col-sm-12 form-group mb-1" id="div_request_input">
+										<input type="number" class="form-control" step="1" id="request_amount" name="request_amount" value="0">
+									</div>
+								</form>
+								<div class="col-sm-20">
+									<input type="hidden" name="party_id" value="{{serialized.id}}">
+								</div>
+								<div class="col-sm-20">
+									<input type="hidden" name="is_owner" value="{{serialized.is_owner}}">
+								</div>
+								<button type="button" class="btn btn-primary-new btn-block requestBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}">Pull from queue</button>
+							</div>
 							
-							<!-- end button for owner -->
-							{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
+							<!-- owner clear button -->
+							<div class="mt-3"> 
+								<a href='#' style="text-decoration: none">
+									<button type='button' class='btn btn-primary-new btn-block my-3'>Clear winners list</button>
+								</a>
+							</div>
+
+							<!-- owner close button -->
 							<div class='mt-3'>
 								<a href='{{serialized.id}}/close/' style="text-decoration: none">
 									<button type='button' class='btn btn-danger btn-block my-3'>Close Queue</button>
 								</a>	
-							</div>
+							</div>	
+
+							<!-- fan leave button -->
+							{% elif serialized.event_type == 4 and serialized.did_join %}
+							<div class='mt-3'>
+								<a href='#' style="text-decoration: none">
+									<button type='button' class='btn btn-danger btn-block my-3'>Leave Queue</button>
+								</a>
+							</div>	
 							{% endif %}
 
 							<div class="row mt-3"> 
 								<!-- winners list -->
 								<div class="col-sm-12"> 
-									{% if serialized.user.id == request.user.id and request.user.is_authenticated %}
-										<p>People in queue: {{ serialized.joins }}</p><br>
+									<!-- if owner and queue, show winners with kick -->
+									{% if serialized.is_owner and serialized.event_type == 4 %}
 										<p>Currently in:</p>
 										{% for winner in serialized.winner_names %}
-										<div class='row justify-content-between mx-1'>
+											<div class='row justify-content-between mx-1'>
+												<div>
+													<p><small>{{ winner }}</small></p>
+												</div>
+												<div>
+													<a href='{{serialized.id}}/kick/{{winner}}' style="text-decoration: none">
+													<button type='button' class='btn btn-sm btn-primary-new'><small>Kick</small></button>
+												</a>
+												</div>
+											</div>
+											<hr class='mt-0'>
+										{% endfor %}
+									<!-- if owner and not queue, show winners -->
+									{% elif serialized.is_owner and serialized.event_type != 4 %}
+										<p>Currently in:</p>
+										{% for winner in serialized.winner_names %}
 											<div>
 												<p><small>{{ winner }}</small></p>
 											</div>
-											<div>
-												<a href='{{serialized.id}}/kick/{{winner}}' style="text-decoration: none">
-													<button type='button' class='btn btn-sm btn-primary-new'><small>Kick</small></button>
-												</a>
-											</div>
-										</div>
-										<hr class='mt-0'>
+											<hr class='mt-0'>
 										{% endfor %}
-									{% else %}
+									<!-- if winner and not queue, show winners -->
+									{% elif request.user.username in serialized.winner_names %}
+										<p>Currently in:</p>
+										{% for winner in serialized.winner_names %}
+											<div>
+												<p><small>{{ winner }}</small></p>
+											</div>
+											<hr class='mt-0'>
+										{% endfor %}
+									<!-- if not winner and queue, show place in line -->
+									{% elif serialized.event_type == 4 %}
 										<p>Your place in line is: {{ place_in_queue }}</p>
 									{% endif %}
 								</div>
 							</div>
-
 						</div>
+						{% endif %}
 
 					</div>
 
