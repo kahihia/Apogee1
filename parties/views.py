@@ -113,7 +113,7 @@ class PartyKickallView(View):
 			party_id = self.kwargs.get('pk')
 			objs = Party.objects.filter(pk=party_id)
 			qs = objs.first()
-			if request.user is qs.user:
+			if request.user == qs.user:
 				winners_list = qs.winners.all()
 				for w in winners_list:
 					qs.winners.remove(w)
