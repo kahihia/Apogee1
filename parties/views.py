@@ -122,15 +122,15 @@ class PartyKickallView(View):
 class PartyKickView(View):
 	def get(self, request, username, *args, **kwargs):
 		if request.user.is_authenticated:
-			print("___________________")
-			print(username)
 			party_id = self.kwargs.get('pk')
 			objs = Party.objects.filter(pk=party_id)
 			qs = objs.first()
 			if request.user is qs.user:
 				winners_list = qs.winners.all()
 				for w in winners_list:
+					print(w)
 					if w.username == username:
+						print("HERE I AM ROCK U LIKE HIRUCUCASHDND")
 						qs.winners.remove(w)
 						break
 		return redirect('parties:detail', pk=party_id)
