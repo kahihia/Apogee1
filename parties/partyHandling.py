@@ -211,19 +211,18 @@ def queue_dequeue(user, party_obj, number):
 	if party_obj.joined.all().count() < int(number):
 		return {'added':True, 'error_message':"Not enough people in queue"}
 	else:
-		print("111111111111111")
 		joined_list = party_obj.joined.all()
 		count = 0
 		for user in joined_list:
-			print(user)
 			if count >= int(number):
 				break
-			count+=1
-			print("______________")
-			print(count)
-			party_obj.winners.add(user)
+			if user.profile.account_balance>=party_obj.cost:
+				count+=1
+				partyTransactions.buy_lottery_reduction(user, party_obj)
+				partyTransactions.add_money(party_obj.user, party_obj.cost)
+				party_obj.winners.add(user)
 			party_obj.joined.remove(user)
-			return {'added':True, 'error_message':""}
+		return {'added':True, 'error_message':""}
 
 ########################### END QUEUE FUNCTIONS #################################
 
@@ -537,8 +536,8 @@ def queue_add(user, party_obj):
 		event_info = event_user_already_in_event(party_obj)
 	#if user does not have enough money in their account
 	#returns dict with joined=false and error_message
-	elif user.profile.account_balance<party_obj.cost:
-		event_info = event_insufficient_funds()
+	# elif user.profile.account_balance<party_obj.cost:
+	# 	event_info = event_insufficient_funds()
 	# If there is no cap on how many users can enter the party
 	# add user to joined list
 	# returns dict with joined = True and error_message
