@@ -91,15 +91,15 @@ always added in to other form displays -->
 						{{ form.event_type }}
 					</div>
 				</div>
-				<div class="col-md-6 mt-1">
-					<div class="form-group">
+				<div class="col-md-6">
+					<div class="form-group" id="id_num_possible_winners" hidden>
 						{{ form.num_possible_winners.errors }}
 						{{ form.num_possible_winners.label_tag }}
 						{{ form.num_possible_winners }}
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="form-group">
+					<div class="form-group" id="id_max_entrants" hidden>
 						{{ form.max_entrants.errors }}
 						{{ form.max_entrants.label_tag }}
 						{{ form.max_entrants }}

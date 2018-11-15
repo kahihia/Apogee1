@@ -3,7 +3,7 @@
 # for Django, so htye are a bit magicky
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.urls import reverse
@@ -107,6 +107,53 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 # the mixin requires you to be logged in to view events
 # because of the way the detail HTML is named, we don't need to 
 # specify it here. model_view (party_detail this time) is recognized automatically
+class PartyKickallView(View):
+	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated:
+			party_id = self.kwargs.get('pk')
+			objs = Party.objects.filter(pk=party_id)
+			qs = objs.first()
+			if request.user == qs.user and qs.event_type==4:
+				winners_list = qs.winners.all()
+				for w in winners_list:
+					qs.winners.remove(w)
+		return redirect('parties:detail', pk=party_id)
+
+class PartyKickView(View):
+	def get(self, request, username, *args, **kwargs):
+		if request.user.is_authenticated:
+			party_id = self.kwargs.get('pk')
+			objs = Party.objects.filter(pk=party_id)
+			qs = objs.first()
+			if request.user == qs.user and qs.event_type==4:
+				winners_list = qs.winners.all()
+				for w in winners_list:
+					if w.username == username:
+						qs.winners.remove(w)
+						break
+		return redirect('parties:detail', pk=party_id)
+
+class PartyCloseView(View):
+	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated:
+			party_id = self.kwargs.get('pk')
+			objs = Party.objects.filter(pk=party_id)
+			qs = objs.first()
+			if request.user == qs.user and qs.event_type==4:
+				qs.is_open = False
+				qs.save2(update_fields=['is_open'])
+		return redirect('parties:detail', pk=party_id)
+
+class PartyLeaveView(View):
+	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated:
+			party_id = self.kwargs.get('pk')
+			objs = Party.objects.filter(pk=party_id)
+			qs = objs.first()
+			if qs.event_type==4:
+				qs.joined.remove(request.user)
+		return redirect('parties:detail', pk=party_id)
+
 class PartyDetailView(DetailView):
 	template_name = 'parties/party_detail.html'
 
@@ -126,6 +173,23 @@ class PartyDetailView(DetailView):
 				raise PermissionDenied
 		context['request'] = self.request
 		context['serialized'] = serialized_context
+		if qs.event_type == 4:
+			try:
+				winners_list = qs.winners.all()
+				joined_list = qs.joined.all()
+				context['place_in_queue'] = 'Not in queue'
+				count = 0
+				for j in joined_list:
+					count+=1
+					if str(j.username) == str(self.request.user.username):
+						context['place_in_queue'] = count
+				# context['place_in_queue'] = qs.joined_list.index(self.request.user)
+			except Exception as e: 
+				print(e)
+				context['place_in_queue'] = 'Not in queue'
+
+		else:
+			context['place_in_queue'] = 'None'
 		return context
 
 	# use 'template_name' to use a custom template name

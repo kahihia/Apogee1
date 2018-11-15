@@ -31,6 +31,7 @@ function renderPartyList(partyContainerID){
   let lottery_icon = '<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i>';
   let bid_icon = '<i class="fas fa-gavel grey-color" data-toggle="tooltip" data-placement="top" title="Auction"></i>';
   let buy_icon = '<i class="fa fa-donate grey-color" data-toggle="tooltip" data-placement="top" title="Buy Now"></i>';
+  let queue_icon = '<i class="fas fa-user-friends grey-color" data-toggle="tooltip" data-placement="top" title="Queue"></i>';
   let closed_icon = '<i class="fas fa-ban grey-color"></i>';
   let check_icon = '<i class="fas fa-check-circle"></i>';
 
@@ -149,6 +150,8 @@ function renderPartyList(partyContainerID){
       type_icon = bid_icon
     } else if (partyValue.event_type == 3) {
       type_icon = buy_icon
+    } else if (partyValue.event_type == 4) {
+      type_icon = queue_icon
     }
 
     // adds small closed icon if event is closed. the tooltip explains the icon
