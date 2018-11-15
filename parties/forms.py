@@ -10,10 +10,10 @@ from boto.s3.key import Key
 class PartyModelForm(forms.ModelForm):
 	# the altered form fields are for formatting on the create page
 	# form-control allows bootstrap to format the form
-	title = forms.CharField(label='', max_length=140, widget=forms.Textarea(
+	title = forms.CharField(label='', max_length=140, required=False, widget=forms.Textarea(
 		attrs={'placeholder': 'Title for your event', 'class': 'form-control', 'rows': 1}
 		))
-	description = forms.CharField(label='', max_length=280, widget=forms.Textarea(
+	description = forms.CharField(label='', max_length=280, required=False, widget=forms.Textarea(
 		attrs={'placeholder': 'Event description', 'class': 'form-control', 'rows': 4}
 		))
 	# localize tells us that this is in localtime so it converts to UTC for storage
@@ -30,14 +30,13 @@ class PartyModelForm(forms.ModelForm):
 	# 			(500, 500), 
 	# 			(1000, 1000)))
 
-	num_possible_winners = forms.IntegerField(label='Number of possible winners', min_value=1, initial=1, 
+	num_possible_winners = forms.IntegerField(label='Number of possible winners', min_value=1, initial=1,
 		widget=forms.NumberInput(attrs={'placeholder': 'Minimum of 1 winner', 'class': 'form-control'}))
-	
 
-	cost = forms.DecimalField(label='Cost ($)', min_value=0, widget=forms.NumberInput(
-		attrs={'placeholder': 'For a FREE event, enter 0', 'class': 'form-control'}))
+	cost = forms.DecimalField(label='Cost ($)', min_value=0, initial=0, 
+		widget=forms.NumberInput(attrs={'placeholder': 'For a FREE event, enter 0', 'class': 'form-control'}))
 
-	thumbnail = forms.ImageField(label='Upload Thumbnail')
+	thumbnail = forms.ImageField(label='Upload Thumbnail', required=False)
 
 	is_twitch_event = forms.BooleanField(label="Twitch subscribers only", required=False)
 
@@ -78,8 +77,8 @@ class PartyModelForm(forms.ModelForm):
 	
 	def clean_party_time(self, *args, **kwargs):
 		party_time = self.cleaned_data.get('party_time')
-		if party_time < timezone.now():
-			raise forms.ValidationError('Event cannot be in the past.')
+		if party_time < timezone.now() + timezone.timedelta(minutes=2):
+			raise forms.ValidationError('Event must be at least two minutes in the future.')
 		return party_time
 
 	def clean_upload(self):

@@ -57,8 +57,8 @@ always added in to other form displays -->
 				{{ form.thumbnail.errors }}
 				{{ form.thumbnail.label_tag }}
 				{{ form.thumbnail }}
-				<br>
-				<p><small>Use an aspect ratio of 16:9 (Youtube thumbnail aspect ratio) for best results</small></p>
+				<p class='mb-0'><small class='text-muted'>Use an aspect ratio of 16:9 for best results</small></p>
+				<p><small class='text-muted'>Leave blank for default Granite thumbnail.</small></p>
 			</div>
 		</div>
 		<div class="">
@@ -68,6 +68,7 @@ always added in to other form displays -->
 						{{ form.title.errors }}
 						{{ form.title.label_tag }}
 						{{ form.title }}
+						<p><small class='text-muted'>The title will auto-fill if left blank. ex: "Caldwell's Queue"</small></p>
 					</div>
 				</div>
 				<div class="col-md-12">
@@ -75,6 +76,7 @@ always added in to other form displays -->
 						{{ form.description.errors }}
 						{{ form.description.label_tag }}
 						{{ form.description }}
+						<p><small class='text-muted'>The description will auto-fill if left blank.</small></p>
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -108,6 +110,7 @@ always added in to other form displays -->
 						{{ form.cost.errors }}
 						{{ form.cost.label_tag }}
 						{{ form.cost }}
+						<p><small class='text-muted'>For free events, enter 0.</small></p>
 					</div>
 				</div>
 				<div class="col-md-6">

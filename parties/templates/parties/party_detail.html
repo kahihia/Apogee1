@@ -45,12 +45,17 @@
 					<!-- Left Sidebar -->
 					<div class="col-md-3">  
 
-						<div class="row">
-							<!-- Event Image -->
-							<div class="col-12">
-								<img class="img-fluid rounded mx-auto mb-3" src="{{serialized.thumbnail_url}}" alt="not here"> 
-							</div>
-							<br  />
+							<div class="row">
+								<!-- Event Image -->
+								<div class="col-12">
+									{% if serialized.thumbnail_url %}
+									<img class="img-fluid rounded mx-auto mb-3" src="{{serialized.thumbnail_url}}" alt="not here"> 
+									{% else %}
+									<img class='img-fluid rounded mx-auto mb-3' src="{% static 'media/thumbnails/default_thumbnail.png'%}" alt=
+									'not here'>
+									{% endif %}
+								</div>
+								<br  />
 						</div>
 
 					</div>
@@ -237,6 +242,9 @@
 
 							<!-- Button Bid/Buy/Join -->
 							<div class=""> 
+								{% if serialized.is_twitch_event %}
+								<p><small>This event is for {{ serialized.user.username }}'s Twitch subscribers only.</small></p>
+								{% endif %}
 								{% if not serialized.is_owner and not serialized.did_join and request.user.is_authenticated and serialized.is_open and not blocked %}
 									{% with "Enter Lottery" as lottery_text %}  
 									{% with "Submit a Bid" as bid_text %}  

@@ -73,10 +73,10 @@
           if (notifValue.action == 'owner_event_close'){
             notif_text = 'Your event, <strong>' + notifValue.party_title + '</strong>, has closed.'
           } else if (notifValue.action == 'owner_reminder'){
-            notif_text = 'Your event, <strong>' + notifValue.party_title + '</strong>, starts in 10 minutes!'
+            notif_text = 'Your event, <strong>' + notifValue.party_title + '</strong>, starts in 2 minutes!'
           } else if (notifValue.action == 'fan_reminder'){
             notif_text = '<strong>' + notifValue.party_title + '</strong>, with <strong>' + notifValue.party_owner + 
-            '</strong>, begins in 10 minutes!'
+            '</strong>, begins in 2 minutes!'
           } else if (notifValue.action == 'fan_win'){
             notif_text = "You're going to <strong>" + notifValue.party_title + '</strong> with <strong>' + 
             notifValue.party_owner + '</strong> on <strong>' + notifValue.party_time + '</strong>'

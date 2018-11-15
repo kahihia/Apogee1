@@ -169,10 +169,17 @@ function renderPartyList(partyContainerID){
     // card model from bootstrap. it has a top image, a body section 
     // for the title and description, and a footer for name, time, 
     // event type, and star
+    if (partyValue.thumbnail_url){
+      thumbnail = partyValue.thumbnail_url
+    }
+    else {
+      thumbnail = '/static/media/thumbnails/default_thumbnail.png'
+    }
+
     let container =  
     '<div class="card home-card mr-4">' + 
       '<a class="text-light" href="/events/' + partyValue.id + '"">' +
-        '<div class="card-img-top" style="background-image: url('+ partyValue.thumbnail_url + ')"></div>' + 
+        '<div class="card-img-top" style="background-image: url('+ thumbnail + ')"></div>' + 
       '</a>' +
       '<div class="card-body">' + 
         '<a class="text-light" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
