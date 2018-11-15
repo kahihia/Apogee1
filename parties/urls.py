@@ -13,7 +13,8 @@ from .views import (
 		JoinedListView,
 		PartyDuplicateView,
 		PartyKickallView,
-		PartyKickView, 
+		PartyKickView,
+		PartyCloseView, 
 	)
 
 # app name specifies how we refer to these urls
@@ -34,4 +35,5 @@ urlpatterns = [
     path('<int:pk>/duplicate/', PartyDuplicateView.as_view(), name='duplicate'), # /1/duplicate
     path('<int:pk>/kickall/', PartyKickallView.as_view(), name='kickall'), # /1/duplicate
     path('<int:pk>/kick/<username>', PartyKickView.as_view(), name='kick'),
+    path('<int:pk>/close/', PartyCloseView.as_view(), name='close'),
 ]
