@@ -122,6 +122,8 @@ class PartyKickallView(View):
 class PartyKickView(View):
 	def get(self, request, username, *args, **kwargs):
 		if request.user.is_authenticated:
+			print("___________________")
+			print(username)
 			party_id = self.kwargs.get('pk')
 			objs = Party.objects.filter(pk=party_id)
 			qs = objs.first()

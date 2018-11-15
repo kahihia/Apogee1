@@ -128,7 +128,7 @@ class BidAPIView(APIView):
 			if request.user.is_authenticated:
 				if request.user == party_qeryset.first().user:
 					queue_table = partyHandling.queue_dequeue(request.user, party_qeryset.first(), bids)
-					return Response({'error_message':str(bids)})
+					return Response({'error_message':""})
 				else:
 					return Response({'error_message':'You must be the owner of this event to make this request'})
 

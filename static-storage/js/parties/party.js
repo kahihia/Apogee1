@@ -24,7 +24,6 @@ function addRequestFunctionality(){
     let partyType = this_.attr('event-id')
     let joinedUrl;
     let requestAmount = document.getElementsByName("request_amount")[0].value
-    alert("looolololol")
     if(partyType==4){
       alert(requestAmount);
       joinedUrl = '/api/events/' + partyID + '/join/'+ requestAmount;
