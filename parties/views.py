@@ -110,12 +110,15 @@ class PartyCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 class PartyKickallView(View):
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
+			print(1)
 			party_id = self.kwargs.get('pk')
 			objs = Party.objects.filter(pk=party_id)
 			qs = objs.first()
 			if request.user == qs.user and qs.event_type==4:
+				print(2)
 				winners_list = qs.winners.all()
 				for w in winners_list:
+					print(3)
 					qs.winners.remove(w)
 		return redirect('parties:detail', pk=party_id)
 
