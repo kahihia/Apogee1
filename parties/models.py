@@ -189,7 +189,8 @@ class Party(models.Model):
 		super(Party, self).save(*args, **kwargs)
 		self.minimum_bid = self.cost
 		self.time_pts = self.set_time_pts()
-		self.task_id = self.schedule_pick_winner()
+		if not self.event_type == 4:
+			self.task_id = self.schedule_pick_winner()
 
 		# sets default text for title and description
 		if not self.title:
