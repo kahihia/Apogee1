@@ -191,7 +191,7 @@
 
 								<!-- Time Until Close -->
 								<div class="col-sm-12"> 
-									{% if serialized.is_open %}
+									{% if serialized.is_open and serialized.event_type != 4 %}
 									<p class=""> 
 										{{ serialized.timeuntil}} <small class=""> until close</small>
 									</p>
