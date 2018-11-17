@@ -12,6 +12,12 @@ def buy_lottery_reduction(user, party_obj):
 	curr_balance = user.profile.account_balance - party_obj.cost
 	user.profile.account_balance = curr_balance
 	user.profile.save(update_fields=['account_balance'])
+
+
+def add_money(user, amount):
+	curr_balance = user.profile.account_balance + amount
+	user.profile.account_balance = curr_balance
+	user.profile.save(update_fields=['account_balance'])
 #on outbid, returns bid_obj value to user account balance
 #this function is never called currently because we have
 #an on_delete method on bid object

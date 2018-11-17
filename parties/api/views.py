@@ -124,6 +124,13 @@ class BidAPIView(APIView):
 								'min_bid': bid_table["min_bid"],
 								'error_message':bid_table["error_message"]
 								})
+		if party_event_type == 4:
+			if request.user.is_authenticated:
+				if request.user == party_qeryset.first().user:
+					queue_table = partyHandling.queue_dequeue(request.user, party_qeryset.first(), bids)
+					return Response({'error_message':queue_table["error_message"]})
+				else:
+					return Response({'error_message':'You must be the owner of this event to make this request'})
 
 
 
@@ -148,12 +155,19 @@ class BuyoutLotteryAPIView(APIView):
 			'min_bid':party_qeryset.first().minimum_bid,
 			'error_message':"Improper input"
 			})
-		else:
+		elif party_event_type == 3:
 			if request.user.is_authenticated:
 				buy_table = partyHandling.buyout_add(request.user, party_qeryset.first())
 				return Response({'won':buy_table["winner"],
 								'num_curr_winners':buy_table["num_winners"],
 								'error_message':buy_table["error_message"]
+								})
+		elif party_event_type == 4:
+			if request.user.is_authenticated:
+				queue_table = partyHandling.queue_add(request.user, party_qeryset.first())
+				return Response({'joined': queue_table["is_joined"],
+								'num_joined':queue_table["num_joined"],
+								'error_message':queue_table["error_message"],
 								})
 
 # used to async create events and push them to the api list
