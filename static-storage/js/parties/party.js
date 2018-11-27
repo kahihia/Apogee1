@@ -16,6 +16,22 @@ function updateHashLinks(){
 }
 
 
+
+setInterval(function()
+{
+  alert("HHHHHHHHHHHHh")
+    // $.ajax({
+    //     type: "get",
+    //     url: "my-script.php",
+    //     success:function(data)
+    //     {
+    //         //console.log the response
+    //         console.log(data);
+    //     }
+    // });
+}, 10000); //10000 milliseconds = 10 seconds
+
+
 function addRequestFunctionality(){
    $(document.body).on("click", '.requestBtn', function(e){
     e.preventDefault();
