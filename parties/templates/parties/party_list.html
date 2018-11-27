@@ -55,7 +55,7 @@ $(document).ready(function() {
                     <div class="card card-profile text-center">
                         <div class="card-block">
                             {% if party_list %}
-                            <img alt="" class="card-img-profile" src="{{ party_list.first.user.profile.profile_picture }}">
+                            <img alt="" class="card-img-profile" src="{{ party_list.first.user.profile.profile_picture.url }}">
                             <h4 class="card-title px-4">
                                 {{ party_list.first.user.username }}
                                 <small>{{ party_list.first.user.profile.bio }}</small>
