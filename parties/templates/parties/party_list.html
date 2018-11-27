@@ -60,7 +60,7 @@ $(document).ready(function() {
                                 {{ party_list.first.user.username }}
                                 <small>{{ party_list.first.user.profile.bio }}</small>
                             </h4>
-                            <a href="">
+                            <a href="{{ party_list.first.user.get_absolute_url }}">
                                 <button class="btn btn-new btn-primary-new">View Profile</button>
                             </a>
                             {% else %}
