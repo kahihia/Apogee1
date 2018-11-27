@@ -19,7 +19,11 @@ function updateHashLinks(){
 
 setInterval(function()
 {
-  alert("HHHHHHHHHHHHh")
+  let this_ = $(this)
+  let partyID = this_.attr('data-id')
+  let partyType = this_.attr('event-id')
+  let joinedUrl;
+  alert(partyID)
     // $.ajax({
     //     type: "get",
     //     url: "my-script.php",
