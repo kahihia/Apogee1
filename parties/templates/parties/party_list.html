@@ -49,18 +49,30 @@ $(document).ready(function() {
                     <h1 class="text-left">Don't just watch.<br> Join and play!</h1>
                     <h4 class="text-left">Connect with your favorite creators in a new way.</h4>
                 </div>
+
+                <!-- featured creator -->
                 <div class="col-lg-5 offset-lg-0 col-sm-8 offset-sm-2 col-xs-12">
                     <div class="card card-profile text-center">
                         <div class="card-block">
-                            <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+                            {% if party_list %}
+                            <img alt="" class="card-img-profile" src="{{ party_list.first.user.profile.profile_picture }}">
                             <h4 class="card-title px-4">
-                          John Smith
-                          <small>John Smith is a detective with LA PD. Little does he know he is secretly a vampire.</small>
-                          
-                        </h4>
+                                {{ party_list.first.user.username }}
+                                <small>{{ party_list.first.user.profile.bio }}</small>
+                            </h4>
                             <a href="">
                                 <button class="btn btn-new btn-primary-new">View Profile</button>
                             </a>
+                            {% else %}
+                            <img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+                            <h4 class="card-title px-4">
+                                John Smith
+                                <small>John Smith is a detective with LA PD. Little does he know he is secretly a vampire.</small>
+                            </h4>
+                            <a href="">
+                                <button class="btn btn-new btn-primary-new">View Profile</button>
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
