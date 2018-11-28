@@ -57,7 +57,11 @@ $(document).ready(function() {
                             {% if party_list %}
                             <img alt="" class="card-img-profile" src="{{ party_list.first.user.profile.profile_picture.url }}">
                             <h4 class="card-title px-4">
-                                {{ party_list.first.user.username }}
+                                {% if party_list.first.user.profile.is_verified %}
+                                    {{ party_list.first.user.username }} <span><i class="fas fa-check-circle"></i></span>
+                                {% else %}
+                                    {{ party_list.first.user.username }}
+                                {% endif %}
                                 <small>{{ party_list.first.user.profile.bio }}</small>
                             </h4>
                             <a href="{{ party_list.first.user.profile.get_absolute_url }}">
@@ -96,7 +100,7 @@ $(document).ready(function() {
                             {% if party_list %}
                             <img alt="" class="card-img-profile" src="{{ party_list.first.user.profile.profile_picture.url }}">
                             <h4 class="card-title px-4">
-                                {% if party_list.first.user.profile.is_verified == True %}
+                                {% if party_list.first.user.profile.is_verified %}
                                     {{ party_list.first.user.username }} <span><i class="fas fa-check-circle"></i></span>
                                 {% else %}
                                     {{ party_list.first.user.username }}
