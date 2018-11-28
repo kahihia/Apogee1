@@ -24,17 +24,27 @@ setInterval(function()
   // let partyType = this_.attr('event-id')
   // let joinedUrl;
   // alert($('#detailStar').text)
-  alert($('input[name=party_id]').val());
-
-    // $.ajax({
-    //     type: "get",
-    //     url: "my-script.php",
-    //     success:function(data)
-    //     {
-    //         //console.log the response
-    //         console.log(data);
-    //     }
-    // });
+  let partyId = $('input[name=party_id]').val()
+  let joinedUrl = '/api/events/' + partyID + '/refresh/';
+    $.ajax({
+      method: 'GET',
+      url: joinedUrl,
+      success: function(data){
+        document.getElementsByName("num_joined")[0].innerHTML = data.num_joined 
+        // if(partyType == 4){
+        //   // document.getElementsByName("num_curr_winners")[0].innerHTML = data.num_curr_winners;
+        // }
+        // if(data.error_message!=""){
+        //   alert(data.error_message);
+        // }
+        location.reload();
+        // the api handles updating the database 
+      }, 
+      error: function(data){
+        console.log('error')
+        console.log(data)
+      }
+    })
 }, 10000); //10000 milliseconds = 10 seconds
 
 

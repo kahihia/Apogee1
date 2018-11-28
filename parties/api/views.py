@@ -83,8 +83,13 @@ class PaypalVerificationAPI(APIView):
 		return Response(payment_verified, status=status.HTTP_200_OK)
 
 
-
-
+class RefreshAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	def get(self, request, pk, format=None):
+		if request.user.is_authenticated:
+			party_qs = Party.objects.filter(pk=pk)
+			return response({'num_joined':party_qs.first().joined.all().count()})
+			
 class ReportAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, format=None):
