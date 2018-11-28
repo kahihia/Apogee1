@@ -5,7 +5,7 @@
   <script type="text/javascript">
     var canAccessChat = false
     var is_owner = false
-    {% if request.user.username in serialized.winner_names or request.user.is_staff %}
+    {% if request.user.username in serialized.winner_names%}
       canAccessChat = true
     {% endif %}
 
@@ -17,7 +17,7 @@
   <script type="text/javascript" src='{% static "js/eventmessages/reconnecting-websocket.min.js" %}'></script>
   <script type="text/javascript" src='{% static "js/eventmessages/chat.js" %}'></script>
 
-{% if serialized.is_owner or request.user.is_staff %}
+{% if serialized.is_owner %}
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function(){
       $("#message").css('display', 'block')
