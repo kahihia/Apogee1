@@ -19,11 +19,12 @@ function updateHashLinks(){
 
 setInterval(function()
 {
-  let this_ = $(this)
-  let partyID = this_.attr('data-id')
-  let partyType = this_.attr('event-id')
-  let joinedUrl;
-  alert(partyID)
+  // let this_ = $(this)
+  // let partyID = this_.attr('data-id')
+  // let partyType = this_.attr('event-id')
+  // let joinedUrl;
+  alert($('#detailStar'))
+  
     // $.ajax({
     //     type: "get",
     //     url: "my-script.php",
