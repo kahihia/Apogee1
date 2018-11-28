@@ -30,7 +30,7 @@ setInterval(function()
       method: 'GET',
       url: joinedUrl,
       success: function(data){
-        document.getElementsByName("num_joined")[0].innerHTML = data.num_joined 
+        document.getElementsByName("num_joined")[0].innerHTML = data.num_joined + ' ' 
         // if(partyType == 4){
         //   // document.getElementsByName("num_curr_winners")[0].innerHTML = data.num_curr_winners;
         // }
