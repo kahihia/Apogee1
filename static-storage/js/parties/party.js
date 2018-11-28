@@ -23,7 +23,8 @@ setInterval(function()
   // let partyID = this_.attr('data-id')
   // let partyType = this_.attr('event-id')
   // let joinedUrl;
-  alert($('#detailStar').text)
+  // alert($('#detailStar').text)
+  alert($('input[name=party_id]').val());
 
     // $.ajax({
     //     type: "get",
