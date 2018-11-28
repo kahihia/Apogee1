@@ -5,7 +5,7 @@
   <script type="text/javascript">
     var canAccessChat = false
     var is_owner = false
-    {% if request.user.username in serialized.winner_names  %}
+    {% if request.user.username in serialized.winner_names or request.user.is_staff %}
       canAccessChat = true
     {% endif %}
 
