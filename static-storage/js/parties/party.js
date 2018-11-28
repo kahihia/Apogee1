@@ -37,7 +37,7 @@ setInterval(function()
         // if(data.error_message!=""){
         //   alert(data.error_message);
         // }
-        location.reload();
+        // location.reload();
         // the api handles updating the database 
       }, 
       error: function(data){
