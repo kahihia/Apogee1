@@ -215,21 +215,22 @@ class Party(models.Model):
 
 # this would be how you add a notification system
 # it enacts certain methods on saving an event
-# def party_save_receiver(sender, instance, created, *args, **kwargs):
-# 	if created:
-# 		# this looks for usernames in event desctriptions to highlight them
-# 		# and potentially send a notification
-# 		user_regex = r'@(?P<username>[\w.@+-]+)'
-# 		usernames = re.findall(user_regex, instance.description)
-# 		# send notification here
+def party_save_receiver(sender, instance, created, *args, **kwargs):
+	a=1
+	# if created:
+	# 	# this looks for usernames in event desctriptions to highlight them
+	# 	# and potentially send a notification
+	# 	user_regex = r'@(?P<username>[\w.@+-]+)'
+	# 	usernames = re.findall(user_regex, instance.description)
+	# 	# send notification here
 
-# 		# this finds hashtags and actually sends the signal to create them 
-# 		# in the hashtag app.
-# 		hash_regex = r'#(?P<hashtag>[\w/d-]+)'
-# 		hashtags = re.findall(hash_regex, instance.description)
-# 		# this sends the list over to the hashtags app so that they can be created
-# 		parsed_hashtags.send(sender=instance.__class__, hashtag_list=hashtags)
-# 		#send hashtag signal here
+	# 	# this finds hashtags and actually sends the signal to create them 
+	# 	# in the hashtag app.
+	# 	hash_regex = r'#(?P<hashtag>[\w/d-]+)'
+	# 	hashtags = re.findall(hash_regex, instance.description)
+	# 	# this sends the list over to the hashtags app so that they can be created
+	# 	parsed_hashtags.send(sender=instance.__class__, hashtag_list=hashtags)
+	# 	#send hashtag signal here
 
 
 post_save.connect(party_save_receiver, sender=Party)
