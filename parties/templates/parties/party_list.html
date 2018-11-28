@@ -56,14 +56,14 @@ $(document).ready(function() {
                         <div class="card-block">
                             {% if party_list %}
                             <img alt="" class="card-img-profile" src="{{ party_list.first.user.profile.profile_picture.url }}">
-                            <h2 class="card-title px-4">
+                            <h4 class="card-title px-4">
                                 {% if party_list.first.user.profile.is_verified %}
                                     {{ party_list.first.user.username }} <span><i class="fas fa-check-circle"></i></span>
                                 {% else %}
                                     {{ party_list.first.user.username }}
                                 {% endif %}
-                                <small>{{ party_list.first.user.profile.bio }}</small>
-                            </h2>
+                                <small class='mt-2'>{{ party_list.first.user.profile.bio }}</small>
+                            </h4>
                             <a href="{{ party_list.first.user.profile.get_absolute_url }}">
                                 <button class="btn btn-new btn-primary-new">View Profile</button>
                             </a>
@@ -105,7 +105,7 @@ $(document).ready(function() {
                                 {% else %}
                                     {{ party_list.first.user.username }}
                                 {% endif %}
-                                <small>{{ party_list.first.user.profile.bio }}</small>
+                                <small class='mt-2'>{{ party_list.first.user.profile.bio }}</small>
                             </h4>
                             <a href="{{ party_list.first.user.profile.get_absolute_url }}">
                                 <button class="btn btn-new btn-primary-new">View Profile</button>
