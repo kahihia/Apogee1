@@ -24,7 +24,7 @@ setInterval(function()
   // let partyType = this_.attr('event-id')
   // let joinedUrl;
   // alert($('#detailStar').text)
-  let partyId = $('input[name=party_id]').val()
+  let partyID = $('input[name=party_id]').val()
   let joinedUrl = '/api/events/' + partyID + '/refresh/';
     $.ajax({
       method: 'GET',
