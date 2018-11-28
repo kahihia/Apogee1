@@ -56,7 +56,7 @@ $(document).ready(function() {
                         <div class="card-block">
                             {% if party_list %}
                             <img alt="" class="card-img-profile" src="{{ party_list.first.user.profile.profile_picture.url }}">
-                            <h2 class="card-title px-4 grey-color">
+                            <h2 class="card-title px-4">
                                 {% if party_list.first.user.profile.is_verified %}
                                     {{ party_list.first.user.username }} <span><i class="fas fa-check-circle"></i></span>
                                 {% else %}
