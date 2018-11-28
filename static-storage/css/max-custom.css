@@ -323,7 +323,8 @@ p, .about-apogee p {
 
 .card-block {
     padding-bottom: 40px;
-    background-color: #3e4347;
+    background-color: #474d52;
+    border-radius: 6px !important;
 }
 
 .card-profile > .card-img-top {
