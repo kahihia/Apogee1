@@ -202,7 +202,7 @@ p, .about-apogee p {
 }
 
 .hero-card {
-    background: #fff;
+    background: #;
     min-height: 200px;
     border-radius: 6px;
     color: #222;
@@ -312,7 +312,7 @@ p, .about-apogee p {
 .card-profile {
     width: 100%;
     margin: 50px auto;
-    background: #fff;
+    background: #3e4347;
     border-radius: 6px !important;
     border: none !important;
     color: hsl(270,100%,10%);

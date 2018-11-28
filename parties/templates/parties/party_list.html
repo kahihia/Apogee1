@@ -53,17 +53,17 @@ $(document).ready(function() {
                 <!-- featured creator -->
                 <div class="col-lg-5 offset-lg-0 col-sm-8 offset-sm-2 col-xs-12">
                     <div class="card card-profile text-center">
-                        <div class="card-block" style='background: rgb(255, 255, 255, 0.1)'>
+                        <div class="card-block">
                             {% if party_list %}
                             <img alt="" class="card-img-profile" src="{{ party_list.first.user.profile.profile_picture.url }}">
-                            <h4 class="card-title px-4 grey-color">
+                            <h2 class="card-title px-4 grey-color">
                                 {% if party_list.first.user.profile.is_verified %}
                                     {{ party_list.first.user.username }} <span><i class="fas fa-check-circle"></i></span>
                                 {% else %}
                                     {{ party_list.first.user.username }}
                                 {% endif %}
                                 <small>{{ party_list.first.user.profile.bio }}</small>
-                            </h4>
+                            </h2>
                             <a href="{{ party_list.first.user.profile.get_absolute_url }}">
                                 <button class="btn btn-new btn-primary-new">View Profile</button>
                             </a>
