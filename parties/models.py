@@ -138,7 +138,11 @@ class Party(models.Model):
 	def schedule_pick_winner(self):
 		# the pick time is set to be slightly before when the event 
 		# actully happens to allow everyone to get set up.
-		pick_time = self.party_time - timedelta(minutes=2)
+		pick_time = 0
+		if self.event_type == 4:
+			pick_time = self.party_time + timedelta(minutes=2)
+		else:
+			pick_time = self.party_time - timedelta(minutes=2)
 		# .astimezone(pytz.utc)
 		# brings in the pick winner method
 		from .tasks import pick_winner
@@ -189,8 +193,7 @@ class Party(models.Model):
 		super(Party, self).save(*args, **kwargs)
 		self.minimum_bid = self.cost
 		self.time_pts = self.set_time_pts()
-		if not self.event_type == 4:
-			self.task_id = self.schedule_pick_winner()
+		self.task_id = self.schedule_pick_winner()
 
 		# sets default text for title and description
 		if not self.title:

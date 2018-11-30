@@ -17,6 +17,7 @@ reminder_text = "Your event with {} is soon "
 @shared_task
 # this method takes the list of joined, reorders it randomly, and picks one
 def pick_winner(party_id):
+	print("__________________________________________________________________________________________________")
 	try:
 		# gets the correct party
 		# filter would return a queryset, we want an object.
@@ -35,6 +36,10 @@ def pick_winner(party_id):
 		
 		partyTransactions.create_payment(party)
 	# if there are people that joined the event
+	if party.event_type == 4:
+		party.is_open = False
+		party.save2(update_fields=['is_open'])
+		return
 	if party.joined.all().count() > 0:
 		# gets all users in joined, orders them randomly
 		pool = party.joined.all().order_by('?')
