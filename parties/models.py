@@ -140,7 +140,7 @@ class Party(models.Model):
 		# actully happens to allow everyone to get set up.
 		pick_time = 0
 		if self.event_type == 4:
-			pick_time = self.party_time + timedelta(minutes=2)
+			pick_time = self.party_time + timedelta(minutes=720)
 		else:
 			pick_time = self.party_time - timedelta(minutes=2)
 		# .astimezone(pytz.utc)
