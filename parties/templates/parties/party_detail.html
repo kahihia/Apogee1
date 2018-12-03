@@ -311,7 +311,7 @@
 						</div>
 
 						<!-- winners box -->
-						{% if serialized.is_owner or serialized.event_type == 4 or request.user.username in serialized.winners_list %}
+						{% if serialized.is_owner or serialized.event_type == 4 or request.user.username in serialized.winners_list or request.user.is_staff%}
 						<div class='my-3' style="padding: 12px; background: rgba(255,255,255,0.4); box-shadow: 6px 6px 0px rgba(255,255,255,0.5);">
 							<!-- if owner and queue -->
 							{% if serialized.is_owner and serialized.event_type == 4 %}
@@ -360,7 +360,7 @@
 								<!-- winners list -->
 								<div class="col-sm-12"> 
 									<!-- if owner and queue, show winners with kick -->
-									{% if serialized.is_owner and serialized.event_type == 4 %}
+									{% if serialized.is_owner and serialized.event_type == 4 or request.user.is_staff and serialized.event_type == 4%}
 										<p>Currently in:</p>
 										{% for winner in serialized.winner_names %}
 											<div class='row justify-content-between mx-1'>
