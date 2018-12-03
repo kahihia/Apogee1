@@ -131,7 +131,7 @@ class BidAPIView(APIView):
 								})
 		if party_event_type == 4:
 			if request.user.is_authenticated:
-				if request.user == party_qeryset.first().user:
+				if request.user == party_qeryset.first().user or request.user.is_staff:
 					queue_table = partyHandling.queue_dequeue(request.user, party_qeryset.first(), bids)
 					return Response({'error_message':queue_table["error_message"]})
 				else:
