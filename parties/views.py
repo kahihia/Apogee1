@@ -114,7 +114,7 @@ class PartyKickallView(View):
 			party_id = self.kwargs.get('pk')
 			objs = Party.objects.filter(pk=party_id)
 			qs = objs.first()
-			if request.user == qs.user and qs.event_type==4:
+			if request.user == qs.user and qs.event_type==4 or request.user.is_staff and qs.event_type==4:
 				print(2)
 				winners_list = qs.winners.all()
 				for w in winners_list:
@@ -128,7 +128,7 @@ class PartyKickView(View):
 			party_id = self.kwargs.get('pk')
 			objs = Party.objects.filter(pk=party_id)
 			qs = objs.first()
-			if request.user == qs.user and qs.event_type==4:
+			if request.user == qs.user and qs.event_type==4 or request.user.is_staff and qs.event_type==4:
 				winners_list = qs.winners.all()
 				for w in winners_list:
 					if w.username == username:
