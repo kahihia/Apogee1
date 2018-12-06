@@ -40,8 +40,8 @@ class PasswordResetAPIView(APIView):
 		# account = account.first()
 		if account:
 			password_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
-			user_obj.profile.password_reset_token = password_token
-			user_obj.profile.save(update_fields=['password_reset_token'])
+			account.profile.password_reset_token = password_token
+			account.profile.save(update_fields=['password_reset_token'])
 			# m = Mailin("https://api.sendinblue.com/v2.0", config('SENDINBLUE_V2_KEY'))
 			# data = { "to" : {user_email:"to whom!"},
 			# 	"from" : ["developers@apogee.gg", "Welcome to Granite!"],
