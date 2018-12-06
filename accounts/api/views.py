@@ -42,13 +42,13 @@ class PasswordResetAPIView(APIView):
 			password_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
 			account.profile.password_reset_token = password_token
 			account.profile.save(update_fields=['password_reset_token'])
-			# m = Mailin("https://api.sendinblue.com/v2.0", config('SENDINBLUE_V2_KEY'))
-			# data = { "to" : {user_email:"to whom!"},
-			# 	"from" : ["developers@apogee.gg", "Welcome to Granite!"],
-			# 	"subject" : "Account Authentication",
-			# 	"html" : "<h1>Welcome to Granite!</h1>\nYour account has been successfully registered!\n\
-			# 	 Please visit https://www.granite.gg/authentication and enter in <strong>"+auth_token+"</strong> to authenticate your account"
-			# 	}
-			# result = m.send_email(data)
+			m = Mailin("https://api.sendinblue.com/v2.0", config('SENDINBLUE_V2_KEY'))
+			data = { "to" : {email:"to whom!"},
+				"from" : ["developers@apogee.gg", "Password Reset"],
+				"subject" : "Password Reset",
+				"html" : "<h1>Password Reset</h1>\n\
+				Here is your password reset token: <strong>"+password_token+"</strong>"
+				}
+			result = m.send_email(data)
 			return Response({'account_found':True})
 		return Response({'account_found':False})

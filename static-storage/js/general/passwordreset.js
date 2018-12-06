@@ -12,13 +12,11 @@ function addAuthenticationFunctionality(){
      		method: 'GET',
       		url: passwordResethUrl,
       		success: function(data){
-      			if(data.authenticated==true){
-      				$('#authentication_confirmation').text("	Your account has been authorized");
-        			console.log("True");
+      			if(data.account_found==true){
+      				$('#authentication_confirmation').text("	We have sent you a password reset token");
       			}
       			else{
-      				$('#authentication_confirmation').text("	We could not authorize your account");
-        			console.log("False");      
+      				$('#authentication_confirmation').text("	We could not find an account with that email address);   
       			}
       		}, 
       		error: function(data){
