@@ -10,7 +10,7 @@ function addAuthenticationFunctionality(){
 		let passwordResethUrl = '/api/' + email +'/authorization/';
     	$.ajax({
      		method: 'GET',
-      		url: authUrl,
+      		url: passwordResethUrl,
       		success: function(data){
       			if(data.authenticated==true){
       				$('#authentication_confirmation').text("	Your account has been authorized");
