@@ -47,12 +47,15 @@ function addTokenFunctionality(){
               $('#authentication_confirmation').text("  Enter in a new password");
               jQuery('#password_token').remove();
               jQuery('#token_btn').remove();
-              input = jQuery('<input type="password" name="password"> id ="password1"<p></p>');
+              new_line = jQuery('<p></p>')
+              input = jQuery('<input type="password" name="password"> id ="password1"');
               jQuery('#div_auth_key').append(input);
+              jQuery('#div_auth_key').append(new_line);
               input = jQuery('Enter it again');
               jQuery('#div_auth_key').append(input);
-              input = jQuery('<input type="password" name="password"> id= "password2"<p></p>');
+              input = jQuery('<input type="password" name="password"> id= "password2"');
               jQuery('#div_auth_key').append(input);
+              jQuery('#div_auth_key').append(new_line);
               input = jQuery('<input type="submit" value="Submit" class="btn btn-primary-new ml-3" id ="password_btn">');
               jQuery('#div_auth_key').append(input);
             }
