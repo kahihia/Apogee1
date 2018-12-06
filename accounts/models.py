@@ -158,6 +158,8 @@ class UserProfile(models.Model):
 
 
 	email_auth_token	= models.CharField(max_length=6, default="keyaut", blank=True)
+
+	password_reset_token = models.CharField(max_length=6, default="", blank=True)
 	#To verify important users
 	is_verified 		= models.BooleanField(default=False)
 	#To authenticate emails
