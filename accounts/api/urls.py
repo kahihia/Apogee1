@@ -19,5 +19,5 @@ urlpatterns = [
     path('<username>/events/', PartyListAPIView.as_view(), name='list'),
     path('<auth_key>/authorization/', AuthorizationAPIView.as_view(), name='authorization'),
     path('<email>/password_reset/', PasswordResetAPIView.as_view(), name='passwordreset'),
-    path('<token>/token/', PasswordResetAPIView.as_view(), name='passwordtoken')
+    path('<token>/token/', PasswordTokenAPIView.as_view(), name='passwordtoken')
  ]
