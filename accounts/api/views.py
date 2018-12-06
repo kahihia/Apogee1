@@ -53,3 +53,17 @@ class PasswordResetAPIView(APIView):
 			result = m.send_email(data)
 			return Response({'account_found':True})
 		return Response({'account_found':False})
+
+class PasswordTokenAPIView(APIView):
+	def get(self, request, token, format=None):
+		try:
+			account = UserProfile.objects.get(password_reset_token=token)
+			print("it worked")
+		except:
+			print("It didnt work")
+			return Response({'token_found':False})
+
+		# account = account.first()
+		if account:
+			return Response({'token_found':True})
+		return Response({'token_found':False})

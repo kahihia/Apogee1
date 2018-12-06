@@ -5,7 +5,8 @@ from django.views.generic import RedirectView
 # display the events for the profile 
 from accounts.api.views import (
 		AuthorizationAPIView,
-		PasswordResetAPIView
+		PasswordResetAPIView,
+		PasswordTokenAPIView
 	)
 from parties.api.views import (
 		PartyListAPIView
@@ -17,6 +18,6 @@ urlpatterns = [
 	# this url is the event API for the particular profile
     path('<username>/events/', PartyListAPIView.as_view(), name='list'),
     path('<auth_key>/authorization/', AuthorizationAPIView.as_view(), name='authorization'),
-    path('<email>/password_reset/', PasswordResetAPIView.as_view(), name='passwordreset')
-
+    path('<email>/password_reset/', PasswordResetAPIView.as_view(), name='passwordreset'),
+    path('<token>/token/', PasswordResetAPIView.as_view(), name='passwordtoken')
  ]
