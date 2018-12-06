@@ -7,6 +7,7 @@ import requests
 import random
 import string
 from ast import literal_eval
+from decouple import config
 from mailin import Mailin
 
 class AuthorizationAPIView(APIView):
