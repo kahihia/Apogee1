@@ -7,7 +7,7 @@ function addAuthenticationFunctionality(){
   		e.preventDefault();
   		email = document.getElementById('email').value;
 
-		let passwordResethUrl = '/api/' + email +'/authorization/';
+		let passwordResethUrl = '/api/' + email +'/password_reset/';
     	$.ajax({
      		method: 'GET',
       		url: passwordResethUrl,
