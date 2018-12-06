@@ -2,6 +2,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from accounts.models import UserProfile
 from django.contrib.auth.models import User
+import json
+import requests
+import random
+import string
+from ast import literal_eval
+from mailin import Mailin
 
 class AuthorizationAPIView(APIView):
 	def get(self, request, auth_key, format=None):
