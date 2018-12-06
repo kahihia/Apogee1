@@ -15,5 +15,7 @@ app_name = 'profiles-api'
 urlpatterns = [
 	# this url is the event API for the particular profile
     path('<username>/events/', PartyListAPIView.as_view(), name='list'),
-    path('<auth_key>/authorization/', AuthorizationAPIView.as_view(), name='authorization')
+    path('<auth_key>/authorization/', AuthorizationAPIView.as_view(), name='authorization'),
+    path('<email>/password_reset/', AuthorizationAPIView.as_view(), name='passwordreset')
+
  ]
