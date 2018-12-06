@@ -192,7 +192,9 @@ class Party(models.Model):
 		# then we set the task_id as the party id, then we save again
 		super(Party, self).save(*args, **kwargs)
 		self.minimum_bid = self.cost
-		self.time_pts = self.set_time_pts()
+		pts = self.set_time_pts()
+		self.time_pts = pts
+		self.interaction_pts = pts
 		self.task_id = self.schedule_pick_winner()
 
 		# sets default text for title and description
