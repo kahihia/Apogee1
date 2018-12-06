@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from accounts.models import UserProfile
+from django.contrib.auth.models import User
 
 class AuthorizationAPIView(APIView):
 	def get(self, request, auth_key, format=None):
@@ -24,8 +25,10 @@ class AuthorizationAPIView(APIView):
 class PasswordResetAPIView(APIView):
 	def get(self, request, email, format=None):
 		try:
-			account = UserProfile.objects.get(email_auth_token=auth_key)
+			account = User.objects.get(email=email)
+			print("it worked")
 		except:
+			print("It didnt work")
 			return Response({'account_found':False})
 
 		# account = account.first()
