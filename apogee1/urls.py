@@ -35,7 +35,8 @@ from .views import (
 		ContactView,
 		ConductView, 
 		FeesView,
-		AuthenticationView
+		AuthenticationView,
+		PasswordResetView
 	)
 from .api.views import TestEmailEndpoint, SetTimzoneEndpoint 
 from parties.views import PartyListView
@@ -84,6 +85,7 @@ urlpatterns = [
 	path('contact', ContactView.as_view(), name='contact'),
 	path('conduct', ConductView.as_view(), name='conduct'),
 	path('fees', FeesView.as_view(), name='fees'),
+	path('password_reset/', PasswordResetView.as_view(), name='passwordreset'),
 	#url(r'^.*$', RedirectView.as_view(url='', permanent=False), name='index')
 	#Deprecated path to bids, bid views not available to users
 	#path('bids/', include('bids.urls', namespace='bids'))

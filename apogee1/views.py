@@ -61,6 +61,11 @@ class AuthenticationView(View):
 		context={'request':request}
 		return render(request, 'authentication.html', context)
 
+class PasswordResetView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'passwordreset.html', context)
+
 # Error Pages
 def server_error(request):
     return render(request, '500.html')
