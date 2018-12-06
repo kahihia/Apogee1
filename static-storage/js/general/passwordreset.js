@@ -16,7 +16,7 @@ function addAuthenticationFunctionality(){
       				$('#authentication_confirmation').text("	We have sent you a password reset token");
               jQuery('#email').remove();
               jQuery('#email_btn').remove();
-              input = jQuery('<input size="6" type="text" id="password_token" name="password_token" value="" maxlength="6">');
+              input = jQuery('<input size="6" type="text" id="password_token" name="password_token" value="" maxlength="6"><p></p>');
               jQuery('#div_auth_key').append(input);
               input = jQuery('<input type="submit" value="Token" class="btn btn-primary-new ml-3" id ="token_btn">');
               jQuery('#div_auth_key').append(input);
@@ -32,6 +32,7 @@ function addAuthenticationFunctionality(){
     	})
 	})
 }
+
 function addTokenFunctionality(){
   $('#token_btn').click(function(e){
       e.preventDefault();
@@ -46,11 +47,11 @@ function addTokenFunctionality(){
               $('#authentication_confirmation').text("  Enter in a new password");
               jQuery('#password_token').remove();
               jQuery('#token_btn').remove();
-              input = jQuery('<input type="password" name="password"> id ="password1"');
+              input = jQuery('<input type="password" name="password"> id ="password1"<p></p>');
               jQuery('#div_auth_key').append(input);
               input = jQuery('Enter it again');
               jQuery('#div_auth_key').append(input);
-              input = jQuery('<input type="password" name="password"> id= "password2"');
+              input = jQuery('<input type="password" name="password"> id= "password2"<p></p>');
               jQuery('#div_auth_key').append(input);
               input = jQuery('<input type="submit" value="Submit" class="btn btn-primary-new ml-3" id ="password_btn">');
               jQuery('#div_auth_key').append(input);
