@@ -51,7 +51,7 @@ function addTokenFunctionality(){
               input = jQuery('<input type="password" name="password1" id ="password1"> <p></p>');
               jQuery('#div_auth_key').append(input);
               jQuery('#div_auth_key').append(new_line);
-              input = jQuery('<h3>Enter it again<h3>');
+              input = jQuery('<h5 id="enter2">Enter it again</h5>');
               jQuery('#div_auth_key').append(new_line);
               jQuery('#div_auth_key').append(input);
               input = jQuery('<input type="password" name="password2" id= "password2">');
@@ -97,6 +97,7 @@ function addPasswordMatchFunctionality(){
               jQuery('#password2').remove();
               jQuery('#password1').remove();
               jQuery('#password_btn').remove();
+              jQuery('#enter2').remove();
             }
             else{
               $('#authentication_confirmation').text("  Password couldn't be reset");   
