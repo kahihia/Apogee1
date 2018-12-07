@@ -51,7 +51,7 @@ function addTokenFunctionality(){
               input = jQuery('<input type="password" name="password1" id ="password1"> <p></p>');
               jQuery('#div_auth_key').append(input);
               jQuery('#div_auth_key').append(new_line);
-              input = jQuery('<h5 id="enter2">Enter it again</h5>');
+              input = jQuery('<h6 id="enter2">Enter it again</h6>');
               jQuery('#div_auth_key').append(new_line);
               jQuery('#div_auth_key').append(input);
               input = jQuery('<input type="password" name="password2" id= "password2">');
