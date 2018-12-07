@@ -51,7 +51,7 @@ function addTokenFunctionality(){
               input = jQuery('<input type="password" name="password1" id ="password1"> <p></p>');
               jQuery('#div_auth_key').append(input);
               jQuery('#div_auth_key').append(new_line);
-              input = jQuery('<h1>Enter it again<h1>');
+              input = jQuery('<h3>Enter it again<h3>');
               jQuery('#div_auth_key').append(new_line);
               jQuery('#div_auth_key').append(input);
               input = jQuery('<input type="password" name="password2" id= "password2">');
@@ -80,8 +80,13 @@ function addPasswordMatchFunctionality(){
     password1 = document.getElementById('password1').value;
     password2 = document.getElementById('password2').value;
     token = document.getElementById('token').value;
-    alert(password1);
-    if(password1==password2 && password1.length>=6){
+    if(password1.length<7){
+      $('#authentication_confirmation').text("  Password must be at least 7 characters long");
+    }
+    else if(password1!=password2){
+      $('#authentication_confirmation').text("  Passwords must match");
+    }
+    else{
       let passwordResethUrl = '/api/' + password1 +'/password/'+token;
       $.ajax({
         method: 'GET',
