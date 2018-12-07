@@ -72,17 +72,13 @@ class PasswordMatchAPIView(APIView):
 	def get(self, request, password, token, format=None):
 		try:
 			account = UserProfile.objects.get(password_reset_token=token)
-			print("it worked")
 		except:
-			print("It didnt work")
-			return Response({'token_found':False})
+			return Response({'password_reset':False})
 
 		# account = account.first()
 		if account:
-			print("Here I am")
 			user = User.objects.get(profile=account)
-			print(user.username)
 			user.set_password(password)
 			user.save()
-			return Response({'token_found':True})
-		return Response({'token_found':False})
+			return Response({'password_reset':True})
+		return Response({'password_reset':False})
