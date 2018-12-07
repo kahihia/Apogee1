@@ -26,6 +26,11 @@ setInterval(function()
   // alert($('#detailStar').text)
   let partyID = $('input[name=party_id]').val()
   let joinedUrl = '/api/events/' + partyID + '/refresh/';
+  if (partyID == null){ 
+
+    return; 
+
+   }
     $.ajax({
       method: 'GET',
       url: joinedUrl,
