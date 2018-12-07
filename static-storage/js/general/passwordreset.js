@@ -79,7 +79,7 @@ function addPasswordMatchFunctionality(){
     password1 = document.getElementById('password1').value;
     password2 = document.getElementById('password2').value;
     token = document.getElementById('token').value;
-    alert(password1)
+    alert(password1);
     if(password1==password2 && password1.length>=6){
       let passwordResethUrl = '/api/' + password1 +'/password/'+token;
       $.ajax({

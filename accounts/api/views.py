@@ -79,7 +79,9 @@ class PasswordMatchAPIView(APIView):
 
 		# account = account.first()
 		if account:
+			print("Here I am")
 			user = User.objects.get(profile=account)
+			print(user.username)
 			user.set_password(password)
 			user.save()
 			return Response({'token_found':True})
