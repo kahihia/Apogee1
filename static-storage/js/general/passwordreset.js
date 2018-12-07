@@ -47,7 +47,7 @@ function addTokenFunctionality(){
               $('#authentication_confirmation').text("  Enter in a new password");
               jQuery('#password_token').remove();
               jQuery('#token_btn').remove();
-              new_line = jQuery('<p></p>')
+              new_line = jQuery('<br>')
               input = jQuery('<input type="password" name="password"> id ="password1"');
               jQuery('#div_auth_key').append(input);
               jQuery('#div_auth_key').append(new_line);
@@ -58,6 +58,9 @@ function addTokenFunctionality(){
               jQuery('#div_auth_key').append(new_line);
               input = jQuery('<input type="submit" value="Submit" class="btn btn-primary-new ml-3" id ="password_btn">');
               jQuery('#div_auth_key').append(input);
+              input = jQuery('<input type="hidden" value="'+token+'" class="btn btn-primary-new ml-3" id ="token">');
+              jQuery('#div_auth_key').append(input);
+              addPasswordMatchFunctionality();
             }
             else{
               $('#authentication_confirmation').text("  The token submitted is incorrect");   
@@ -67,5 +70,35 @@ function addTokenFunctionality(){
 
           }
       })
+  })
+}
+
+function addPasswordMatchFunctionality(){
+  $('#password_btn').click(function(e){
+    e.preventDefault();
+    password1 = document.getElementById('password1').value;
+    password2 = document.getElementById('password2').value;
+    token = document.getElementById('token').value;
+    if(password1==password2 and password1.length>=6){
+      let passwordResethUrl = '/api/' + password1 +'/password/'+token;
+      $.ajax({
+        method: 'GET',
+          url: passwordResethUrl,
+          success: function(data){
+            if(data.password_reset==true){
+              $('#authentication_confirmation').text("  Password successfully reset");
+              jQuery('#password2').remove();
+              jQuery('#password1').remove();
+              jQuery('#password_btn').remove();
+            }
+            else{
+              $('#authentication_confirmation').text("  Password couldn't be reset");   
+            }
+          }, 
+          error: function(data){
+
+          }
+      })
+    }
   })
 }
