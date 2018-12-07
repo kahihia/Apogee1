@@ -48,12 +48,12 @@ function addTokenFunctionality(){
               jQuery('#password_token').remove();
               jQuery('#token_btn').remove();
               new_line = jQuery('<br>')
-              input = jQuery('<input type="password" name="password"> id ="password1"');
+              input = jQuery('<input type="password" name="password1"> id ="password1"');
               jQuery('#div_auth_key').append(input);
               jQuery('#div_auth_key').append(new_line);
               input = jQuery('Enter it again');
               jQuery('#div_auth_key').append(input);
-              input = jQuery('<input type="password" name="password"> id= "password2"');
+              input = jQuery('<input type="password" name="password2"> id= "password2"');
               jQuery('#div_auth_key').append(input);
               jQuery('#div_auth_key').append(new_line);
               input = jQuery('<input type="submit" value="Submit" class="btn btn-primary-new ml-3" id ="password_btn">');
