@@ -36,15 +36,14 @@ from .views import (
 		ConductView, 
 		FeesView,
 		AuthenticationView,
-		PasswordResetView,
-		ReferenceRegisterView
+		PasswordResetView
 	)
 from .api.views import TestEmailEndpoint, SetTimzoneEndpoint 
 from parties.views import PartyListView
 from hashtags.views import HashTagView
 from hashtags.api.views import TagPartyAPIView
 from parties.api.views import SearchPartyAPIView
-from accounts.views import UserRegisterView
+from accounts.views import UserRegisterView, ReferenceRegisterView
 
 
 # django will try and match these starting from the top, 
