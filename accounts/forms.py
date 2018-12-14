@@ -25,9 +25,6 @@ class UserRegisterForm(forms.Form):
 
 	# this makes sure the passwords match
 	def clean_password2(self):
-		code = self.request.GET.get('code', 'None')
-		print("HERE I AMMMMM")
-		print(code)
 		# validation errors block the submit and return back to the register form
 		password = self.cleaned_data.get('password')
 		password2 = self.cleaned_data.get('password2')
