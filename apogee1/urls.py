@@ -43,7 +43,7 @@ from parties.views import PartyListView
 from hashtags.views import HashTagView
 from hashtags.api.views import TagPartyAPIView
 from parties.api.views import SearchPartyAPIView
-from accounts.views import UserRegisterView, ReferenceRegisterView
+from accounts.views import UserRegisterView
 
 
 # django will try and match these starting from the top, 
@@ -59,7 +59,6 @@ urlpatterns = [
 	path('test_email/', TestEmailEndpoint.as_view(), name="test_email"),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path('register/', UserRegisterView.as_view(), name='register'),
-	path('register/<user>', ReferenceRegisterView.as_view(), name='reference'),
 	path('search/', SearchView.as_view(), name='search'),
 	path('api/search/', SearchPartyAPIView.as_view(), name='search-api'),
 	path('api/payment/', include('parties.api.urls', namespace='parties-payment-api')),

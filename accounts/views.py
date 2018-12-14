@@ -36,6 +36,9 @@ class UserRegisterView(FormView):
     # actually create user here. not sure why we do this, but i believe the cleaning
     # prevents some security issues
     def form_valid(self, form):
+        ref = self.request.POST.get('ref', 'None')
+        print("HERE I AMMMMM")
+        print(ref)
         username = form.cleaned_data.get('username')
         email = form.cleaned_data.get('email')
         password = form.cleaned_data.get('password')
@@ -73,53 +76,6 @@ class UserRegisterView(FormView):
            # return HttpResponseRedirect("/register")
         return super(UserRegisterView, self).form_valid(form)
         
-
-
-class ReferenceRegisterView(FormView):
-    # specifies form, location, and where to redirect after submission
-    form_class = UserRegisterForm
-    template_name = 'accounts/user_register_form.html'
-    success_url = '/accounts/login'
-    # actually create user here. not sure why we do this, but i believe the cleaning
-    # prevents some security issues
-    def form_valid(self, form, user):
-        print(user)
-        username = form.cleaned_data.get('username')
-        email = form.cleaned_data.get('email')
-        password = form.cleaned_data.get('password')
-        captcha_good = True
-
-        recaptcha_response = self.request.POST.get('g-recaptcha-response')
-        url = 'https://www.google.com/recaptcha/api/siteverify'
-        values = {
-        'secret': config('CAPTCHA_SECRET_KEY'),
-        'response': recaptcha_response
-        }
-        data = urllib.parse.urlencode(values).encode()
-        req =  urllib.request.Request(url, data=data)
-        response = urllib.request.urlopen(req)
-        result = json.loads(response.read().decode())
-        if result['success']:
-            #Set this config variable to TRUE on heroku to enable account registration
-            captcha_good = config('ALLOW_REGISTRATION', cast=bool)
-        else:
-            captcha_good = config('CAPTCHA_OFF', cast=bool)
-        # captcha_good = True
-        #Do captcha validation
-        if captcha_good and self.request.POST.get('tos'):
-            new_user = User.objects.create(username=username, email=email)
-            new_user.set_password(password)
-            new_user.save()
-            # email_data = {'username': username}
-            # emailer.email('Account Registration Success', 'team@mail.granite.gg', [email], 'creation_email.html', email_data)
-            emailer.email(new_user, "welcome")
-            login(self.request, new_user)
-            return HttpResponseRedirect("/")
-
-        else:
-            return HttpResponseRedirect("/register")
-           # return HttpResponseRedirect("/register")
-        return super(ReferenceRegisterView, self).form_valid(form)
 
 
 
