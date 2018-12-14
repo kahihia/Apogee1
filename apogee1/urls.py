@@ -36,7 +36,8 @@ from .views import (
 		ConductView, 
 		FeesView,
 		AuthenticationView,
-		PasswordResetView
+		PasswordResetView,
+		ReferenceRegisterView
 	)
 from .api.views import TestEmailEndpoint, SetTimzoneEndpoint 
 from parties.views import PartyListView
@@ -59,6 +60,7 @@ urlpatterns = [
 	path('test_email/', TestEmailEndpoint.as_view(), name="test_email"),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path('register/', UserRegisterView.as_view(), name='register'),
+	path('register/<user>', ReferenceRegisterView.as_view(), name='reference'),
 	path('search/', SearchView.as_view(), name='search'),
 	path('api/search/', SearchPartyAPIView.as_view(), name='search-api'),
 	path('api/payment/', include('parties.api.urls', namespace='parties-payment-api')),
