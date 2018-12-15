@@ -74,13 +74,13 @@ class UserRegisterView(FormView):
                 ref = (self.request.GET).dict()
                 print(ref)
                 referring_user = ref['ref']
-                print(referring_user)                
-            except Exception as e:
-                print(e)
-            if referring_user:
+                print(referring_user)
+                if referring_user:
                 u = User.objects.get(username = referring_user)
                 if u:
-                    u.profile.referred_list.add(new_user)
+                    u.profile.referred_list.add(new_user)            
+            except Exception as e:
+                print(e)            
             # email_data = {'username': username}
             # emailer.email('Account Registration Success', 'team@mail.granite.gg', [email], 'creation_email.html', email_data)
             emailer.email(new_user, "welcome")
