@@ -146,6 +146,12 @@ class UserProfile(models.Model):
 			related_name='blocked_by'
 		)
 
+	referred_list 	= models.ManyToManyField(
+						settings.AUTH_USER_MODEL, 
+						blank=True, 
+						related_name='referred_by'
+					)
+	
 	# other fields attatched to users, like their banner, profile pic, bio
 	profile_picture = models.ImageField(upload_to='profile_pics/%Y/%m/%d/', blank=True)
 

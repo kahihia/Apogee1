@@ -39,7 +39,7 @@ class UserRegisterView(FormView):
         # ref = json.loads(self.request.POST.get('ref', 'None'))
         # print(self.request.POST)
         ref = (self.request.GET).dict()
-        print(ref['ref'])
+        referring_user = ref['ref']
         # print(self.request)
         # print(self)
         # print(form) 
@@ -71,6 +71,10 @@ class UserRegisterView(FormView):
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
             new_user.save()
+            if referring_user:
+                u = User.objects.get(username = referring_user)
+                if u:
+                    u.profile.referred_list.add(new_user)
             # email_data = {'username': username}
             # emailer.email('Account Registration Success', 'team@mail.granite.gg', [email], 'creation_email.html', email_data)
             emailer.email(new_user, "welcome")
