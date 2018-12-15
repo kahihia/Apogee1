@@ -70,9 +70,9 @@ class UserRegisterView(FormView):
                 referring_user = ref['ref']
                 print(referring_user)
                 if referring_user:
-                u = User.objects.get(username = referring_user)
-                if u:
-                    u.profile.referred_list.add(new_user)            
+                    u = User.objects.get(username = referring_user)
+                    if u:
+                        u.profile.referred_list.add(new_user)            
             except Exception as e:
                 print(e)            
             # email_data = {'username': username}
