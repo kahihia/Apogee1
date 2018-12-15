@@ -76,8 +76,8 @@ class UserRegisterView(FormView):
                 referring_user = ref['ref']
                 print(referring_user)
                 print()
-            except:
-
+            except Exception e:
+                print(e)
             if referring_user:
                 u = User.objects.get(username = referring_user)
                 if u:
