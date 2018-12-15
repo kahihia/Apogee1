@@ -38,7 +38,7 @@ class UserRegisterView(FormView):
     def form_valid(self, form):
         # ref = json.loads(self.request.POST.get('ref', 'None'))
         # print(self.request.POST)
-        print(json.loads(self.request.GET))
+        print(json.loads((self.request.GET).dict())
         # print(self.request)
         # print(self)
         # print(form) 
