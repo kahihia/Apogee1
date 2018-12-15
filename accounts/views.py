@@ -37,13 +37,13 @@ class UserRegisterView(FormView):
     # prevents some security issues
     def form_valid(self, form):
         ref = self.request.POST.get('ref', 'None')
-        print(self.request.POST)
+        # print(self.request.POST)
         print(self.request.GET)
-        print(self.request)
-        print(self)
-        print(form) 
+        # print(self.request)
+        # print(self)
+        # print(form) 
         print("HERE I AMMMMM")
-        print(ref)
+        # print(ref)
         username = form.cleaned_data.get('username')
         email = form.cleaned_data.get('email')
         password = form.cleaned_data.get('password')
