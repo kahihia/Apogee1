@@ -38,8 +38,7 @@ class UserRegisterView(FormView):
     def form_valid(self, form):
         # ref = json.loads(self.request.POST.get('ref', 'None'))
         # print(self.request.POST)
-        ref = (self.request.GET).dict()
-        referring_user = ref['ref']
+
         # print(self.request)
         # print(self)
         # print(form) 
@@ -71,6 +70,14 @@ class UserRegisterView(FormView):
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
             new_user.save()
+            try:
+                ref = (self.request.GET).dict()
+                print(ref)
+                referring_user = ref['ref']
+                print(referring_user)
+                print()
+            except:
+
             if referring_user:
                 u = User.objects.get(username = referring_user)
                 if u:
