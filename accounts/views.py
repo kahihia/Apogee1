@@ -38,6 +38,10 @@ class UserRegisterView(FormView):
     def form_valid(self, form):
         ref = self.request.POST.get('ref', 'None')
         print(self.request.POST)
+        print(self.request.GET)
+        print(self.request)
+        print(self)
+        print(form) 
         print("HERE I AMMMMM")
         print(ref)
         username = form.cleaned_data.get('username')
