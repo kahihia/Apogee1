@@ -36,14 +36,7 @@ class UserRegisterView(FormView):
     # actually create user here. not sure why we do this, but i believe the cleaning
     # prevents some security issues
     def form_valid(self, form):
-        # ref = json.loads(self.request.POST.get('ref', 'None'))
-        # print(self.request.POST)
-
-        # print(self.request)
-        # print(self)
-        # print(form) 
-        print("HERE I AMMMMM")
-        # print(ref)
+        print(self.request.GET)
         username = form.cleaned_data.get('username')
         email = form.cleaned_data.get('email')
         password = form.cleaned_data.get('password')
@@ -71,6 +64,7 @@ class UserRegisterView(FormView):
             new_user.set_password(password)
             new_user.save()
             try:
+                print(self.request.GET)
                 ref = (self.request.GET).dict()
                 print(ref)
                 referring_user = ref['ref']
