@@ -36,7 +36,7 @@ class UserRegisterView(FormView):
     # actually create user here. not sure why we do this, but i believe the cleaning
     # prevents some security issues
     def form_valid(self, form):
-        ref = self.request.POST.get('ref', 'None')
+        ref = json.loads(self.request.POST.get('ref', 'None'))
         # print(self.request.POST)
         print(self.request.GET)
         # print(self.request)
