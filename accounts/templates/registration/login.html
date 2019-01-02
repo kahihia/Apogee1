@@ -52,27 +52,13 @@
     <input type="hidden" name="next" value="{{ next }}" />
     </form>
 
-  <!--   <a data-toggle="modal" id="resetButton" data-target="#resetModal">
-        <small>I Forgot My Password</small>
-    </a> -->
     <a id="resetButton" href="/password_reset">
         <small>I Forgot My Password</small>
     </a>
-    <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="resetModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="resetModalTitle">Under Construction</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body text-left">
-                    <p class="text-secondary">We're working on password reset. If you need a temporary password, email us at <strong>feedback@granite.gg.</strong></p>
-                </div>
-            </div>
-        </div>
-    </div>
+    
+    <a href='https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id={{twitch_client_id}}&redirect_uri={{twitch_redirect_uri}}&scope=channel_subscriptions+user_read+channel_check_subscription'>
+        <button class="btn btn-primary-new">Sign up with Twitch!</button>
+    </a>
 
     <!-- <a href="{% url 'password_reset' %}"><small>I Forgot My Password</small></a> -->
     <!-- it's not set up currently -->
