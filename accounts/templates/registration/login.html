@@ -52,13 +52,17 @@
     <input type="hidden" name="next" value="{{ next }}" />
     </form>
 
-    <a id="resetButton" href="/password_reset">
-        <small>I Forgot My Password</small>
-    </a>
+    <div>
+        <a id="resetButton" href="/password_reset">
+            <small>I Forgot My Password</small>
+        </a>
+    </div>
     
-    <a href='https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id={{twitch_client_id}}&redirect_uri={{twitch_redirect_uri}}&scope=channel_subscriptions+user_read+channel_check_subscription'>
-        <button class="btn btn-primary-new">Sign up with Twitch!</button>
-    </a>
+    <div>
+        <a href='https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id={{twitch_client_id}}&redirect_uri={{twitch_redirect_uri}}&scope=channel_subscriptions+user_read+channel_check_subscription'>
+            <button class="btn btn-primary-new">Sign up with Twitch!</button>
+        </a>
+    </div>
 
     <!-- <a href="{% url 'password_reset' %}"><small>I Forgot My Password</small></a> -->
     <!-- it's not set up currently -->
