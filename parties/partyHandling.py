@@ -21,7 +21,8 @@ from notifications.models import Notification
 from .validators import validate_title
 from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
-
+from apogee1.utils.email import emailer
+from apogee1.utils.twitch import twitch_functions
 ############################ GLOBAL VARIABLES #################################
 max_acceptable_bid = 99999.99
 
@@ -33,6 +34,10 @@ max_acceptable_bid = 99999.99
 ################################################################################
 
 ######################### GENERAL EVENT FUNCTIONS ##############################
+
+
+def event_not_twitch_sub():
+	return {'added':False, 'error_message':"You must be subscribed to the event owner's Twitch profile to join this event"}
 
 #Returns dict with event information
 #error = event closed
@@ -100,6 +105,10 @@ def lottery_end(party_obj):
 	# this creates the owner close notification, alerts the fans that they have won
 	Notification.objects.create(user=party_obj.user, party=party_obj,\
 	action="owner_event_close")
+	# email_data = {'event': party_obj.title, 'event_time': party_obj.party_time}
+	# emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', \
+	# [party_obj.user.email], 'creator_event_close.html', email_data)
+		
 	partyTransactions.create_payment(party_obj)
 	pool = party_obj.joined.all().order_by('?')
 	for i in range(0,party_obj.num_possible_winners):
@@ -138,6 +147,8 @@ def buyout_end(user, party_obj):
 	statisticsfunctions.buyout_update_end_stats(party_obj)
 	Notification.objects.create(user=party_obj.user, party=party_obj,\
 	action="owner_event_close")
+
+		
 	partyTransactions.create_payment(party_obj)
 	party_obj.is_open = False
 	party_obj.save2(update_fields=['is_open'])
@@ -191,6 +202,31 @@ def bid_bid_too_low():
 
 ############################ END BID FUNCTIONS #################################
 
+############################# QUEUE FUNCTIONS ##################################
+def queue_add_user(user, party_obj):
+	party_obj.joined.add(user)
+	return {'added':True, 'error_message':""}
+
+def queue_dequeue(user, party_obj, number):
+	if party_obj.joined.all().count() < int(number):
+		return {'added':True, 'error_message':"Not enough people in queue"}
+	else:
+		joined_list = party_obj.joined.all()
+		count = 0
+		for user in joined_list:
+			if count >= int(number):
+				break
+			if user.profile.account_balance>=party_obj.cost:
+				count+=1
+				partyTransactions.buy_lottery_reduction(user, party_obj)
+				partyTransactions.add_money(party_obj.user, party_obj.cost)
+				party_obj.winners.add(user)
+			party_obj.joined.remove(user)
+		return {'added':True, 'error_message':""}
+
+########################### END QUEUE FUNCTIONS #################################
+
+###########
 ################################################################################
 ########################## END HELPER FUNCTIONS ################################
 ################################################################################
@@ -262,6 +298,13 @@ def lottery_add(user, party_obj):
 	# If party is closed
 	# returns dict with joined = False and error_message
 	# = Event is closed
+	is_twitch_event = party_obj.is_twitch_event
+	subscribed_status  = False
+	if is_twitch_event:
+		print("IS TWITCH SUB EVENT")
+		subscribed_status = twitch_functions.is_twitch_sub(party_obj.user, user)
+		print("IS SUBBED")
+		print(subscribed_status)
 	if not party_obj.is_open:
 		event_info = event_is_closed()
 	# If user has been banned by event owner
@@ -272,6 +315,9 @@ def lottery_add(user, party_obj):
 	# If user is already in the lottery
 	# returns dict with joined = False and error_message 
 	# = You have already joined this event
+	elif is_twitch_event and not subscribed_status:
+		print("REJECTED BECAUSE NOT TWITCH SUBBED")
+		event_info = event_not_twitch_sub()
 	elif user in party_obj.joined.all():
 		event_info = event_user_already_in_event(party_obj)
 	#if user does not have enough money in their account
@@ -318,6 +364,13 @@ def buyout_add(user, party_obj):
 	# If party is closed
 	# returns dict with added = False and error_message
 	# = Event is closed
+	is_twitch_event = party_obj.is_twitch_event
+	subscribed_status  = False
+	if is_twitch_event:
+		print("IS TWITCH SUB EVENT")
+		subscribed_status = twitch_functions.is_twitch_sub(party_obj.user, user)
+		print("IS SUBBED")
+		print(subscribed_status)
 	if not party_obj.is_open:
 		event_info = event_is_closed()
 	# If user has been banned by event owner
@@ -325,6 +378,9 @@ def buyout_add(user, party_obj):
 	# = you've been blocked from this event
 	elif user in party_obj.user.profile.blocking.all():
 		event_info = event_blocked()
+	elif is_twitch_event and not subscribed_status:
+		print("REJECTED BECAUSE NOT TWITCH SUBBED")
+		event_info = event_not_twitch_sub()
 	# If user already bought this event
 	# returns dict with added = False and error_message 
 	# = You have bought this event
@@ -344,10 +400,9 @@ def buyout_add(user, party_obj):
 	# returns dict with added=True and error_message
 	# = ""
 	#Also checks, after adding user, if winners has reached max cap
-	#if so, ends buyout event
+	#if so, ends buyout even
 	else:
 		event_info = buyout_add_user(user, party_obj)
-
 		if party_obj.winners.all().count()==party_obj.num_possible_winners:
 			buyout_end(user, party_obj)
 	#Send dictonary info and number of joined
@@ -363,6 +418,13 @@ def buyout_add(user, party_obj):
 def bid_add(user, party_obj, bid):
 	#Checks if bid is a number
 	#if not returns error
+	is_twitch_event = party_obj.is_twitch_event
+	subscribed_status  = False
+	if is_twitch_event:
+		print("IS TWITCH SUB EVENT")
+		subscribed_status = twitch_functions.is_twitch_sub(party_obj.user, user)
+		print("IS SUBBED")
+		print(subscribed_status)
 	try:
 		bid = float(bid)
 	except ValueError:
@@ -389,6 +451,9 @@ def bid_add(user, party_obj, bid):
 	# = you've been blocked from this event
 	elif user in party_obj.user.profile.blocking.all():
 		event_info = event_blocked()
+	elif is_twitch_event and not subscribed_status:
+		print("REJECTED BECAUSE NOT TWITCH SUBBED")
+		event_info = event_not_twitch_sub()
 	# If user already bought this event
 	# returns dict with added = False and error_message 
 	# = You have already bid on this event
@@ -446,21 +511,90 @@ def bid_add(user, party_obj, bid):
 	'error_message':error_message}
 
 
+def queue_add(user, party_obj):
+	is_twitch_event = party_obj.is_twitch_event
+	subscribed_status  = False
+	if is_twitch_event:
+		print("IS TWITCH SUB EVENT")
+		subscribed_status = twitch_functions.is_twitch_sub(party_obj.user, user)
+		print("IS SUBBED")
+		print(subscribed_status)
+	if not party_obj.is_open:
+		event_info = event_is_closed()
+	# If user has been banned by event owner
+	# returns dict with joined = False and error_message
+	# = you've been blocked from this event
+	elif user in party_obj.user.profile.blocking.all():
+		event_info = event_blocked()
+	# If user is already in the lottery
+	# returns dict with joined = False and error_message 
+	# = You have already joined this event
+	elif is_twitch_event and not subscribed_status:
+		print("REJECTED BECAUSE NOT TWITCH SUBBED")
+		event_info = event_not_twitch_sub()
+	elif user in party_obj.joined.all():
+		event_info = event_user_already_in_event(party_obj)
+	#if user does not have enough money in their account
+	#returns dict with joined=false and error_message
+	# elif user.profile.account_balance<party_obj.cost:
+	# 	event_info = event_insufficient_funds()
+	# If there is no cap on how many users can enter the party
+	# add user to joined list
+	# returns dict with joined = True and error_message
+	# = ""
+	# if the party has reached its max cap
+	# returns dict with joined = False and error_message
+	# = This event is already at max capacity
+	elif party_obj.joined.all().count()>=1000:
+		event_info = event_at_max_capacity()
+	# No constraints left
+	# add user to joined list
+	# returns dict with joined = True and error_message
+	# = ""
+	else:
+		event_info = queue_add_user(user, party_obj)
+	#if there is a cap on entrants and
+	#that cap has been reached in the 
+	#joined list, end the lottery and
+	#select the winners	
+		# if party_obj.max_entrants is not None and\
+		# party_obj.joined.all().count()== party_obj.max_entrants:
+		# 	lottery_end(party_obj)
+	#get information from the dictionaries	
+	is_joined = event_info["added"]
+	error_message = event_info["error_message"]
+	#Send dictonary info and number of joined
+	#to parties/api/views under JoinToggleAPIView
+	return {'is_joined':is_joined,\
+	'num_joined':party_obj.joined.all().count(),\
+	'error_message':error_message,\
+	}	
+
+
 # this isnt really a toggle. once you've been added, it sticks
 def win_toggle(user, party_obj):
+	winner_text = "You Won!"
 	if user in party_obj.winners.all():
 		won = True
-
 	else:
 		if(party_obj.event_type==1):
 			Notification.objects.create(user=user, party=party_obj,\
 			action="fan_win")
+			# email_data = {'event': party_obj.title, 'event_time': party_obj.party_time,\
+			#  'creator': party_obj.user}
+			# emailer.email(winner_text, 'team@mail.granite.gg', [user.email], 'winner_email.html', email_data)
 		elif(party_obj.event_type==2):
 			Notification.objects.create(user=user, party=party_obj,\
 			action="fan_win")
+			# email_data = {'event': party_obj.title, 'event_time': party_obj.party_time,\
+			#  'creator': party_obj.user}
+			# emailer.email(winner_text, 'team@mail.granite.gg', [user.email], 'winner_email.html', email_data)
 		else:
 			Notification.objects.create(user=user, party=party_obj,\
 			action="fan_win")
+			# email_data = {'event': party_obj.title, 'event_time': party_obj.party_time,\
+			#  'creator': party_obj.user}
+			# emailer.email(winner_text, 'team@mail.granite.gg', [user.email], 'winner_email.html', email_data)
 		won = True
 		party_obj.winners.add(user)
 	return won

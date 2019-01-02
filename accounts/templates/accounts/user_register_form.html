@@ -1,18 +1,22 @@
 <!-- this is the HTML for the registration page -->
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-
+{% load static %}
 <!-- this gives the tab title in the browser -->
 {% block title %}
 	Register | {{ block.super }}
 {% endblock title %}
 
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src='{%static "js/users/registration.js"%}'></script>
+
 <div class='row'>
 	<!-- centers the content -->
-	<div class='col-sm-6 offset-sm-3 mt-3'>
-		<h1 class='text-center'>Sign Up</h1>
+	<div class='col-sm-4 offset-sm-4 mt-3'>
+		<h1 class='text-center mt-3'>Sign Up</h1>
 		<!-- the id portion just allows us to call this with a particular id if we want. we arent currently using it -->
+
 		<form {% if form_id %} id='{{ form_id }}' {% endif %} class='form mt-3' method='POST' action=''>
 			<script src='https://www.google.com/recaptcha/api.js'></script>
 			{% csrf_token %}
@@ -20,10 +24,15 @@
 		    {{ form|crispy }}
 		    <!-- in django, the type submit enters the form into the view and then into the database -->
 		    <!-- captcha implementation -->
-		    <div class="g-recaptcha" data-sitekey="6LdvOGcUAAAAANZ6PU4WZ0fSwI0y0apDdHXC3Prq" name=
+		    <div> 
+		    	<input type="checkbox" id="tos" class="tos" value="tos" name="tos"> I have read Granite's <a href="{% url 'terms' %}">Terms of Service</a> and <a href="{% url 'privacy' %}">Privacy Policy.</a><br>
+		    	
+		    </div>
+		    <br>
+		    <div class="g-recaptcha" data-sitekey="6Lf0H28UAAAAACm9MqbKxB5wmpXopEoL6D3yztUy" name=
 		    "captcha"></div>
 		    <br/>
-		    <input class='btn btn-outline-secondary' type="submit" value="Sign Up" />
+		    <input class='btn btn-primary-new' id="submit" type="submit" value="Sign Up" disabled="disabled" />
 		</form>
 	</div>
 </div>

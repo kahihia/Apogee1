@@ -10,17 +10,14 @@ from boto.s3.key import Key
 class PartyModelForm(forms.ModelForm):
 	# the altered form fields are for formatting on the create page
 	# form-control allows bootstrap to format the form
-	title = forms.CharField(label='', max_length=140, widget=forms.Textarea(
-		attrs={'placeholder': 'Title', 'class': 'form-control', 'rows': 1}
+	title = forms.CharField(label='', max_length=140, required=False, widget=forms.Textarea(
+		attrs={'placeholder': 'Title for your event', 'class': 'form-control', 'rows': 1}
 		))
-	description = forms.CharField(label='', max_length=280, widget=forms.Textarea(
-		attrs={'placeholder': 'Description', 'class': 'form-control', 'rows': 4}
+	description = forms.CharField(label='', max_length=280, required=False, widget=forms.Textarea(
+		attrs={'placeholder': 'Event description', 'class': 'form-control', 'rows': 4}
 		))
 	# localize tells us that this is in localtime so it converts to UTC for storage
-	party_time = forms.SplitDateTimeField(label='', localize=True, widget=forms.SplitDateTimeWidget(
-		date_attrs={'placeholder': 'Date: mm/dd/yy','type': 'date', 'class': 'form-control'}, 
-		time_attrs={'placeholder': 'Time: hh:mm AM/PM or hh:mm 24-hr','type': 'time', 'class': 'form-control'}
-		), input_time_formats=['%I:%M %p', '%H:%M', '%H:%M:%S'])
+	party_time = forms.DateTimeField( label='Event Time:', localize=True, input_formats=["%Y-%m-%d %H:%M"])
 
 	# max_entrants = forms.ChoiceField(required=False, label='How many people can enter?',
 	# 	widget=forms.Select(attrs={'class': 'form-control'}), 
@@ -33,14 +30,16 @@ class PartyModelForm(forms.ModelForm):
 	# 			(500, 500), 
 	# 			(1000, 1000)))
 
-	num_possible_winners = forms.IntegerField(label='Number of possible winners', min_value=1, 
+	num_possible_winners = forms.IntegerField(label='Number of possible winners', min_value=1, initial=1,
 		widget=forms.NumberInput(attrs={'placeholder': 'Minimum of 1 winner', 'class': 'form-control'}))
-	
 
-	cost = forms.DecimalField(label='Cost ($)', min_value=0, widget=forms.NumberInput(
-		attrs={'placeholder': 'For a FREE event, enter 0', 'class': 'form-control'}))
+	cost = forms.DecimalField(label='Cost ($)', min_value=0, initial=0, 
+		widget=forms.NumberInput(attrs={'placeholder': 'For a FREE event, enter 0', 'class': 'form-control'}))
 
-	thumbnail = forms.ImageField(label='Thumbnail')
+	thumbnail = forms.ImageField(label='Upload Thumbnail', required=False)
+
+	is_twitch_event = forms.BooleanField(label="Twitch subscribers only", required=False)
+
 
 	# event_type has a default widget so we're not gonna mess with it
 	# event_type = forms.ChoiceField(label='Event Type')
@@ -56,25 +55,30 @@ class PartyModelForm(forms.ModelForm):
 			'max_entrants', 
 			'num_possible_winners', 
 			'cost',
-			'thumbnail', 
+			'thumbnail',
+			'is_twitch_event', 
 		]
 
 		# dont think these will ever appear cause the fields have length limits on them 
 		# like it just doesnt accept any more input after it hits the limit. 
 		error_messages = {
-            'title': {
-                'max_length': "This title is too long.",
-            },
-            'description': {
-                'max_length': "This description is too long.",
-            },
-        }
-
+			'title': {
+				'max_length': "This title is too long.",
+			},
+			'description': {
+				'max_length': "This description is too long.",
+			},
+		}
+	# def __init__(self, *args, **kwargs):
+	# 	if kwargs.get('user'):
+	# 		self.user = kwargs.pop('user', None)
+	# 	super(PartyModelForm, self).__init__(*args,**kwargs)
 	# ensures that the event cannot be scheduled for the past. 
+	
 	def clean_party_time(self, *args, **kwargs):
 		party_time = self.cleaned_data.get('party_time')
-		if party_time < timezone.now():
-			raise forms.ValidationError('Event cannot be in the past.')
+		if party_time < timezone.now() + timezone.timedelta(minutes=2):
+			raise forms.ValidationError('Event must be at least two minutes in the future.')
 		return party_time
 
 	def clean_upload(self):
@@ -86,6 +90,12 @@ class PartyModelForm(forms.ModelForm):
 		k.key = self.id # for example, 'images/bob/resized_image1.png'
 		upload.name="hey you"
 		k.set_contents_from_file(upload)
+
+	# def clean_is_twitch_event(self, *args, **kwargs):
+	# 	twitch_event = self.cleaned_data.get('is_twitch_event')
+	# 	if twitch_event:
+	# 		print("WOOOOOOOo")
+	# 		print(self.user)
 		#k.set_contents_from_file(resized_photo)
 	# ensures that the event cannot have more winners than entrants. 
 	# has to be called on the second field because the second field isnt 
@@ -97,4 +107,3 @@ class PartyModelForm(forms.ModelForm):
 			if num_possible_winners > max_entrants:
 				raise forms.ValidationError('Event cannot have more winners than entrants.')
 		return num_possible_winners
-		

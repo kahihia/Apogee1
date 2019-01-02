@@ -1,4 +1,4 @@
-psycopg2
+psycopg2==2.7.4
 python-decouple
 dj-database-url
 django-heroku
@@ -6,6 +6,7 @@ gunicorn==19.6.0
 whitenoise==3.3.1
 redis
 django-storages
+requests
 boto3
 boto
 paypal
@@ -15,7 +16,12 @@ twisted
 channels
 channels_redis
 service_identity
-
+pytest-dependency
+django-postgrespool
+uvicorn
+Sendinblue
+Twisted[tls,http2]
+django-profanity-filter
 amqp==2.2.2
 billiard==3.5.0.3
 celery==4.1.0

@@ -7,22 +7,54 @@
 {% endblock title %}
 
 {% block content %}
-{{ object.profile.get_absolute_url }}
-
-
 <div class='row'>
 	<!-- centers the content -->
 	<div class='col-sm-8 offset-sm-2 mt-3'>
 		<!-- brings in the create/update form -->
 		{% load crispy_forms_tags %}
 
-		<form class='form mt-3' method='POST' action='' enctype="multipart/form-data">
+		<h2 class="mt-3">Profile Settings</h2><hr>
+
+		<form class='form mt-2' method='POST' action='' enctype="multipart/form-data">
 			{% csrf_token %}
 			<!-- the view itself tells us which form to insert, so it's 
 			not actually specified -->
 		    {{ form|crispy }}
-		    <input class='btn btn-outline-secondary' type="submit" value='Save Changes' />
+		    <input class='btn btn-primary-new' type="submit" value='Save Changes' />
 		</form>
+	</div>
+	<div class='col-sm-8 offset-sm-2 mt-5'>
+		<h2 class="mt-3">Integrations</h2><hr>
+		<h4 class='mt-3'>Twitch</h4><hr>
+		{% if request.user.profile.twitch_id == '' %}
+			<a href='https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id={{twitch_client_id}}&redirect_uri={{twitch_redirect_uri}}&scope=channel_subscriptions+user_read+channel_check_subscription'>
+				<button class="btn btn-primary-new">Connect your Twitch account!</button>
+			</a>
+		{% else %}
+			<a data-toggle="modal" id="TwitchDisconnectButton" data-target="#TwitchDisconnectModal">
+				<button class="btn btn-primary-new">Disconnect your Twitch account</button>
+			</a>
+			<div class="modal fade" id="TwitchDisconnectModal" tabindex="-1" role="dialog" aria-labelledby="TwitchDisconnectModalTitle" aria-hidden="true">
+			  	<div class="modal-dialog modal-dialog-centered" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<h5 class="modal-title" id="TwitchDisconnectModalTitle">Disconnect Twitch?</h5>
+			        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          			<span aria-hidden="true">&times;</span>
+			        		</button>
+			      		</div>
+			      		<div class="modal-body text-left">
+			      			Disconnecting your Twitch account prevents you from participating in any Twitch enabled events.
+			      		</div>
+			      		<div class="modal-footer">
+			        		<a class="btn btn-outline-danger btn-block" id="modalTwitchDisconnectButton" href='{{ request.user.profile.get_twitch_reset_url }}'>
+			        			Disconnect
+			    			</a>
+			      		</div>
+			    	</div>
+			  	</div>
+			</div>
+		{% endif %}
 	</div>
 </div>
 {% endblock content %}

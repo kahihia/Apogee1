@@ -1,0 +1,10 @@
+{% extends 'emails/base_email.html' %}
+
+{% block title %}
+    {{ block.super }} | Welcome
+{% endblock title %}
+
+{% block content %}
+	<h1>You're Event has closed</h1>
+	<p>Your event {{ event }} just closed.</p>
+{% endblock content %}

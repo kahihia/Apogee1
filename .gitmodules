@@ -1,0 +1,3 @@
+[submodule "selenium_tests/SeleniumBase"]
+	path = selenium_tests/SeleniumBase
+	url = https://github.com/seleniumbase/SeleniumBase.git

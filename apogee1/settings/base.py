@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-
+from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # points us back to the root folder, where manage.py is
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6fw*ujba!d-3^a8ez_9*da+2@bt2(-1*4@f7bjuvxas$puux_8'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # shows debug messages in the page 
@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     # third party stuff
     'crispy_forms',
     'rest_framework',
+    # 'storages',
+    # 'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +64,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # from django docs for setting the current session timezone
     'parties.middleware.TimezoneMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 # root url sets the main routing file. those then refer to the other url docs

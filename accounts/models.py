@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
 from django.urls import reverse_lazy
-
+import random
 from notifications.models import Notification
 from parties.models import Party
 from userstatistics.models import StatisticsInfo
@@ -146,6 +146,12 @@ class UserProfile(models.Model):
 			related_name='blocked_by'
 		)
 
+	referred_list 	= models.ManyToManyField(
+						settings.AUTH_USER_MODEL, 
+						blank=True, 
+						related_name='referred_by'
+					)
+	
 	# other fields attatched to users, like their banner, profile pic, bio
 	profile_picture = models.ImageField(upload_to='profile_pics/%Y/%m/%d/', blank=True)
 
@@ -155,11 +161,24 @@ class UserProfile(models.Model):
 
 	new_notifications = models.BooleanField(default=False)
 
+
+
+	email_auth_token	= models.CharField(max_length=6, default="keyaut", blank=True)
+
+	password_reset_token = models.CharField(max_length=6, default="", blank=True)
 	#To verify important users
 	is_verified 		= models.BooleanField(default=False)
+	#To authenticate emails
+	is_authenticated	= models.BooleanField(default=False)
 
 	account_balance = models.DecimalField(max_digits=12,\
 	 							decimal_places=2, default=0)
+
+	twitch_OAuth_token = models.CharField(max_length=100, default="", blank=True)
+
+	twitch_refresh_token = models.CharField(max_length=100, default="", blank=True)
+
+	twitch_id = models.CharField(max_length=100, default="", blank=True)
 
 	# this is the same as calling UserProfile.objects.all()
 	# it just connects to the manager
@@ -179,6 +198,10 @@ class UserProfile(models.Model):
 	# gets the follow url for the person whose page you are on
 	def get_follow_url(self):
 		return reverse_lazy('profiles:follow', kwargs={'username': self.user.username})
+
+	def get_twitch_reset_url(self):
+		print("less gooooooooooooooooooooooooooooooooooooooooooooo")
+		return reverse_lazy('profiles:detwitch', kwargs={'username': self.user.username})
 
 	# gets the follow url for the person whose page you are on
 	def get_block_url(self):
@@ -205,6 +228,7 @@ def post_save_user_reciever(sender, instance, created, *args, **kwargs):
 	if created: 
 		new_profile = UserProfile.objects.get_or_create(user=instance)
 		StatisticsInfo.objects.create(user=instance)
+
 		# could run celery+redis deferred tasks here like an email task
 		
 # this looks for a notification signal and uses the user to set the 

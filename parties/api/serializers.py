@@ -48,6 +48,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 	is_owner = serializers.SerializerMethodField()
 	num_curr_winners = serializers.SerializerMethodField()
 	verified = serializers.SerializerMethodField()
+	profile_picture = serializers.SerializerMethodField()
 
 	class Meta:
 		# the API is built on the party model
@@ -80,7 +81,9 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'num_curr_winners',
 			'minimum_bid',
 			'max_entrants',
-			'verified' 
+			'verified',
+			'profile_picture',
+			'is_twitch_event', 
 		]
 
 	# method if you want the human readable format of the event type
@@ -127,6 +130,12 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			return obj.thumbnail.url
 		else:
 			return None 
+
+	def get_profile_picture(self, obj):
+		if obj.user.profile.profile_picture and hasattr(obj.user.profile.profile_picture, 'url'):
+			return obj.user.profile.profile_picture.url
+		else:
+			return None 
 			
 	# requires try block because it may throw an error
 	def get_did_star(self, obj):
@@ -169,7 +178,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		return tz_converted.strftime('%b %d at %I:%M %p')
 
 	def get_timeuntil(self, obj):
-		return timeuntil(obj.party_time - timedelta(minutes=10))
+		return timeuntil(obj.party_time - timedelta(minutes=2))
 
 	# this compares the current time to the event time and tells us if it's closed
 	# def get_is_open(self, obj):

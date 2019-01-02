@@ -8,6 +8,27 @@
 {% endblock title %}
 
 <!-- contains our custom JS -->
+{% block head %}
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css' rel='stylesheet'>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr" crossorigin="anonymous"></script>
+    <style type="text/css">
+    	select {
+				display: block;
+			    width: 100%;
+			    padding: .375rem .75rem;
+			    font-size: 1rem;
+			    line-height: 1.5;
+			    color: #495057;
+			    background-color: #fff;
+			    background-clip: padding-box;
+			    border: 1px solid #ced4da;
+			    border-radius: .25rem;
+			    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+			}
+    </style>
+{% endblock head %}
+
 {% block script %}
 <!-- <script src='{% static "js/parties/party-create-helper.js"%}'></script> -->
 <script src='{% static "js/parties/party-create-helper.js"%}?q={% now "U" %}'></script>
@@ -19,14 +40,43 @@
             console.log(this.value)
         });
     });
+	// Bootstrap datepicker
+	$(document).ready(function() {
+		flatpickr("#id_datetime", ({
+		    enableTime: true,
+		    dateFormat: "Y-m-d H:i",
+		    defaultDate: moment().add(5, 'minutes').format('YYYY-MM-DD HH:mm'),
+		    minDate:  moment().add(2, 'minutes').format('YYYY-MM-DD HH:mm'),
+		}))
+	})
+
+	// Update preview image on image browser upload
+	function readURL(input) {
+
+	  if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+
+	    reader.onload = function(e) {
+	    	// This needs to be sent through a sanitizer
+	      $('#imgPreview').attr('src', e.target.result);
+	    }
+
+	    reader.readAsDataURL(input.files[0]);
+	  }
+	}
+	// Listener for thumbnail upload button
+	$("#id_thumbnail").change(function() {
+	  readURL(this);
+	});
+
 </script>
 {% endblock script %}
 
 {% block content %}
-<div class='row'>
+<div class='row px-3'>
 	<!-- centers the content -->
-	<div class='col-sm-8 offset-sm-2 mt-3'>
-		<h1 class='text-center'>Create an Event</h1>
+	<div class='col-md-6 offset-md-3 col-sm-8 offset-sm-2 mt-3'>
+		<h1 class="text-center" style="margin-top: 47px">Add an event to Granite</h1><hr>
 		<!-- brings in the create/update form. because we customised 
 		the form, we arent using the crispy format. -->
 		<div class="create-event-form-container">

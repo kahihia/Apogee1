@@ -42,29 +42,31 @@ class PaypalVerificationAPI(APIView):
 	def post(self, request, format=None):
 		# Webhook headers
 		transmission_id = request.META.get("HTTP_PAYPAL_TRANSMISSION_ID")
+		print(transmission_id)
 		timestamp =  request.META.get("HTTP_PAYPAL_TRANSMISSION_TIME")
-		actual_signature = request.META.get("HTTP_PAYPAL_TRANSMISSION_SIG") 
+		actual_signature = request.META.get("HTTP_PAYPAL_TRANSMISSION_SIG")
 		cert_url = request.META.get("HTTP_PAYPAL_CERT_URL")
-
-		webhook_id = config("WEBHOOK_ID", default="9EC012240A567735B")
-		auth_algo = 'sha256'
+		# 9EC012240A567735B
+		webhook_id = config("WEBHOOK_ID", default="")
+		# auth_algo = 'sha256'
+		auth_algo = request.META.get("HTTP_PAYPAL_AUTH_ALGO")
 		fail = {'status': 'failure'}
-
-		json_paypal = json.loads(request.body)		
+		json_paypal = json.loads(request.body)
 		if json_paypal["event_type"] != "PAYMENT.SALE.COMPLETED":
 			logger.warning('Unauthorized event types in paypal webhook' + json_paypal['event_type'])
 			return Response(fail, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 		# Get payment and user id from webhook post
-		original_payment = paypalrestsdk.Payment.find(json_paypal['resource']['parent_payment'])
+		original_payment = paypalrestsdk.Payment.find(json_paypal['resource']['parent_payment'], api=paypal_api)
 		if 'custom' in original_payment['transactions'][0]:
 			user_id = original_payment['transactions'][0]['custom']
 		else:
 			return Response(fail, status=status.HTTP_424_FAILED_DEPENDENCY)
-			
 		u = UserProfile.objects.get(id=user_id)
 		
 		# Verifies the payment from the webhook via public private key and creates a response object to send back to paypal
 		try:
+			# print(WebhookEvent._verify_certificate(cert_url))
+			# print(WebhookEvent._verify_signature(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo))
 			payment_verified = WebhookEvent.verify(transmission_id, timestamp, webhook_id, request.body.decode('utf-8'), cert_url, actual_signature, auth_algo)
 		except Exception as e:
 			logger.error('Could not verify paypal sale completion')
@@ -81,7 +83,12 @@ class PaypalVerificationAPI(APIView):
 		return Response(payment_verified, status=status.HTTP_200_OK)
 
 
-
+class RefreshAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	def get(self, request, pk, format=None):
+		if request.user.is_authenticated:
+			party_qs = Party.objects.filter(pk=pk)
+			return Response({'num_joined':party_qs.first().joined.all().count()})
 
 class ReportAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
@@ -122,6 +129,13 @@ class BidAPIView(APIView):
 								'min_bid': bid_table["min_bid"],
 								'error_message':bid_table["error_message"]
 								})
+		if party_event_type == 4:
+			if request.user.is_authenticated:
+				if request.user == party_qeryset.first().user or request.user.is_staff:
+					queue_table = partyHandling.queue_dequeue(request.user, party_qeryset.first(), bids)
+					return Response({'error_message':queue_table["error_message"]})
+				else:
+					return Response({'error_message':'You must be the owner of this event to make this request'})
 
 
 
@@ -146,12 +160,19 @@ class BuyoutLotteryAPIView(APIView):
 			'min_bid':party_qeryset.first().minimum_bid,
 			'error_message':"Improper input"
 			})
-		else:
+		elif party_event_type == 3:
 			if request.user.is_authenticated:
 				buy_table = partyHandling.buyout_add(request.user, party_qeryset.first())
 				return Response({'won':buy_table["winner"],
 								'num_curr_winners':buy_table["num_winners"],
 								'error_message':buy_table["error_message"]
+								})
+		elif party_event_type == 4:
+			if request.user.is_authenticated:
+				queue_table = partyHandling.queue_add(request.user, party_qeryset.first())
+				return Response({'joined': queue_table["is_joined"],
+								'num_joined':queue_table["num_joined"],
+								'error_message':queue_table["error_message"],
 								})
 
 # used to async create events and push them to the api list

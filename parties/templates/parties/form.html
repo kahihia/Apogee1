@@ -1,11 +1,142 @@
 <!-- form is never actually rendered on its own. its 
 always added in to other form displays -->
-{% load crispy_forms_tags %}
-
+{% load static %}
 <!-- the id portion just allows us to call this with a particular id if we  want -->
 <!-- the multipart line allows us to handle the split form in event creation and update -->
+<style type="text/css">
+	select{
+		padding: 0.575rem .75rem !important;
+	}
+	.errorList {
+		list-style: none;
+		padding-left: 0px !important;
+		color: #dc3545;
+	}
+	label {
+		font-size: 14px;
+	}
+	/*Django styling hack*/
+/*	label[for=id_thumbnail] {
+		display: inline-block;
+		font-weight: 600;
+		width: 250px;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: middle;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		border: 1px solid transparent;
+		padding: .375rem .75rem;
+		font-size: 1rem;
+		line-height: 1.5;
+		border-radius: .25rem;
+		background: rgba(255,255,255,0.4) !important;
+		color: rgba(255,255,255,1) !important;
+		text-shadow: 0 2px 0 hsla(270,10%,10%,0.2) !important;
+		cursor: pointer;
+	}*/
+	label[for=id_thumbnail] {
+		display: none;
+	}
+	input[type=file]{
+		display: block;
+		margin-left: 77px;
+	}
+</style>
 <form {% if form_id %} id='{{ form_id }}' {% endif %} class='form mt-3' method='POST' action='' enctype="multipart/form-data">
 	{% csrf_token %}
-    {{ form|crispy }}
-    <input class='btn btn-outline-secondary' type="submit" value="{{ btn_title }}" />
+
+	<div class="row centering-container-all px-3">
+		<div class="mt-3">
+			<div style="width: 100%; height: 118px; width: 218px; border: 2px solid white; overflow: hidden; margin: 0 auto">
+				<img id="imgPreview" src="{% static 'media/black-placeholder.png'%}" style="width:100%" />
+			</div>
+			<div class="form-group mt-3 text-center" style="overflow: hidden; margin:0 auto">
+				{{ form.thumbnail.errors }}
+				{{ form.thumbnail.label_tag }}
+				{{ form.thumbnail }}
+				<p class='mb-0'><small class='text-muted'>Use an aspect ratio of 16:9 for best results</small></p>
+				<p><small class='text-muted'>Leave blank for default Granite thumbnail.</small></p>
+			</div>
+		</div>
+		<div class="">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						{{ form.title.errors }}
+						{{ form.title.label_tag }}
+						{{ form.title }}
+						<p><small class='text-muted'>The title will auto-fill if left blank. ex: "Caldwell's Queue"</small></p>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						{{ form.description.errors }}
+						{{ form.description.label_tag }}
+						{{ form.description }}
+						<p><small class='text-muted'>The description will auto-fill if left blank.</small></p>
+					</div>
+				</div>
+				<div class="col-md-6">
+					{{ form.party_time.errors }}
+					{{ form.party_time.label_tag }} <small class="text-muted">{{request.session.django_timezone }}</small>
+					<input  class=" form-control" id="id_datetime" name="party_time" type="text" required/>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form.event_type.errors }}
+						{{ form.event_type.label_tag }}
+						{{ form.event_type }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group" id="id_num_possible_winners" hidden>
+						{{ form.num_possible_winners.errors }}
+						{{ form.num_possible_winners.label_tag }}
+						{{ form.num_possible_winners }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group" id="id_max_entrants" hidden>
+						{{ form.max_entrants.errors }}
+						{{ form.max_entrants.label_tag }}
+						{{ form.max_entrants }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form.cost.errors }}
+						{{ form.cost.label_tag }}
+						{{ form.cost }}
+						<p><small class='text-muted'>For free events, enter 0.</small></p>
+					</div>
+				</div>
+				<div class="col-md-6">
+					{% if request.user.profile.twitch_id == '' %}
+					<p>Connect your twitch account to make sub-only events!</p>
+					{% else %}
+					<div class="form-group">
+						{{ form.is_twitch_event.errors }}
+						{{ form.is_twitch_event.label_tag }}
+						{{ form.is_twitch_event }}
+					</div>
+					{% endif %}
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form.minimum_bid.errors }}
+						{{ form.minimum_bid.label_tag }}
+						{{ form.minimum_bid }}
+					</div>
+				</div>
+				<div class="col-md-12">
+					<button type="submit" style="float: right; width: 100%" class="btn btn-primary-new"><b>Create Event</b></button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 </form>

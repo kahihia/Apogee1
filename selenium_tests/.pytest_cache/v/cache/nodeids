@@ -1,0 +1,4 @@
+[
+  "blocked.py::create_fparty::test_create_buy",
+  "blocked.py::create_fparty::test_delete_creator"
+]

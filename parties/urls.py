@@ -11,6 +11,11 @@ from .views import (
 		FollowingListView,
 		StarredListView,
 		JoinedListView,
+		PartyDuplicateView,
+		PartyKickallView,
+		PartyKickView,
+		PartyCloseView,
+		PartyLeaveView, 
 	)
 
 # app name specifies how we refer to these urls
@@ -28,4 +33,9 @@ urlpatterns = [
     path('create/', PartyCreateView.as_view(), name='create'), # /create
     # path('<int:pk>/update/', PartyUpdateView.as_view(), name='update'), # /1/update
     path('<int:pk>/delete/', PartyDeleteView.as_view(), name='delete'), # /1/delete
+    path('<int:pk>/duplicate/', PartyDuplicateView.as_view(), name='duplicate'), # /1/duplicate
+    path('<int:pk>/kickall/', PartyKickallView.as_view(), name='kickall'), # /1/duplicate
+    path('<int:pk>/kick/<username>', PartyKickView.as_view(), name='kick'),
+    path('<int:pk>/close/', PartyCloseView.as_view(), name='close'),
+    path('<int:pk>/leavequeue/', PartyLeaveView.as_view(), name='leavequeue'),
 ]

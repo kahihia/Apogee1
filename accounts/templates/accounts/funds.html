@@ -1,66 +1,130 @@
 <!-- This is the HTML for editing the user profile -->
 {% extends 'base.html' %}
-
+<!-- {% load static %} -->
 <!-- these provide the tab titles on the browser -->
 {% block title %}
 	Update Profile | {{ block.super }}
 {% endblock title %}
 
-{% block content %}
-{{ object.profile.get_absolute_url }}
+{% block script %}
+<script src='{% static "js/general/funds.js"%}'></script>
+{% endblock script %}
 
-<div class="container">
+{% block content %}
+
+
+{% if hide_funding %}
+<div class="container" style="padding-top: 30px">
 	<div class="row">
-		<div class="col-xs-12" style="padding-top: 30px">
-			<h1 style="color: white">Add funds</h1>
-			<input type="number" id="paypal-input" min="5" max="1000" value="10">
-			<div id="paypal-button" class="mt-3"></div>
+		<div class="col-md-6 offset-md-3">
+			<h1 style="color: white">Funding currently disabled</h1>
+			<hr style="color: white; border-color: white;background-color:white" />
+			<p class="white">Funding is either currently unavailable or in test mode for this enviorment.</p>
 		</div>
 	</div>
 </div>
-<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-<script>
-(function(){
-	paypal.Button.render({
-		env: 'sandbox',
-		client: {
-			sandbox: 'AYVs-7u_YV5YGnV2c8q4L0i8Ke6iZjVwY6JoumipioAh-8do6ZHCC9sYP94PpS62ZTbdqVTCNV39h0uw'
-		},
-		payment: function (data, actions) {
-			var requestedAmount = document.getElementById('paypal-input').value
-			if (!requestedAmount || isNaN(requestedAmount) || requestedAmount < 5) {
-				alert('Invalid requestedAmount')
-			}
-			return actions.payment.create({
-				transactions: [{
-					amount: {
-						total: requestedAmount,
-						currency: 'USD',
-					},
-					custom: '{{ request.user.id }}',
-		            description:  'Adding to Apogee Account Balance: $' + requestedAmount + ' event {{object.id}}' ,
-		      item_list: {
-		        items: [
-		          {
-		            name: 'Add funds{{ object.title }}',
-		            description:  'Adding to Apogee Account Balance: $' + requestedAmount + ' event {{object.id}}' ,
-		            quantity: '1',
-		            price: requestedAmount,
-		            tax: '0.01',
-		            currency: 'USD'
-		          }
-		        ],
-		      }
-				}]
-			});
-		},
-		onAuthorize: function (data, actions) {
-			return actions.payment.execute()
-				.then(function () {
-					window.alert('Thank you for your purchase!');
+
+{% else %}
+<div class="container" style="padding-top: 30px">
+	{%if user.profile.is_authenticated%}
+		<div class="row">
+			<div class="col-md-4 offset-md-1">
+				<h1 style="color: white">Add funds</h1>
+				<hr style="color: white; border-color: white;background-color:white" />
+				<p class="white">Use the form to the right to add money to your Granite account. 
+				You can use this money to buy events from your favorite creators. We have a $10.00 USD minimum.</p>
+			</div>
+			<div class="col-md-4 offset-md-1">
+				<div class="form-group">
+			    <label for="paypal-input">Amount of money to add to account</label>
+					<input class="form-control" type="number" id="paypal-input" min="10" max="1000" value="15">
+					<div id="paypal-button" class="mt-3" disabled></div>
+			  </div>
+			</div>
+		</div>
+	{%else%}
+		<div class="row">
+			<div class="col-md-4 offset-md-1">
+				<h1 style="color: white">Add funds</h1>
+				<hr style="color: white; border-color: white;background-color:white" />
+				<p class="white">You must authenticate your e-mail address to add funds to your account. Check your registered e-mail for a message labeled "Welcome to Granite!". Follow the corresponding instructions and your e-mail will be authenticated.
+				</p>
+			</div>
+		</div>
+	{%endif%}
+	<div class="row" style="margin-top: 40px">
+		<div class="col-md-4 offset-md-1">
+			<h1 style="color: white">Withdraw Funds</h1>
+			<hr style="color: white; border-color: white;background-color:white" />
+			<p class="white">Payout your account with the button to the right. 
+			When you payout, your whole account balance is transferred to your PayPal account. 
+			You'll need to provide your account name on the next page. 
+			The minimum balance required to payout your account is $100.00 USD.</p>
+		</div>
+		<div class="col-md-4 offset-md-1">
+			<!-- payment stuff -->
+			{% if request.user.is_authenticated and request.user.id == user.id %}
+			<a href="{% url 'payout:info' %}">
+				<button class="btn btn-primary-new btn-block">Payout: ${{user.profile.account_balance}}</button>
+			</a> 
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{%if user.profile.is_authenticated%}
+	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+	<script>
+	(function(){
+		paypal.Button.render({
+			env: '{{ paypal_env }}',
+			client: {
+					sandbox: '{{ paypal_client_id }}',
+					production: '{{ paypal_client_id }}'
+			},
+			payment: function (data, actions) {
+				console.log("!");
+				var requestedAmount = document.getElementById('paypal-input').value
+				if(requestedAmount<10){
+					requestedAmount=10
+				}
+				if (!requestedAmount || isNaN(requestedAmount) || requestedAmount < 5) {
+					alert('Invalid requested amount.')
+				}
+				return actions.payment.create({
+					transactions: [{
+						amount: {
+							total: requestedAmount,
+							currency: 'USD',
+						},
+						custom: '{{ user.id }}',
+			            description:  'Adding to Granite Account Balance: $' + requestedAmount + ' event {{user.id}}' ,
+			      item_list: {
+			        items: [
+			          {
+			            name: 'Add funds to {{ user.username }}',
+			            description:  'Adding to Granite Account Balance: $' + requestedAmount + ' event {{user.id}}' ,
+			            quantity: '1',
+			            price: requestedAmount,
+			            tax: '0.01',
+			            currency: 'USD'
+			          }
+			        ],
+			      }
+					}]
 				});
-		}
-	}, '#paypal-button');
-})()
-</script>
+			},
+			onAuthorize: function (data, actions) {
+				return actions.payment.execute()
+					.then(function () {
+						window.alert('Thank you for your purchase!');
+					});
+			}
+		}, '#paypal-button');
+	})()
+	</script>
+{% endif %}
+{% endif %}
+
+
 {% endblock content %}

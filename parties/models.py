@@ -16,7 +16,7 @@ from celery.decorators import periodic_task
 import math
 import sys
 #from event_payment import partyTransactions
-from .validators import validate_title
+from .validators import validate_title, validate_profanity
 from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
 import os
@@ -44,12 +44,11 @@ class Party(models.Model):
 						on_delete=models.CASCADE
 					)
 	title 			= models.CharField(
-						max_length=140, 
-						validators=[validate_title]
-					)
-	description 	= models.CharField(max_length=280)
+						max_length=140, blank=True, 
+						validators=[validate_title, validate_profanity])
+	description 	= models.CharField(max_length=280, blank=True, validators=[validate_profanity])
 	# auto_now_add automatically inputs the current time on creation
-	time_created	= models.DateTimeField(auto_now_add=True)
+	time_created	= models.DateTimeField(db_index=True, auto_now_add=True)
 	# auto_now adds the time, but it can be overwritten if it adds again
 	updated 		= models.DateTimeField(auto_now=True)
 	party_time		= models.DateTimeField()
@@ -57,7 +56,7 @@ class Party(models.Model):
 	minimum_bid		= models.DecimalField(max_digits=7, decimal_places=2, default=0)
 	interaction_pts	= models.IntegerField(default=0)
 	time_pts		= models.DecimalField(default=0, max_digits=10, decimal_places=4)
-	popularity		= models.DecimalField(default=0, max_digits=10, decimal_places=4)
+	popularity		= models.DecimalField(db_index=True, default=0, max_digits=10, decimal_places=4)
 
 	# starred contains the users that have starred the event. that means that
 	# starred_by should include all the events that a user has starred
@@ -85,6 +84,8 @@ class Party(models.Model):
 						blank=True, 
 						related_name='reported_by'
 					)
+	is_private_event 	= models.BooleanField(default=False)
+	is_twitch_event 	= models.BooleanField(default=False)
 	is_flagged 		= models.BooleanField(default=False)
 	#Number of possible winners - sepcified by the creator on event creation
 	num_possible_winners = models.PositiveSmallIntegerField(default=1)
@@ -114,14 +115,14 @@ class Party(models.Model):
 
 	cost 			= models.DecimalField(max_digits=7, decimal_places=2, default=0)
 
-
 	# declares our choices for event types
 	event_type		= models.IntegerField(
 						choices=(
 							(1, 'Lottery'), 
 							(2, 'Bid'), 
-							(3, 'Buy')),  
-						default=1)
+							(3, 'Buy'),
+							(4, 'Queue'),),  
+							default=4)
 
 	
 	# this is what success_url reroutes to if it is not defined in the view
@@ -137,7 +138,11 @@ class Party(models.Model):
 	def schedule_pick_winner(self):
 		# the pick time is set to be slightly before when the event 
 		# actully happens to allow everyone to get set up.
-		pick_time = self.party_time - timedelta(minutes=10)
+		pick_time = 0
+		if self.event_type == 4:
+			pick_time = self.party_time + timedelta(minutes=720)
+		else:
+			pick_time = self.party_time - timedelta(minutes=2)
 		# .astimezone(pytz.utc)
 		# brings in the pick winner method
 		from .tasks import pick_winner
@@ -187,8 +192,16 @@ class Party(models.Model):
 		# then we set the task_id as the party id, then we save again
 		super(Party, self).save(*args, **kwargs)
 		self.minimum_bid = self.cost
-		self.time_pts = self.set_time_pts()
+		pts = self.set_time_pts()
+		self.time_pts = pts
+		self.interaction_pts = pts
 		self.task_id = self.schedule_pick_winner()
+
+		# sets default text for title and description
+		if not self.title:
+			self.title = self.user.username + "'s " + self.get_event_type_display()
+		if not self.description:
+			self.description = self.user.username + "'s " + self.get_event_type_display()
 		# self.send_notifications()
 		super(Party, self).save(*args, **kwargs)
 
@@ -208,20 +221,21 @@ class Party(models.Model):
 # this would be how you add a notification system
 # it enacts certain methods on saving an event
 def party_save_receiver(sender, instance, created, *args, **kwargs):
-	if created:
-		# this looks for usernames in event desctriptions to highlight them
-		# and potentially send a notification
-		user_regex = r'@(?P<username>[\w.@+-]+)'
-		usernames = re.findall(user_regex, instance.description)
-		# send notification here
+	a=1
+	# if created:
+	# 	# this looks for usernames in event desctriptions to highlight them
+	# 	# and potentially send a notification
+	# 	user_regex = r'@(?P<username>[\w.@+-]+)'
+	# 	usernames = re.findall(user_regex, instance.description)
+	# 	# send notification here
 
-		# this finds hashtags and actually sends the signal to create them 
-		# in the hashtag app.
-		hash_regex = r'#(?P<hashtag>[\w/d-]+)'
-		hashtags = re.findall(hash_regex, instance.description)
-		# this sends the list over to the hashtags app so that they can be created
-		parsed_hashtags.send(sender=instance.__class__, hashtag_list=hashtags)
-		#send hashtag signal here
+	# 	# this finds hashtags and actually sends the signal to create them 
+	# 	# in the hashtag app.
+	# 	hash_regex = r'#(?P<hashtag>[\w/d-]+)'
+	# 	hashtags = re.findall(hash_regex, instance.description)
+	# 	# this sends the list over to the hashtags app so that they can be created
+	# 	parsed_hashtags.send(sender=instance.__class__, hashtag_list=hashtags)
+	# 	#send hashtag signal here
 
 
 post_save.connect(party_save_receiver, sender=Party)

@@ -17,6 +17,7 @@ reminder_text = "Your event with {} is soon "
 @shared_task
 # this method takes the list of joined, reorders it randomly, and picks one
 def pick_winner(party_id):
+	print("__________________________________________________________________________________________________")
 	try:
 		# gets the correct party
 		# filter would return a queryset, we want an object.
@@ -28,8 +29,17 @@ def pick_winner(party_id):
 	if party.is_open:
 		Notification.objects.create(user=party.user, party=party,\
 		action="owner_event_close")
+		
+		email_data = {'event': party.title, 'event_time': party.party_time}
+		# emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', \
+		# [party.user.email], 'creator_event_close.html', email_data)
+		
 		partyTransactions.create_payment(party)
 	# if there are people that joined the event
+	if party.event_type == 4:
+		party.is_open = False
+		party.save2(update_fields=['is_open'])
+		return
 	if party.joined.all().count() > 0:
 		# gets all users in joined, orders them randomly
 		pool = party.joined.all().order_by('?')
@@ -41,26 +51,18 @@ def pick_winner(party_id):
 					winner = pool.first()
 					partyHandling.win_toggle(winner, party)
 					pool = pool.exclude(pk=winner.pk)
-					email_data = {'username': winner.username}
-					emailer.email(winner_text, 'team@apogee.gg', [winner.email], 'winner_email.html', email_data)
 			statisticsfunctions.lottery_update_end_stats(party)
 		#If the party event is a bid and hasnt closed for some reason
 		elif party.event_type==2 and party.is_open:
 			#Anyone in the joined list at the end of the event is a winner
 			winners = party.joined.all()
-			for w in winners:
-				print (w)
 			#add winners in
 			for i in winners:
-				print("HERE")
 				partyHandling.win_toggle(i, party)
 				# email_data = {'username': winner.username}
-				# emailer.email(winner_text, 'team@apogee.gg', [winner.email], 'winner_email.html', email_data)
-				email_data = {'username': i.username}
-				emailer.email(winner_text, 'team@apogee.gg', [i.email], 'winner_email.html', email_data)
+				# emailer.email(winner_text, 'team@mail.granite.gg', [winner.email], 'winner_email.html', email_data)
 			statisticsfunctions.bid_update_end_stats(party)
 		elif party.event_type==3 and party.is_open:
-			print("Buyout event is over")	
 			statisticsfunctions.buyout_update_end_stats(party)
 
 		# this closes all parties that had any joins
@@ -74,7 +76,6 @@ def pick_winner(party_id):
 			statisticsfunctions.bid_update_end_stats(party)
 		elif party.event_type==3 and party.is_open:
 			statisticsfunctions.buyout_update_end_stats(party)
-		print ('it didnt work')
 		# this closes the unjoined event
 		party.is_open = False
 		party.save2(update_fields=['is_open'])	
@@ -84,8 +85,12 @@ def pick_winner(party_id):
 		for n in notification_list:
 			Notification.objects.create(user=n, party=party,\
 			action="fan_reminder")
-			email_data = {'username': n.username}
-			emailer.email(reminder_text.format(party.user.username), 'team@apogee.gg', [n.email], 'event_reminder_email.html', email_data)
+			email_data = {'creator': n.username, 'event_time': party.party_time}
+			# emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', [n.email], 'event_reminder_email.html', email_data)
+	
 	Notification.objects.create(user=party.user, party=party,\
 	action="owner_reminder")
+	email_data = {'event': party.title, 'event_time': party.party_time}
+	# emailer.email(reminder_text.format(party.user.username), 'team@mail.granite.gg', \
+	# [party.user.email], 'creator_reminder_email.html', email_data)
 

@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.views.generic import DetailView, FormView, UpdateView
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.utils.safestring import mark_safe
 # views tell us what info is displayed, what methods we have acess to, 
 # and what our rendering files are
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,13 +18,14 @@ from .models import UserProfile
 from .forms import UserRegisterForm, UserProfileModelForm
 from .mixins import ProfileOwnerMixin
 from apogee1.utils.email import emailer
+from apogee1.utils.twitch import twitch_functions
 from parties.api.serializers import PartyModelSerializer
 from parties.models import Party
 
 # Create your views here.
 User = get_user_model()
 
-welcome_message = "You have successfully registered your account with Apogee.\nWe are excited to have you join the Apogee community!"
+welcome_message = "You have successfully registered your account with Granite.\nWe are excited to have you join the Granite community!"
 
 # this view is for signing up a new user
 class UserRegisterView(FormView):
@@ -34,13 +36,13 @@ class UserRegisterView(FormView):
     # actually create user here. not sure why we do this, but i believe the cleaning
     # prevents some security issues
     def form_valid(self, form):
+        print(self.request.GET)
         username = form.cleaned_data.get('username')
         email = form.cleaned_data.get('email')
         password = form.cleaned_data.get('password')
         captcha_good = True
 
         recaptcha_response = self.request.POST.get('g-recaptcha-response')
-        print(recaptcha_response)
         url = 'https://www.google.com/recaptcha/api/siteverify'
         values = {
         'secret': config('CAPTCHA_SECRET_KEY'),
@@ -52,20 +54,36 @@ class UserRegisterView(FormView):
         result = json.loads(response.read().decode())
         if result['success']:
             #Set this config variable to TRUE on heroku to enable account registration
-            captcha_good = config('ALLOW_REGISTRATION')
+            captcha_good = config('ALLOW_REGISTRATION', cast=bool)
         else:
-            captcha_good = config('CAPTCHA_OFF')
-           # captcha_good = True
+            captcha_good = config('CAPTCHA_OFF', cast=bool)
+        # captcha_good = True
         #Do captcha validation
-        if captcha_good:
+        if captcha_good and self.request.POST.get('tos'):
             new_user = User.objects.create(username=username, email=email)
             new_user.set_password(password)
             new_user.save()
-            email_data = {'username': username}
-            emailer.email('Account Registration Success', 'team@apogee.gg', [email], 'creation_email.html', email_data)
+            try:
+                print(self.request.GET)
+                ref = (self.request.GET).dict()
+                print(ref)
+                referring_user = ref['ref']
+                print(referring_user)
+                if referring_user:
+                    u = User.objects.get(username = referring_user)
+                    if u:
+                        u.profile.referred_list.add(new_user)            
+            except Exception as e:
+                print(e)            
+            # email_data = {'username': username}
+            # emailer.email('Account Registration Success', 'team@mail.granite.gg', [email], 'creation_email.html', email_data)
+            emailer.email(new_user, "welcome")
+            login(self.request, new_user)
+            return HttpResponseRedirect("/")
 
         else:
             return HttpResponseRedirect("/register")
+           # return HttpResponseRedirect("/register")
         return super(UserRegisterView, self).form_valid(form)
         
 
@@ -94,6 +112,8 @@ class UserDetailView(DetailView, LoginRequiredMixin):
             context['blocking'] = UserProfile.objects.is_blocking(self.request.user, self.get_object())
             context['blocked'] = UserProfile.objects.is_blocked(self.request.user, self.get_object())
             context['recommended'] = UserProfile.objects.recommended(self.request.user)
+            context['twitch_redirect_uri'] = config('TWITCH_REDIRECT_URI')
+            context['twitch_client_id'] = config('TWITCH_CLIENT_ID')
 
         requested_user = self.kwargs.get('username')
         if requested_user:
@@ -104,14 +124,31 @@ class UserDetailView(DetailView, LoginRequiredMixin):
         # in the html, we call both following and recommended. this is how those 
         # variables get passed through
         context['events'] = serialized_parties
+        context['request'] = self.request
         return context
 
 class FundsView(LoginRequiredMixin, DetailView):
     def get(self, request, *args, **kwargs):
-        context = {'user': self.request.user}
+        paypal_client_id = config("PAYPAL_CLIENT_ID", default="test"),
+        paypal_env = config("PAYPAL_ENV", default="sandbox")
+        if paypal_env == "live":
+            paypal_env = "production"
+        context = {'user': self.request.user, 'paypal_env': paypal_env, 'paypal_client_id': paypal_client_id[0] }
         return render(request, 'accounts/funds.html', context)
 
-
+class UserTwitchAuthView(View, LoginRequiredMixin):
+    def get(self, request, *args, **kwargs):
+        code = request.GET.get('code', 'None')
+        if code =='None':
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
+        response = twitch_functions.get_twitch_details(code, request.user)
+        if response==-1:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
+        if response==0:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have not been authenticated with Twitch"})
+        if response==1:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
+       
 # this is used to toggle following
 class UserFollowView(View, LoginRequiredMixin):
     def get(self, request, username, *args, **kwargs):
@@ -122,6 +159,20 @@ class UserFollowView(View, LoginRequiredMixin):
             is_following = UserProfile.objects.toggle_follow(request.user, toggle_user)
             # it redirects you to the same page you were on and updates the text on the button
             return redirect('profiles:detail', username=username)
+
+
+
+class UserDeTwitchView(View, LoginRequiredMixin):
+    def get(self, request, username, *args, **kwargs):
+        if request.user.is_authenticated:
+            user = request.user.profile
+            user.twitch_id=""
+            user.twitch_OAuth_token=""
+            user.twitch_refresh_token=""
+            user.save(update_fields=['twitch_id'])
+            user.save(update_fields=['twitch_refresh_token'])
+            user.save(update_fields=['twitch_OAuth_token'])
+            return redirect('profiles:edit', username=username)
 
 # this is used to toggle blocking
 class UserBlockView(LoginRequiredMixin, View):
@@ -134,6 +185,36 @@ class UserBlockView(LoginRequiredMixin, View):
             # it redirects you to the same page you were on and updates the text on the button
             return redirect('profiles:detail', username=username)
 
+class UserDeleteView(LoginRequiredMixin, View):
+    def get(self, request, username, *args, **kwargs):
+        if request.user.is_authenticated:
+            u = User.objects.get(username = username)
+            if u.profile.account_balance != 0:
+                return render(request, 'accounts/delete_user.html', {'account_balance_clear': False, 'user': u})
+            return render(request, 'accounts/delete_user.html', {'account_balance_clear': True, 'user': u})
+        else:
+            return redirect('/', username=username)
+    def post(self, request, username, *args, **kwargs):
+        if request.user.is_authenticated and username == request.user.username:
+
+            u = User.objects.get(username = username)
+            if u.profile.account_balance != 0:
+                return render(request, 'accounts/delete_user.html', {'account_balance_clear': False, 'user': u})
+            else:
+                try:
+                    u.delete()
+                except User.DoesNotExist:
+                    print("Does not exist")
+                    return render(request, '/')
+
+                except Exception as e: 
+                    print(e)
+                    return render(request, '/',{'err':e.message})
+
+                logout(request)
+                return render(request, 'accounts/delete_user.html', {'account_balance_clear': True, 'user': u, 'confirmed': True})
+        else:
+            return redirect('/', username=username)
 
 # this is the profile settings page
 # the mixins ensure that you are both authenticated and the owner of the profile
@@ -148,3 +229,13 @@ class UserProfileUpdateView(LoginRequiredMixin, ProfileOwnerMixin, UpdateView):
     # we arent trying to edit the user object here. 
     def get_object(self):
         return get_object_or_404(UserProfile.objects.all(), user__username__iexact=self.kwargs.get('username'))
+    def get_context_data(self, *args, **kwargs):
+        context = super(UserProfileUpdateView, self).get_context_data(*args, **kwargs)
+        if self.request.user.is_authenticated:
+            # in the html, we call both following and recommended. this is how those 
+            # variables get passed through
+            context['twitch_redirect_uri'] = config('TWITCH_REDIRECT_URI')
+            context['twitch_client_id'] = config('TWITCH_CLIENT_ID')
+        requested_user = self.kwargs.get('username')
+        context['request'] = self.request
+        return context

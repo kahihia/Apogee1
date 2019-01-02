@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Authentication | {{ block.super }} {% endblock title %}
+
+{% block script %}
+
+<script src='{% static "js/general/authentication.js"%}'></script>
+
+{% endblock script %}
+{% block content %}
+<div class='container'>
+	<div class='row mt-4'>
+		<h2>E-mail Authentication<h2>
+	</div>
+	<center>
+		<div id="authentication_confirmation">		
+		</div>
+		<div class="col-sm-12 form-group mb-1" id="div_auth_key">
+			<input size="6" type="text" id="auth_key" name="auth_key" value="" maxlength="6">
+			<p>
+			</p>
+		 	<input type="submit" value="Authenticate" class="btn btn-primary-new ml-3" id ="authenticate_btn">
+		</div>
+	</center>
+
+</div>
+
+<div class="row mt-4"> 
+<!-- 	<form id= "auth_key-submit" method="GET"> -->
+
+<!-- 	</form> -->
+</div>
+{% endblock content %}

@@ -1,4 +1,4 @@
-{% extends 'base_email.html' %}
+{% extends 'emails/base_email.html' %}
 
 {% block title %}
     {{ block.super }} | Welcome
@@ -8,5 +8,3 @@
 	<h1>Just a reminder</h1>
 	<p>Your meetup with {{ creator }} is at {{ event_time }}.</p>
 {% endblock content %}
-
-{% include 'email_footer.html' %}

@@ -12,17 +12,59 @@ of the formatting in the head, so it must be imported into every file. -->
     <!-- this is where the static files are served locally. for procudtion, we should use the CDN version -->
     <!-- <link href='{% static "css/bootstrap.min.css" %}' rel='stylesheet'> -->
     <link href='{% static "css/max-custom.css" %}' rel='stylesheet'>
+    <link href='{% static "css/custom.css" %}' rel='stylesheet'>
     <!-- CDN Version of Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- CDN for FontAwesome, which is where our little glyphicons come from -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.min.js" crossorigin="anonymous"></script>
+
+    <!-- Typekit -->
+    <script>
+    (function(d) {
+      var config = {
+        kitId: 'qab4cmt',
+        scriptTimeout: 3000,
+        async: true
+      },
+      h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+    })(document);
+  </script>
+
+  <!-- Set user timezone -->
+  <script type="text/javascript">
+    window.django_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    console.log("Timezone: " + window.django_timezone)
+    function formatToLocal(timestamp) {
+      /*Returns a moment object set to timezone*/
+      return timestamp.tz(window.django_timezone)
+    }
+  </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-7280772494153155",
+        enable_page_level_ads: true
+      });
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130434060-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-130434060-1');
+    </script>
+    <script type="text/javascript"> var infolinks_pid = 3148719; var infolinks_wsid = 0; </script> <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
     <!-- block title allows us to push a new title from each page -->
-    <!-- you can access the apogee text by calling block.super, so all other pages just call that in their block title section -->
-    <title>{% block title %}Apogee{% endblock title %}</title>
+    <!-- you can access the Granite text by calling block.super, so all other pages just call that in their block title section -->
+    {% block head %}{% endblock head %}
+    <title>{% block title %}Granite{% endblock title %}</title>
   </head>
 
-  <body>
+  <body style='min-height: calc(100vh - 88px - 3.75rem);'>
 
 
 
@@ -34,16 +76,19 @@ of the formatting in the head, so it must be imported into every file. -->
 
     <!-- this holds the actual content from each individual page -->
     <!-- the container has margins, eliminate them with container fluid -->
-    <div class='container-fluid'>
+    <div class='container-fluid'  style='min-height: calc(100vh - 120px - 3.75rem);'>
         {% block content %}
         {% endblock content %}
     </div>
+    <!-- this is how we include the footer into every page -->
+    <!-- footer goes outside container bc the container has margins. 
+    moving it out allows it to stretch the whole way across -->
+    {% include 'footer.html' %}
 
     <!-- Optional JavaScript through CDNs -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!-- Botstrap comes with slim version of jQuery, but we've updated to full version so that we can use AJAX stuff -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" crossorigin="anonymous"></script>
     <script src='{% static "js/sanitize-html.min.js" %}' crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -78,7 +123,7 @@ of the formatting in the head, so it must be imported into every file. -->
     <!-- this is our custom JS block where we'll anything from specific pages -->
     {% block script %}
     {% endblock script %}
-    <script>
+    <script type="text/javascript">
       $(document).ready(function(){
         $(window).scroll(function(){
           var y = $(window).scrollTop();
@@ -89,6 +134,29 @@ of the formatting in the head, so it must be imported into every file. -->
               $(".navbar").removeClass("navbar-shadow");
             }
           });
+        })
+    </script>
+    <script type="text/javascript">
+
+        function getCookie(name) {
+          var value = "; " + document.cookie;
+          var parts = value.split("; " + name + "=");
+          if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+        
+        $.ajax({
+          method: 'POST',
+          url: '/set_timezone/',
+          data: {"django_timezone" : window.django_timezone},
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+          },
+          success: function(data){
+            console.log("Timezone set : "  + data)
+          }, 
+          error: function(data){
+            console.log('error', data)
+          }
         })
     </script>
 

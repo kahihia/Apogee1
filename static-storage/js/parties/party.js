@@ -15,9 +15,75 @@ function updateHashLinks(){
   })
 }
 
+
+
+setInterval(function()
+{
+  // let this_ = $(this)
+  // let partyID = this_.attr('data-id')
+  // let partyType = this_.attr('event-id')
+  // let joinedUrl;
+  // alert($('#detailStar').text)
+  let partyID = $('input[name=party_id]').val()
+  let joinedUrl = '/api/events/' + partyID + '/refresh/';
+    $.ajax({
+      method: 'GET',
+      url: joinedUrl,
+      success: function(data){
+        document.getElementsByName("num_joined")[0].innerHTML = data.num_joined + ' ' 
+        // if(partyType == 4){
+        //   // document.getElementsByName("num_curr_winners")[0].innerHTML = data.num_curr_winners;
+        // }
+        // if(data.error_message!=""){
+        //   alert(data.error_message);
+        // }
+        // location.reload();
+        // the api handles updating the database 
+      }, 
+      error: function(data){
+        console.log('error')
+        console.log(data)
+      }
+    })
+}, 10000); //10000 milliseconds = 10 seconds
+
+
+function addRequestFunctionality(){
+   $(document.body).on("click", '.requestBtn', function(e){
+    e.preventDefault();
+    let this_ = $(this)
+    let partyID = this_.attr('data-id')
+    let partyType = this_.attr('event-id')
+    let joinedUrl;
+    let requestAmount = document.getElementsByName("request_amount")[0].value
+    if(partyType==4){
+      joinedUrl = '/api/events/' + partyID + '/join/'+ requestAmount;
+      $.ajax({
+        method: 'GET',
+        url: joinedUrl,
+        success: function(data){
+          if(partyType == 4){
+            // document.getElementsByName("num_curr_winners")[0].innerHTML = data.num_curr_winners;
+          }
+          if(data.error_message!=""){
+            alert(data.error_message);
+          }
+          location.reload();
+          // the api handles updating the database 
+        }, 
+        error: function(data){
+          console.log('error')
+          console.log(data)
+        }
+    })
+    }
+
+   })
+}
+
 function addJoinFunctionality(){
   $(document.body).on("click", '.joinBtn', function(e){
-    e.preventDefault()
+    e.preventDefault();
 
     let this_ = $(this)
     // selector for the button. makes sure we have the event id 
@@ -26,7 +92,7 @@ function addJoinFunctionality(){
     console.log("The party is "+partyType)
     // api endpoint
     let joinedUrl;
-    if(partyType == 1 || partyType == 3){
+    if(partyType == 1 || partyType == 3||partyType==4){
       joinedUrl = '/api/events/' + partyID + '/join/'
     }
     else{
@@ -59,6 +125,7 @@ function addJoinFunctionality(){
         }
         console.log(this_)
         console.log(data.min_bid)
+        location.reload();
         // the api handles updating the database 
       }, 
       error: function(data){
@@ -111,10 +178,10 @@ function addReportFunctionality(){
       method: 'GET',
       url: reportUrl,
       success: function(data){
-        alert(data.error_message)
+        console.log("Successful Report");
       }, 
       error: function(data){
-        console.log('Report')
+        console.log("Unsuccessful Report");      
       }
     })
   })

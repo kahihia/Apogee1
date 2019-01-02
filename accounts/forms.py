@@ -57,13 +57,13 @@ class UserRegisterForm(forms.Form):
 class UserProfileModelForm(forms.ModelForm):
 	# the altered form fields are for formatting on the create page
 	bio = forms.CharField(label='', required=False, widget=forms.Textarea(
-		attrs={'placeholder': 'Bio', 'class': 'form-control', 'rows': 3}
+		attrs={'placeholder': 'Bio', 'class': 'form-control col-md-6', 'rows': 3}
 		), help_text='Feel free to share as much or as little as you like. Personal history, games you like to play, etc.')
 	
 	# ImageFields have a url associated with them by default
 	profile_picture = forms.ImageField(label='Profile Picture', required=False)
 
-	banner = forms.ImageField(label='Banner/cover photo', required=False)
+	# banner = forms.ImageField(label='Banner/cover photo', required=False)
 
 	# this tells the form what fields to actually display
 	class Meta:
@@ -71,7 +71,7 @@ class UserProfileModelForm(forms.ModelForm):
 		fields = [
 			'bio',
 			'profile_picture',
-			'banner', 
+			# 'banner', 
 		]
 
 	

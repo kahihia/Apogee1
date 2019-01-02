@@ -20,8 +20,25 @@ from django.conf.urls import include, url
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
+from django.contrib.auth import views as auth_views
+
 # views
-from .views import HomeView, SearchView, set_timezone
+from .views import (
+		HomeView, 
+		SearchView, 
+		set_timezone, 
+		TOSView, 
+		BlankView, 
+		PPView, 
+		AboutView, 
+		FAQView,
+		ContactView,
+		ConductView, 
+		FeesView,
+		AuthenticationView,
+		PasswordResetView
+	)
+from .api.views import TestEmailEndpoint, SetTimzoneEndpoint 
 from parties.views import PartyListView
 from hashtags.views import HashTagView
 from hashtags.api.views import TagPartyAPIView
@@ -38,6 +55,8 @@ from accounts.views import UserRegisterView
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('', PartyListView.as_view(), name='home'),
+	path('set_timezone/', SetTimzoneEndpoint.as_view(), name="set_timezone"),
+	path('test_email/', TestEmailEndpoint.as_view(), name="test_email"),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path('register/', UserRegisterView.as_view(), name='register'),
 	path('search/', SearchView.as_view(), name='search'),
@@ -53,10 +72,20 @@ urlpatterns = [
 	path('api/notifications/', include('notifications.api.urls', namespace='notifications-api')),
 	path('tags/<slug:hashtag>/', HashTagView.as_view(), name='hashtag'),
 	path('api/tags/<slug:hashtag>/', TagPartyAPIView.as_view(), name='hashtag-api'),
+	path('authentication', AuthenticationView.as_view(), name='authentication'),
 	# this should migrate into the settings page at some point soon
 	path('tz/', set_timezone, name='set_timezone'),
 	path('stats/', include('userstatistics.urls', namespace='statistics')),
 	path('payout/', include('payout.urls', namespace='payout')),
+	path('terms', TOSView.as_view(), name='terms'),
+	path('blank', BlankView.as_view(), name='blank'),
+	path('privacy', PPView.as_view(), name='privacy'),
+	path('about', AboutView.as_view(), name='about'),
+	path('FAQ', FAQView.as_view(), name='FAQ'),
+	path('contact', ContactView.as_view(), name='contact'),
+	path('conduct', ConductView.as_view(), name='conduct'),
+	path('fees', FeesView.as_view(), name='fees'),
+	path('password_reset/', PasswordResetView.as_view(), name='passwordreset'),
 	#url(r'^.*$', RedirectView.as_view(url='', permanent=False), name='index')
 	#Deprecated path to bids, bid views not available to users
 	#path('bids/', include('bids.urls', namespace='bids'))

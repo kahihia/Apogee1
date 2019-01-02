@@ -1,0 +1,563 @@
+<!--this is the HTML for the main page. it has recommended users 
+a create event button, and the event thumbnails-->
+{% extends 'base.html' %}
+<!-- we would use this if we wanted to suggest users to follow -->
+<!-- {% load recommended %}
+<p class='lead'>Recommended users</p>
+<p>{% recommended request.user %}</p> -->
+<!-- {% load static %} -->
+<!-- sets the tab info -->
+{% block title %} FAQ | {{ block.super }} {% endblock title %}
+<!-- hello caldwell -->
+<!-- contains our custom JS -->
+{% block script %}
+{% endblock script %}
+
+{% block content %}
+<div class="home-content container faq-section mt-4">
+    <div class="row">
+        <h2 class="pl-3">Frequently Asked Questions<h2>
+    </div>
+
+    <!-- toggle section -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="d-flex nav-active-border home-nav">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link pt-4 pb-4 active show" href="#" data-toggle="tab" data-target="#creators_tab">For Creators</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pt-4 pb-4" href="#" data-toggle="tab" data-target="#fans_tab">For Fans</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content">
+
+        <div class="tab-pane fade active show" id="creators_tab">
+            <div class="row creators-about">
+                <!-- creator accordion -->
+                <div id="accordion" role="tablist" class="apogee-accordion pl-3">
+                   
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC1">
+                            <h5 class="mb-0">
+                                <a data-toggle="collapse" href="#collapseC1" aria-expanded="true" aria-controls="collapseC1">
+                                How does this work?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC1" class="collapse show" role="tabpanel" aria-labelledby="headingC1" data-parent="#accordion">
+                            <div class="card-body">
+                                You’ll create an event that includes a description, time, number of fans that can participate, entry type, and price. Once the event is created, fans can purchase, bid on, or enter a lottery for the opportunity to participate. Once they are confirmed as participants, either upon purchasing the event or winning a lottery or auction, they will have access to the on-event messenger, where you can pass whatever information you need back and forth, like usernames or Discord links. Events close, meaning they no longer accept entrants and choose auction and lottery winners, 10 minutes before the specified event time.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC2">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC2" aria-expanded="false" aria-controls="collapseC2">
+                                How do I create an event?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC2" class="collapse" role="tabpanel" aria-labelledby="headingC2" data-parent="#accordion">
+                            <div class="card-body">
+                                First, hit the create new event button in the navbar. Then, enter a title, description, time, number of fans that can participate, event type, price, and thumbnail. The title is a short description of your event and is displayed at all times with the event. The description is a more detailed explanation of the event and of any requirements you may have, like a certain level or role in a game. You can also specify how long you will be playing for, if you might switch games, or any other details you think are worth sharing. The time indicates when the event will actually take place. All events stop accepting entrants 10 minutes before this time. Number of fans specifies how many people can play. For example, if you were playing 4-person squads, you’d allow three fans to purchase or win. For lotteries, you can also specify how many people can enter the lottery to ensure that the odds of winning don’t drop too low. The event type specifies how people win. It can be a purchase, bid, or lottery. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC3">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC3" aria-expanded="false" aria-controls="collapseC3">
+                                What are the different event types?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC3" class="collapse" role="tabpanel" aria-labelledby="headingC3" data-parent="#accordion">
+                            <div class="card-body">
+                                There are three different event types: Buy, bid and lottery. Buy is a first-come-first-serve purchase. You set a price and the number of purchases that can be made, and the first set of fans to pay that price are part of your event. Bid is a traditional auction. You specify a starting bid and the number of winners, and ten minutes before the event starts, the highest bids are entered into your event. Lottery is a normal raffle. You specify a price, the number of people that can enter, the raffle, and the number that can win. When the maximum number of people enter, or 10 minutes before the event is set to happen, we randomly pick the winners. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC4">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC4" aria-expanded="false" aria-controls="collapseC4">
+                                Can I have free events?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC4" class="collapse" role="tabpanel" aria-labelledby="headingC4" data-parent="#accordion">
+                            <div class="card-body">
+                                Absolutely! Our hope is to encourage as much interaction as possible, and free events are a great way to get more people involved.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC5">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC5" aria-expanded="false" aria-controls="collapseC5">
+                                What kinds of non-gaming events could I do?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC5" class="collapse" role="tabpanel" aria-labelledby="headingC5" data-parent="#accordion">
+                            <div class="card-body">
+                                If you don’t want to host a gaming event, you could watch sports, esports, tv shows, in a call together. You could discuss political events or other topics you might find interesting. Another option would be to host someone else’s stream while you have some downtime (maybe you need to run to the grocery store or do errands for an hour). You could even create an event to play with fans AND host the fan’s stream. It’s really up to you, so get creative! 
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC6">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC6" aria-expanded="false" aria-controls="collapseC6">
+                                How do I give the fan the information they need?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC6" class="collapse" role="tabpanel" aria-labelledby="headingC6" data-parent="#accordion">
+                            <div class="card-body">
+                                Most information can be put into the description. If you have information that you only want the event winners to see, like a Discord link, you can use our on-event messenger. Only people who have purchased or won your event have access to the messenger.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC7">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC7" aria-expanded="false" aria-controls="collapseC7">
+                                How much of the revenue do I get?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC7" class="collapse" role="tabpanel" aria-labelledby="headingC7" data-parent="#accordion">
+                            <div class="card-body">
+                                93%. Our goal is to support you and your community, so we want to stay out of your way. The 7% fee is to cover transaction costs on our end. To be clear, we do not intend to make money from this fee. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC8">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC8" aria-expanded="false" aria-controls="collapseC8">
+                                How do I get paid?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC8" class="collapse" role="tabpanel" aria-labelledby="headingC8" data-parent="#accordion">
+                            <div class="card-body">
+                                When you have over $100 in your account balance, you can go to “Funds” in the profile menu and request to be paid out. We’ll pay out the full balance of your account within two weeks.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC9">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC9" aria-expanded="false" aria-controls="collapseC9">
+                                Why am I seeing ads?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC9" class="collapse" role="tabpanel" aria-labelledby="headingC9" data-parent="#accordion">
+                            <div class="card-body">
+                                Our goal is to support you, so we don’t actually make money on our 7% fee. We display ads to make sure we can pay our salaries and continue building a great site for the community.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC10">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC10" aria-expanded="false" aria-controls="collapseC10">
+                                What kind of tax documentation will I receive at the end of the year?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC10" class="collapse" role="tabpanel" aria-labelledby="headingC10" data-parent="#accordion">
+                            <div class="card-body">
+                                We are required by the IRS to file Form 1099-MISC by January 31 for non-employee compensation if the sum of all payments made to you or your unincorporated business is greater than or equal to $600 in one tax year. Per the IRS, you must report all income as taxable, even if it is less than $600.  Even if we are not required to issue a Form 1099-MISC to you for payments below $600 in one tax year, the income, whatever the amount, is still reportable by you.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC11">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC11" aria-expanded="false" aria-controls="collapseC11">
+                                How can I prevent copycat accounts?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC11" class="collapse" role="tabpanel" aria-labelledby="headingC11" data-parent="#accordion">
+                            <div class="card-body">
+                                Verified creators will appear with a check mark by their name at all times. You can email us directly about becoming verified. You can also provide fans a link to your profile.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC12">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC12" aria-expanded="false" aria-controls="collapseC12">
+                                How do I ensure fans follow my rules?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC12" class="collapse" role="tabpanel" aria-labelledby="headingC12" data-parent="#accordion">
+                            <div class="card-body">
+                                You’re in charge of your event. What you put in the description and what you reasonably request during the event is law. If a fan fails to heed any of the information put in your description, or any reasonable requests made of them in the event, you may remove them from the event without penalty.   
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC13">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC13" aria-expanded="false" aria-controls="collapseC13">
+                                How am I protected from abusive fans?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC13" class="collapse" role="tabpanel" aria-labelledby="headingC13" data-parent="#accordion">
+                            <div class="card-body">
+                                You may remove any fan from any event for behavior you deem inappropriate or abusive in any way without penalty. You may want to record your event in case the fan tries to dispute this. To prevent someone from ever joining your events again, we have a block button located directly on someones profile.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC14">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC14" aria-expanded="false" aria-controls="collapseC14">
+                                When does someone get a refund? Can I dispute it?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC14" class="collapse" role="tabpanel" aria-labelledby="headingC14" data-parent="#accordion">
+                            <div class="card-body">
+                                Fans must file a complaint first. We’ll then contact you to review the situation. Recording your event in some way will provide concrete evidence of what happened. If you left or cancelled the event without reason, abused the fan in some way, or did something entirely different from your event, we’ll have to issue a refund.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC15">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC15" aria-expanded="false" aria-controls="collapseC15">
+                                If one person gets a refund, does everyone else get one too?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC15" class="collapse" role="tabpanel" aria-labelledby="headingC15" data-parent="#accordion">
+                            <div class="card-body">
+                                Generally, yes. If only one refund was issued, it would open up opportunities to exploit events. In special cases, we may not issue refunds to everyone. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC16">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC16" aria-expanded="false" aria-controls="collapseC16">
+                                what if someone says I didn't show up but I did?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC16" class="collapse" role="tabpanel" aria-labelledby="headingC16" data-parent="#accordion">
+                            <div class="card-body">
+                                We’ll investigate first. Recording your session provides proof of your actions.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC17">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC17" aria-expanded="false" aria-controls="collapseC17">
+                                What if an emergency comes up an I have to cancel?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC17" class="collapse" role="tabpanel" aria-labelledby="headingC17" data-parent="#accordion">
+                            <div class="card-body">
+                                If you cancel before the event is closed (10 minutes before the start time), no problem. If you have to cancel just before or during the event, just let us know and we’ll issue a refund.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC18">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC18" aria-expanded="false" aria-controls="collapseC18">
+                                Can I work out a replacement event with the winner if something goes wrong?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC18" class="collapse" role="tabpanel" aria-labelledby="headingC18" data-parent="#accordion">
+                            <div class="card-body">
+                                Absolutely. We suggest you get the fans consent in the on-event messenger in case they decide to dispute. It’ll provide us with a record of the agreement.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC19">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC19" aria-expanded="false" aria-controls="collapseC19">
+                                What if I want to set up and close an event a week in advance?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC19" class="collapse" role="tabpanel" aria-labelledby="headingC19" data-parent="#accordion">
+                            <div class="card-body">
+                                We don’t have a built in scheduler yet, but just provide those details clearly in your event description for now. If a fan can’t participate because they didn’t read your details, we will not issue a refund to them.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC20">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC20" aria-expanded="false" aria-controls="collapseC20">
+                                Can I change the time of an event?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC20" class="collapse" role="tabpanel" aria-labelledby="headingC20" data-parent="#accordion">
+                            <div class="card-body">
+                                Not yet. Right now the best options are to cancel and make a new one or agree on a replacement time with the winners. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC21">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC21" aria-expanded="false" aria-controls="collapseC21">
+                                What if a fan cancels and I want to add someone new to take their place?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC21" class="collapse" role="tabpanel" aria-labelledby="headingC21" data-parent="#accordion">
+                            <div class="card-body">
+                                Right now, the best option is to cancel and start a new event. We’re working on a safe way to remove people from events.  
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>  
+
+        <!-- fan section -->
+        <div class="tab-pane fade" id="fans_tab">
+            <div class="row fans-about">
+                <div id="accordion" role="tablist" class="apogee-accordion pl-3">
+                    
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingF1">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseF1" aria-expanded="false" aria-controls="collapseF1">
+                                How does this work?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseF1" class="collapse" role="tabpanel" aria-labelledby="headingF1" data-parent="#accordion">
+                            <div class="card-body">
+                                It's simple! Make an account, follow all your favorite creators, and join events you’re interested in. Events close, meaning you can no longer join them, when they are full or ten minutes before the event is set to happen. You and the creator can pass whatever information you need in the on-event messenger. At the set time, you then participate in the event!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingF2">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseF2" aria-expanded="false" aria-controls="collapseF2">
+                                What are the event types?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseF2" class="collapse" role="tabpanel" aria-labelledby="headingF2" data-parent="#accordion">
+                            <div class="card-body">
+                                There are three different event types: Buy, bid and lottery. Buy is a first-come-first-serve purchase. You purchase the event for the set price and are guaranteed a spot. The messenger becomes available to you immediately. Bid is a traditional auction. The page will list the minimum bid. You can be outbid at any time before the event closes. Lottery is a normal raffle. You buy a ticket for the set price, and winners are randomly selected when the event is filled or 10 minutes before the event starts. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingF3">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseF3" aria-expanded="false" aria-controls="collapseF3">
+                                How do I join an event?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseF3" class="collapse" role="tabpanel" aria-labelledby="headingF3" data-parent="#accordion">
+                            <div class="card-body">
+                                Click on an event thumbnail to get to the event page. There are three kinds of events; buy, bid and lottery. For buy and lottery events, just click on the “Join” or “Buy” button. If you have enough money in your account, you’ll purchase the event or be entered into the lottery. For bid, enter the minimum bid or greater and submit your bid. If it is not high enough, you’ll need to enter the new minimum. Because bids come in extremely quickly, the minimum bid displayed may not be up to date. To win a bid event, you will have to have one of the high bids when it closes. Events close, meaning purchases and bids are no longer accepted and the winners are chosen for lotteries and auctions, 10 minutes before the event begins. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingF4">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseF4" aria-expanded="false" aria-controls="collapseF4">
+                                How do I connect with the creator once I’ve joined an event?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseF4" class="collapse" role="tabpanel" aria-labelledby="headingF4" data-parent="#accordion">
+                            <div class="card-body">
+                                Any information you and the creator need to communicate can be done in the on-event messenger. It is private to the creator and other event participants, so the information posted will not be visible to the general public. Still, we encourage you to never give away sensitive information like passwords.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingF5">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseF5" aria-expanded="false" aria-controls="collapseF5">
+                                How much of my money goes to the creator?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseF5" class="collapse" role="tabpanel" aria-labelledby="headingF5" data-parent="#accordion">
+                            <div class="card-body">
+                                93% of the money goes to the creator. Our goal is to help support creators, so we want to make sure they get as much of the revenue as possible. The 7% fee is to cover transaction costs on our end.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingF6">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseF6" aria-expanded="false" aria-controls="collapseF6">
+                                How do I add money to my account?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseF6" class="collapse" role="tabpanel" aria-labelledby="headingF6" data-parent="#accordion">
+                            <div class="card-body">
+                                To add money to your account, go to the “Funds” tab of the profile menu. You can then add funds using PayPal or a credit card. We use PayPal to process all transactions and ensure they stay secure. It may take some time for your purchase to be reflected in your account balance. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingF7">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseF7" aria-expanded="false" aria-controls="collapseF7">
+                                Do I need money to participate in an event?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseF7" class="collapse" role="tabpanel" aria-labelledby="headingF7" data-parent="#accordion">
+                            <div class="card-body">
+                                Nope! Some events require money to participate, but others are free. You’ll be able to see the price of an event on both the event thumbnail and on the event page itself.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingF8">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseF8" aria-expanded="false" aria-controls="collapseF8">
+                                Why am I seeing ads?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseF8" class="collapse" role="tabpanel" aria-labelledby="headingF8" data-parent="#accordion">
+                            <div class="card-body">
+                                Our goal is to support creators, so we don’t actually make money on our 7% fee. We display ads to make sure we can pay our salaries and continue building a great site for the community. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingF9">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseF9" aria-expanded="false" aria-controls="collapseF9">
+                                How do I know the creator is who they say they are?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseF9" class="collapse" role="tabpanel" aria-labelledby="headingF9" data-parent="#accordion">
+                            <div class="card-body">
+                                Some creators will have a verified checkmark by their name to let you know that they are the real person. For unverified creators, you may want to follow a link provided by the creator. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingF10">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseF10" aria-expanded="false" aria-controls="collapseF10">
+                                How am I protected from bad creators?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseF10" class="collapse" role="tabpanel" aria-labelledby="headingF10" data-parent="#accordion">
+                            <div class="card-body">
+                                We expect you to understand the details of the events you are joining and to comply with any reasonable requests the event creator may make during the event. However, if you encounter any inappropriate or abusive behavior from the creator and are forced to leave the event, you may request a refund. You can also request a refund if the creator does not show or if they completely deviate from the event description. To avoid seeing any events from a particular person, we have a block function on individual profiles. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingF11">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseF11" aria-expanded="false" aria-controls="collapseF11">
+                                How do I request a refund?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseF11" class="collapse" role="tabpanel" aria-labelledby="headingF11" data-parent="#accordion">
+                            <div class="card-body">
+                                Please email us at reports@Granite.gg with the event name, the event creator, and your complaint. We’ll review the complaint, so please include any proof you have, including, but not limited to, a recording of the event. If we believe the creators actions were inappropriate, we’ll issue a refund. 
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+{% endblock content %}

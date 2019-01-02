@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Server Error | {{ block.super }} {% endblock title %}
+
+{% block content %}
+<div class="home-content container about-apogee mt-5">
+    <div class="row text-center">
+        <div class="col-lg-12 mb-3">
+            <h1 class="text-center mb-3">Server Error! - 500</h1>
+            <p>Sorry about this, please report this to support@apogee.gg if it persists, or try again in a little bit.</p>
+            <img src='{% static "media/site_assets/leek_spin.gif" %}'>
+            <br  />
+            <a href="/"><button class="btn btn-primary-new mt-4">Return Home</button></a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

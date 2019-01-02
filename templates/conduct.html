@@ -1,0 +1,53 @@
+<!--this is the HTML for the main page. it has recommended users 
+a create event button, and the event thumbnails-->
+{% extends 'base.html' %}
+<!-- we would use this if we wanted to suggest users to follow -->
+<!-- {% load recommended %}
+<p class='lead'>Recommended users</p>
+<p>{% recommended request.user %}</p> -->
+<!-- {% load static %} -->
+<!-- sets the tab info -->
+{% block title %} Conduct | {{ block.super }} {% endblock title %}
+<!-- hello caldwell -->
+<!-- contains our custom JS -->
+{% block script %}
+{% endblock script %}
+
+{% block content %}
+	<div class='container'>
+		<div class='row mt-4'>
+			<h2>Granite Code of Conduct<h2>
+		</div>
+		<div class="row mt-1 mb-4">
+			<p>Last revised: Sep. 21, 2018</p>
+		</div>
+		<div class='row'>
+			<p class='mb-3'>Granite’s goal is to make sure we provide positive, fun, and memorable experiences for our community.  We require that all users follow the Granite Code of Conduct and common sense to create a safe and friendly environment.</p>
+			<p class='mb-3'>Violation of the Code of Conduct may lead to the removal of any associated content, your removal from any event, and/or suspension of your account.  Granite reserves the right to suspend any account for any length of time at any time for any conduct that we determine to be inappropriate or harmful.  You may appeal your suspension; however, we are not required to provide a reason for our decision.</p>
+			<p class='mb-3'>Users can be removed from an in-progress event at any time for behavior violating our Code of Conduct. If you leave an in-progress event because an event creator is violating our Code of Conduct, you may request a refund.</p>
+			<p class='mb-3'>The Code of Conduct is an essential element of our Terms of Service.  Your use of our Services demonstrates your acceptance of the terms and conditions of our Code of Conduct.  By accessing our Services through our Site, you agree that you have read the Terms of Service and agree to be bound by the terms and conditions of this agreement, which by reference, includes the Code of Conduct.  If you do not agree to be bound by all of the terms and conditions of the Code of Conduct, the Terms of Service, and the Privacy Policy, you may not use our Services.</p>
+			<p class='mb-3'>We reserve the right to update this Code of Conduct from time to time.  It is your sole responsibility to check the Code of Conduct from time to time to view any such changes.</p>
+
+			<h4 class="my-2 pl-0 col-lg-12">Laws and Rules</h4>
+			<p class='mb-3'>Comply with all applicable local, state, and federal laws while using our Site.  Any illegal content or activity is strictly prohibited.</p>
+			<p class='mb-3'>Comply with reasonable rules the event creator has laid out, like being a certain level or not doing a particular action in a game.</p>
+
+			<h4 class="my-2">Language, Behavior, and Content</h4>
+			<p class='mb-3'>Avoid abusive language and behavior, including but not limited to acts and threats of violence, hateful conduct, and harassment, whether the targets are on or off our Site.</p>
+			<p class='mb-3'>Avoid inappropriate content including but not limited to nudity, pornography, sexual content, extreme violence, gore, and obscene content.</p>
+
+			<h4 class="my-2">Respecting Other’s Rights</h4>
+			<p class='mb-3'>Avoid unauthorized sharing of private information.  Sharing private personal information about individuals or any content that may reveal any of their private personal information, without their explicit permission, is strictly prohibited.</p>
+			<p class='mb-3'>Respect other’s intellectual property rights.  Copycat behavior and/or using copyright content without written permission, is strictly prohibited.</p>
+
+			<h4 class="my-2 pl-0 col-lg-12">Common Courtesy</h4>
+			<p class='mb-3 pl-0 col-lg-12'>Do what you said you would do in your event posting.</p>
+			<p class='mb-3'>Show up on time for the event.</p>
+			<p class='mb-3'>Should you need to change anything related to your event after it closes, communicate and make sure both parties agree to the change.  We suggest you use the on-event messenger as a record of the agreement.</p>
+
+			<h4 class="my-2">Respecting the Community</h4>
+			<p class='mb-3'>Avoid any content or activity that disrupts, interrupts, harms, or otherwise violates the integrity of our Services or another user's experience including but not limited to spam, scams, phishing, fraud, malware, viruses, or misinformation.</p>
+			<p class='mb-3'>Avoid any activity that gives the user an unfair advantage in participating in an event, including but not limited to cheating, hacking, botting, or tampering.</p>
+		</div>
+	</div>
+{% endblock content %}

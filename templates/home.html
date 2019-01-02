@@ -14,82 +14,42 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		// tells us where the thumbnails go
-		loadPartyListContainer('following-container')
+		// loadPartyListContainer('following-container')
 		loadPartyListContainer('trending-container')
-		loadPartyListContainer('closing-container')
+		// loadPartyListContainer('closing-container')
 	});
 </script>
 {% endblock script %}
 
 {% block content %}
 
-<header class="hero-section">
-	<div class="header-wrapper">
-		<h1 class="text-center">Featured Creator<span class="d-none d-md-inline">s</span></h1>
-		<div class="row">
-			<div class="col-xl-3 col-lg-4 offset-lg-0 col-md-5 offset-md-1 col-sm-6 offset-sm-3 col-xs-12">
-				<div class="card card-profile text-center">
-					<div class="card-block">
-						<img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
-						<h4 class="card-title">
-					  John Smith
-					  <small>Tagline Goes Here</small>
-					  
-					</h4>
-						<a href="{{ request.user.profile.get_absolute_url }}">
-							<button class="btn btn-new btn-primary-new">View Profile</button>
-						</a>
-					</div>
+<div class="container">
+	<header class="hero-section">
+		<div class="header-wrapper">
+			<div class="row header-text">
+				<div class="col-lg-4 offset-lg-1>
+					<h1 class="text-left">Don’t Just Watch.<br> Join and Play.</h1>
+					<h4 class="text-left">Connect with your favorite creators in a new way.</h4>
 				</div>
-			</div>
-			<div class="col-xl-3 col-lg-4 col-md-5 d-none d-md-block d-lg-block d-xl-block">
-				<div class="card card-profile text-center">
-					<div class="card-block">
-						<img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
-						<h4 class="card-title">
-					  John Smith
-					  <small>Tagline Goes Here</small>
-					  
-					</h4>
-						<a href="{{ request.user.profile.get_absolute_url }}">
-							<button class="btn btn-new btn-primary-new">View Profile</button>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-3 col-lg-4 d-none d-lg-block d-xl-block">
-				<div class="card card-profile text-center">
-					<div class="card-block">
-						<img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
-						<h4 class="card-title">
-					  John Smith
-					  <small>Tagline Goes Here</small>
-					  
-					</h4>
-						<a href="{{ request.user.profile.get_absolute_url }}">
-							<button class="btn btn-new btn-primary-new">View Profile</button>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-3 d-none d-xl-block">
-				<div class="card card-profile text-center">
-					<div class="card-block">
-						<img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
-						<h4 class="card-title">
-					  John Smith
-					  <small>Tagline Goes Here</small>
-					  
-					</h4>
-						<a href="{{ request.user.profile.get_absolute_url }}">
-							<button class="btn btn-new btn-primary-new">View Profile</button>
-						</a>
+				<div class="col-lg-6 col-sm-12">
+					<div class="card card-profile text-center">
+						<div class="card-block">
+							<img alt="" class="card-img-profile" src="https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140">
+							<h4 class="card-title">
+						  John Smith
+						  <small>Tagline Goes Here</small>
+						  
+						</h4>
+							<a href="{{ request.user.profile.get_absolute_url }}">
+								<button class="btn btn-new btn-primary-new">View Profile</button>
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</header>
+	</header>
+</div>
 
 
 <div class="container">
@@ -97,46 +57,114 @@
 
 		<div class="home-content">
 			<div class="row">
-				<div class="pl-3">
-					<div class="d-flex nav-active-border home-nav">
-						<ul class="nav">
-							<li class="nav-item">
-								<a class="nav-link pt-4 pb-4 mb-2 active show" href="#" data-toggle="tab" data-target="#tab_1">Closing Soon</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_2">Trending</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_3">Following</a>
-							</li>
-						</ul>
-					</div>
-				</div>
+                <div class="d-flex nav-active-border home-nav col-12">
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item">
+                            <a class="nav-link pt-4 pb-4 mb-2 active show" href="#" data-toggle="tab" data-target="#tab_1">Trending</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pt-4 pb-4 mb-2 " href="#" data-toggle="tab" data-target="#tab_2">Closing Soon</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_3">Following</a>
+                        </li>
+                    </ul>
+                </div>
+                <hr  />
 			</div>
 
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="tab-content pl-3">
-						<div class="tab-pane fade active show" id="tab_1">
-							<div class="row">
-								<div id='closing-container' data-url='/api/events/closing'></div>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="tab_2">
-							<div class="row">
-							   <div id='trending-container' data-url='/api/events/trending'></div>	
-							</div>
-						</div>
-						<div class="tab-pane fade" id="tab_3">
-							<div class="row">
-							   <div id='party-container' data-url='/api/events/'></div>
-							</div>
-						</div>
-					</div>
+            <div class="row" style="min-height: 200px">
+                <div class="col-lg-12">
+                    <div class="tab-content pl-3">
+                        <div class="tab-pane fade active" style="opacity: 1" id="tab_1">
+                            <div class="row">
+                               <div id='trending-container' role="tabpanel" data-url='/api/events/trending'></div>  
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab_2">
+                            <div class="row">
+                                <div id='closing-container' role="tabpanel" data-url='/api/events/closing'></div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab_3">
+                            <div class="row">
+                               <div id='party-container' role="tabpanel" data-url='/api/events/'></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+
+<div class="container-default">
+
+		<div class="row">
+			<div class="pl-3">
+				<div class="d-flex nav-active-border home-nav">
+					<ul class="nav">
+						<li class="nav-item">
+							<a class="nav-link pt-4 pb-4 mb-2 active show" href="#" data-toggle="tab" data-target="#tab_1">Creators</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link pt-4 pb-4 mb-2" href="#" data-toggle="tab" data-target="#tab_2">Fans</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
+
+
+	<div class="row">
+
+	<div id="accordion" role="tablist">
+	  <div class="card">
+	    <div class="card-header" role="tab" id="headingOne">
+	      <h5 class="mb-0">
+	        <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+	          How much of the event revenue do I get?
+	        </a>
+	      </h5>
+	    </div>
+
+	    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+	      <div class="card-body">
+	        95%. Our goal is to support you and your community, so we want to stay out of your way. As a result, we take 5%, so that we can cover fees associated with online transactions.
+	      </div>
+	    </div>
+	  </div>
+	  <div class="card">
+	    <div class="card-header" role="tab" id="headingTwo">
+	      <h5 class="mb-0">
+	        <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+	          How am I protected from toxic fans?
+	        </a>
+	      </h5>
+	    </div>
+	    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+	      <div class="card-body">
+	        We have a block function that prevents someone from seeing any of your events. You may also remove a fan from any event for behavior you deem inappropriate or abusive in any way.
+	      </div>
+	    </div>
+	  </div>
+	  <div class="card">
+	    <div class="card-header" role="tab" id="headingThree">
+	      <h5 class="mb-0">
+	        <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+	          When does someone get a refund? Can I dispute it?
+	        </a>
+	      </h5>
+	    </div>
+	    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+	      <div class="card-body">
+	        Fans must file a complaint first. We’ll then contact you to review the situation. If you left or cancelled the event without reason or abused the fan in some way, we’ll have to issue a refund.
+	      </div>
+	    </div>
+	  </div>
 	</div>
+</div>
+
 </div>
 
 

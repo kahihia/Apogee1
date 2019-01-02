@@ -8,11 +8,11 @@ from .models import Payout
 class PayoutModelForm(forms.ModelForm):
 	# the altered form fields are for formatting on the create page
 	# form-control allows bootstrap to format the form
-	payment_info = forms.CharField(label='', max_length=140, widget=forms.Textarea(
-		attrs={'placeholder': 'Payment info, ex: paypal account', 'class': 'form-control', 'rows': 1}
+	payment_info = forms.CharField(label="Payment Address", max_length=140, widget=forms.Textarea(
+		attrs={'placeholder': 'Payment info, ex: paypal account', 'class': 'form-control', 'rows': 1 }
 		))
-	description = forms.CharField(label='', max_length=280, widget=forms.Textarea(
-		attrs={'placeholder': 'Description', 'class': 'form-control', 'rows': 3}
+	description = forms.CharField(label='Description', max_length=280, widget=forms.Textarea(
+		attrs={'placeholder': 'Leave us a note here', 'class': 'form-control', 'rows': 3 }
 		))
 
 

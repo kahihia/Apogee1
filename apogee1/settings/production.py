@@ -24,7 +24,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #HEROKU
-#SECRET_KEY = '6fw*ujba!d-3^a8ez_9*da+2@bt2(-1*4@f7bjuvxas$puux_8'
 SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # shows debug messages in the page 
@@ -41,6 +40,21 @@ AWS_STORAGE_BUCKET_NAME = config('S3_BUCKET_NAME')
 MEDIA_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 AWS_S3_REGION_NAME = config('REGION_NAME')
+
+SECURE_SSL_REDIRECT=config("SSL_EVERYWHERE", default=True)
+if config("SSL_EVERYWHERE", default=True):
+    protcol = 'https'
+else:
+    protcol = 'http'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', protcol)
+ASGI_APPLICATION = "apogee1.routing.application"
+WSGI_APPLICATION = 'apogee1.wsgi.application'
+
+SERVER_EMAIL = "Granite <support@mail.granite.gg>"
+DEFAULT_FROM_EMAIL = "Granite <support@mail.granite.gg>"
 
 CHANNEL_LAYERS = {
     'default': {
@@ -78,6 +92,7 @@ INSTALLED_APPS = [
     'storages',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -87,9 +102,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # from django docs for setting the current session timezone
-    'parties.middleware.TimezoneMiddleware',
+    'apogee1.timezone.TimezoneMiddleware'
 ]
-
 
 # root url sets the main routing file. those then refer to the other url docs
 ROOT_URLCONF = 'apogee1.urls'
@@ -117,12 +131,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                'apogee1.context_processors.configs',
             ],
         },
     },
 ]
-
-WSGI_APPLICATION = 'apogee1.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -149,8 +162,15 @@ WSGI_APPLICATION = 'apogee1.wsgi.application'
 # }
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL', default='postgres://localhost')
+        default=config('DATABASE_URL', default='postgres://localhost'), 
+        engine='django_postgrespool'
     )
+}
+
+DATABASE_POOL_ARGS = {
+    'max_overflow': 10,
+    'pool_size': 10,
+    'recycle': 300
 }
 
 # Password validation
@@ -185,6 +205,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+TIME_ZONE = "America/New_York"
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -203,7 +225,6 @@ STATICFILES_DIRS = [
 # in production, this should be done by a cdn, not django
 # will be served
 STATIC_ROOT = os.path.join(BASE_DIR, "static-serve")
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 # this holds our media stuff like thumbnails and profile pics

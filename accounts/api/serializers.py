@@ -12,16 +12,21 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 	# need to be reformatted for display
 	url = serializers.SerializerMethodField()
 	is_verified = serializers.SerializerMethodField()
+	profile_picture = serializers.SerializerMethodField()
+	valid_email = serializers.SerializerMethodField()
 	class Meta:
 		model = User
 		# Fields eplicitly states the data and names that are available
 		# in the API
 		fields = [
+			'id',
 			'username', 
 			'first_name', 
 			'last_name', 
 			'url',
-			'is_verified'
+			'is_verified',
+			'valid_email',
+			'profile_picture',
 			# 'email'
 		]
 
@@ -34,3 +39,15 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 
 	def get_is_verified(self, obj):
 		return obj.profile.is_verified
+
+	def get_valid_email(self, obj):
+		return obj.profile.is_authenticated		
+
+	def get_has_valid_email(self,obj):
+		return obj.profile.is_authenticated
+
+	def get_profile_picture(self, obj):
+		if obj.profile.profile_picture and hasattr(obj.profile.profile_picture, 'url'):
+			return obj.profile.profile_picture.url
+		else:
+			return None

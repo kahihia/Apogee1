@@ -11,8 +11,73 @@ from parties.api.serializers import PartyModelSerializer
 from django.utils import timezone
 from datetime import timedelta
 from apogee1.utils.auth.auth import get_blocking_lists
+from django.shortcuts import redirect, render
 
 User = get_user_model()
+
+
+class PPView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'privacypolicy.html', context)
+
+class FeesView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'fees.html', context)
+
+class ConductView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'conduct.html', context)
+
+class ContactView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'contact.html', context)
+
+class AboutView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'about.html', context)
+
+class FAQView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'FAQ.html', context)
+
+class TOSView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'tos.html', context)
+
+class BlankView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'blank.html', context)
+
+class AuthenticationView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'authentication.html', context)
+
+class PasswordResetView(View):
+	def get(self, request, *args, **kwargs):
+		context={'request':request}
+		return render(request, 'passwordreset.html', context)
+
+# Error Pages
+def server_error(request):
+    return render(request, '500.html')
+ 
+def not_found(request):
+    return render(request, '404.html')
+ 
+def permission_denied(request):
+    return render(request, '403.html')
+ 
+def bad_request(request):
+    return render(request, '400.html')
 
 # this is the default home page from when the app starts
 class HomeView(View):

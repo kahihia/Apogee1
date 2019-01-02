@@ -31,6 +31,7 @@ function renderPartyList(partyContainerID){
   let lottery_icon = '<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i>';
   let bid_icon = '<i class="fas fa-gavel grey-color" data-toggle="tooltip" data-placement="top" title="Auction"></i>';
   let buy_icon = '<i class="fa fa-donate grey-color" data-toggle="tooltip" data-placement="top" title="Buy Now"></i>';
+  let queue_icon = '<i class="fas fa-user-friends grey-color" data-toggle="tooltip" data-placement="top" title="Queue"></i>';
   let closed_icon = '<i class="fas fa-ban grey-color"></i>';
   let check_icon = '<i class="fas fa-check-circle"></i>';
 
@@ -70,7 +71,11 @@ function renderPartyList(partyContainerID){
 
         // if there are more pages in the API, the loadmore appears
         if (data.next) {
-          nextPartyUrl = data.next
+          if (data.next.includes('https:')) {
+            nextPartyUrl = data.next
+          } else {
+            nextPartyUrl = data.next.replace('http', 'https')
+          }
           $('#loadmore').css('display', 'inline-block')
         } else {
           $('#loadmore').css('display', 'none')
@@ -90,27 +95,32 @@ function renderPartyList(partyContainerID){
   function parseParties(){
     // partylist should be filled with parties from the fetch call
     if (partyList == 0) {
-      partyContainer.text('No events :(')
+      partyContainer.append("<div class='text-center p5'> No results found ☹</div>")
     } else {
       // make global variable, make responsive
       handSize = 3
       // this iterates through the number of hands in the party list, 
       // then through the number of cards per hand, then formats the 
       // party and adds it to the HTML. each hand is its own div
-      for (let deck = 0; deck < partyList.length; deck += handSize) {
-        let deckHTML = '<div class="card-deck mb-4">'
-        for (let card = 0; card < handSize; card++) {
-          let cardIndex = deck + card
-          if (cardIndex < partyList.length) {
-            let partyValue = partyList[cardIndex]
-            let partyFormattedHtml = formatParty(partyValue)
-            deckHTML = deckHTML + partyFormattedHtml
-          }
-        }
-        deckHTML = deckHTML + '</div>'
-        partyContainer.append(deckHTML)
+      // for (let deck = 0; deck < partyList.length; deck += handSize) {
+      //   let deckHTML = '<div class="card-deck mb-4">'
+      //   for (let card = 0; card < handSize; card++) {
+      //     let cardIndex = deck + card
+      //     if (cardIndex < partyList.length) {
+      //       let partyValue = partyList[cardIndex]
+      //       let partyFormattedHtml = formatParty(partyValue)
+      //       deckHTML = deckHTML + partyFormattedHtml
+      //     }
+      //   }
+      //   deckHTML = deckHTML + '</div>'
+      //   partyContainer.append(deckHTML)
+      // }
+      for (let index=0; index<partyList.length; index+=1) {
+        let partyValue = partyList[index]
+        let partyFormattedHtml = formatParty(partyValue)
+        partyContainer.append(partyFormattedHtml)
+        addStarFunctionality()
       }
-      addStarFunctionality()
     }
   }
 
@@ -140,6 +150,8 @@ function renderPartyList(partyContainerID){
       type_icon = bid_icon
     } else if (partyValue.event_type == 3) {
       type_icon = buy_icon
+    } else if (partyValue.event_type == 4) {
+      type_icon = queue_icon
     }
 
     // adds small closed icon if event is closed. the tooltip explains the icon
@@ -157,21 +169,29 @@ function renderPartyList(partyContainerID){
     // card model from bootstrap. it has a top image, a body section 
     // for the title and description, and a footer for name, time, 
     // event type, and star
+    if (partyValue.thumbnail_url){
+      thumbnail = partyValue.thumbnail_url
+    }
+    else {
+      thumbnail = '/static/media/thumbnails/default_thumbnail.png'
+    }
+
     let container =  
-    '<div class="card home-card"' + 
-      '<a class="text-light" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
-        '<img class="card-img-top" src="' + partyValue.thumbnail_url + '" alt="not here">' + 
+    '<div class="card home-card mr-4">' + 
+      '<a class="text-light" href="/events/' + partyValue.id + '"">' +
+        '<div class="card-img-top" style="background-image: url('+ thumbnail + ')"></div>' + 
       '</a>' +
       '<div class="card-body">' + 
         '<a class="text-light" href="/events/' + partyValue.id + '" style="text-decoration: none;">' +
-          '<h5 class="card-title">' + partyValue.short_title + closed_display + '</h5>' + 
+          '<h5 class="card-title">' + partyValue.short_title + closed_display + '</h5>' +
         '</a>' +
       '</div>' + 
       '<div class="card-footer">' + 
         '<small class="text-muted">With ' + 
-          '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + '</a>' + 
+          '<a class="text-light" href="' + partyValue.user.url + '">'+ partyValue.user.username + 
+          '<span> ' + check_icon + '</span></a>' + 
           '<span class="float-right">' + price + ' ' + type_icon + '</span>' +
-          '<br>' + partyValue.party_time_display + 
+          '<br>' + moment.utc(partyValue.party_time).tz(window.django_timezone).format("MMM DD [at] hh:mm a") +  
         '</small>' + 
         '<span class="float-right">' + 
           '<a class="starBtn text-dark" data-id="' + partyValue.id + '">' + verb + '</a>' + 
@@ -181,7 +201,7 @@ function renderPartyList(partyContainerID){
 
     // just return it immediately
     return sanitizeHtml(container, {
-                                      allowedClasses: { 'div': [ 'card','home-card','col-xs-12','col-md-4','col-lg-2','col-xl-2', 'col-xs-12', 'col-md-3', 'col-lg-3',
+                                      allowedClasses: { 'div': [ 'card','home-card', 'mr-4', 'col-xs-12','col-md-4','col-lg-2','col-xl-2', 'col-xs-12', 'col-md-3', 'col-lg-3',
                                                                   'text-light', 'card-img-top', 'card-body', 'card-title', 'card-text', 
                                                                   'card-footer', 'text-muted', 'float-right', 'starBtn', 'text-dark'],
                                                         'p': [ 'card','home-card','col-xs-12','col-md-4','col-lg-2','col-xl-2',
@@ -193,7 +213,7 @@ function renderPartyList(partyContainerID){
                                                         'small': [ 'text-muted'],
                                                         'img': [ 'card-img-top'],
                                                         'i': [ 'fa', 'fa-sta', 'yellow-color', 'grey-color', 'fas', 'fa-ticket-alt', 
-                                                                'fa-gavel', 'fa-donate', 'fa-ban', 'fa-star', 'fa-check-circle'],
+                                                                'fa-gavel', 'fa-donate', 'fa-ban', 'fa-star', 'fa-check-circle', 'fa-user-friends'],
                                                         'h5': [ 'card','home-card','col-xs-12','col-md-4','col-lg-2','col-xl-2',
                                                                   'text-light', 'card-img-top', 'card-body', 'card-title', 'card-text', 
                                                                   'card-footer', 'text-muted', 'float-right', 'starBtn', 'text-dark'],

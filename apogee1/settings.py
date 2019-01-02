@@ -22,7 +22,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #HEROKU
-#SECRET_KEY = '6fw*ujba!d-3^a8ez_9*da+2@bt2(-1*4@f7bjuvxas$puux_8'
 SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # shows debug messages in the page 
@@ -30,6 +29,15 @@ SECRET_KEY = config('SECRET_KEY')
 #DEBUG = True
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = [config('DJANGO_ALLOWED_HOSTS')]
+
+SECURE_SSL_REDIRECT=config("SSL_EVERYWHERE", default=True)
+
+if config("SSL_EVERYWHERE", default=True):
+    protcol = 'https'
+else:
+    protcol = 'http'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', protcol)
 
 AWS_QUERYSTRING_AUTH = False
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
@@ -47,8 +55,13 @@ EMAIL_HOST_USER = 'SMTP_Injection'
 EMAIL_HOST_PASSWORD = 'f44c2ec0910495b35f830b5bc2aafd584fbaa3a6'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+SERVER_EMAIL = "Granite <support@mail.granite.gg>"
+DEFAULT_FROM_EMAIL = "Granite <support@mail.granite.gg>"
 
 ASGI_APPLICATION = "apogee1.routing.application"
+WSGI_APPLICATION = 'apogee1.wsgi.application'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_USER = 'ApogeeSendEmails@gmail.com'
@@ -84,6 +97,7 @@ INSTALLED_APPS = [
     # third party stuff
     'crispy_forms',
     'rest_framework',
+    'datetimepicker',
     'storages',
 ]
 
@@ -96,9 +110,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # from django docs for setting the current session timezone
-    'parties.middleware.TimezoneMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    'apogee1.timezone.TimezoneMiddleware'
 ]
+
+TZ_DETECT_COUNTRIES = ('US', 'CN', 'IN', 'JP', 'BR', 'RU', 'DE', 'FR', 'GB')
 
 # root url sets the main routing file. those then refer to the other url docs
 ROOT_URLCONF = 'apogee1.urls'
@@ -145,13 +160,12 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                'apogee1.context_processors.configs',
             ],
         },
     },
 ]
-
-WSGI_APPLICATION = 'apogee1.wsgi.application'
-
+    
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -186,10 +200,16 @@ CHANNEL_LAYERS = {
 # }
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL', default='postgres://localhost')
+        default=config('DATABASE_URL', default='postgres://localhost'), 
+        engine='django_postgrespool'
     )
 }
 
+DATABASE_POOL_ARGS = {
+    'max_overflow': 10,
+    'pool_size': 10,
+    'recycle': 300
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -226,6 +246,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+TIME_ZONE = "America/New_York"
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -244,7 +266,6 @@ STATICFILES_DIRS = [
 # in production, this should be done by a cdn, not django
 # will be served
 STATIC_ROOT = os.path.join(BASE_DIR, "static-serve")
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 # this holds our media stuff like thumbnails and profile pics
