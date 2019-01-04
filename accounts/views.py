@@ -268,8 +268,10 @@ class TwitchLoginView(View):
             return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
         response = twitch_functions.login_with_twitch(request, code)
         if response==-1:
+            print('twitch doesnt like code')
             return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Twitch authentication failed."})
         if response==0:
+            print('twitch wont give us user data')
             return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Twitch authentication failed."})
         if response==1:
             return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Successfully logged in with Twitch!"})
