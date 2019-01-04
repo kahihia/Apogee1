@@ -188,7 +188,8 @@ def login_with_twitch(request, code):
 
 			# Search for account
 			try:
-				logging_user = UserProfile.objects.get(twitch_id=twitch_id)
+				logging_user_profile = UserProfile.objects.get(twitch_id=twitch_id)
+				logging_user = logging_user_profile.user
 			except Exception as e:
 				return 2
 
