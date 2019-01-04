@@ -4,6 +4,8 @@ import json
 from django.contrib.auth import get_user_model, login
 from accounts.models import UserProfile
 
+from apogee1.utils.email import emailer
+
 User = get_user_model()
 
 # This is the Twitch Connect function from the settings page. It runs the normal Twitch auth 
@@ -136,7 +138,7 @@ def register_with_twitch(request, code):
 
 			# log the new user in 
 			emailer.email(new_user, "welcome")
-            login(request, new_user)
+			login(request, new_user)
 			return 1
 		except Exception as e:
 			# failure to access actual user data
