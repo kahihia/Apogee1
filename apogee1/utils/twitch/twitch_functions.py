@@ -201,7 +201,9 @@ def login_with_twitch(request, code):
 			logging_user.profile.save(update_fields=['twitch_OAuth_token'])
 
 			# log the  user in 
+			print('about to log in')
 			login(request, logging_user)
+			print('logged in')
 			return 1
 		except Exception as e:
 			# failure to access actual user data
