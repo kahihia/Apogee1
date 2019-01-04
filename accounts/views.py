@@ -85,9 +85,12 @@ class UserRegisterView(FormView):
             return HttpResponseRedirect("/register")
            # return HttpResponseRedirect("/register")
         return super(UserRegisterView, self).form_valid(form)
-        
 
-
+    def get_context_data(self, *args, **kwargs):
+        context = super(UserRegisterView, self).get_context_data(*args, **kwargs)
+        context['twitch_redirect_uri'] = config('TWITCH_REGISTER_REDIRECT_URI')
+        context['twitch_client_id'] = config('TWITCH_REGISTER_CLIENT_ID')
+        return context
 
 # this is the view for an individual profile
 class UserDetailView(DetailView, LoginRequiredMixin):
@@ -136,20 +139,6 @@ class FundsView(LoginRequiredMixin, DetailView):
         context = {'user': self.request.user, 'paypal_env': paypal_env, 'paypal_client_id': paypal_client_id[0] }
         return render(request, 'accounts/funds.html', context)
 
-class UserTwitchAuthView(View, LoginRequiredMixin):
-    def get(self, request, *args, **kwargs):
-        # code should be in the json return to us by Twitch
-        code = request.GET.get('code', 'None')
-        if code =='None':
-            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
-        response = twitch_functions.get_twitch_details(code, request.user)
-        if response==-1:
-            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
-        if response==0:
-            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have not been authenticated with Twitch"})
-        if response==1:
-            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "You have been authenticated with Twitch"})
-       
 # this is used to toggle following
 class UserFollowView(View, LoginRequiredMixin):
     def get(self, request, username, *args, **kwargs):
@@ -160,20 +149,6 @@ class UserFollowView(View, LoginRequiredMixin):
             is_following = UserProfile.objects.toggle_follow(request.user, toggle_user)
             # it redirects you to the same page you were on and updates the text on the button
             return redirect('profiles:detail', username=username)
-
-
-
-class UserDeTwitchView(View, LoginRequiredMixin):
-    def get(self, request, username, *args, **kwargs):
-        if request.user.is_authenticated:
-            user = request.user.profile
-            user.twitch_id=""
-            user.twitch_OAuth_token=""
-            user.twitch_refresh_token=""
-            user.save(update_fields=['twitch_id'])
-            user.save(update_fields=['twitch_refresh_token'])
-            user.save(update_fields=['twitch_OAuth_token'])
-            return redirect('profiles:edit', username=username)
 
 # this is used to toggle blocking
 class UserBlockView(LoginRequiredMixin, View):
@@ -240,3 +215,76 @@ class UserProfileUpdateView(LoginRequiredMixin, ProfileOwnerMixin, UpdateView):
         requested_user = self.kwargs.get('username')
         context['request'] = self.request
         return context
+
+
+
+
+###########################   TWITCH VIEWS   ###############################
+
+# this allows a logged in user to attach their twitch account 
+class UserTwitchAuthView(View, LoginRequiredMixin):
+    def get(self, request, *args, **kwargs):
+        # code should be in the json return to us by Twitch
+        code = request.GET.get('code', 'None')
+        if code =='None':
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
+        response = twitch_functions.get_twitch_details(code, request.user)
+        if response==-1:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Twitch authentication failed."})
+        if response==0:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Twitch authentication failed."})
+        if response==1:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Your Twitch account has been connected!"})
+        if response==2:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "This Twitch account is already connected to another Granite account"})
+
+# this allows new users to create a new account using their Twitch account
+class TwitchRegisterView(View):
+    def get(self, request, *args, **kwargs):
+        # code should be in the json return to us by Twitch
+        code = request.GET.get('code', 'None')
+        if code =='None':
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
+        response = twitch_functions.register_with_twitch(request, code)
+        if response==-1:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Twitch authentication failed."})
+        if response==0:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Twitch authentication failed."})
+        if response==1:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Your Twitch account has been connected!"})
+        if response==2:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "This Twitch account is already in use. Please log in."})
+        if response==3:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Your Twitch email is already being used. Please log in or register manually."})
+        if response==4:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Your current Twitch username is already in use. Please register manually."})
+
+# this allows users that have attached their Twitch accounts to log in with them
+class TwitchLoginView(View):
+    def get(self, request, *args, **kwargs):
+        # code should be in the json return to us by Twitch
+        code = request.GET.get('code', 'None')
+        if code =='None':
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Oops! Something went wrong."})
+        response = twitch_functions.login_with_twitch(request, code)
+        if response==-1:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Twitch authentication failed."})
+        if response==0:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Twitch authentication failed."})
+        if response==1:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Successfully logged in with Twitch!"})
+        if response==2:
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "No matching account found."})
+
+# this disconnects twitch accounts
+class UserDeTwitchView(View, LoginRequiredMixin):
+    def get(self, request, username, *args, **kwargs):
+        if request.user.is_authenticated:
+            user = request.user.profile
+            user.twitch_id=""
+            user.twitch_OAuth_token=""
+            user.twitch_refresh_token=""
+            user.save(update_fields=['twitch_id'])
+            user.save(update_fields=['twitch_refresh_token'])
+            user.save(update_fields=['twitch_OAuth_token'])
+            return redirect('profiles:edit', username=username)

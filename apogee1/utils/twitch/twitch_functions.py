@@ -6,9 +6,9 @@ from accounts.models import UserProfile
 
 User = get_user_model()
 
-# This is the Twitch Connect function from the settings page. It runs the normal 
-# Twitch auth cycle, and attaches the details to the request user. 
-# this should be updated to check if the account is attached elsewhere
+# This is the Twitch Connect function from the settings page. It runs the normal Twitch auth 
+# cycle, makes sure the account isn't already attached somewhere, and attaches the details 
+# to the request user. this should be updated to check if the account is attached elsewhere. 
 def get_twitch_details(code, user_obj):
 	try:
 		# twitch auth step one. send back their code with our credentials to get user credentials
@@ -46,6 +46,11 @@ def get_twitch_details(code, user_obj):
 			print(twitch_dict2)
 			twitch_id = twitch_dict2['_id']
 
+			# check that the account isn't already attached somewhere
+			connected_qs = UserProfile.objects.filter(twitch_id=twitch_id).exclude(user=user_obj)
+			if connected_qs.count() > 0:
+				return 2
+
 			# take the data and attach it to the profile
 			user_obj.profile.twitch_id = twitch_id
 			user_obj.profile.twitch_refresh_token = twitch_refresh_token
@@ -66,9 +71,9 @@ def get_twitch_details(code, user_obj):
 def register_with_twitch(request, code):
 	try:
 		# twitch auth step one. send back their code with our credentials to get user credentials
-		twitch_client_id = config('TWITCH_CLIENT_ID')
-		twitch_secret = config('TWITCH_SECRET')
-		twitch_redirect_uri = config('TWITCH_REDIRECT_URI')
+		twitch_client_id = config('TWITCH_REGISTER_CLIENT_ID')
+		twitch_secret = config('TWITCH_REGISTER_SECRET')
+		twitch_redirect_uri = config('TWITCH_REGISTER_REDIRECT_URI')
 		headers = {
 			'content-type': 'application/json',
 			'Client-id': twitch_client_id
@@ -145,9 +150,9 @@ def register_with_twitch(request, code):
 def login_with_twitch(request, code):
 	try:
 		# twitch auth step one. send back their code with our credentials to get user credentials
-		twitch_client_id = config('TWITCH_CLIENT_ID')
-		twitch_secret = config('TWITCH_SECRET')
-		twitch_redirect_uri = config('TWITCH_REDIRECT_URI')
+		twitch_client_id = config('TWITCH_LOGIN_CLIENT_ID')
+		twitch_secret = config('TWITCH_LOGIN_SECRET')
+		twitch_redirect_uri = config('TWITCH_LOGIN_REDIRECT_URI')
 		headers = {
 			'content-type': 'application/json',
 			'Client-id': twitch_client_id
