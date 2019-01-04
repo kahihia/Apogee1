@@ -1,7 +1,7 @@
 import requests
 from decouple import config
 import json
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login
 from accounts.models import UserProfile
 
 User = get_user_model()
