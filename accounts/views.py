@@ -251,13 +251,13 @@ class TwitchRegisterView(View):
         if response==0:
             return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Twitch authentication failed."})
         if response==1:
-            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Your Twitch account has been connected!"})
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Thanks for signing up with Twitch!"})
         if response==2:
-            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "This Twitch account is already in use. Please log in."})
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "This Twitch account is already connected to a Granite account. Please log in."})
         if response==3:
-            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Your Twitch email is already being used. Please log in or register manually."})
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Your Twitch email is already connected to a Granite account. Please log in."})
         if response==4:
-            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Your current Twitch username is already in use. Please register manually."})
+            return render(request, 'accounts/twitch_auth.html', context={'authentication_message': "Your current Twitch username is already in use on Granite. Please register manually with a different username."})
 
 # this allows users that have attached their Twitch accounts to log in with them
 class TwitchLoginView(View):
