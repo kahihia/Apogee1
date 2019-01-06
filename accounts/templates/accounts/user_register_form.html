@@ -36,6 +36,16 @@
 		</form>
 	</div>
 </div>
+
+<div class='row'>
+	<!-- centers the content -->
+	<div class='col-sm-4 offset-sm-4 my-5'>
+		<p><small>Please confirm you've read our Terms of Service and Privacy policy before registering with Twitch.</small></p>
+		<a href='https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id={{twitch_client_id}}&redirect_uri={{twitch_redirect_uri}}&scope=channel_subscriptions+user_read+channel_check_subscription'>
+			<button class="btn btn-primary-new" id="submit_twitch" disabled="disabled">Sign up with Twitch!</button>
+		</a>
+	</div>
+</div>
 {% endblock content %}
 
 

@@ -12,7 +12,9 @@ from .views import (
 		UserProfileUpdateView,
 		UserDeleteView,
 		UserTwitchAuthView,
-		UserDeTwitchView
+		UserDeTwitchView, 
+		TwitchRegisterView, 
+		TwitchLoginView,
 	)
 
 app_name = 'profiles'
@@ -20,6 +22,8 @@ app_name = 'profiles'
 # names are how you lazy refer to pages
 urlpatterns = [
 	path('twitchauth/confirmation/', UserTwitchAuthView.as_view()),  
+	path('twitchauth/register/', TwitchRegisterView.as_view()),  
+	path('twitchauth/login/', TwitchLoginView.as_view()),  
     path('<username>/', UserDetailView.as_view(), name='detail'), 
     path('<username>/follow/', UserFollowView.as_view(), name='follow'),
     path('<username>/block/', UserBlockView.as_view(), name='block'),

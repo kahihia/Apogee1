@@ -21,6 +21,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
 from django.contrib.auth import views as auth_views
+from decouple import config
+
 
 # views
 from .views import (
@@ -57,6 +59,9 @@ urlpatterns = [
 	path('', PartyListView.as_view(), name='home'),
 	path('set_timezone/', SetTimzoneEndpoint.as_view(), name="set_timezone"),
 	path('test_email/', TestEmailEndpoint.as_view(), name="test_email"),
+	path('accounts/login/', auth_views.LoginView.as_view(
+							extra_context={'twitch_redirect_uri':config('TWITCH_LOGIN_REDIRECT_URI'), 
+											'twitch_client_id':config('TWITCH_LOGIN_CLIENT_ID')})),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path('register/', UserRegisterView.as_view(), name='register'),
 	path('search/', SearchView.as_view(), name='search'),
