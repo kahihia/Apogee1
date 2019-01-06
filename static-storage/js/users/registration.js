@@ -10,6 +10,9 @@ function addCheckboxFunctionality(){
     		submit.disabled = false;
     		submit_twitch.disabled = false;
     	}
-    	else submit.disabled = true;
+    	else {
+        submit.disabled = true;
+        submit_twitch.disabled = true;
+      }
   	})
 }
