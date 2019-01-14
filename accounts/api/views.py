@@ -10,6 +10,11 @@ from ast import literal_eval
 from decouple import config
 from mailin import Mailin
 
+
+class BotAPIView(APIView):
+	def get(self, request, format=None):
+		return Response({'message':"YEET"})
+
 class AuthorizationAPIView(APIView):
 	def get(self, request, auth_key, format=None):
 		# party_qeryset = Party.objects.filter(pk=pk)
