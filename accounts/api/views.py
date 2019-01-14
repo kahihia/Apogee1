@@ -15,6 +15,10 @@ class BotAPIView(APIView):
 	def get(self, request, format=None):
 		return Response({'message':"YEET"})
 
+class TwitchBotAPIView(APIView):
+	def get(self, request, channelID, userID, type, format=None):
+		return Response({'message':"this is granite" + type + '!'})
+
 class AuthorizationAPIView(APIView):
 	def get(self, request, auth_key, format=None):
 		# party_qeryset = Party.objects.filter(pk=pk)
