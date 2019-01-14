@@ -16,8 +16,9 @@ class BotAPIView(APIView):
 		return Response({'message':"YEET"})
 
 class TwitchBotAPIView(APIView):
-	def get(self, request, channelID, userID, type, format=None):
-		return Response({'message':"this is granite" + type + '!'})
+	def get(self, request, channelID, userID, typename, format=None):
+		talkback = "my type is " + typename + '!'
+		return Response({'message': talkback})
 
 class AuthorizationAPIView(APIView):
 	def get(self, request, auth_key, format=None):
