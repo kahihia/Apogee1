@@ -19,7 +19,7 @@ def twitchBotJoin(channel, chatter):
 	return 'join'
 
 def twitchBotNext(channel, chatter, count):
-	return 'next ' + count
+	return 'next ' + str(count)
 
 def twitchBotPlace(channel, chatter):
 	return 'place'
