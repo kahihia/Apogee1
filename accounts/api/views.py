@@ -17,6 +17,9 @@ class BotAPIView(APIView):
 
 class TwitchBotAPIView(APIView):
 	def get(self, request, channelNum, chatterNum, typename, format=None):
+		print(channelNum)
+		print(chatterNum)
+		print(typename)
 		talkback = "my type is " + typename + '!'
 		return Response({'message': 'talkback'})
 
