@@ -18,18 +18,19 @@ class BotAPIView(APIView):
 class TwitchBotAPIView(APIView):
 	def get(self, request, format=None):
 		try:
-	        print(self.request.GET)
-	        data = (self.request.GET).dict()
-	        print(data)
-	        channelNum = data['channel']
-	        chatterNum = data['chatter']  
-	        typename = data['typename']     
-	        print(channelNum)
-			print(chatterNum)
+			print(self.request.GET)
+			data = (self.request.GET).dict()
+			print(data)
+			channel = data['channel']
+			chatter = data['chatter']
+			typename = data['typename']
+			print(channel)
+			print(chatter)
 			print(typename)
-        except Exception as e:
-            print(e)   
-		return Response({'message': 'talkback'})
+		except Exception as e:
+			print(e)
+
+		return Response({'message':'join'})
 
 class AuthorizationAPIView(APIView):
 	def get(self, request, auth_key, format=None):
