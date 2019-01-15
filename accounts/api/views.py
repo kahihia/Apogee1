@@ -10,6 +10,8 @@ from ast import literal_eval
 from decouple import config
 from mailin import Mailin
 
+from apogee1.utils.twitch import twitch_functions
+
 
 class BotAPIView(APIView):
 	def get(self, request, format=None):
@@ -27,8 +29,29 @@ class TwitchBotAPIView(APIView):
 			print(channel)
 			print(chatter)
 			print(action)
-			if action == 'granitejoin':
+			if action == 'granite':
+				# 'Granite' explains the basic commands and concept. 
+				message = 'Granite allows you join events with your favorite creators. ' +
+							'!graniteinfo will give you the event details, like type. !granitejoin will add you to the event. ' + 
+							'!graniteplace will give you your place in line if the event is a queue'
+			else if action == 'graniteinfo':
+				# graniteinfo explains the event, so type, title, price
+				msg = twitch_functions.twitchBotInfo(channel)
+				message = 'info'
+			else if action == 'granitejoin':
+				# join attempts to add the chatter to the event. it should return a message on failure only
+				msg = twitch_functions.twitchBotJoin(channel, chatter)
 				message = 'join'
+			else if action == 'granitenext':
+				# next is a creator only, queue only command. it pulls the next x people in and says who they are. 
+				# should also say who will get pulled in next
+				# we want this to say who this is, so we'll need to attach names to our models. 
+				msg = twitch_functions.twitchBotNext(channel, chatter, 1)
+				message = 'next'
+			else if action == 'graniteplace':
+				# this is a queue only command. returns the users place. 
+				msg = twitch_functions.twitchBotPlace(channel, chatter)
+				message = 'place'
 		except Exception as e:
 			print(e)
 

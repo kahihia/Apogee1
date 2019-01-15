@@ -8,6 +8,25 @@ from apogee1.utils.email import emailer
 
 User = get_user_model()
 
+
+
+############################# TWITCH BOT FUNCITONS ############################
+
+def twitchBotInfo(channel):
+	return 'info'
+
+def twitchBotJoin(channel, chatter):
+	return 'join'
+
+def twitchBotNext(channel, chatter, count):
+	return 'next ' + count
+
+def twitchBotPlace(channel, chatter):
+	return 'place'
+
+
+######################### TWITCH CONNECTION FUNCTIONS #########################
+
 # This is the Twitch Connect function from the settings page. It runs the normal Twitch auth 
 # cycle, makes sure the account isn't already attached somewhere, and attaches the details 
 # to the request user. this should be updated to check if the account is attached elsewhere. 
