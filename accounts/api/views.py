@@ -17,7 +17,7 @@ class BotAPIView(APIView):
 
 class TwitchBotAPIView(APIView):
 	def get(self, request, format=None):
-		 try:
+		try:
             print(self.request.GET)
             data = (self.request.GET).dict()
             print(data)
