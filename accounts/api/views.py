@@ -18,13 +18,13 @@ class BotAPIView(APIView):
 class TwitchBotAPIView(APIView):
 	def get(self, request, format=None):
 		try:
-            print(self.request.GET)
-            data = (self.request.GET).dict()
-            print(data)
-            channelNum = data['channel']
-            chatterNum = data['chatter']  
-            typename = data['typename']     
-            print(channelNum)
+	        print(self.request.GET)
+	        data = (self.request.GET).dict()
+	        print(data)
+	        channelNum = data['channel']
+	        chatterNum = data['chatter']  
+	        typename = data['typename']     
+	        print(channelNum)
 			print(chatterNum)
 			print(typename)
         except Exception as e:
