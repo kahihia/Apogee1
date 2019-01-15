@@ -17,20 +17,22 @@ class BotAPIView(APIView):
 
 class TwitchBotAPIView(APIView):
 	def get(self, request, format=None):
+		message = 'nope'
 		try:
-			print(self.request.GET)
 			data = (self.request.GET).dict()
 			print(data)
 			channel = data['channel']
 			chatter = data['chatter']
-			typename = data['typename']
+			action = data['action']
 			print(channel)
 			print(chatter)
-			print(typename)
+			print(action)
+			if action == 'granitejoin':
+				message = 'join'
 		except Exception as e:
 			print(e)
 
-		return Response({'message':'join'})
+		return Response({'message':message})
 
 class AuthorizationAPIView(APIView):
 	def get(self, request, auth_key, format=None):
