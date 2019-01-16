@@ -20,7 +20,7 @@ def twitchBotInfo(channel):
 		return 'No active events'
 	event = partyset.first()
 	name = event.user.username
-	event_type = event.event_type.get_FOO_display()
+	event_type = event.get_event_type_display()
 	event_title = event.title
 	event_price = event.cost
 	msg = name + "'s event, \"" + event_title + ' is a ' + event_type + '.'
