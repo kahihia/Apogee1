@@ -77,7 +77,39 @@ def twitchBotNext(channel, chatter, count):
 	return 'next ' + str(count)
 
 def twitchBotPlace(channel, chatter):
-	return 'place'
+	partyset = Party.objects.filter(user__profile__twitch_id=channel).filter(is_open=True).order_by('-time_created')
+	if partyset.count() == 0:
+		return 'No active events.'
+	join_party = partyset.first()
+	party_event_type = join_party.event_type
+
+	# get the user that is trying to join
+	try:
+		print('finding user')
+		joining_user = User.objects.get(profile__twitch_id=chatter)
+		print('found user')
+	except Exception as e:
+		print(e)
+		return "No matching account"
+
+	if qs.event_type == 4:
+		try:
+			joined_list = join_party.joined.all()
+			place = 0
+			count = 0
+			for j in joined_list:
+				count+=1
+				if j.username == joining_user.username:
+					place = count
+			if place == 0:
+				return joining_user.username + ' is not in the queue'
+			else:
+				return joining_user.username + ' is number ' + place + ' in line'
+		except Exception as e: 
+			print(e)
+			context['place_in_queue'] = 'Not in queue'
+	else:
+		return '!graniteplace is for queues only'
 
 
 ######################### TWITCH CONNECTION FUNCTIONS #########################
