@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model, login
 from accounts.models import UserProfile
 
 from apogee1.utils.email import emailer
+from parties.models import Party
 
 User = get_user_model()
 
@@ -12,8 +13,20 @@ User = get_user_model()
 
 ############################# TWITCH BOT FUNCITONS ############################
 
+# graniteinfo explains the event, so type, title, price
 def twitchBotInfo(channel):
-	return 'info'
+	partyset = Party.objects.filter(user__profile__twitch_id=channel).filter(is_open=True).order_by('-time_created')
+	if partyset.count() == 0:
+		return 'No active events'
+	event = partyset.first()
+	name = event.user.username
+	event_type = event.event_type.get_FOO_display()
+	event_title = event.title
+	event_price = event.cost
+	msg = name + "'s event, \"" + event_title + ' is a ' + event_type + '.'
+	if event_price != 0:
+		msg += ' It costs $' + str(event_price) + ' to enter.' 
+	return msg
 
 def twitchBotJoin(channel, chatter):
 	return 'join'

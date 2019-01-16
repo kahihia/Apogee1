@@ -37,7 +37,7 @@ class TwitchBotAPIView(APIView):
 			elif action == 'graniteinfo':
 				# graniteinfo explains the event, so type, title, price
 				msg = twitch_functions.twitchBotInfo(channel)
-				message = 'info'
+				message = msg
 			elif action == 'granitejoin':
 				# join attempts to add the chatter to the event. it should return a message on failure only
 				msg = twitch_functions.twitchBotJoin(channel, chatter)
