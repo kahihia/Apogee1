@@ -92,7 +92,7 @@ def twitchBotPlace(channel, chatter):
 		print(e)
 		return "No matching account"
 
-	if qs.event_type == 4:
+	if join_party.event_type == 4:
 		try:
 			joined_list = join_party.joined.all()
 			place = 0
