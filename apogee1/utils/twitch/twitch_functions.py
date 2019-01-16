@@ -99,11 +99,12 @@ def twitchBotPlace(channel, chatter):
 			count = 0
 			for j in joined_list:
 				count+=1
-				if j.username == joining_user.username:
+				if str(j.username) == str(joining_user.username):
 					place = count
 			if place == 0:
 				return joining_user.username + ' is not in the queue'
 			else:
+				print('trying to sa place')
 				return joining_user.username + ' is number ' + place + ' in line'
 		except Exception as e: 
 			print(e)
