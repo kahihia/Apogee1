@@ -36,22 +36,18 @@ class TwitchBotAPIView(APIView):
 							'!graniteplace will give you your place in line if the event is a queue')
 			elif action == 'graniteinfo':
 				# graniteinfo explains the event, so type, title, price
-				msg = twitch_functions.twitchBotInfo(channel)
-				message = msg
+				message = twitch_functions.twitchBotInfo(channel)
 			elif action == 'granitejoin':
 				# join attempts to add the chatter to the event. it should return a message on failure only
-				msg = twitch_functions.twitchBotJoin(channel, chatter)
-				message = 'join'
+				message = twitch_functions.twitchBotJoin(channel, chatter)
 			elif action == 'granitenext':
 				# next is a creator only, queue only command. it pulls the next x people in and says who they are. 
 				# should also say who will get pulled in next
 				# we want this to say who this is, so we'll need to attach names to our models. 
-				msg = twitch_functions.twitchBotNext(channel, chatter, 1)
-				message = 'next'
+				message = twitch_functions.twitchBotNext(channel, chatter, 1)
 			elif action == 'graniteplace':
 				# this is a queue only command. returns the users place. 
-				msg = twitch_functions.twitchBotPlace(channel, chatter)
-				message = 'place'
+				message = twitch_functions.twitchBotPlace(channel, chatter)
 		except Exception as e:
 			print(e)
 

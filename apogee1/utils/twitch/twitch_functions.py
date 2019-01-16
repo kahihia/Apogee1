@@ -6,6 +6,8 @@ from accounts.models import UserProfile
 
 from apogee1.utils.email import emailer
 from parties.models import Party
+from parties import partyHandling
+
 
 User = get_user_model()
 
@@ -17,7 +19,7 @@ User = get_user_model()
 def twitchBotInfo(channel):
 	partyset = Party.objects.filter(user__profile__twitch_id=channel).filter(is_open=True).order_by('-time_created')
 	if partyset.count() == 0:
-		return 'No active events'
+		return 'No active events.'
 	event = partyset.first()
 	name = event.user.username
 	event_type = event.get_event_type_display()
@@ -29,7 +31,41 @@ def twitchBotInfo(channel):
 	return msg
 
 def twitchBotJoin(channel, chatter):
-	return 'join'
+	# get the party we're trying to join
+	partyset = Party.objects.filter(user__profile__twitch_id=channel).filter(is_open=True).order_by('-time_created')
+	if partyset.count() == 0:
+		return 'No active events.'
+	join_party = partyset.first()
+	party_event_type = join_party.event_type
+
+	# get the user that is trying to join
+	try:
+		joining_user = User.objects.get(user__profile__twitch_id=chatter)
+	except Exception as e:
+		return "No matching account"
+
+	# This does teh joining action
+	if party_event_type == 1:
+		joined_table = partyHandling.lottery_add(joining_user, join_party)
+		if joined_table['is_joined'] == True:
+			return 'Success'
+		else:
+			return joined_table['error_message']
+	elif party_event_type == 2:
+		return "Bid events cannot be joined from chat."
+	elif party_event_type == 3:
+		buy_table = partyHandling.buyout_add(joining_user, join_party)
+		if buy_table['winner'] == True:
+			return 'Success'
+		else:
+			return buy_table['error_message']
+	elif party_event_type == 4:
+		queue_table = partyHandling.queue_add(joining_user, join_party)
+		if queue_table['is_joined'] == True:
+			return 'Success'
+		else:
+			return queue_table['error_message']
+
 
 def twitchBotNext(channel, chatter, count):
 	return 'next ' + str(count)
