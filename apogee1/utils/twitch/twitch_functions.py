@@ -25,7 +25,10 @@ def twitchBotInfo(channel):
 	event_type = event.get_event_type_display()
 	event_title = event.title
 	event_price = event.cost
+	event_twitch = event.is_twitch_event
 	msg = name + "'s event, \"" + event_title + '" is a ' + event_type + '.'
+	if event_twitch == True:
+		msg += " It's for subscribers only."
 	if event_price != 0:
 		msg += ' It costs $' + str(event_price) + ' to enter.' 
 	return msg
