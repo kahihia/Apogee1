@@ -23,7 +23,7 @@ def twitchBotInfo(channel):
 	event_type = event.get_event_type_display()
 	event_title = event.title
 	event_price = event.cost
-	msg = name + "'s event, \"" + event_title + ' is a ' + event_type + '.'
+	msg = name + "'s event, \"" + event_title + '" is a ' + event_type + '.'
 	if event_price != 0:
 		msg += ' It costs $' + str(event_price) + ' to enter.' 
 	return msg
