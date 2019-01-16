@@ -105,7 +105,7 @@ def twitchBotPlace(channel, chatter):
 				return joining_user.username + ' is not in the queue'
 			else:
 				print('trying to sa place')
-				return joining_user.username + ' is number ' + place + ' in line'
+				return str(joining_user.username) + ' is number ' + str(place) + ' in line'
 		except Exception as e: 
 			print(e)
 	else:
