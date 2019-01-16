@@ -44,6 +44,7 @@ def twitchBotJoin(channel, chatter):
 		joining_user = User.objects.get(user__profile__twitch_id=chatter)
 		print('found user')
 	except Exception as e:
+		print(e)
 		return "No matching account"
 
 	# This does teh joining action
