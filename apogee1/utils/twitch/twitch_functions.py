@@ -107,7 +107,6 @@ def twitchBotPlace(channel, chatter):
 				return joining_user.username + ' is number ' + place + ' in line'
 		except Exception as e: 
 			print(e)
-			context['place_in_queue'] = 'Not in queue'
 	else:
 		return '!graniteplace is for queues only'
 
