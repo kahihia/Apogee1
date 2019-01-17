@@ -106,20 +106,35 @@ def twitchBotNext(channel, chatter, number):
 			message = ''
 			new_winners_list = join_party.winners.all()
 			new_joined_list = join_party.joined.all()
-			for w in new_winners_list:
-				message += w.username +', '
-			message += 'are now in! '
+			if new_winners_list.count() == 1:
+				message += new_winners_list.first().username + ' is now in! '
+			else: 
+				winner_count = 0
+				total_winners = new_winners_list.count()
+				for w in new_winners_list:
+					winner_count += 1
+					if winner_count == total_winners:
+						message += 'and ' + w.username + ' '
+					else: 
+						message += w.username +', '
+				message += 'are now in! '
 			# now say who is next
 			if new_joined_list.count() < int(number): 
 				message += 'There are ' + str(new_joined_list.count()) + ' left in queue.'
 			else:
-				new_count = 0
-				for new_join_user in new_joined_list:
-					if new_count >= int(number):
-						break
-					new_count += 1
-					message += new_join_user.username + ', '
-				message += 'are the next ' + str(number) + ' in queue.'
+				if new_joined_list.count() == 1:
+					message += new_joined_list.first().username + ' is next in queue.'
+				else:
+					new_count = 0
+					for new_join_user in new_joined_list:
+						if new_count >= int(number):
+							break
+						new_count += 1
+						if new_count == new_joined_list.count():
+							message += 'and ' + new_join_user.username + ' '
+						else:
+							message += new_join_user.username + ', '
+					message += 'are the next ' + str(number) + ' in queue.'
 			return message
 	else:
 		return ''
