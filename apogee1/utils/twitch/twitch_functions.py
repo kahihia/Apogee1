@@ -122,7 +122,7 @@ def twitchBotNext(channel, chatter, number):
 			if new_joined_list.count() < int(number): 
 				message += 'There are ' + str(new_joined_list.count()) + ' left in queue.'
 			else:
-				if new_joined_list.count() == 1:
+				if int(number) == 1:
 					message += new_joined_list.first().username + ' is next in queue.'
 				else:
 					new_count = 0
@@ -130,7 +130,7 @@ def twitchBotNext(channel, chatter, number):
 						if new_count >= int(number):
 							break
 						new_count += 1
-						if new_count == new_joined_list.count():
+						if new_count == int(number):
 							message += 'and ' + new_join_user.username + ' '
 						else:
 							message += new_join_user.username + ', '
