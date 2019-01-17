@@ -44,7 +44,10 @@ class TwitchBotAPIView(APIView):
 				# next is a creator only, queue only command. it pulls the next x people in and says who they are. 
 				# should also say who will get pulled in next
 				# we want this to say who this is, so we'll need to attach names to our models. 
-				message = twitch_functions.twitchBotNext(channel, chatter, 1)
+				if channel == chatter:
+					message = twitch_functions.twitchBotNext(channel, chatter, 1)
+				else:
+					message = ''
 			elif action == 'graniteplace':
 				# this is a queue only command. returns the users place. 
 				message = twitch_functions.twitchBotPlace(channel, chatter)

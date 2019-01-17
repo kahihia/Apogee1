@@ -7,6 +7,7 @@ from accounts.models import UserProfile
 from apogee1.utils.email import emailer
 from parties.models import Party
 from parties import partyHandling
+from event_payment import partyTransactions
 
 
 User = get_user_model()
@@ -73,8 +74,55 @@ def twitchBotJoin(channel, chatter):
 			return queue_table['error_message']
 
 
-def twitchBotNext(channel, chatter, count):
-	return 'next ' + str(count)
+def twitchBotNext(channel, chatter, number):
+	partyset = Party.objects.filter(user__profile__twitch_id=channel).filter(is_open=True).order_by('-time_created')
+	if partyset.count() == 0:
+		return 'No active events.'
+	join_party = partyset.first()
+	party_event_type = join_party.event_type
+
+	if party_event_type == 4:
+		# clear the current list
+		winners_list = join_party.winners.all()
+		joined_list = join_party.joined.all()
+		for w in winners_list:
+			join_party.winners.remove(w)
+		# pull the count amount
+		if joined_list.count() < int(number):
+			return join_party.user.username + ', there are only ' + joined_list.count() + ' in the queue.'
+		else:
+			count = 0
+			for join_user in joined_list:
+				if count >= int(number):
+					break
+				if join_user.profile.account_balance >= join_party.cost:
+					count += 1
+					partyTransactions.buy_lottery_reduction(join_user, join_party)
+					partyTransactions.add_money(join_party.user, join_party.cost)
+					join_party.winners.add(join_user)
+				join_party.joined.remove(join_user)
+
+			# now set the winners message
+			message = ''
+			new_winners_list = join_party.winners.all()
+			new_joined_list = join_party.joined.all()
+			for w in new_winners_list:
+				message += w.username +', '
+			message += 'are now in! '
+			# now say who is next
+			if new_joined_list.count() < int(number): 
+				message += 'There are ' + new_joined_list.count() + ' left in queue.'
+			else:
+				new_count = 0
+				for new_join_user in new_joined_list:
+					if new_count >= int(number):
+						break
+					new_count += 1
+					message += new_join_user.username + ', '
+				message += 'are the next ' + number + ' in queue.'
+			return message
+	else:
+		return ''
 
 def twitchBotPlace(channel, chatter):
 	partyset = Party.objects.filter(user__profile__twitch_id=channel).filter(is_open=True).order_by('-time_created')
