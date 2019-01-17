@@ -89,7 +89,7 @@ def twitchBotNext(channel, chatter, number):
 			join_party.winners.remove(w)
 		# pull the count amount
 		if joined_list.count() < int(number):
-			return join_party.user.username + ', there are only ' + joined_list.count() + ' in the queue.'
+			return join_party.user.username + ', there are only ' + str(joined_list.count()) + ' in the queue.'
 		else:
 			count = 0
 			for join_user in joined_list:
@@ -111,7 +111,7 @@ def twitchBotNext(channel, chatter, number):
 			message += 'are now in! '
 			# now say who is next
 			if new_joined_list.count() < int(number): 
-				message += 'There are ' + new_joined_list.count() + ' left in queue.'
+				message += 'There are ' + str(new_joined_list.count()) + ' left in queue.'
 			else:
 				new_count = 0
 				for new_join_user in new_joined_list:
@@ -119,7 +119,7 @@ def twitchBotNext(channel, chatter, number):
 						break
 					new_count += 1
 					message += new_join_user.username + ', '
-				message += 'are the next ' + number + ' in queue.'
+				message += 'are the next ' + str(number) + ' in queue.'
 			return message
 	else:
 		return ''
