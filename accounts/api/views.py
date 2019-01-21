@@ -31,7 +31,7 @@ class TwitchBotAPIView(APIView):
 
 			# make sure this is the bot talking
 			if twitchBotToken == config('TWITCHBOT_TOKEN'):
-				if action == 'granite':
+				if action == 'granitehelp':
 					# 'Granite' explains the basic commands and concept. 
 					message = ('Granite allows you join events with your favorite creators. ' +
 								'!graniteinfo will give you the event details, like type. !granitejoin will add you to the event. ' + 
