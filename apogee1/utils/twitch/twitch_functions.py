@@ -5,8 +5,177 @@ from django.contrib.auth import get_user_model, login
 from accounts.models import UserProfile
 
 from apogee1.utils.email import emailer
+from parties.models import Party
+from parties import partyHandling
+from event_payment import partyTransactions
+
 
 User = get_user_model()
+
+
+
+############################# TWITCH BOT FUNCITONS ############################
+
+# graniteinfo explains the event, so type, title, price
+def twitchBotInfo(channel):
+	partyset = Party.objects.filter(user__profile__twitch_id=channel).filter(is_open=True).order_by('-time_created')
+	if partyset.count() == 0:
+		return 'No active events.'
+	event = partyset.first()
+	name = event.user.username
+	event_type = event.get_event_type_display()
+	event_title = event.title
+	event_price = event.cost
+	event_twitch = event.is_twitch_event
+	msg = name + "'s event, \"" + event_title + '" is a ' + event_type + '.'
+	if event_twitch == True:
+		msg += " It's for subscribers only."
+	if event_price != 0:
+		msg += ' It costs $' + str(event_price) + ' to enter.' 
+	return msg
+
+def twitchBotJoin(channel, chatter):
+	# get the party we're trying to join
+	partyset = Party.objects.filter(user__profile__twitch_id=channel).filter(is_open=True).order_by('-time_created')
+	if partyset.count() == 0:
+		return 'No active events.'
+	join_party = partyset.first()
+	party_event_type = join_party.event_type
+
+	# get the user that is trying to join
+	try:
+		print('finding user')
+		joining_user = User.objects.get(profile__twitch_id=chatter)
+		print('found user')
+	except Exception as e:
+		print(e)
+		return "No matching account"
+
+	# This does teh joining action
+	if party_event_type == 1:
+		joined_table = partyHandling.lottery_add(joining_user, join_party)
+		if joined_table['is_joined'] == True or joined_table['error_message'] == 'You have already joined this event':
+			return ''
+		else:
+			return joined_table['error_message']
+	elif party_event_type == 2:
+		return "Bid events cannot be joined from chat."
+	elif party_event_type == 3:
+		buy_table = partyHandling.buyout_add(joining_user, join_party)
+		if buy_table['winner'] == True or buy_table['error_message'] == 'You have already bought this event':
+			return ''
+		else:
+			return buy_table['error_message']
+	elif party_event_type == 4:
+		queue_table = partyHandling.queue_add(joining_user, join_party)
+		if queue_table['is_joined'] == True or queue_table['error_message'] == 'You have already joined this event':
+			return ''
+		else:
+			return queue_table['error_message']
+
+
+def twitchBotNext(channel, chatter, number):
+	partyset = Party.objects.filter(user__profile__twitch_id=channel).filter(is_open=True).order_by('-time_created')
+	if partyset.count() == 0:
+		return 'No active events.'
+	join_party = partyset.first()
+	party_event_type = join_party.event_type
+
+	if party_event_type == 4:
+		# clear the current list
+		winners_list = join_party.winners.all()
+		joined_list = join_party.joined.all()
+		for w in winners_list:
+			join_party.winners.remove(w)
+		# pull the count amount
+		if joined_list.count() < int(number):
+			return join_party.user.username + ', there are only ' + str(joined_list.count()) + ' in the queue.'
+		else:
+			count = 0
+			for join_user in joined_list:
+				if count >= int(number):
+					break
+				if join_user.profile.account_balance >= join_party.cost:
+					count += 1
+					partyTransactions.buy_lottery_reduction(join_user, join_party)
+					partyTransactions.add_money(join_party.user, join_party.cost)
+					join_party.winners.add(join_user)
+				join_party.joined.remove(join_user)
+
+			# now set the winners message
+			message = ''
+			new_winners_list = join_party.winners.all()
+			new_joined_list = join_party.joined.all()
+			if new_winners_list.count() == 1:
+				message += new_winners_list.first().username + ' is now in! '
+			else: 
+				winner_count = 0
+				total_winners = new_winners_list.count()
+				for w in new_winners_list:
+					winner_count += 1
+					if winner_count == total_winners:
+						message += 'and ' + w.username + ' '
+					else: 
+						message += w.username +', '
+				message += 'are now in! '
+			# now say who is next
+			if new_joined_list.count() < int(number): 
+				message += 'There are ' + str(new_joined_list.count()) + ' left in queue.'
+			else:
+				if int(number) == 1:
+					message += new_joined_list.first().username + ' is next in queue.'
+				else:
+					new_count = 0
+					for new_join_user in new_joined_list:
+						if new_count >= int(number):
+							break
+						new_count += 1
+						if new_count == int(number):
+							message += 'and ' + new_join_user.username + ' '
+						else:
+							message += new_join_user.username + ', '
+					message += 'are the next ' + str(number) + ' in queue.'
+			return message
+	else:
+		return ''
+
+def twitchBotPlace(channel, chatter):
+	partyset = Party.objects.filter(user__profile__twitch_id=channel).filter(is_open=True).order_by('-time_created')
+	if partyset.count() == 0:
+		return 'No active events.'
+	join_party = partyset.first()
+	party_event_type = join_party.event_type
+
+	# get the user that is trying to join
+	try:
+		print('finding user')
+		joining_user = User.objects.get(profile__twitch_id=chatter)
+		print('found user')
+	except Exception as e:
+		print(e)
+		return "No matching account"
+
+	if join_party.event_type == 4:
+		try:
+			joined_list = join_party.joined.all()
+			place = 0
+			count = 0
+			for j in joined_list:
+				count+=1
+				if str(j.username) == str(joining_user.username):
+					place = count
+			if place == 0:
+				return joining_user.username + ' is not in the queue'
+			else:
+				print('trying to sa place')
+				return str(joining_user.username) + ' is number ' + str(place) + ' in line'
+		except Exception as e: 
+			print(e)
+	else:
+		return '!graniteplace is for queues only'
+
+
+######################### TWITCH CONNECTION FUNCTIONS #########################
 
 # This is the Twitch Connect function from the settings page. It runs the normal Twitch auth 
 # cycle, makes sure the account isn't already attached somewhere, and attaches the details 

@@ -7,7 +7,9 @@ from accounts.api.views import (
 		AuthorizationAPIView,
 		PasswordResetAPIView,
 		PasswordTokenAPIView,
-		PasswordMatchAPIView
+		PasswordMatchAPIView, 
+		BotAPIView, 
+		TwitchBotAPIView
 	)
 from parties.api.views import (
 		PartyListAPIView
@@ -17,6 +19,8 @@ app_name = 'profiles-api'
 # /api/ routes to this 
 urlpatterns = [
 	# this url is the event API for the particular profile
+	path('glitchbot/', BotAPIView.as_view(), name='bot'),
+	path('twitchbot/', TwitchBotAPIView.as_view(), name='twitchbot'),
     path('<username>/events/', PartyListAPIView.as_view(), name='list'),
     path('<auth_key>/authorization/', AuthorizationAPIView.as_view(), name='authorization'),
     path('<email>/password_reset/', PasswordResetAPIView.as_view(), name='passwordreset'),

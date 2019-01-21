@@ -56,7 +56,7 @@ def event_insufficient_funds():
 #added = False
 #uses party_obj to determine what error message to send
 def event_user_already_in_event(party_obj):
-	if party_obj.event_type == 1:
+	if party_obj.event_type == 1 or party_obj.event_type == 4:
 		error_message = "You have already joined this event"
 	elif party_obj.event_type == 3:
 		error_message = "You have already bought this event"
