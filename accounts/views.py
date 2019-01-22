@@ -19,6 +19,7 @@ from .forms import UserRegisterForm, UserProfileModelForm
 from .mixins import ProfileOwnerMixin
 from apogee1.utils.email import emailer
 from apogee1.utils.twitch import twitch_functions
+from apogee1.utils.streamlabs import streamlabs_functions
 from parties.api.serializers import PartyModelSerializer
 from parties.models import Party
 
@@ -208,10 +209,10 @@ class UserProfileUpdateView(LoginRequiredMixin, ProfileOwnerMixin, UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super(UserProfileUpdateView, self).get_context_data(*args, **kwargs)
         if self.request.user.is_authenticated:
-            # in the html, we call both following and recommended. this is how those 
-            # variables get passed through
             context['twitch_redirect_uri'] = config('TWITCH_REDIRECT_URI')
             context['twitch_client_id'] = config('TWITCH_CLIENT_ID')
+            context['streamlabs_redirect_uri'] = config('STREAMLABS_REDIRECT_URI')
+            context['streamlabs_client_id'] = config('STREAMLABS_CLIENT_ID')
         requested_user = self.kwargs.get('username')
         context['request'] = self.request
         return context
@@ -289,4 +290,33 @@ class UserDeTwitchView(View, LoginRequiredMixin):
             user.save(update_fields=['twitch_id'])
             user.save(update_fields=['twitch_refresh_token'])
             user.save(update_fields=['twitch_OAuth_token'])
+            return redirect('profiles:edit', username=username)
+
+
+###########################   STREAMLABS VIEWS   ##############################
+
+# this allows a logged in user to attach their twitch account 
+class UserStreamlabsAuthView(View, LoginRequiredMixin):
+    def get(self, request, *args, **kwargs):
+        # code should be in the json return to us by Streamlabs
+        code = request.GET.get('code', 'None')
+        if code =='None':
+            return render(request, 'accounts/streamlabs_auth.html', context={'authentication_message': "Oops! Something went wrong."})
+        response = streamlabs_functions.get_streamlabs_details(code, request.user)
+        if response==-1:
+            return render(request, 'accounts/streamlabs_auth.html', context={'authentication_message': "Streamlabs authentication failed."})
+        if response==0:
+            return render(request, 'accounts/streamlabs_auth.html', context={'authentication_message': "This Streamlabs account is already connected to another Granite account."})
+        if response==1:
+            return render(request, 'accounts/streamlabs_auth.html', context={'authentication_message': "Your Streamlabs account has been connected!"})
+        
+# this disconnects streamlabs accounts
+class UserDeStreamlabsView(View, LoginRequiredMixin):
+    def get(self, request, username, *args, **kwargs):
+        if request.user.is_authenticated:
+            user = request.user.profile
+            user.streamlabs_access_token=""
+            user.streamlabs_refresh_token=""
+            user.save(update_fields=['streamlabs_access_token'])
+            user.save(update_fields=['streamlabs_refresh_token'])
             return redirect('profiles:edit', username=username)

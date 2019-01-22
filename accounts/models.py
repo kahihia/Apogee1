@@ -180,6 +180,10 @@ class UserProfile(models.Model):
 
 	twitch_id = models.CharField(max_length=100, default="", blank=True)
 
+	streamlabs_access_token = models.CharField(max_length=100, default="", blank=True)
+
+	streamlabs_refresh_token = models.CharField(max_length=100, default="", blank=True)
+
 	# this is the same as calling UserProfile.objects.all()
 	# it just connects to the manager
 	objects = UserProfileManager()
@@ -199,9 +203,13 @@ class UserProfile(models.Model):
 	def get_follow_url(self):
 		return reverse_lazy('profiles:follow', kwargs={'username': self.user.username})
 
+	# This sends you through the twitch disconnect view
 	def get_twitch_reset_url(self):
-		print("less gooooooooooooooooooooooooooooooooooooooooooooo")
 		return reverse_lazy('profiles:detwitch', kwargs={'username': self.user.username})
+
+	# This sends you through the streamlabs disconnect view
+	def get_streamlabs_reset_url(self):
+		return reverse_lazy('profiles:destreamlabs', kwargs={'username': self.user.username})
 
 	# gets the follow url for the person whose page you are on
 	def get_block_url(self):
