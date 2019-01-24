@@ -23,6 +23,7 @@ from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
 from apogee1.utils.email import emailer
 from apogee1.utils.twitch import twitch_functions
+from apogee1.utils.streamlabs import streamlabs_functions
 ############################ GLOBAL VARIABLES #################################
 max_acceptable_bid = 99999.99
 
@@ -90,6 +91,10 @@ def lottery_add_user(user,party_obj):
 	popularityHandling.lottery_popularity_join(party_obj)
 	party_obj.joined.add(user)
 	partyTransactions.buy_lottery_reduction(user, party_obj)
+
+	# on-stream notification
+	if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
+		alerted = streamlabs_functions.create_streamlabs_alert(party_obj, user):
 	# curr_balance = user.profile.account_balance - party_obj.cost
 	# user.profile.account_balance = curr_balance
 	# user.profile.save(update_fields=['account_balance'])
@@ -139,6 +144,10 @@ def buyout_add_user(user, party_obj):
 	#Creating a notification for the user on buyout win
 	Notification.objects.create(user=user, party=party_obj,\
 	action="fan_win")
+	# on-stream notification
+	if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
+		alerted = streamlabs_functions.create_streamlabs_alert(party_obj, user):
+
 	return {'added':True, 'error_message':""}
 #Ends the buyout event
 #1. event that is passed is closed
@@ -205,6 +214,10 @@ def bid_bid_too_low():
 ############################# QUEUE FUNCTIONS ##################################
 def queue_add_user(user, party_obj):
 	party_obj.joined.add(user)
+	# on-stream notification
+	if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
+		alerted = streamlabs_functions.create_streamlabs_alert(party_obj, user):
+
 	return {'added':True, 'error_message':""}
 
 def queue_dequeue(user, party_obj, number):
