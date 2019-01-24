@@ -40,6 +40,8 @@ class PartyModelForm(forms.ModelForm):
 
 	is_twitch_event = forms.BooleanField(label="Twitch subscribers only", required=False)
 
+	streamlabs_notifs = forms.BooleanField(label="Enable Streamlabs alerts", required=False)
+
 
 	# event_type has a default widget so we're not gonna mess with it
 	# event_type = forms.ChoiceField(label='Event Type')
@@ -57,6 +59,7 @@ class PartyModelForm(forms.ModelForm):
 			'cost',
 			'thumbnail',
 			'is_twitch_event', 
+			'streamlabs_notifs',
 		]
 
 		# dont think these will ever appear cause the fields have length limits on them 

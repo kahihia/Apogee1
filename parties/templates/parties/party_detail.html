@@ -187,6 +187,9 @@
 											$<span id="cost">{{serialized.cost}}</span>
 										</p>
 									{% endif %}
+									{% if serialized.cost != 0 and serialized.streamlabs_notifs %}
+										<p class=""><small> On-stream purchase alerts enabled</small></p> 
+									{% endif %}
 								</div>
 
 								<!-- Time Until Close -->

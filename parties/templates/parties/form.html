@@ -115,7 +115,7 @@ always added in to other form displays -->
 				</div>
 				<div class="col-md-6">
 					{% if request.user.profile.twitch_id == '' %}
-					<p>Connect your twitch account to make sub-only events!</p>
+					<p>Connect your Twitch account to make sub-only events!</p>
 					{% else %}
 					<div class="form-group">
 						{{ form.is_twitch_event.errors }}
@@ -130,6 +130,18 @@ always added in to other form displays -->
 						{{ form.minimum_bid.label_tag }}
 						{{ form.minimum_bid }}
 					</div>
+				</div>
+				<div class="col-md-6">
+					{% if request.user.profile.streamlabs_access_token == '' %}
+					<p>Connect your Streamlabs account to enable on-stream alerts!</p>
+					{% else %}
+					<div class="form-group">
+						{{ form.streamlabs_notifs.errors }}
+						{{ form.streamlabs_notifs.label_tag }}
+						{{ form.streamlabs_notifs }}
+						<p><small class='text-muted'>Alerts only appear for paid events.</small></p>
+					</div>
+					{% endif %}
 				</div>
 				<div class="col-md-12">
 					<button type="submit" style="float: right; width: 100%" class="btn btn-primary-new"><b>Create Event</b></button>
