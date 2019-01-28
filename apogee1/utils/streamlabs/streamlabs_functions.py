@@ -21,11 +21,11 @@ def get_streamlabs_details(code, user_obj):
 		# 	'Client-id': streamlabs_client_id
 		# }
 		data = {
-			"grant_type": grant_type,
+			'grant_type': grant_type,
 			'client_id': streamlabs_client_id,
 			'client_secret': streamlabs_client_secret,
-			"redirect_uri": streamlabs_redirect_uri, 
-			"code": code
+			'redirect_uri': streamlabs_redirect_uri, 
+			'code': code
 		}
 		url = "https://streamlabs.com/api/v1.0/token"
 		print('trying to post to streamlabs')
