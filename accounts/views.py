@@ -304,7 +304,6 @@ class UserStreamlabsAuthView(View, LoginRequiredMixin):
         if code =='None':
             return render(request, 'accounts/streamlabs_auth.html', context={'authentication_message': "Oops! Something went wrong."})
         response = streamlabs_functions.get_streamlabs_details(code, request.user)
-        print('got response')
         if response==-1:
             return render(request, 'accounts/streamlabs_auth.html', context={'authentication_message': "Streamlabs authentication failed."})
         if response==0:

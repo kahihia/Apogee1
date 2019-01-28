@@ -10,6 +10,7 @@ from accounts.models import UserProfile
 def get_streamlabs_details(code, user_obj):
 	try:
 		print('were starting streamlabs details')
+		print(code)
 		# Streamlabs auth step one. send back their code with our credentials to get user credentials
 		streamlabs_client_id = config('STREAMLABS_CLIENT_ID')
 		streamlabs_client_secret = config('STREAMLABS_CLIENT_SECRET')
