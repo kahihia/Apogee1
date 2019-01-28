@@ -21,7 +21,7 @@ def get_streamlabs_details(code, user_obj):
 		# 	'Client-id': streamlabs_client_id
 		# }
 		data = {
-			'grant_type': grant_type,
+			'grant_type': 'code',
 			'client_id': streamlabs_client_id,
 			'client_secret': streamlabs_client_secret,
 			'redirect_uri': streamlabs_redirect_uri, 
