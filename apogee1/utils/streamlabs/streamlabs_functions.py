@@ -15,12 +15,13 @@ def get_streamlabs_details(code, user_obj):
 		streamlabs_client_id = config('STREAMLABS_CLIENT_ID')
 		streamlabs_client_secret = config('STREAMLABS_CLIENT_SECRET')
 		streamlabs_redirect_uri = config('STREAMLABS_REDIRECT_URI')
+		grant_type = 'authorization_code'
 		# headers = {
 		# 	'content-type': 'application/json',
 		# 	'Client-id': streamlabs_client_id
 		# }
 		data = {
-			"grant_type":"authorization_code",
+			"grant_type": grant_type,
 			'client_id': streamlabs_client_id,
 			'client_secret': streamlabs_client_secret,
 			"redirect_uri": streamlabs_redirect_uri, 
