@@ -27,9 +27,10 @@ def get_streamlabs_details(code, user_obj):
 			'redirect_uri': streamlabs_redirect_uri, 
 			'code': code
 		}
-		url = "https://www.streamlabs.com/api/v1.0/token"
+		url = "https://streamlabs.com/api/v1.0/token"
 		print('trying to post to streamlabs')
-		streamlabs_response = requests.request("POST", url, params=json.dumps(data))
+		streamlabs_response = requests.post('https://streamlabs.com/api/v1.0/token', data=json.dumps(data))
+		# streamlabs_response = requests.request("POST", url, params=json.dumps(data))
 		print('got a response')
 		print(streamlabs_response.text)
 		streamlabs_dict=json.loads(streamlabs_response.text)
