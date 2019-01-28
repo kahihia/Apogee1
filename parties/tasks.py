@@ -63,7 +63,7 @@ def pick_winner(party_id):
 
 				# on-stream notification
 				if party.streamlabs_notifs == True:
-					alerted = streamlabs_functions.create_streamlabs_alert(party, i):
+					alerted = streamlabs_functions.send_streamlabs_alert(party, i):
 				# email_data = {'username': winner.username}
 				# emailer.email(winner_text, 'team@mail.granite.gg', [winner.email], 'winner_email.html', email_data)
 			statisticsfunctions.bid_update_end_stats(party)
