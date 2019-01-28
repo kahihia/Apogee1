@@ -27,7 +27,7 @@
 		<h2 class="mt-3">Integrations</h2><hr>
 
 		<!-- twitch auth section -->
-		<h4 class='mt-3'>Twitch</h4><hr>
+		<h4 class='mt-3'>Twitch</h4>
 		{% if request.user.profile.twitch_id == '' %}
 			<a href='https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id={{twitch_client_id}}&redirect_uri={{twitch_redirect_uri}}&scope=channel_subscriptions+user_read+channel_check_subscription'>
 				<button class="btn btn-primary-new">Connect your Twitch account!</button>
@@ -59,14 +59,14 @@
 		{% endif %}
 
 		<!-- streamlabs auth section -->
-		<h4 class='mt-3'>Streamlabs</h4><hr>
+		<h4 class='mt-3'>Streamlabs</h4>
 		{% if request.user.profile.streamlabs_access_token == '' %}
 			<a href='https://streamlabs.com/api/v1.0/authorize?response_type=code&client_id={{streamlabs_client_id}}&redirect_uri={{streamlabs_redirect_uri}}&scope=alerts.create'>
-				<button class="btn btn-primary-new">Connect your Streamlabs account!</button>
+				<button class="btn btn-primary-new mb-3">Connect your Streamlabs account!</button>
 			</a>
 		{% else %}
 			<a data-toggle="modal" id="StreamlabsDisconnectButton" data-target="#StreamlabsDisconnectModal">
-				<button class="btn btn-primary-new">Disconnect your Streamlabs account</button>
+				<button class="btn btn-primary-new mb-3">Disconnect your Streamlabs account</button>
 			</a>
 			<div class="modal fade" id="StreamlabsDisconnectModal" tabindex="-1" role="dialog" aria-labelledby="StreamlabsDisconnectModalTitle" aria-hidden="true">
 			  	<div class="modal-dialog modal-dialog-centered" role="document">
