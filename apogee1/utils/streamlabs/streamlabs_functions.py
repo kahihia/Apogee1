@@ -9,6 +9,7 @@ from accounts.models import UserProfile
 # to the request user.
 def get_streamlabs_details(code, user_obj):
 	try:
+		print('were starting streamlabs details')
 		# Streamlabs auth step one. send back their code with our credentials to get user credentials
 		streamlabs_client_id = config('STREAMLABS_CLIENT_ID')
 		streamlabs_client_secret = config('STREAMLABS_CLIENT_SECRET')
@@ -25,7 +26,9 @@ def get_streamlabs_details(code, user_obj):
 			"code": code
 		}
 		url = "https://streamlabs.com/api/v1.0/token"
+		print('trying to post to streamlabs')
 		streamlabs_response = requests.requests("POST", url, params=data)
+		print('got a response')
 		print(streamlabs_response.text)
 		streamlabs_dict=json.loads(streamlabs_response.text)
 		streamlabs_access_token = streamlabs_dict['access_token']
@@ -43,6 +46,7 @@ def get_streamlabs_details(code, user_obj):
 		return 1
 
 	except Exception as e:
+		print('got an exception')
 		#failure on authenticating code from streamlabs
 		return -1
 

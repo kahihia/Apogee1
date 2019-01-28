@@ -299,10 +299,12 @@ class UserDeTwitchView(View, LoginRequiredMixin):
 class UserStreamlabsAuthView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
         # code should be in the json return to us by Streamlabs
+        print('getting code')
         code = request.GET.get('code', 'None')
         if code =='None':
             return render(request, 'accounts/streamlabs_auth.html', context={'authentication_message': "Oops! Something went wrong."})
         response = streamlabs_functions.get_streamlabs_details(code, request.user)
+        print('got response')
         if response==-1:
             return render(request, 'accounts/streamlabs_auth.html', context={'authentication_message': "Streamlabs authentication failed."})
         if response==0:
