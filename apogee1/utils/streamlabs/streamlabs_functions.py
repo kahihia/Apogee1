@@ -33,7 +33,7 @@ def get_streamlabs_details(code, user_obj):
 		# url = url1 + url2
 		print('trying to post to streamlabs')
 		# streamlabs_response = requests.post(url=url, data=json.dumps(querydict))
-		streamlabs_response = requests.request("POST", url, querydict)
+		streamlabs_response = requests.request("POST", url, params=querydict)
 		print('got a response')
 		print(streamlabs_response.text)
 		streamlabs_dict=json.loads(streamlabs_response.text)
