@@ -20,6 +20,9 @@ def get_streamlabs_details(code, user_obj):
 		# 	'content-type': 'application/json',
 		# 	'Client-id': streamlabs_client_id
 		# }
+		headers = {
+			'content-type': 'application/json',
+		}
 		querydict = {
 			'grant_type':'authorization_code',
 			'client_id':streamlabs_client_id,
@@ -32,8 +35,8 @@ def get_streamlabs_details(code, user_obj):
 		# url2 = '&client_secret='+streamlabs_client_secret+'&redirect_uri='+streamlabs_redirect_uri+'&code='+code
 		# url = url1 + url2
 		print('trying to post to streamlabs')
-		# streamlabs_response = requests.post('https://streamlabs.com/api/v1.0/token', data=json.dumps(querydict))
-		streamlabs_response = requests.request("POST", url, params=querydict)
+		streamlabs_response = requests.post(url, headers=headers, data=json.dumps(querydict))
+		# streamlabs_response = requests.request("POST", url, params=querydict)
 		# streamlabs_response = requests.request("POST", url)
 		print('got a response')
 		print(streamlabs_response.text)
