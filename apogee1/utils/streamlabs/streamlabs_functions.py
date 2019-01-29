@@ -25,7 +25,7 @@ def get_streamlabs_details(code, user_obj):
 			'client_id': streamlabs_client_id,
 			'client_secret': streamlabs_client_secret,
 			'redirect_uri': streamlabs_redirect_uri, 
-			'code': code
+			'code': code,
 		}
 		url = "https://streamlabs.com/api/v1.0/token"
 		# url1 = 'https://streamlabs.com/api/v1.0/token?grant_type=authorization_code&client_id='+streamlabs_client_id
