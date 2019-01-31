@@ -220,6 +220,14 @@ def queue_add_user(user, party_obj):
 
 	return {'added':True, 'error_message':""}
 
+def priority_queue_add_user(user, party_obj):
+	party_obj.priority_joined.add(user)
+	# on-stream notification
+	if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
+		alerted = streamlabs_functions.send_streamlabs_alert(party_obj, user)
+
+	return {'added':True, 'error_message':""}
+
 def queue_dequeue(user, party_obj, number):
 	if party_obj.joined.all().count() < int(number):
 		return {'added':True, 'error_message':"Not enough people in queue"}
