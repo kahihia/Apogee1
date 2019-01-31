@@ -229,20 +229,38 @@ def priority_queue_add_user(user, party_obj):
 	return {'added':True, 'error_message':""}
 
 def queue_dequeue(user, party_obj, number):
-	if party_obj.joined.all().count() < int(number):
+	if (party_obj.joined.all().count() + party_obj.priority_joined.all().count()) < int(number):
 		return {'added':True, 'error_message':"Not enough people in queue"}
 	else:
 		joined_list = party_obj.joined.all()
+		priority_joined_list = party_obj.priority_joined.all()
 		count = 0
-		for user in joined_list:
-			if count >= int(number):
-				break
-			if user.profile.account_balance>=party_obj.cost:
+		if party_obj.is_priority_queue == True:
+			for priority_user in priority_joined_list:
+				if count >= int(number):
+					break
+				if priority_user.profile.account_balance >= party_obj.cost:
+					count+=1
+					partyTransactions.buy_lottery_reduction(priority_user, party_obj)
+					partyTransactions.add_money(party_obj.user, party_obj.cost)
+					party_obj.winners.add(priority_user)
+				party_obj.joined.remove(priority_user)
+			for user in joined_list:
+				if count >= int(number):
+					break
 				count+=1
-				partyTransactions.buy_lottery_reduction(user, party_obj)
-				partyTransactions.add_money(party_obj.user, party_obj.cost)
 				party_obj.winners.add(user)
-			party_obj.joined.remove(user)
+				party_obj.joined.remove(user)
+		else:
+			for user in joined_list:
+				if count >= int(number):
+					break
+				if user.profile.account_balance>=party_obj.cost:
+					count+=1
+					partyTransactions.buy_lottery_reduction(user, party_obj)
+					partyTransactions.add_money(party_obj.user, party_obj.cost)
+					party_obj.winners.add(user)
+				party_obj.joined.remove(user)
 		return {'added':True, 'error_message':""}
 
 ########################### END QUEUE FUNCTIONS #################################
