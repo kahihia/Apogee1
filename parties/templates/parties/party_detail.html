@@ -287,6 +287,9 @@
 							<!-- Event Actions / Join -->
 							{% if serialized.did_join %}
 									<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay disabled" disabled> Joined </button>
+									{% if serialized.event_type == 4 and serialized.cost > 0 %}
+										<p><small>You will only be charged when the event owner pulls you from the front of the queue.</small></p>
+									{% endif %}
 							{% endif %}
 
 							{% if blocked %}
