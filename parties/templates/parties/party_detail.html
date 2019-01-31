@@ -268,7 +268,7 @@
 									{% endwith %}
 									{% endwith %}
 									{% endwith %}
-									{% if serialized.event_type == 4 and serialized.is_priority_queue %}
+									{% if serialized.event_type == 4 %}
 										<button type="button" class="btn btn-primary-new btn-block priorityJoinBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> 
 											Enter Priority Queue
 										</button>
