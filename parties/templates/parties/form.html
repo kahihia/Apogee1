@@ -91,15 +91,15 @@ always added in to other form displays -->
 						{{ form.event_type }}
 					</div>
 				</div>
-				<div class="col-md-6">
-					<div class="form-group" id="id_num_possible_winners" hidden>
+				<div class="col-md-6" id="id_num_possible_winners" hidden>
+					<div class="form-group">
 						{{ form.num_possible_winners.errors }}
 						{{ form.num_possible_winners.label_tag }}
 						{{ form.num_possible_winners }}
 					</div>
 				</div>
-				<div class="col-md-6">
-					<div class="form-group" id="id_max_entrants" hidden>
+				<div class="col-md-6" id="id_max_entrants" hidden>
+					<div class="form-group">
 						{{ form.max_entrants.errors }}
 						{{ form.max_entrants.label_tag }}
 						{{ form.max_entrants }}
@@ -131,8 +131,8 @@ always added in to other form displays -->
 						{{ form.minimum_bid }}
 					</div>
 				</div>
-				<div class="col-md-6">
-					<div class="form-group" id="id_priority_queue">
+				<div class="col-md-6" id="id_priority_queue">
+					<div class="form-group">
 						{{ form.is_priority_queue.errors }}
 						{{ form.is_priority_queue.label_tag }}
 						{{ form.is_priority_queue }}
