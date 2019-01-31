@@ -244,7 +244,7 @@ def queue_dequeue(user, party_obj, number):
 					partyTransactions.buy_lottery_reduction(priority_user, party_obj)
 					partyTransactions.add_money(party_obj.user, party_obj.cost)
 					party_obj.winners.add(priority_user)
-				party_obj.joined.remove(priority_user)
+				party_obj.priority_joined.remove(priority_user)
 			for user in joined_list:
 				if count >= int(number):
 					break
