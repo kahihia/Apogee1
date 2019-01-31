@@ -272,6 +272,7 @@
 										<button type="button" class="btn btn-primary-new btn-block priorityJoinBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> 
 											Enter Priority Queue
 										</button>
+										<p><small>Priority queue costs ${{serialized.cost}} and allows you to go ahead of the normal queue. The normal queue is free to join.</small></p>
 									{% endif %}
 								{% endif %}
 								{% if not request.user.is_authenticated %}
