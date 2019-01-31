@@ -182,6 +182,14 @@ class PartyDetailView(DetailView):
 				joined_list = qs.joined.all()
 				context['place_in_queue'] = 'Not in queue'
 				count = 0
+
+				if qs.is_priority_queue == True:
+					priority_joined_list = qs.priority_joined.all()
+					for i in priority_joined_list:
+						count+=1
+						if str(i.username) == str(self.request.user.username):
+							context['place_in_queue'] = count
+
 				for j in joined_list:
 					count+=1
 					if str(j.username) == str(self.request.user.username):
