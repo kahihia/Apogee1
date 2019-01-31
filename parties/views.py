@@ -155,6 +155,7 @@ class PartyLeaveView(View):
 			qs = objs.first()
 			if qs.event_type==4:
 				qs.joined.remove(request.user)
+				qs.priority_joined.remove(request.user)
 		return redirect('parties:detail', pk=party_id)
 
 class PartyDetailView(DetailView):
