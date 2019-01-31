@@ -122,9 +122,55 @@ function addJoinFunctionality(){
         if(data.error_message == ''){
           this_.prop('disabled', true)
           this_.text('Joined')
-        }
+          $('.priorityJoinBtn').prop('disabled', true);
+          $('.priorityJoinBtn').prop('hidden', true);        }
         console.log(this_)
         console.log(data.min_bid)
+        location.reload();
+        // the api handles updating the database 
+      }, 
+      error: function(data){
+        console.log('error')
+        console.log(data)
+      }
+    })
+  })
+}
+
+function addPriorityJoinFunctionality(){
+  $(document.body).on("click", '.priorityJoinBtn', function(e){
+    e.preventDefault();
+
+    let this_ = $(this)
+    // selector for the button. makes sure we have the event id 
+    let partyID = this_.attr('data-id')
+    let partyType = this_.attr('event-id')
+    console.log("The party is "+partyType)
+    // api endpoint
+    let joinedUrl;
+    if(partyType == 4){
+      joinedUrl = '/api/events/' + partyID + '/priorityjoin/'
+    }
+    
+    // ajax accesses the api
+    $.ajax({
+      method: 'GET',
+      url: joinedUrl,
+
+      success: function(data){
+        if(partyType == 4){
+          document.getElementsByName("num_joined")[0].innerHTML = data.num_joined 
+        }
+        if(data.error_message!=""){
+          alert(data.error_message)
+        }
+        if(data.error_message == ''){
+          this_.prop('disabled', true)
+          this_.text('Joined')
+          $('.joinBtn').prop('disabled', true);
+          $('.joinBtn').prop('hidden', true);
+        }
+        console.log(this_)
         location.reload();
         // the api handles updating the database 
       }, 
