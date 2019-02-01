@@ -196,8 +196,13 @@ def twitchBotPlace(channel, chatter):
 	if join_party.event_type == 4:
 		try:
 			joined_list = join_party.joined.all()
+			priority_joined_list = join_party.priority_joined.all()
 			place = 0
 			count = 0
+			for p in priority_joined_list:
+				count+=1
+				if str(p.username) == str(joining_user.username):
+					place = count
 			for j in joined_list:
 				count+=1
 				if str(j.username) == str(joining_user.username):
