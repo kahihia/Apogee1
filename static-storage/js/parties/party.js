@@ -146,6 +146,7 @@ function addPriorityJoinFunctionality(){
     let partyID = this_.attr('data-id')
     let partyType = this_.attr('event-id')
     console.log("The party is "+partyType)
+    console.log('yeeeeeeeeeeeet')
     // api endpoint
     let joinedUrl;
     if(partyType == 4){
