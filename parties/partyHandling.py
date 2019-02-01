@@ -214,18 +214,10 @@ def bid_bid_too_low():
 ############################# QUEUE FUNCTIONS ##################################
 def queue_add_user(user, party_obj):
 	party_obj.joined.add(user)
-	# on-stream notification
-	if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
-		alerted = streamlabs_functions.send_streamlabs_alert(party_obj, user)
-
 	return {'added':True, 'error_message':""}
 
 def priority_queue_add_user(user, party_obj):
 	party_obj.priority_joined.add(user)
-	# on-stream notification
-	if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
-		alerted = streamlabs_functions.send_streamlabs_alert(party_obj, user)
-
 	return {'added':True, 'error_message':""}
 
 def queue_dequeue(user, party_obj, number):
@@ -244,6 +236,9 @@ def queue_dequeue(user, party_obj, number):
 					partyTransactions.buy_lottery_reduction(priority_user, party_obj)
 					partyTransactions.add_money(party_obj.user, party_obj.cost)
 					party_obj.winners.add(priority_user)
+					# on-stream notification
+					if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
+						alerted = streamlabs_functions.send_streamlabs_alert(party_obj, priority_user)
 				party_obj.priority_joined.remove(priority_user)
 			for user in joined_list:
 				if count >= int(number):
@@ -260,6 +255,9 @@ def queue_dequeue(user, party_obj, number):
 					partyTransactions.buy_lottery_reduction(user, party_obj)
 					partyTransactions.add_money(party_obj.user, party_obj.cost)
 					party_obj.winners.add(user)
+					# on-stream notification
+					if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
+						alerted = streamlabs_functions.send_streamlabs_alert(party_obj, user)
 				party_obj.joined.remove(user)
 		return {'added':True, 'error_message':""}
 
@@ -571,7 +569,7 @@ def queue_add(user, party_obj):
 	elif is_twitch_event and not subscribed_status:
 		print("REJECTED BECAUSE NOT TWITCH SUBBED")
 		event_info = event_not_twitch_sub()
-	elif user in party_obj.joined.all():
+	elif user in party_obj.joined.all() or user in party_obj.priority_joined.all():
 		event_info = event_user_already_in_event(party_obj)
 	#if user does not have enough money in their account
 	#returns dict with joined=false and error_message
@@ -643,7 +641,7 @@ def priority_queue_add(user, party_obj):
 	# if the party has reached its max cap
 	# returns dict with joined = False and error_message
 	# = This event is already at max capacity
-	elif party_obj.joined.all().count()>=1000 or party_obj.priority_joined.all().count()>=1000:
+	elif party_obj.priority_joined.all().count()>=1000:
 		event_info = event_at_max_capacity()
 	# No constraints left
 	# add user to joined list
