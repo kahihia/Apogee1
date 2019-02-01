@@ -84,6 +84,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'verified',
 			'profile_picture',
 			'is_twitch_event', 
+			'is_priority_queue',
 		]
 
 	# method if you want the human readable format of the event type
