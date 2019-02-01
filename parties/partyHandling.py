@@ -23,6 +23,7 @@ from hashtags.signals import parsed_hashtags
 from apogee1.settings import celery_app
 from apogee1.utils.email import emailer
 from apogee1.utils.twitch import twitch_functions
+from apogee1.utils.streamlabs import streamlabs_functions
 ############################ GLOBAL VARIABLES #################################
 max_acceptable_bid = 99999.99
 
@@ -85,11 +86,15 @@ def event_blocked():
 #Adds user that is passed to party joined list
 #error = None
 #joined = True
-def lottery_add_user(user,party_obj):
+def lottery_add_user(user, party_obj):
 	statisticsfunctions.lottery_update_join_stats(party_obj)
 	popularityHandling.lottery_popularity_join(party_obj)
 	party_obj.joined.add(user)
 	partyTransactions.buy_lottery_reduction(user, party_obj)
+
+	# on-stream notification
+	if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
+		alerted = streamlabs_functions.send_streamlabs_alert(party_obj, user)
 	# curr_balance = user.profile.account_balance - party_obj.cost
 	# user.profile.account_balance = curr_balance
 	# user.profile.save(update_fields=['account_balance'])
@@ -139,6 +144,10 @@ def buyout_add_user(user, party_obj):
 	#Creating a notification for the user on buyout win
 	Notification.objects.create(user=user, party=party_obj,\
 	action="fan_win")
+	# on-stream notification
+	if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
+		alerted = streamlabs_functions.send_streamlabs_alert(party_obj, user)
+
 	return {'added':True, 'error_message':""}
 #Ends the buyout event
 #1. event that is passed is closed
@@ -207,21 +216,49 @@ def queue_add_user(user, party_obj):
 	party_obj.joined.add(user)
 	return {'added':True, 'error_message':""}
 
+def priority_queue_add_user(user, party_obj):
+	party_obj.priority_joined.add(user)
+	return {'added':True, 'error_message':""}
+
 def queue_dequeue(user, party_obj, number):
-	if party_obj.joined.all().count() < int(number):
+	if (party_obj.joined.all().count() + party_obj.priority_joined.all().count()) < int(number):
 		return {'added':True, 'error_message':"Not enough people in queue"}
 	else:
 		joined_list = party_obj.joined.all()
+		priority_joined_list = party_obj.priority_joined.all()
 		count = 0
-		for user in joined_list:
-			if count >= int(number):
-				break
-			if user.profile.account_balance>=party_obj.cost:
+		if party_obj.is_priority_queue == True:
+			for priority_user in priority_joined_list:
+				if count >= int(number):
+					break
+				if priority_user.profile.account_balance >= party_obj.cost:
+					count+=1
+					partyTransactions.buy_lottery_reduction(priority_user, party_obj)
+					partyTransactions.add_money(party_obj.user, party_obj.cost)
+					party_obj.winners.add(priority_user)
+					# on-stream notification
+					if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
+						alerted = streamlabs_functions.send_streamlabs_alert(party_obj, priority_user)
+				party_obj.priority_joined.remove(priority_user)
+			for user in joined_list:
+				if count >= int(number):
+					break
 				count+=1
-				partyTransactions.buy_lottery_reduction(user, party_obj)
-				partyTransactions.add_money(party_obj.user, party_obj.cost)
 				party_obj.winners.add(user)
-			party_obj.joined.remove(user)
+				party_obj.joined.remove(user)
+		else:
+			for user in joined_list:
+				if count >= int(number):
+					break
+				if user.profile.account_balance>=party_obj.cost:
+					count+=1
+					partyTransactions.buy_lottery_reduction(user, party_obj)
+					partyTransactions.add_money(party_obj.user, party_obj.cost)
+					party_obj.winners.add(user)
+					# on-stream notification
+					if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
+						alerted = streamlabs_functions.send_streamlabs_alert(party_obj, user)
+				party_obj.joined.remove(user)
 		return {'added':True, 'error_message':""}
 
 ########################### END QUEUE FUNCTIONS #################################
@@ -532,7 +569,7 @@ def queue_add(user, party_obj):
 	elif is_twitch_event and not subscribed_status:
 		print("REJECTED BECAUSE NOT TWITCH SUBBED")
 		event_info = event_not_twitch_sub()
-	elif user in party_obj.joined.all():
+	elif user in party_obj.joined.all() or user in party_obj.priority_joined.all():
 		event_info = event_user_already_in_event(party_obj)
 	#if user does not have enough money in their account
 	#returns dict with joined=false and error_message
@@ -570,6 +607,64 @@ def queue_add(user, party_obj):
 	'error_message':error_message,\
 	}	
 
+def priority_queue_add(user, party_obj):
+	is_twitch_event = party_obj.is_twitch_event
+	subscribed_status  = False
+	if is_twitch_event:
+		print("IS TWITCH SUB EVENT")
+		subscribed_status = twitch_functions.is_twitch_sub(party_obj.user, user)
+		print("IS SUBBED")
+		print(subscribed_status)
+	if not party_obj.is_open:
+		event_info = event_is_closed()
+	# If user has been banned by event owner
+	# returns dict with joined = False and error_message
+	# = you've been blocked from this event
+	elif user in party_obj.user.profile.blocking.all():
+		event_info = event_blocked()
+	# If user is already in the lottery
+	# returns dict with joined = False and error_message 
+	# = You have already joined this event
+	elif is_twitch_event and not subscribed_status:
+		print("REJECTED BECAUSE NOT TWITCH SUBBED")
+		event_info = event_not_twitch_sub()
+	elif user in party_obj.joined.all() or user in party_obj.priority_joined.all():
+		event_info = event_user_already_in_event(party_obj)
+	#if user does not have enough money in their account
+	#returns dict with joined=false and error_message
+	# elif user.profile.account_balance<party_obj.cost:
+	# 	event_info = event_insufficient_funds()
+	# If there is no cap on how many users can enter the party
+	# add user to joined list
+	# returns dict with joined = True and error_message
+	# = ""
+	# if the party has reached its max cap
+	# returns dict with joined = False and error_message
+	# = This event is already at max capacity
+	elif party_obj.priority_joined.all().count()>=1000:
+		event_info = event_at_max_capacity()
+	# No constraints left
+	# add user to joined list
+	# returns dict with joined = True and error_message
+	# = ""
+	else:
+		event_info = priority_queue_add_user(user, party_obj)
+	#if there is a cap on entrants and
+	#that cap has been reached in the 
+	#joined list, end the lottery and
+	#select the winners	
+		# if party_obj.max_entrants is not None and\
+		# party_obj.joined.all().count()== party_obj.max_entrants:
+		# 	lottery_end(party_obj)
+	#get information from the dictionaries	
+	is_joined = event_info["added"]
+	error_message = event_info["error_message"]
+	#Send dictonary info and number of joined
+	#to parties/api/views under JoinToggleAPIView
+	return {'is_joined':is_joined,\
+	'num_joined':party_obj.joined.all().count() + party_obj.priority_joined.all().count(),\
+	'error_message':error_message,\
+	}	
 
 # this isnt really a toggle. once you've been added, it sticks
 def win_toggle(user, party_obj):

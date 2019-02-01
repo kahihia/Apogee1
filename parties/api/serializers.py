@@ -84,6 +84,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			'verified',
 			'profile_picture',
 			'is_twitch_event', 
+			'is_priority_queue',
 		]
 
 	# method if you want the human readable format of the event type
@@ -159,6 +160,8 @@ class PartyModelSerializer(serializers.ModelSerializer):
 			if user.is_authenticated:
 				if user in obj.joined.all():
 					return True
+				elif user in obj.priority_joined.all():
+					return True
 		except:
 			pass
 		return False
@@ -167,7 +170,7 @@ class PartyModelSerializer(serializers.ModelSerializer):
 		return obj.starred.all().count()
 
 	def get_joins(self, obj):
-		return obj.joined.all().count()
+		return obj.joined.all().count() + obj.priority_joined.all().count()
 
 	def get_party_time_display(self, obj):
 		# strftime is python datetime method. the localtime call 

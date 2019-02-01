@@ -91,15 +91,15 @@ always added in to other form displays -->
 						{{ form.event_type }}
 					</div>
 				</div>
-				<div class="col-md-6">
-					<div class="form-group" id="id_num_possible_winners" hidden>
+				<div class="col-md-6" id="id_num_possible_winners" hidden>
+					<div class="form-group">
 						{{ form.num_possible_winners.errors }}
 						{{ form.num_possible_winners.label_tag }}
 						{{ form.num_possible_winners }}
 					</div>
 				</div>
-				<div class="col-md-6">
-					<div class="form-group" id="id_max_entrants" hidden>
+				<div class="col-md-6" id="id_max_entrants" hidden>
+					<div class="form-group">
 						{{ form.max_entrants.errors }}
 						{{ form.max_entrants.label_tag }}
 						{{ form.max_entrants }}
@@ -115,7 +115,7 @@ always added in to other form displays -->
 				</div>
 				<div class="col-md-6">
 					{% if request.user.profile.twitch_id == '' %}
-					<p>Connect your twitch account to make sub-only events!</p>
+					<p>Connect your Twitch account to make sub-only events!</p>
 					{% else %}
 					<div class="form-group">
 						{{ form.is_twitch_event.errors }}
@@ -124,12 +124,32 @@ always added in to other form displays -->
 					</div>
 					{% endif %}
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6" hidden>
 					<div class="form-group">
 						{{ form.minimum_bid.errors }}
 						{{ form.minimum_bid.label_tag }}
 						{{ form.minimum_bid }}
 					</div>
+				</div>
+				<div class="col-md-6" id="id_priority_queue">
+					<div class="form-group">
+						{{ form.is_priority_queue.errors }}
+						{{ form.is_priority_queue.label_tag }}
+						{{ form.is_priority_queue }}
+						<p><small class='text-muted'>Priority allows users to pay to join a special queue that goes first. Users can still join the normal queue for free.</small></p>
+					</div>
+				</div>
+				<div class="col-md-6" hidden>
+					{% if request.user.profile.streamlabs_access_token == '' %}
+					<p>Connect your Streamlabs account to enable on-stream alerts!</p>
+					{% else %}
+					<div class="form-group">
+						{{ form.streamlabs_notifs.errors }}
+						{{ form.streamlabs_notifs.label_tag }}
+						{{ form.streamlabs_notifs }}
+						<p><small class='text-muted'>Alerts only appear for paid events.</small></p>
+					</div>
+					{% endif %}
 				</div>
 				<div class="col-md-12">
 					<button type="submit" style="float: right; width: 100%" class="btn btn-primary-new"><b>Create Event</b></button>

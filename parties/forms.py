@@ -40,6 +40,10 @@ class PartyModelForm(forms.ModelForm):
 
 	is_twitch_event = forms.BooleanField(label="Twitch subscribers only", required=False)
 
+	streamlabs_notifs = forms.BooleanField(label="Enable Streamlabs alerts", required=False)
+
+	is_priority_queue = forms.BooleanField(label="Priority Queue", required=False)
+
 
 	# event_type has a default widget so we're not gonna mess with it
 	# event_type = forms.ChoiceField(label='Event Type')
@@ -57,6 +61,8 @@ class PartyModelForm(forms.ModelForm):
 			'cost',
 			'thumbnail',
 			'is_twitch_event', 
+			'streamlabs_notifs',
+			'is_priority_queue',
 		]
 
 		# dont think these will ever appear cause the fields have length limits on them 
@@ -97,6 +103,7 @@ class PartyModelForm(forms.ModelForm):
 	# 		print("WOOOOOOOo")
 	# 		print(self.user)
 		#k.set_contents_from_file(resized_photo)
+
 	# ensures that the event cannot have more winners than entrants. 
 	# has to be called on the second field because the second field isnt 
 	# processed yet if its called on the first
@@ -107,3 +114,12 @@ class PartyModelForm(forms.ModelForm):
 			if num_possible_winners > max_entrants:
 				raise forms.ValidationError('Event cannot have more winners than entrants.')
 		return num_possible_winners
+
+	# checks priority queue and price. if it's priority queue, price must be greater than 0
+	def clean_is_priority_queue(self, *args, **kwargs):
+		cost = self.cleaned_data.get('cost')
+		is_priority_queue = self.cleaned_data.get('is_priority_queue')
+		if is_priority_queue is True:
+			if cost == 0:
+				raise forms.ValidationError('You must specify a price for priority queue.')
+		return is_priority_queue

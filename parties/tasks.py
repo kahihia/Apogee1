@@ -8,6 +8,7 @@ from .models import Party
 from notifications.models import Notification
 from parties import partyHandling
 from apogee1.utils.email import emailer
+from apogee1.utils.streamlabs import streamlabs_functions
 from event_payment import partyTransactions
 
 winner_text = "You Won!"
@@ -59,6 +60,10 @@ def pick_winner(party_id):
 			#add winners in
 			for i in winners:
 				partyHandling.win_toggle(i, party)
+
+				# on-stream notification
+				if party.streamlabs_notifs == True:
+					alerted = streamlabs_functions.send_streamlabs_alert(party, i)
 				# email_data = {'username': winner.username}
 				# emailer.email(winner_text, 'team@mail.granite.gg', [winner.email], 'winner_email.html', email_data)
 			statisticsfunctions.bid_update_end_stats(party)

@@ -72,6 +72,13 @@ class Party(models.Model):
 						blank=True, 
 						related_name='joined_by'
 					)
+	# priority_joined contains the users that have joined the priority queue. this is only used
+	# on priority queue events
+	priority_joined 	= models.ManyToManyField(
+						settings.AUTH_USER_MODEL, 
+						blank=True, 
+						related_name='priority_joined_by'
+					)
 	# winners contains the joined users that have been randomly selected
 	# won_by includes all the events a user has won
 	winners  		= models.ManyToManyField(
@@ -87,6 +94,9 @@ class Party(models.Model):
 	is_private_event 	= models.BooleanField(default=False)
 	is_twitch_event 	= models.BooleanField(default=False)
 	is_flagged 		= models.BooleanField(default=False)
+	is_priority_queue	= models.BooleanField(default=False)
+
+	streamlabs_notifs = models.BooleanField(default=False)
 	#Number of possible winners - sepcified by the creator on event creation
 	num_possible_winners = models.PositiveSmallIntegerField(default=1)
 	#Number of current winners, incremented each time a winner is added to winners list

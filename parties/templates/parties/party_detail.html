@@ -14,6 +14,7 @@
 <script type="text/javascript">
 	addStarFunctionality();
 	addJoinFunctionality();
+	addPriorityJoinFunctionality();
 	addReportFunctionality();
 	addRequestFunctionality();
 	setupChatRoom();
@@ -157,9 +158,9 @@
 							<div class="row mt-3"> 
 								<!-- Cost/Bid -->
 								<div class="col-sm-12"> 
-									{% if serialized.cost == 0 %}
+									<!-- {% if serialized.cost == "0.00" %}
 										<p class="" id="cost"> FREE </p> 
-									{% endif %}
+									{% endif %} -->
 									{% if serialized.event_type == 1 %}
 										<p class="">
 											<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i>
@@ -186,6 +187,9 @@
 											<i class="fas fa-user-friends grey-color" data-toggle="tooltip" data-placement="top" title="Queue"></i>
 											$<span id="cost">{{serialized.cost}}</span>
 										</p>
+									{% endif %}
+									{% if serialized.cost != 0 and serialized.streamlabs_notifs %}
+										<p class=""><small> On-stream purchase alerts enabled</small></p> 
 									{% endif %}
 								</div>
 
@@ -261,10 +265,19 @@
 											{{ queue_text }}
 										{% endif %}
 									</button>
-								{% endwith %}
-								{% endwith %}
-								{% endwith %}
-								{% endwith %}
+									{% endwith %}
+									{% endwith %}
+									{% endwith %}
+									{% endwith %}
+									{% if serialized.event_type == 4 and serialized.is_priority_queue %}
+										<button type="button" class="btn btn-primary-new btn-block priorityJoinBtn joinDisplay" data-id="{{serialized.id}}" event-id="{{serialized.event_type}}"> 
+											Enter Priority Queue
+										</button>
+										<p><small>Priority queue costs ${{serialized.cost}} and allows you to go ahead of the normal queue. The normal queue is free to join.</small></p>
+									{% endif %}
+									{% if serialized.event_type == 4 and serialized.cost != "0.00" %}
+										<p><small>You will only be charged when the event owner pulls you from the front of the queue. Make sure your account balance is high enough or you will be removed from queue.</small></p>
+									{% endif %}
 								{% endif %}
 								{% if not request.user.is_authenticated %}
 									<a href="/register">
@@ -275,6 +288,9 @@
 							<!-- Event Actions / Join -->
 							{% if serialized.did_join %}
 									<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay disabled" disabled> Joined </button>
+									{% if serialized.event_type == 4 and serialized.cost != "0.00" %}
+										<p><small>You will only be charged when the event owner pulls you from the front of the queue. Make sure your account balance is high enough or you will be removed from queue.</small></p>
+									{% endif %}
 							{% endif %}
 
 							{% if blocked %}

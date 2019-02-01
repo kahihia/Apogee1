@@ -6,42 +6,50 @@ function check_event_type(type) {
   if(type == 1) {
     // the id tells us where our change is supposed to occur
     // this unhides the max entrants field
-    toggleField("#id_max_entrants", false)
+    toggleField("#id_max_entrants", false);
     // this hides the minimum bid field
-    toggleField("#id_minimum_bid", true)
+    toggleField("#id_minimum_bid", true);
     // this unhides the number of winners field
-    toggleField("#id_num_possible_winners", false)
+    toggleField("#id_num_possible_winners", false);
     // this sets the text for the num winners field
     $("label[for=id_num_possible_winners]").text('Number of possible winners*');
     // this sets the text for cost
     $("label[for=id_cost]").text('Cost ($)*');
+    // this hides the priority queue field
+    toggleField("#id_priority_queue", true);
   // if the event is an auction
   } else if (type == 2) {
     // this hides the max entrants field
-    toggleField("#id_max_entrants", true)
+    toggleField("#id_max_entrants", true);
     // this unhides the number of winners field
-    toggleField("#id_num_possible_winners", false)
+    toggleField("#id_num_possible_winners", false);
     // this sets the text for the num winners field
     $("label[for=id_num_possible_winners]").text('Number of possible winners*');
      // this sets the text for cost
     $("label[for=id_cost]").text('Starting Bid ($)*');
+    // this hides the priority queue field
+    toggleField("#id_priority_queue", true);
   // if the event is a buy
   } else if (type == 3) {
     // this hides the max entrants field
-    toggleField("#id_max_entrants", true)
+    toggleField("#id_max_entrants", true);
     // this hides the minimum bid field
-    toggleField("#id_minimum_bid", true)
+    toggleField("#id_minimum_bid", true);
     // this unhides the number of winners field
-    toggleField("#id_num_possible_winners", false)
+    toggleField("#id_num_possible_winners", false);
     // this sets the text for the num winners field
     $("label[for=id_num_possible_winners]").text('Number of purchases available*');
      // this sets the text for cost
     $("label[for=id_cost]").text('Cost ($)*');
+    // this hides the priority queue field
+    toggleField("#id_priority_queue", true);
   } else {
     // this hides the max entrants field
-    toggleField("#id_max_entrants", true)
+    toggleField("#id_max_entrants", true);
     // this hides the number of winners field
-    toggleField("#id_num_possible_winners", true)
+    toggleField("#id_num_possible_winners", true);
+    // this unhides the priority queue field
+    toggleField("#id_priority_queue", false);
   }
 }
 

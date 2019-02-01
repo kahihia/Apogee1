@@ -88,7 +88,8 @@ class RefreshAPIView(APIView):
 	def get(self, request, pk, format=None):
 		if request.user.is_authenticated:
 			party_qs = Party.objects.filter(pk=pk)
-			return Response({'num_joined':party_qs.first().joined.all().count()})
+			total_num = party_qs.first().joined.all().count() + party_qs.first().priority_joined.all().count()
+			return Response({'num_joined':total_num})
 
 class ReportAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
@@ -139,7 +140,7 @@ class BidAPIView(APIView):
 
 
 
-
+# handles all functions from the normal join button
 class BuyoutLotteryAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, pk, format=None):
@@ -170,6 +171,20 @@ class BuyoutLotteryAPIView(APIView):
 		elif party_event_type == 4:
 			if request.user.is_authenticated:
 				queue_table = partyHandling.queue_add(request.user, party_qeryset.first())
+				return Response({'joined': queue_table["is_joined"],
+								'num_joined':queue_table["num_joined"],
+								'error_message':queue_table["error_message"],
+								})
+
+# handles all functions from the normal join button
+class PriorityQueueAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	def get(self, request, pk, format=None):
+		party_qeryset = Party.objects.filter(pk=pk)
+		party_event_type = party_qeryset.first().event_type
+		if party_event_type == 4:
+			if request.user.is_authenticated:
+				queue_table = partyHandling.priority_queue_add(request.user, party_qeryset.first())
 				return Response({'joined': queue_table["is_joined"],
 								'num_joined':queue_table["num_joined"],
 								'error_message':queue_table["error_message"],
