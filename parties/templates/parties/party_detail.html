@@ -158,9 +158,9 @@
 							<div class="row mt-3"> 
 								<!-- Cost/Bid -->
 								<div class="col-sm-12"> 
-									{% if serialized.cost == "0.00" %}
+									<!-- {% if serialized.cost == "0.00" %}
 										<p class="" id="cost"> FREE </p> 
-									{% endif %}
+									{% endif %} -->
 									{% if serialized.event_type == 1 %}
 										<p class="">
 											<i class="fas fa-ticket-alt grey-color" data-toggle="tooltip" data-placement="top" title="Lottery"></i>
@@ -288,7 +288,7 @@
 							<!-- Event Actions / Join -->
 							{% if serialized.did_join %}
 									<button type="button" class="btn btn-primary-new btn-block joinBtn joinDisplay disabled" disabled> Joined </button>
-									{% if serialized.event_type == 4 and serialized.cost != 0 %}
+									{% if serialized.event_type == 4 and serialized.cost != "0.00" %}
 										<p><small>You will only be charged when the event owner pulls you from the front of the queue. Make sure your account balance is high enough or you will be removed from queue.</small></p>
 									{% endif %}
 							{% endif %}
