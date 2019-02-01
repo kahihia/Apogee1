@@ -27,11 +27,17 @@ def twitchBotInfo(channel):
 	event_title = event.title
 	event_price = event.cost
 	event_twitch = event.is_twitch_event
+	if event.event_type == 4 and event.is_priority_queue == True:
+		event_type = "Priority Queue"
 	msg = name + "'s event, \"" + event_title + '" is a ' + event_type + '.'
+
 	if event_twitch == True:
 		msg += " It's for subscribers only."
 	if event_price != 0:
-		msg += ' It costs $' + str(event_price) + ' to enter.' 
+		if event.event_type == 4 and event.is_priority_queue == True:
+			msg += ' It costs $' + str(event_price) + ' to enter the Priority Queue. It is Free to enter the Queue by typing !granitejoin.' 
+		else:
+			msg += ' It costs $' + str(event_price) + ' to enter.' 
 	return msg
 
 def twitchBotJoin(channel, chatter):
@@ -85,27 +91,47 @@ def twitchBotNext(channel, chatter, number):
 		# clear the current list
 		winners_list = join_party.winners.all()
 		joined_list = join_party.joined.all()
+		priority_joined_list = join_party.priority_joined.all()
 		for w in winners_list:
 			join_party.winners.remove(w)
 		# pull the count amount
-		if joined_list.count() < int(number):
-			return join_party.user.username + ', there are only ' + str(joined_list.count()) + ' in the queue.'
+		if (joined_list.count() + priority_joined_list.count()) < int(number):
+			total_joined = joined_list.count() + priority_joined_list.count()
+			return join_party.user.username + ', there are only ' + str(total_joined) + ' in the queue.'
 		else:
 			count = 0
-			for join_user in joined_list:
-				if count >= int(number):
-					break
-				if join_user.profile.account_balance >= join_party.cost:
-					count += 1
-					partyTransactions.buy_lottery_reduction(join_user, join_party)
-					partyTransactions.add_money(join_party.user, join_party.cost)
-					join_party.winners.add(join_user)
-				join_party.joined.remove(join_user)
+			if join_party.is_priority_queue == True:
+				for priority_user in priority_joined_list:
+					if count >= int(number):
+						break
+					if priority_user.profile.account_balance >= join_party.cost:
+						count+=1
+						partyTransactions.buy_lottery_reduction(priority_user, join_party)
+						partyTransactions.add_money(join_party.user, join_party.cost)
+						join_party.winners.add(priority_user)
+					join_party.priority_joined.remove(priority_user)
+				for user in joined_list:
+					if count >= int(number):
+						break
+					count+=1
+					join_party.winners.add(user)
+					join_party.joined.remove(user)
+			else:
+				for join_user in joined_list:
+					if count >= int(number):
+						break
+					if join_user.profile.account_balance >= join_party.cost:
+						count += 1
+						partyTransactions.buy_lottery_reduction(join_user, join_party)
+						partyTransactions.add_money(join_party.user, join_party.cost)
+						join_party.winners.add(join_user)
+					join_party.joined.remove(join_user)
 
 			# now set the winners message
 			message = ''
 			new_winners_list = join_party.winners.all()
 			new_joined_list = join_party.joined.all()
+			new_priority_joined_list = join_party.priority_joined.all()
 			if new_winners_list.count() == 1:
 				message += new_winners_list.first().username + ' is now in! '
 			else: 
@@ -119,13 +145,25 @@ def twitchBotNext(channel, chatter, number):
 						message += w.username +', '
 				message += 'are now in! '
 			# now say who is next
-			if new_joined_list.count() < int(number): 
-				message += 'There are ' + str(new_joined_list.count()) + ' left in queue.'
+			new_total_joined = new_joined_list.count() + new_priority_joined_list.count()
+			if new_total_joined < int(number): 
+				message += 'There are ' + str(new_total_joined) + ' left in queue.'
 			else:
 				if int(number) == 1:
-					message += new_joined_list.first().username + ' is next in queue.'
+					if new_priority_joined_list.count() > 0:
+						message += new_priority_joined_list.first().username + ' is next in queue.'
+					else:
+						message += new_joined_list.first().username + ' is next in queue.'
 				else:
 					new_count = 0
+					for new_priority_join_user in new_priority_joined_list:
+						if new_count >= int(number):
+							break
+						new_count += 1
+						if new_count == int(number):
+							message += 'and ' + new_priority_join_user.username + ' '
+						else:
+							message += new_priority_join_user.username + ', '
 					for new_join_user in new_joined_list:
 						if new_count >= int(number):
 							break
