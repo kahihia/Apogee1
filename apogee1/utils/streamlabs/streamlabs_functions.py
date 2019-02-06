@@ -17,7 +17,6 @@ def get_streamlabs_details(code, user_obj):
 		streamlabs_client_id = config('STREAMLABS_CLIENT_ID')
 		streamlabs_client_secret = config('STREAMLABS_CLIENT_SECRET')
 		streamlabs_redirect_uri = config('STREAMLABS_REDIRECT_URI')
-		grant_type = 'authorization_code'
 		# headers = {
 		# 	'content-type': 'application/json',
 		# 	'Client-id': streamlabs_client_id
@@ -74,7 +73,7 @@ def refresh_streamlabs_credentials(user_obj):
 		streamlabs_client_secret = config('STREAMLABS_CLIENT_SECRET')
 		streamlabs_redirect_uri = config('STREAMLABS_REDIRECT_URI')
 
-		data = {
+		querydict = {
 			"grant_type":"refresh_token",
 			'client_id': streamlabs_client_id,
 			'client_secret': streamlabs_client_secret,
@@ -82,11 +81,23 @@ def refresh_streamlabs_credentials(user_obj):
 			"refresh_token": user_obj.profile.streamlabs_refresh_token
 		}
 		url = "https://streamlabs.com/api/v1.0/token"
-		streamlabs_response = requests.requests("POST", url, params=data)
-		print(streamlabs_response.text)
-		streamlabs_dict=json.loads(streamlabs_response.text)
+
+		# using requests library
+		# streamlabs_response = requests.requests("POST", url, params=data)
+		# print(streamlabs_response.text)
+		# streamlabs_dict=json.loads(streamlabs_response.text)
+
+		# post request with urllib3
+		http = urllib3.PoolManager()
+		raw_response = http.request('POST',"https://streamlabs.com/api/v1.0/token", fields=querydict)
+		streamlabs_dict = json.loads(raw_response.data.decode('utf-8'))
+
+		print(streamlabs_dict)
+
 		streamlabs_access_token = streamlabs_dict['access_token']
 		streamlabs_refresh_token = streamlabs_dict['refresh_token']
+		print("token " + streamlabs_access_token)
+		print("refresh " + streamlabs_refresh_token)
 
 		user_obj.profile.streamlabs_access_token = streamlabs_access_token
 		user_obj.profile.streamlabs_refresh_token = streamlabs_refresh_token
@@ -101,23 +112,41 @@ def send_streamlabs_alert(party_obj, user_obj):
 	try:
 		access_token = party_obj.user.profile.streamlabs_access_token
 		message = user_obj.username + ' has joined a Granite event for $' + party_obj.cost + '!'
+
+		# optional formatting
+		# message = user_obj.username
+		# user_message = 'Joined a Granite event for $' + party_obj.cost + '!'
+
 		if access_token == '':
 			return False
 
-		data = {
+		querydict = {
 			"access_token": access_token,
 			'type': "donation",
 			'message': message
 		}
 		url = "https://streamlabs.com/api/v1.0/alerts"
-		streamlabs_response = requests.requests("POST", url, params=data)
-		print(streamlabs_response.text)
-		streamlabs_dict=json.loads(streamlabs_response.text)
+
+		print('trying to post alert 1')
+
+		# api call using requests
+		# streamlabs_response = requests.requests("POST", url, params=data)
+		# print(streamlabs_response.text)
+		# streamlabs_dict=json.loads(streamlabs_response.text)
+
+		# post request with urllib3
+		http = urllib3.PoolManager()
+		raw_response = http.request('POST',"https://streamlabs.com/api/v1.0/alerts", fields=querydict)
+		streamlabs_dict = json.loads(raw_response.data.decode('utf-8'))
 		success = streamlabs_dict.get('success', False)
+
+		print('posted alert? ' + success)
 
 		# if it didnt work, we should try and refresh the token
 		if success == False:
+			print('refreshing')
 			refresh_success = refresh_streamlabs_credentials(party_obj.user)
+			print('did it refresh? ' + refresh_success)
 			if refresh_success == True:
 				access_token = party_obj.user.profile.streamlabs_access_token
 				data = {
@@ -126,10 +155,15 @@ def send_streamlabs_alert(party_obj, user_obj):
 					'message': message
 				}
 				url = "https://streamlabs.com/api/v1.0/alerts"
-				streamlabs_response = requests.requests("POST", url, params=data)
-				print(streamlabs_response.text)
-				streamlabs_dict=json.loads(streamlabs_response.text)
+
+				print('sending alert 2')
+				# post request with urllib3
+				http = urllib3.PoolManager()
+				raw_response = http.request('POST',"https://streamlabs.com/api/v1.0/alerts", fields=querydict)
+				streamlabs_dict = json.loads(raw_response.data.decode('utf-8'))
 				success = streamlabs_dict.get('success', False)
+
+				print('alert 2 sent? ' + success)
 		
 	except Exception as e:
 		success = False
