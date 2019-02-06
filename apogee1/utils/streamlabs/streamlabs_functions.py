@@ -117,6 +117,7 @@ def send_streamlabs_alert(party_obj, user_obj):
 		# message = user_obj.username
 		# user_message = 'Joined a Granite event for $' + party_obj.cost + '!'
 
+		print('WERE IN THE ALERT FUNCTION')
 		if access_token == '':
 			return False
 
