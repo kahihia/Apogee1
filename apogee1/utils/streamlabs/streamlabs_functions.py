@@ -30,7 +30,7 @@ def get_streamlabs_details(code, user_obj):
 		}
 		url = "https://streamlabs.com/api/v1.0/token"
 		print('trying to post to streamlabs')
-		streamlabs_response = requests.request("POST", url, params=urlencode(querydict))
+		streamlabs_response = requests.request("POST", url, data=urlencode(querydict))
 		# streamlabs_response = requests.post("https://streamlabs.com/api/v1.0/token", data=json.dumps(querydict))
 		print('got a response')
 		print(streamlabs_response.text)
