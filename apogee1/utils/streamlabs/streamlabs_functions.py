@@ -1,4 +1,5 @@
 import requests
+import urllib3
 from decouple import config
 import json
 from django.utils.http import urlencode
@@ -26,12 +27,24 @@ def get_streamlabs_details(code, user_obj):
 			"client_id":streamlabs_client_id,
 			"client_secret":streamlabs_client_secret,
 			"redirect_uri":streamlabs_redirect_uri, 
-			"code":code,
+			"code":code
 		}
 		url = "https://streamlabs.com/api/v1.0/token"
 		print('trying to post to streamlabs')
-		streamlabs_response = requests.request("POST", url, data=urlencode(querydict))
+		# streamlabs_response = requests.request("POST", url, data=querydict)
 		# streamlabs_response = requests.post("https://streamlabs.com/api/v1.0/token", data=json.dumps(querydict))
+		
+		# trying this shit with urllib3
+		http = urllib3.PoolManager()
+		r = http.request('POST',"https://streamlabs.com/api/v1.0/token", fields={
+			"grant_type":"authorization_code",
+			"client_id":streamlabs_client_id,
+			"client_secret":streamlabs_client_secret,
+			"redirect_uri":streamlabs_redirect_uri, 
+			"code":code
+		})
+		print(json.loads(r.data.decode('utf-8')))
+
 		print('got a response')
 		print(streamlabs_response.text)
 		streamlabs_dict=json.loads(streamlabs_response.text)
