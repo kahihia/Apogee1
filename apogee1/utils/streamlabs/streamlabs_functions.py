@@ -1,6 +1,7 @@
 import requests
 from decouple import config
 import json
+from django.utils.http import urlencode
 from accounts.models import UserProfile
 
 
@@ -29,8 +30,8 @@ def get_streamlabs_details(code, user_obj):
 		}
 		url = "https://streamlabs.com/api/v1.0/token"
 		print('trying to post to streamlabs')
-		# streamlabs_response = requests.request("POST", url, params=querydict)
-		streamlabs_response = requests.post("https://streamlabs.com/api/v1.0/token", data=json.dumps(querydict))
+		streamlabs_response = requests.request("POST", url, params=urlencode(querydict))
+		# streamlabs_response = requests.post("https://streamlabs.com/api/v1.0/token", data=json.dumps(querydict))
 		print('got a response')
 		print(streamlabs_response.text)
 		streamlabs_dict=json.loads(streamlabs_response.text)
