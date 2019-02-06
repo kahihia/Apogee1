@@ -38,13 +38,7 @@ def get_streamlabs_details(code, user_obj):
 		
 		# post request with urllib3
 		http = urllib3.PoolManager()
-		raw_response = http.request('POST',"https://streamlabs.com/api/v1.0/token", fields={
-			"grant_type":"authorization_code",
-			"client_id":streamlabs_client_id,
-			"client_secret":streamlabs_client_secret,
-			"redirect_uri":streamlabs_redirect_uri, 
-			"code":code
-		})
+		raw_response = http.request('POST',"https://streamlabs.com/api/v1.0/token", fields=querydict)
 		streamlabs_dict = json.loads(raw_response.data.decode('utf-8'))
 
 		print('got a response')
