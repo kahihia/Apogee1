@@ -31,25 +31,29 @@ def get_streamlabs_details(code, user_obj):
 		}
 		url = "https://streamlabs.com/api/v1.0/token"
 		print('trying to post to streamlabs')
+
+		# post request with requests
 		# streamlabs_response = requests.request("POST", url, data=querydict)
 		# streamlabs_response = requests.post("https://streamlabs.com/api/v1.0/token", data=json.dumps(querydict))
 		
-		# trying this shit with urllib3
+		# post request with urllib3
 		http = urllib3.PoolManager()
-		r = http.request('POST',"https://streamlabs.com/api/v1.0/token", fields={
+		raw_response = http.request('POST',"https://streamlabs.com/api/v1.0/token", fields={
 			"grant_type":"authorization_code",
 			"client_id":streamlabs_client_id,
 			"client_secret":streamlabs_client_secret,
 			"redirect_uri":streamlabs_redirect_uri, 
 			"code":code
 		})
-		print(json.loads(r.data.decode('utf-8')))
+		streamlabs_dict = json.loads(raw_response.data.decode('utf-8'))
 
 		print('got a response')
-		print(streamlabs_response.text)
-		streamlabs_dict=json.loads(streamlabs_response.text)
+		# print(streamlabs_response.text)
+		# streamlabs_dict=json.loads(streamlabs_response.text)
 		streamlabs_access_token = streamlabs_dict['access_token']
 		streamlabs_refresh_token = streamlabs_dict['refresh_token']
+		print("token " + streamlabs_access_token)
+		print("refresh " + streamlabs_refresh_token)
 
 		# check that the account isn't already attached somewhere
 		connected_qs = UserProfile.objects.filter(streamlabs_access_token=streamlabs_access_token).exclude(user=user_obj)
