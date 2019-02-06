@@ -28,12 +28,9 @@ def get_streamlabs_details(code, user_obj):
 			"code":code,
 		}
 		url = "https://streamlabs.com/api/v1.0/token"
-		# url1 = 'https://streamlabs.com/api/v1.0/token?grant_type=authorization_code&client_id='+streamlabs_client_id
-		# url2 = '&client_secret='+streamlabs_client_secret+'&redirect_uri='+streamlabs_redirect_uri+'&code='+code
-		# url = url1 + url2
 		print('trying to post to streamlabs')
-		streamlabs_response = requests.request("POST", url, params=querydict)
-		# streamlabs_response = requests.post(url=url, data=json.dumps(querydict))
+		# streamlabs_response = requests.request("POST", url, params=querydict)
+		streamlabs_response = requests.post("https://streamlabs.com/api/v1.0/token", data=json.dumps(querydict))
 		print('got a response')
 		print(streamlabs_response.text)
 		streamlabs_dict=json.loads(streamlabs_response.text)
