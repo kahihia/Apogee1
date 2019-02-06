@@ -127,7 +127,7 @@ def send_streamlabs_alert(party_obj, user_obj):
 		}
 		url = "https://streamlabs.com/api/v1.0/alerts"
 
-		print('trying to post alert 1')
+		print('POSTING ALERT 1')
 
 		# api call using requests
 		# streamlabs_response = requests.requests("POST", url, params=data)
@@ -140,7 +140,7 @@ def send_streamlabs_alert(party_obj, user_obj):
 		streamlabs_dict = json.loads(raw_response.data.decode('utf-8'))
 		success = streamlabs_dict.get('success', False)
 
-		print('posted alert? ' + success)
+		print('POSTED ALERT? ' + success)
 
 		# if it didnt work, we should try and refresh the token
 		if success == False:
