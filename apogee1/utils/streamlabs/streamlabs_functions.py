@@ -113,7 +113,9 @@ def send_streamlabs_alert(party_obj, user_obj):
 	try:
 		access_token = party_obj.user.profile.streamlabs_access_token
 		print('GOT ACCESS TOKEN')
+		print(user_obj.username)
 		message = user_obj.username + ' has joined a Granite event for $' + party_obj.cost + '!'
+
 
 		# optional formatting
 		# message = user_obj.username
