@@ -143,6 +143,7 @@ def send_streamlabs_alert(party_obj, user_obj):
 		http = urllib3.PoolManager()
 		raw_response = http.request('POST',"https://streamlabs.com/api/v1.0/alerts", fields=querydict)
 		streamlabs_dict = json.loads(raw_response.data.decode('utf-8'))
+		print(streamlabs_dict)
 		success = streamlabs_dict.get('success', False)
 
 		print('POSTED ALERT? ' + success)
