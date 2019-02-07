@@ -261,6 +261,7 @@ def queue_dequeue(user, party_obj, number):
 						print('SENDING ALERT!!!!!!!!!!!!!!!!')
 						alerted = streamlabs_functions.send_streamlabs_alert(party_obj, user)
 						print('OK WE SENT THE ALERT')
+						print(alerted)
 				party_obj.joined.remove(user)
 		return {'added':True, 'error_message':""}
 
