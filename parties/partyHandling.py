@@ -259,9 +259,9 @@ def queue_dequeue(user, party_obj, number):
 					print('DID OUR QUEUE ACTIONS')
 					if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
 						print('SENDING ALERT!!!!!!!!!!!!!!!!')
-						alerted = streamlabs_functions.send_streamlabs_alert(party_obj, user)
-						print('OK WE SENT THE ALERT')
-						print(alerted)
+						streamlabs_functions.send_streamlabs_alert(party_obj, user)
+						print('OK WE DID THE ALERT FUNCITON')
+						# print(alerted)
 				party_obj.joined.remove(user)
 		return {'added':True, 'error_message':""}
 

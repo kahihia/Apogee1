@@ -109,6 +109,7 @@ def refresh_streamlabs_credentials(user_obj):
 
 # this function actually creates an alert on the appropriate event when a fan joins
 def send_streamlabs_alert(party_obj, user_obj):
+	print('REEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!!')
 	try:
 		access_token = party_obj.user.profile.streamlabs_access_token
 		message = user_obj.username + ' has joined a Granite event for $' + party_obj.cost + '!'
