@@ -247,18 +247,22 @@ def queue_dequeue(user, party_obj, number):
 				party_obj.winners.add(user)
 				party_obj.joined.remove(user)
 		else:
-			for user in joined_list:
+			for user1 in joined_list:
 				if count >= int(number):
 					break
-				if user.profile.account_balance>=party_obj.cost:
+				if user1.profile.account_balance>=party_obj.cost:
 					count+=1
-					partyTransactions.buy_lottery_reduction(user, party_obj)
+					partyTransactions.buy_lottery_reduction(user1, party_obj)
 					partyTransactions.add_money(party_obj.user, party_obj.cost)
-					party_obj.winners.add(user)
+					party_obj.winners.add(user1)
 					# on-stream notification
+					print('DID OUR QUEUE ACTIONS')
 					if party_obj.streamlabs_notifs == True and party_obj.cost != 0:
-						alerted = streamlabs_functions.send_streamlabs_alert(party_obj, user)
-				party_obj.joined.remove(user)
+						print('SENDING ALERT!!!!!!!!!!!!!!!!')
+						streamlabs_functions.send_streamlabs_alert(party_obj, user1)
+						print('OK WE DID THE ALERT FUNCITON')
+						# print(alerted)
+				party_obj.joined.remove(user1)
 		return {'added':True, 'error_message':""}
 
 ########################### END QUEUE FUNCTIONS #################################
