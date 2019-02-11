@@ -35,7 +35,8 @@ class TwitchBotAPIView(APIView):
 					# 'Granite' explains the basic commands and concept. 
 					message = ('Granite allows you join events with your favorite creators. ' +
 								'!graniteinfo will give you the event details, like type. !granitejoin will add you to the event. ' + 
-								'!graniteplace will give you your place in line if the event is a queue')
+								'!graniteplace will give you your place in line if the event is a queue. ' + 
+								'!granitenext <number> allows the streamer to pull in the next set of peolpe from queue.')
 				elif action == 'graniteinfo':
 					# graniteinfo explains the event, so type, title, price
 					message = twitch_functions.twitchBotInfo(channel)
