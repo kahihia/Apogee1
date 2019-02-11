@@ -88,8 +88,9 @@ class RefreshAPIView(APIView):
 	def get(self, request, pk, format=None):
 		if request.user.is_authenticated:
 			party_qs = Party.objects.filter(pk=pk)
-			total_num = party_qs.first().joined.all().count() + party_qs.first().priority_joined.all().count()
-			return Response({'num_joined':total_num})
+			if party_qs.count() > 0:
+				total_num = party_qs.first().joined.all().count() + party_qs.first().priority_joined.all().count()
+				return Response({'num_joined':total_num})
 
 class ReportAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
