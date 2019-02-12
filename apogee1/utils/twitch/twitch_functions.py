@@ -61,7 +61,7 @@ def twitchBotJoin(channel, chatter):
 	if party_event_type == 1:
 		joined_table = partyHandling.lottery_add(joining_user, join_party)
 		if joined_table['is_joined'] == True or joined_table['error_message'] == 'You have already joined this event':
-			return ''
+			return joining_user.username + ' has joined!'
 		else:
 			return joined_table['error_message']
 	elif party_event_type == 2:
@@ -69,13 +69,13 @@ def twitchBotJoin(channel, chatter):
 	elif party_event_type == 3:
 		buy_table = partyHandling.buyout_add(joining_user, join_party)
 		if buy_table['winner'] == True or buy_table['error_message'] == 'You have already bought this event':
-			return ''
+			return joining_user.username + ' has joined!'
 		else:
 			return buy_table['error_message']
 	elif party_event_type == 4:
 		queue_table = partyHandling.queue_add(joining_user, join_party)
 		if queue_table['is_joined'] == True or queue_table['error_message'] == 'You have already joined this event':
-			return ''
+			return joining_user.username + ' has joined!'
 		else:
 			return queue_table['error_message']
 

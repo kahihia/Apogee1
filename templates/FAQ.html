@@ -53,7 +53,7 @@ a create event button, and the event thumbnails-->
                         </div>
                         <div id="collapseC1" class="collapse show" role="tabpanel" aria-labelledby="headingC1" data-parent="#accordion">
                             <div class="card-body">
-                                You’ll create an event that includes a description, time, number of fans that can participate, entry type, and price. Once the event is created, fans can purchase, bid on, or enter a lottery for the opportunity to participate. Once they are confirmed as participants, either upon purchasing the event or winning a lottery or auction, they will have access to the on-event messenger, where you can pass whatever information you need back and forth, like usernames or Discord links. Events close, meaning they no longer accept entrants and choose auction and lottery winners, 10 minutes before the specified event time.
+                                You’ll create an event that includes a description, time, number of fans that can participate, entry type, and price. Once the event is created, fans can purchase, bid on, enter a lottery, or join the queue for the opportunity to participate. Once they are confirmed as participants, they will have access to the on-event messenger, where you can pass whatever information you need back and forth, like usernames or Discord links. Events close, meaning they no longer accept entrants and choose auction or lottery winners, 10 minutes before the specified event time. Queues close 12 hours after the specified time.
                             </div>
                         </div>
                     </div>
@@ -69,7 +69,7 @@ a create event button, and the event thumbnails-->
                         </div>
                         <div id="collapseC2" class="collapse" role="tabpanel" aria-labelledby="headingC2" data-parent="#accordion">
                             <div class="card-body">
-                                First, hit the create new event button in the navbar. Then, enter a title, description, time, number of fans that can participate, event type, price, and thumbnail. The title is a short description of your event and is displayed at all times with the event. The description is a more detailed explanation of the event and of any requirements you may have, like a certain level or role in a game. You can also specify how long you will be playing for, if you might switch games, or any other details you think are worth sharing. The time indicates when the event will actually take place. All events stop accepting entrants 10 minutes before this time. Number of fans specifies how many people can play. For example, if you were playing 4-person squads, you’d allow three fans to purchase or win. For lotteries, you can also specify how many people can enter the lottery to ensure that the odds of winning don’t drop too low. The event type specifies how people win. It can be a purchase, bid, or lottery. 
+                                Hit the create new event button in the navbar. Then, you can enter a title, description, time, number of fans that can participate, event type, price, and thumbnail. All of these fields are optional and will auto-fill if left blank. Description is a more detailed explanation of the event and of any requirements you may have, like a certain level or role in a game. You can also specify how long you will be playing for, if you might switch games, or any other details you think are worth sharing. Number of fans specifies how many people can play. For example, if you were playing 4-person squads, you’d allow three fans to purchase or win. For lotteries, you can also specify how many people can enter the lottery to ensure that the odds of winning don’t drop too low. The event type specifies how people join. It can be a purchase, bid, lottery, or queue. 
                             </div>
                         </div>
                     </div>
@@ -85,7 +85,44 @@ a create event button, and the event thumbnails-->
                         </div>
                         <div id="collapseC3" class="collapse" role="tabpanel" aria-labelledby="headingC3" data-parent="#accordion">
                             <div class="card-body">
-                                There are three different event types: Buy, bid and lottery. Buy is a first-come-first-serve purchase. You set a price and the number of purchases that can be made, and the first set of fans to pay that price are part of your event. Bid is a traditional auction. You specify a starting bid and the number of winners, and ten minutes before the event starts, the highest bids are entered into your event. Lottery is a normal raffle. You specify a price, the number of people that can enter, the raffle, and the number that can win. When the maximum number of people enter, or 10 minutes before the event is set to happen, we randomly pick the winners. 
+                                There are four different event types: Buy, bid, lottery and queue. Buy is a first-come-first-serve purchase. You set a price and the number of purchases that can be made, and the first set of fans to pay that price are part of your event. Bid is a traditional auction. You specify a starting bid and the number of winners, and ten minutes before the event starts, the highest bids are entered into your event. Lottery is a normal raffle. You specify a price, the number of people that can enter, the raffle, and the number that can win. When the maximum number of people enter, or 10 minutes before the event is set to happen, we randomly pick the winners. Queue allows fans to line up to join the event. You then pull a number of fans in to play at a time. You can kick them once you're done and pull teh next set. You can also create a priority queue. Priority queue allow paying users to enter a special queue that goes first. Users can still enter the normal queue for free. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC22">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC22" aria-expanded="false" aria-controls="collapseC22">
+                                Does this integrate with Twitch, YouTube, Mixer, Streamlabs, etc?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC22" class="collapse" role="tabpanel" aria-labelledby="headingC22" data-parent="#accordion">
+                            <div class="card-body">
+                                We're currently integrated with Twitch and Streamlabs. You can sign up or log in with Twitch or attach your Twitch account from settings. Once your Twitch account is connected, you can create subscriber only events. Fans' Twitch accounts must be connected for their subscriber status to show. We also have a Twitch chatbot. It allows fans to join the event and allows you to pull people from a queue directly in chat. We're integrated with Streamlabs as well. You can choose to have donation alerts appear when fans purchase events. Alerts will only appear on events with a price.  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question/Answer Section -->
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingC23">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseC23" aria-expanded="false" aria-controls="collapseC23">
+                                How do I use the Twitch chatbot?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseC23" class="collapse" role="tabpanel" aria-labelledby="headingC23" data-parent="#accordion">
+                            <div class="card-body">
+                                To enable the bot, email us at developers@granite.gg. You must have your Twitch account linked for the bot to function. Once the bot is enabled, make sure you mod it. Commands:
+                                !granitehelp lists the available commands. 
+                                !graniteinfo returns the event details, like type, title, and price. 
+                                !granitejoin lets fans join your event.
+                                !granitenext X is a streamer only command. It aallows you to specify a number of people to pull from queue. 
+                                !graniteplace allows users to see their place in queue.
                             </div>
                         </div>
                     </div>
@@ -398,7 +435,7 @@ a create event button, and the event thumbnails-->
                         </div>
                         <div id="collapseF1" class="collapse" role="tabpanel" aria-labelledby="headingF1" data-parent="#accordion">
                             <div class="card-body">
-                                It's simple! Make an account, follow all your favorite creators, and join events you’re interested in. Events close, meaning you can no longer join them, when they are full or ten minutes before the event is set to happen. You and the creator can pass whatever information you need in the on-event messenger. At the set time, you then participate in the event!
+                                It's simple! Make an account, follow all your favorite creators, and join events you’re interested in. Events close, meaning you can no longer join them, when they are full or ten minutes before the event is set to happen. Queues end 12 hours after they open. You and the creator can pass whatever information you need in the on-event messenger. At the set time, you then participate in the event!
                             </div>
                         </div>
                     </div>
@@ -414,7 +451,7 @@ a create event button, and the event thumbnails-->
                         </div>
                         <div id="collapseF2" class="collapse" role="tabpanel" aria-labelledby="headingF2" data-parent="#accordion">
                             <div class="card-body">
-                                There are three different event types: Buy, bid and lottery. Buy is a first-come-first-serve purchase. You purchase the event for the set price and are guaranteed a spot. The messenger becomes available to you immediately. Bid is a traditional auction. The page will list the minimum bid. You can be outbid at any time before the event closes. Lottery is a normal raffle. You buy a ticket for the set price, and winners are randomly selected when the event is filled or 10 minutes before the event starts. 
+                                There are four different event types: Buy, bid, lottery, and queue. Buy is a first-come-first-serve purchase. You purchase the event for the set price and are guaranteed a spot. The messenger becomes available to you immediately. Bid is a traditional auction. The page will list the minimum bid. You can be outbid at any time before the event closes. Lottery is a normal raffle. You buy a ticket for the set price, and winners are randomly selected when the event is filled or 10 minutes before the event starts. Queue allows you to line up to play. The creator then pulls you in and gives you access to the chat. Priority queue allows you to skip the queue by paying for the event. It's still free to enter the normal queue.
                             </div>
                         </div>
                     </div>
@@ -430,7 +467,7 @@ a create event button, and the event thumbnails-->
                         </div>
                         <div id="collapseF3" class="collapse" role="tabpanel" aria-labelledby="headingF3" data-parent="#accordion">
                             <div class="card-body">
-                                Click on an event thumbnail to get to the event page. There are three kinds of events; buy, bid and lottery. For buy and lottery events, just click on the “Join” or “Buy” button. If you have enough money in your account, you’ll purchase the event or be entered into the lottery. For bid, enter the minimum bid or greater and submit your bid. If it is not high enough, you’ll need to enter the new minimum. Because bids come in extremely quickly, the minimum bid displayed may not be up to date. To win a bid event, you will have to have one of the high bids when it closes. Events close, meaning purchases and bids are no longer accepted and the winners are chosen for lotteries and auctions, 10 minutes before the event begins. 
+                                Click on an event thumbnail to get to the event page. For buy and lottery events, just click on the “Join” or “Buy” button. If you have enough money in your account, you’ll purchase the event or be entered into the lottery. For bid, enter the minimum bid or greater and submit your bid. If it is not high enough, you’ll need to enter the new minimum. Because bids come in extremely quickly, the minimum bid displayed may not be up to date. To win a bid event, you will have to have one of the high bids when it closes. Lottery, buy, and bid events close, meaning purchases and bids are no longer accepted and the winners are chosen for lotteries and auctions, 10 minutes before the event begins. To join a queue, click the join queue or join priority queue buttons. If there is a price, you will only be charged when the creator pull you in to play. Queues close after 12 hours.
                             </div>
                         </div>
                     </div>
