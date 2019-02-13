@@ -261,7 +261,7 @@ def return_funds(sender, instance, **kwargs):
 			user.profile.save(update_fields=['account_balance'])
 	elif party_obj.event_type==2:
 		a=5
-	else:
+	elif party_obj.event_type==3:
 		user_list = party_obj.winners.all()
 		for user in user_list:
 			curr_balance = user.profile.account_balance + party_obj.cost
