@@ -427,7 +427,9 @@ p, .about-apogee p {
 .home-nav ul > li > a.active {
     cursor: auto;
     font-weight: 700;
-    color: #fff;
+    color: #262626;
+    /*MAX*/
+    /*color: #fff;*/
 }
 
 .stats-nav {
