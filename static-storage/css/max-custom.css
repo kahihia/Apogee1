@@ -2992,7 +2992,7 @@ Colors
 .nav-active-primary .nav-link.active,
 .nav-active-primary .nav-item.active>a,
 .nav-active-primary .nav>li.active>a {
-    color: #262626;
+    color: #262626 !important;
     /*MAX*/
     /*color: #ffffff !important;*/
     background-color: #137eff !important;
