@@ -19,7 +19,8 @@
 .footer .text-link:hover {
 	font-weight: 700;
 	border-bottom: 2px solid hsl(270,100%,100%);
-	color: hsl(270,100%,100%);
+	/*MAX*/
+	/*color: hsl(270,100%,100%);*/
 }
 
 .footer .container {
