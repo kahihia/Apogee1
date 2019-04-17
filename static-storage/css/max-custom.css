@@ -259,7 +259,8 @@ p, .about-apogee p {
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    border: 2px solid hsla(270,100%,100%,0.25);
+    border: 2px solid hsla(270,100%,80%,1);
+    /*border: 2px solid hsla(270,100%,100%,0.25);*/
 }
 
 .about-icon-circle svg {
