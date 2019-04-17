@@ -260,6 +260,7 @@ p, .about-apogee p {
     height: 64px;
     border-radius: 50%;
     border: 2px solid hsla(270,100%,80%,1);
+    /*MAX*/
     /*border: 2px solid hsla(270,100%,100%,0.25);*/
 }
 
