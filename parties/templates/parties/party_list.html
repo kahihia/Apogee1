@@ -37,13 +37,15 @@ $(document).ready(function() {
 // runs when page DOM is ready
 // crass homepage style alterations
 $(document).ready(function() {
-    document.getElementsByTagName('body')[0].setAttribute("style", "background: hsl(0, 100%, 100%) !important;");
-    document.getElementsByClassName('footer')[0].setAttribute("style", "background: hsl(0, 100%, 100%) !important;");
+    // navbar changes
     document.getElementById('navbar-search-form').setAttribute("style", "display:none !important;");
-    document.getElementsByClassName('navbar')[0].setAttribute("style", "background: hsl(0, 100%, 100%) !important; background-image:none !important;");
-    document.getElementsByClassName('navbar-brand')[0].setAttribute("style", "color: hsl(270,5%,60%) !important;");
-    document.getElementById('login-link').setAttribute("style", "color: hsl(270,5%,60%) !important; font-family:'Archivo Narrow' !important;");
-    document.getElementById('signup-link').setAttribute("style", "color: hsl(270,5%,60%) !important; font-family:'Archivo Narrow' !important;");
+
+    // Body changes
+    document.getElementsByTagName('body')[0].setAttribute("style", "background: hsl(0, 100%, 100%) !important;");
+
+    // footer changes
+    document.getElementsByClassName('footer')[0].setAttribute("style", "background: hsl(0, 0%, 65%) !important;");
+    
 });
 </script>
 {% endif %}
