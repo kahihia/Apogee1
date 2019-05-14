@@ -104,7 +104,7 @@
 
 		<!-- Referees -->
 		<h4 class='mt-3'>Your Referrals</h4> 
-		{% if object.referred_list.length != 0 %}
+		{% if object.referred_list.all.length != 0 %}
 			{% for referred_user in object.referred_list.all %}
 				<p>{{ referred_user.username }}</p>
 			{% endfor %}
