@@ -101,6 +101,16 @@
 		<!-- referral link -->
 		<h4 class='mt-3'>Your Link</h4>
 		<p>https://www.granite.gg/register/?ref={{ object.user.username }}</p>
+
+		<!-- Referees -->
+		<h4 class='mt-3'>Your Referrals</h4>
+		{% if object.referred_list.length != 0 %}
+			{% for referred_user in object.referred_list %}
+				<p>{{ referred_user.username }}</p>
+			{% endfor %}
+		{% else %}
+			<p>You have not referred any users.</p>
+		{% endif %}
 	</div>
 
 </div>
