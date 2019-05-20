@@ -105,7 +105,7 @@
 		<!-- Referees -->
 		<h4 class='mt-3'>Your Referrals</h4> 
 		{% if object.referred_list.all.count != 0 %}
-			<small class='text-muted'>Referrals must have created an event with three participants to be counted</small>
+			<small class='text-muted'>Referrals must have created an event with three participants to be counted toward Bottlespark campaign.</small>
 			{% for referred_user in object.referred_list.all %}
 				<p>{{ referred_user.username }}</p>
 			{% endfor %}
