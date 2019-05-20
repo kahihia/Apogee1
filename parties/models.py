@@ -95,6 +95,7 @@ class Party(models.Model):
 	is_twitch_event 	= models.BooleanField(default=False)
 	is_flagged 		= models.BooleanField(default=False)
 	is_priority_queue	= models.BooleanField(default=False)
+	total_joins 	= models.IntegerField(default=0)
 
 	streamlabs_notifs = models.BooleanField(default=False)
 	#Number of possible winners - sepcified by the creator on event creation

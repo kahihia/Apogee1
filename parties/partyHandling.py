@@ -90,6 +90,8 @@ def lottery_add_user(user, party_obj):
 	statisticsfunctions.lottery_update_join_stats(party_obj)
 	popularityHandling.lottery_popularity_join(party_obj)
 	party_obj.joined.add(user)
+	new_total = party_obj.total_joins + 1
+	party_obj.update(total_joins=new_total)
 	partyTransactions.buy_lottery_reduction(user, party_obj)
 
 	# on-stream notification
@@ -140,6 +142,8 @@ def buyout_add_user(user, party_obj):
 	statisticsfunctions.buyout_update_join_stats(party_obj)
 	party_obj.winners.add(user)
 	party_obj.joined.add(user)
+	new_total = party_obj.total_joins + 1
+	party_obj.update(total_joins=new_total)
 	partyTransactions.buy_lottery_reduction(user, party_obj)
 	#Creating a notification for the user on buyout win
 	Notification.objects.create(user=user, party=party_obj,\
@@ -169,6 +173,8 @@ def bid_add_user_when_open_spots(party_obj, bid, user):
 	popularityHandling.bid_popularity_join(party_obj)
 	statisticsfunctions.bid_update_join_stats(party_obj)
 	party_obj.joined.add(user)
+	new_total = party_obj.total_joins + 1
+	party_obj.update(total_joins=new_total)
 	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
 	partyTransactions.bid_reduction(user, bid)
 	return{'added':True, 'error_message':""}
@@ -201,6 +207,8 @@ def bid_add_user_replace_lowest_bid(party_obj, bid, user, min_bid):
 	action="fan_outbid")
 	party_obj.joined.remove(min_bid.user)
 	party_obj.joined.add(user)
+	new_total = party_obj.total_joins + 1
+	party_obj.update(total_joins=new_total)
 	new_bid = Bid.objects.create(user=user, party=party_obj, bid_amount=bid)
 	party_obj.minimum_bid = bid_get_min_bid_number(party_obj)
 	party_obj.save2(update_fields=['minimum_bid'])
@@ -214,10 +222,14 @@ def bid_bid_too_low():
 ############################# QUEUE FUNCTIONS ##################################
 def queue_add_user(user, party_obj):
 	party_obj.joined.add(user)
+	new_total = party_obj.total_joins + 1
+	party_obj.update(total_joins=new_total)
 	return {'added':True, 'error_message':""}
 
 def priority_queue_add_user(user, party_obj):
 	party_obj.priority_joined.add(user)
+	new_total = party_obj.total_joins + 1
+	party_obj.update(total_joins=new_total)
 	return {'added':True, 'error_message':""}
 
 def queue_dequeue(user, party_obj, number):
