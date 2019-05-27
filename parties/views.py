@@ -156,6 +156,8 @@ class PartyLeaveView(View):
 			if qs.event_type==4:
 				qs.joined.remove(request.user)
 				qs.priority_joined.remove(request.user)
+				new_total = qs.total_joins - 1
+				qs.update(total_joins=new_total)
 		return redirect('parties:detail', pk=party_id)
 
 class PartyDetailView(DetailView):

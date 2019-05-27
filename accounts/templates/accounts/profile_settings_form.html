@@ -23,6 +23,8 @@
 		    <input class='btn btn-primary-new' type="submit" value='Save Changes' />
 		</form>
 	</div>
+
+	<!-- INTEGRATION SECTION -->
 	<div class='col-sm-8 offset-sm-2 mt-5'>
 		<h2 class="mt-3">Integrations</h2><hr>
 
@@ -89,8 +91,28 @@
 			  	</div>
 			</div>
 		{% endif %}
-
-
 	</div>
+
+
+	<!-- REFERRALS SECTION -->
+	<div class='col-sm-8 offset-sm-2 mt-5'>
+		<h2 class="mt-3">Referrals</h2><hr>
+
+		<!-- referral link -->
+		<h4 class='mt-3'>Your Link</h4>
+		<p class='text-muted'>https://www.granite.gg/register/?ref={{ object.user.username }}</p>
+
+		<!-- Referees -->
+		<h4 class='mt-3'>Your Referrals</h4> 
+		{% if object.referred_list.all.count != 0 %}
+			<small class='text-muted'>Referrals must have created an event with three participants to be counted toward Bottlespark campaign.</small>
+			{% for referred_user in object.referred_list.all %}
+				<p>{{ referred_user.username }}</p>
+			{% endfor %}
+		{% else %}
+			<p class="text-muted">You have not referred any users.</p>
+		{% endif %}
+	</div>
+
 </div>
 {% endblock content %}

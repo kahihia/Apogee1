@@ -27,6 +27,16 @@
         chatBox.scrollTop = chatBox.scrollHeight;
 	});
 </script>
+
+<!-- BOTTLESPARK PIXEL -->
+	{% if serialized.total_joins == 2 and not serialized.bs_sent %}
+		<script>
+			let partyID = {{serialized.id}};
+			setBsTrue(partyID);
+			BottlesparkTrack.convert('[0]','[0]');
+		</script>
+	{% else %}
+	{% endif %}
 {% endblock script %}
 
 

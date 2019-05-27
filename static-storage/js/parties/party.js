@@ -235,7 +235,20 @@ function addReportFunctionality(){
 }
 
 
-
+// set bs_sent to true
+function setBsTrue(partyID){
+  let bsUrl = '/api/events/' + partyID + '/bstrue/';
+  $.ajax({
+      method: 'GET',
+      url: bsUrl,
+      success: function(data){
+        console.log("BS sent");
+      }, 
+      error: function(data){
+        console.log("BS not sent");      
+      }
+    })
+}
 
 
 function getParameterByName(name, url) {

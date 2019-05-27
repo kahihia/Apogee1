@@ -18,7 +18,8 @@ from .views import (
 		PaypalVerificationAPI,
 		ReportAPIView,
 		RefreshAPIView, 
-		PriorityQueueAPIView
+		PriorityQueueAPIView, 
+		BsSentAPIView
 	)
 
 app_name = 'parties-api'
@@ -38,5 +39,6 @@ urlpatterns = [
     path('<int:pk>/priorityjoin/', PriorityQueueAPIView.as_view(), name='priority-join-toggle'),
     path('<int:pk>/report/', ReportAPIView.as_view(), name='report'),
     path('<int:pk>/refresh/', RefreshAPIView.as_view(), name='refresh'),
+    path('<int:pk>/bstrue/', BsSentAPIView.as_view(), name='bstrue'),
    # url(r"^<int:pk>/join/(?P<dollar>\d+\.\d+)$", BidAPIView.as_view(), name="bid-toggle"), 
  ]
