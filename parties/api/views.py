@@ -100,6 +100,15 @@ class ReportAPIView(APIView):
 			partyHandling.report(request.user, party_qs.first())
 			return Response({'error_message':"Returning properly"})
 
+# sets BS_sent variable
+class BsSentAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	def get(self, request, pk, format=None):
+		if request.user.is_authenticated:
+			party_qs = Party.objects.filter(pk=pk)
+			party_qs.first().update(bs_sent=True)
+			return Response({'error_message':"Returning properly"})
+
 # star toggle is a method from the model that just adds the user to the 
 # list containing the people who have starred it
 class StarToggleAPIView(APIView):
