@@ -27,6 +27,14 @@
         chatBox.scrollTop = chatBox.scrollHeight;
 	});
 </script>
+
+<!-- BOTTLESPARK PIXEL -->
+	{% if serialized.total_joins > 2 %}
+		<script>
+			BottlesparkTrack.convert('[0]','[0]');
+		</script>
+	{% else %}
+	{% endif %}
 {% endblock script %}
 
 
