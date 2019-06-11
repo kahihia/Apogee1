@@ -29,11 +29,11 @@
 </script>
 
 <!-- BOTTLESPARK PIXEL -->
-	{% if serialized.total_joins == 2 and not serialized.bs_sent %}
+	{% if serialized.total_joins == 1 and not serialized.bs_sent %}
 		<script>
-			let partyID = {{serialized.id}};
+			let partyID = {{ serialized.id }};
 			setBsTrue(partyID);
-			BottlesparkTrack.convert('[0]','[0]');
+			BottlesparkTrack.convert('0','0');
 		</script>
 	{% else %}
 	{% endif %}
