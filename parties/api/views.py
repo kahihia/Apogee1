@@ -27,8 +27,8 @@ logger = logging.getLogger(__name__)
 
 paypal_api = paypalrestsdk.Api({
   'mode': config("PAYPAL_ENV", default="sandbox"),
-  'client_id': config("PAYPAL_CLIENT_ID"),
-  'client_secret': config("PAYPAL_CLIENT_SECRET") })
+  'client_id': "AXoM7FKTdT8rfh-SI66SlAWd_P85YSsNfTvm0zjB0-AhJhUhUHTuXi4L87DcgkxLSLPYKCMO5DVl2pDD", # config("PAYPAL_CLIENT_ID"),
+  'client_secret': "ENKmcu7Sci-RHW2gHvzmeUbZvSaCuwRiEirKH0_TkYo4AZWbVnfevS-hxq6cS6sevLU5TB3SMfq85wSB" #config("PAYPAL_CLIENT_SECRET") })
 
 
 class PaypalVerificationAPI(APIView):
